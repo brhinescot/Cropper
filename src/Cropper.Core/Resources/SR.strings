@@ -1,0 +1,12 @@
+#! culture_info = Resources.CultureInfo
+#! resource_namespace = Fusion8.Cropper.Core.Resources
+
+[strings]
+ExceptionConfigPathNull = Configuration path is null. Unable to save configuration.
+ExceptionConfigObjectNull = Configuration object is null. Unable to save configuration.
+ExceptionImageFormatNull = No output plug-in found. Verify you have plug-ins in the plug-in directory and choose one from the output menu.
+ExeptionThumbnailSizeOutOfRange = Thumbnail size is out of allowable range. Must be within integer limits.
+
+ConfigurationPath = Cropper\cropper.config
+MessageInvalidTemplateCharacters = The template cannot contain any of the following characters:
+= / * : ? \" < > |
