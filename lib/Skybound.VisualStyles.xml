@@ -1,0 +1,2056 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Skybound.VisualStyles</name>
+  </assembly>
+  <members>
+    <member name="T:Skybound.VisualStyles.VisualStyleProvider">
+      <summary>
+            Obsolete.
+            </summary>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.EnableVisualStyles">
+      <summary>
+            Enables visual styles for the current application if the feature is supported by the OS and
+            the caller has the necessary permissions.
+            </summary>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.EnableVisualStylesInScope(System.Boolean)">
+      <summary>
+            This method is deprecated.  Use VisualStyleContext.Create() instead.
+            </summary>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.SetVisualStyleSupport(System.Windows.Forms.Control,System.Boolean)">
+      <summary>
+            This method is deprecated.  Use VisualStyleFilter.SetVisualStyleEnhanced() instead.
+            </summary>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.GetVisualStyleSupport(System.Windows.Forms.Control)">
+      <summary>
+            This method is deprecated.  Use VisualStyleFilter.GetVisualStyleEnhanced() instead.
+            </summary>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.ShouldShowFocusCues(System.Windows.Forms.Control)">
+      <summary>
+            Returns a value that indiciates whether focus cues should be shown for a specified <see cref="T:System.Windows.Forms.Control" />.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to check.</param>
+      <returns>True of focus cues should be shown for the specified <see cref="T:System.Windows.Forms.Control" />; otherwise, <see langword="false" />.</returns>
+      <remarks>This utility method uses reflection on the <see cref="P:System.Windows.Forms.Control.ShowFocusCues" /> protected member of <see cref="T:System.Windows.Forms.Control" />.
+            It is useful for methods that draw controls but are not members of a type that derrives from <see cref="T:System.Windows.Forms.Control" />.</remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleProvider.ShouldShowKeyboardCues(System.Windows.Forms.Control)">
+      <summary>
+            Returns a value that indiciates whether keyboard cues should be shown for a specified <see cref="T:System.Windows.Forms.Control" />.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to check.</param>
+      <returns>True of keyboard cues should be shown for the specified <see cref="T:System.Windows.Forms.Control" />; otherwise, <see langword="false" />.</returns>
+      <remarks>This utility method uses reflection on the <see cref="P:System.Windows.Forms.Control.ShowKeyboardCues" /> protected member of <see cref="T:System.Windows.Forms.Control" />.
+            It is useful for methods that draw controls but are not members of a type that derrives from <see cref="T:System.Windows.Forms.Control" />.</remarks>
+    </member>
+    <member name="T:Skybound.VisualStyles.VisualStyleLinkLabel">
+      <summary>
+            Obsolete.  Use a standard <see cref="T:System.Windows.Forms.LinkLabel" /> instead.
+            </summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemeColor">
+      <summary>
+            Specifies a color property that can be retrieved from a Windows theme.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Border">
+      <summary>
+            The color of the border associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Fill">
+      <summary>
+            The color of the background fill associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Text">
+      <summary>
+            The color of the text associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.EdgeLight">
+      <summary>
+            The light color of the edge associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.EdgeHighlight">
+      <summary>
+            The highlight color of the edge associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.EdgeShadow">
+      <summary>
+            The shadow color of the edge associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.EdgeDarkShadow">
+      <summary>
+            The dark shadow color of the edge associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.EdgeFill">
+      <summary>
+            The fill color of the edge associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Shadow">
+      <summary>
+            The color of the shadow drawn underneath text associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Glow">
+      <summary>
+            The color of the glow produced by calling DrawThemeIcon using this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.TextBorder">
+      <summary>
+            The color of the text border associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.TextShadow">
+      <summary>
+            The color of the text shadow associated with this part and state.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.GlyphText">
+      <summary>
+            The color that the font-based glyph associated with this part and state will use.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.FillHint">
+      <summary>
+            The color used as a fill color hint for custom controls.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.BorderHint">
+      <summary>
+            The color used as a border color hint for custom controls.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.AccentHint">
+      <summary>
+            The color used as an accent color hint for custom controls.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeColor.Blend">
+      <summary>
+            The color used as a blend color.
+            </summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemePaint">
+      <summary>
+            Provides static methods that can draw controls using visual styles.
+            </summary>
+      <remarks>
+        <para>
+				The methods contained in the <B>ThemePaint</B> class allow you to draw your own controls or elements of controls
+				using the Theme API.
+			</para>
+        <para>
+				This class provides these methods:
+			</para>
+        <list type="bullet">
+          <item>
+            <description>
+              <see cref="M:Skybound.VisualStyles.ThemePaint.Draw(System.Drawing.Graphics,System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.Rectangle)" /> can draw a control or an element of a control onto
+					a <see cref="T:System.Drawing.Graphics" /> object.</description>
+          </item>
+          <item>
+            <description>
+              <see cref="M:Skybound.VisualStyles.ThemePaint.DrawBackground(System.Drawing.Graphics,System.Windows.Forms.Control,System.Drawing.Rectangle)" /> can draw the background of a control onto a
+					<see cref="T:System.Drawing.Graphics" /> object.  This is useful, for example, for drawning the background of a tab page onto
+					the background of a transparent label control.</description>
+          </item>
+          <item>
+            <description>
+              <see cref="M:Skybound.VisualStyles.ThemePaint.GetColor(System.Windows.Forms.Control,System.String,System.Int32,System.Int32,Skybound.VisualStyles.ThemeColor)" /> returns a color that should be used to draw text, lines
+					and backgrounds of themed control.</description>
+          </item>
+          <item>
+            <description>
+              <see cref="M:Skybound.VisualStyles.ThemePaint.GetBorderWidth(System.Windows.Forms.Control,System.String)" />, <see cref="M:Skybound.VisualStyles.ThemePaint.GetProgressChunkWidth(System.Windows.Forms.Control)" />
+					and <see cref="M:Skybound.VisualStyles.ThemePaint.GetProgressChunkSpace(System.Windows.Forms.Control)" /> return information about the size of the margins
+					used when drawing parts.</description>
+          </item>
+        </list>
+      </remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.Draw(System.Drawing.Graphics,System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.Rectangle)">
+      <summary>
+            Draws a control or an element of a control that supports visual styles.
+            </summary>
+      <param name="g">The <see cref="T:System.Drawing.Graphics" /> object to draw on.</param>
+      <param name="ctl">The <see cref="T:System.Windows.Forms.Control" /> to draw.</param>
+      <param name="themeClass">The class name of the control to draw (see <see cref="T:Skybound.VisualStyles.ThemeClasses" /> for a list of class names).</param>
+      <param name="themePart">The ID of the part to draw (see <see cref="T:Skybound.VisualStyles.ThemeParts" /> for a list of parts).</param>
+      <param name="themeState">The ID of the state to draw (see <see cref="T:Skybound.VisualStyles.ThemeStates" /> for a list of states).</param>
+      <param name="bounds">The bounding rectangle of the control.</param>
+      <param name="clipBounds">Specifies the clipping rectangle in which the control is drawn.</param>
+      <remarks>
+			Calling this method when visual styles are not enabled or not supported by the operating system has no effect.
+		</remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.DrawBackground(System.Drawing.Graphics,System.Windows.Forms.Control,System.Drawing.Rectangle)">
+      <summary>
+            Draws the background of the parent of a specified control that supports visual styles.
+            </summary>
+      <param name="g">The <see cref="T:System.Drawing.Graphics" /> object to draw.</param>
+      <param name="ctl">The <see cref="T:System.Windows.Forms.Control" /> to draw.</param>
+      <param name="clipBounds">Specifies the clipping rectangle in which the background is drawn.</param>
+      <remarks>
+        <para>
+				Call this method first when drawing a control that has a transparent background. That way, if the control
+				is placed on a tab page, rebar, or another control that has a special themed background, it will draw the
+				background properly.
+			</para>
+        <para>
+				Calling this method when visual styles are not enabled or not supported by the operating system has no effect.
+			</para>
+        <para>
+				If the background color of the control is not <b>SystemColors.Control</b> or <b>SystemColors.Transparent</b>,
+				the background is filled with the background color of the control instead.  You can force the background to be
+				drawn transparently by using the other overload of <b>DrawBackground</b>.
+			</para>
+      </remarks>
+      <example>
+        <para>
+				This example overrides the <see cref="M:System.Windows.Forms.Control.OnPaint(System.Windows.Forms.PaintEventArgs)" /> method of a <see cref="T:System.Windows.Forms.Control" /> that has a
+				transparent background.  When visual styles are enabled, the background is drawn using the Theme API.  Otherwise,
+				the background is cleared to the background color of the control.  The transparent background will draw correctly
+				on tab pages, rebars, or other controls that have specifed themed backgrounds.
+			</para>
+        <code language="C#">
+protected override void OnPaint(PaintEventArgs e)
+{
+  if (ThemeInformation.VisualStylesEnabled)
+  {
+    ThemePaint.DrawBackground(e.Graphics, this, e.ClipRectangle);
+  }
+  else
+  {
+    using (Brush brush = new SolidBrush(this.BackColor))
+    {
+      e.Graphics.FillRectangle(brush, e.ClipRectangle);
+    }
+  }
+}</code>
+      </example>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.DrawBackground(System.Drawing.Graphics,System.Windows.Forms.Control,System.Drawing.Rectangle,System.Boolean)">
+      <summary>
+            Draws the background of the parent of a specified control that supports visual styles, and specifies whether
+            to ignore the background color of the control.
+            </summary>
+      <param name="g">The <see cref="T:System.Drawing.Graphics" /> object to draw.</param>
+      <param name="ctl">The <see cref="T:System.Windows.Forms.Control" /> to draw.</param>
+      <param name="clipBounds">Specifies the clipping rectangle in which the background is drawn.</param>
+      <param name="ignoreBackColor">True if the background should be drawn regardless of the background color of the control; otherwise,
+            false, and the background is only drawn if the background color of the control is <b>SystemColors.Control</b>.</param>
+      <remarks>
+        <para>
+				Call this method first when drawing a control that has a transparent background. That way, if the control
+				is placed on a tab page, rebar, or another control that has a special themed background, it will draw the
+				background properly.
+			</para>
+        <para>
+				Calling this method when visual styles are not enabled or not supported by the operating system has no effect.
+			</para>
+        <example>
+          <para>
+				This example overrides the <see cref="M:System.Windows.Forms.Control.OnPaint(System.Windows.Forms.PaintEventArgs)" /> method of a <see cref="T:System.Windows.Forms.Control" /> that has a
+				transparent background.  When visual styles are enabled, the background is drawn using the Theme API.  Otherwise,
+				the background is cleared to the background color of the control.  The transparent background will draw correctly
+				on tab pages, rebars, or other controls that have specifed themed backgrounds.
+			</para>
+          <code language="C#">
+protected override void OnPaint(PaintEventArgs e)
+{
+  if (ThemeInformation.VisualStylesEnabled)
+  {
+    ThemePaint.DrawBackground(e.Graphics, this, e.ClipRectangle);
+  }
+  else
+  {
+    using (Brush brush = new SolidBrush(this.BackColor))
+    {
+      e.Graphics.FillRectangle(brush, e.ClipRectangle);
+    }
+  }
+}</code>
+        </example>
+      </remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.GetForeColor(System.Windows.Forms.Control,System.String,System.Int32,System.Int32)">
+      <summary>
+            Returns the foreground color of text for a specified control that supports visual styles.
+            </summary>
+      <param name="ctl">The <see cref="T:System.Windows.Forms.Control" /> whose foreground color is returned.</param>
+      <param name="themeClass">Specifies the class of control.</param>
+      <param name="themePart">The ID of the part for which the foreground color is returned.</param>
+      <param name="themeState">The ID of the state for which the foreground color is returned.</param>
+      <returns>The text color, or <see cref="P:System.Drawing.Color.Black" /> if the color could not be obtained.</returns>
+      <remarks>
+        <para>
+				Each theme can specify a color used to draw text on each type of control, depending on the control's state.  Use
+				this method to get the color used to draw text on a specific control in a specific state.
+			</para>
+        <para>
+				Calling this method when visual styles are not enabled or not supported by the operating system returns
+				<see cref="F:System.Drawing.Color.Empty">Color.Empty</see>.
+			</para>
+      </remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.GetColor(System.Windows.Forms.Control,System.String,System.Int32,System.Int32,Skybound.VisualStyles.ThemeColor)">
+      <summary>
+            Returns a color defined by the active theme for a specified control that supports visual styles.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> for which the color is returned.</param>
+      <param name="themeClass">Specifies the class of control.</param>
+      <param name="themePart">The ID of the part for which the color is returned.</param>
+      <param name="themeState">The ID of the state for which the color is returned.</param>
+      <param name="color">The color to retrieve.</param>
+      <returns>The color, or <see cref="F:System.Drawing.Color.Empty" /> if the color could not be obtained.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.GetBorderWidth(System.Windows.Forms.Control,System.String)">
+      <summary>
+            Returns the width of the client border drawn around a specified control that supports visual styles.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> whose border width is returned.</param>
+      <param name="themeClass">Specifies the class of control.</param>
+      <returns>The width of the border.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.GetProgressChunkWidth(System.Windows.Forms.Control)">
+      <summary>
+            Returns the width of a progress bar chunk.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> whose Window handle is used to retrieve the value.  This may
+            be any <see cref="T:System.Windows.Forms.Control" /> instance (it does not have to be a <see cref="T:System.Windows.Forms.ProgressBar" />).</param>
+      <returns>The width of a progress bar chunk, in pixels.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.GetProgressChunkSpace(System.Windows.Forms.Control)">
+      <summary>
+            Returns the amount of space between each chunk in a progress bar.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> whose Window handle is used to retrieve the value.  This may
+            be any <see cref="T:System.Windows.Forms.Control" /> instance (it does not have to be a <see cref="T:System.Windows.Forms.ProgressBar" />).</param>
+      <returns>
+      </returns>
+      <returns>The amount of space between each chunk in a progress bar, in pixels.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.ThemePaint.AdjustContentRectangle(System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle)">
+      <summary>
+            Returns the bounding rectangle in which content should be displayed on a part.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to measure.</param>
+      <param name="themeClass">Specifies the class of control.</param>
+      <param name="themePart">The ID of the part for which the rectangle is adjusted.</param>
+      <param name="themeState">The ID of the state for which the rectangle is adjusted.</param>
+      <param name="rect">The bounding rectangle of the part.</param>
+      <returns>A <see cref="T:System.Drawing.Rectangle" /> structure in which the content should be displayed on the part.</returns>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemeStates">
+      <summary>
+            Provides a set of constants that define the states of theme parts.
+            </summary>
+      <remarks>
+        <para>
+				Each theme class has many parts that can be drawn.  For example, the <b>Button</b> theme class has
+				<b>ButtonPushButton</b>, <b>ButtonCheckBox</b> and other parts that can be drawn seperately.
+				You specify the state of each part using the fields of <b>ThemeStates</b>.  For example, the
+				<b>PushButtonHot</b> states is used to draw a button in a "hot" state (the mouse is positioned over the control).
+			</para>
+        <para>
+				Use the fields in this class when calling the <see cref="M:Skybound.VisualStyles.ThemePaint.Draw(System.Drawing.Graphics,System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.Rectangle)" /> and <see cref="M:Skybound.VisualStyles.ThemePaint.GetForeColor(System.Windows.Forms.Control,System.String,System.Int32,System.Int32)" />
+				methods of <see cref="T:Skybound.VisualStyles.ThemePaint" /> when drawing a control.
+			</para>
+      </remarks>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.FrameActive">
+      <summary>Represents the state of a Window class Frame part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.FrameInactive">
+      <summary>Represents the state of a Window class Frame part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CaptionActive">
+      <summary>Represents the state of a Window class Caption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CaptionInactive">
+      <summary>Represents the state of a Window class Caption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CaptionDisabled">
+      <summary>Represents the state of a Window class Caption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxCaptionActive">
+      <summary>Represents the state of a Window class MaxCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxCaptionInactive">
+      <summary>Represents the state of a Window class MaxCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxCaptionDisabled">
+      <summary>Represents the state of a Window class MaxCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinCaptionActive">
+      <summary>Represents the state of a Window class MinCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinCaptionInactive">
+      <summary>Represents the state of a Window class MinCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinCaptionDisabled">
+      <summary>Represents the state of a Window class MinCaption part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzScrollNormal">
+      <summary>Represents the state of a Window class HorzScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzScrollHot">
+      <summary>Represents the state of a Window class HorzScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzScrollPushed">
+      <summary>Represents the state of a Window class HorzScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzScrollDisabled">
+      <summary>Represents the state of a Window class HorzScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzThumbNormal">
+      <summary>Represents the state of a Window class HorzThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzThumbHot">
+      <summary>Represents the state of a Window class HorzThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzThumbPushed">
+      <summary>Represents the state of a Window class HorzThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HorzThumbDisabled">
+      <summary>Represents the state of a Window class HorzThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertScrollNormal">
+      <summary>Represents the state of a Window class VertScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertScrollHot">
+      <summary>Represents the state of a Window class VertScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertScrollPushed">
+      <summary>Represents the state of a Window class VertScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertScrollDisabled">
+      <summary>Represents the state of a Window class VertScroll part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertThumbNormal">
+      <summary>Represents the state of a Window class VertThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertThumbHot">
+      <summary>Represents the state of a Window class VertThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertThumbPushed">
+      <summary>Represents the state of a Window class VertThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.VertThumbDisabled">
+      <summary>Represents the state of a Window class VertThumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SysButtonNormal">
+      <summary>Represents the state of a Window class SysButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SysButtonHot">
+      <summary>Represents the state of a Window class SysButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SysButtonPushed">
+      <summary>Represents the state of a Window class SysButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SysButtonDisabled">
+      <summary>Represents the state of a Window class SysButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinButtonNormal">
+      <summary>Represents the state of a Window class MinButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinButtonHot">
+      <summary>Represents the state of a Window class MinButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinButtonPushed">
+      <summary>Represents the state of a Window class MinButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MinButtonDisabled">
+      <summary>Represents the state of a Window class MinButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxButtonNormal">
+      <summary>Represents the state of a Window class MaxButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxButtonHot">
+      <summary>Represents the state of a Window class MaxButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxButtonPushed">
+      <summary>Represents the state of a Window class MaxButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MaxButtonDisabled">
+      <summary>Represents the state of a Window class MaxButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RestoreButtonNormal">
+      <summary>Represents the state of a Window class RestoreButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RestoreButtonHot">
+      <summary>Represents the state of a Window class RestoreButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RestoreButtonPushed">
+      <summary>Represents the state of a Window class RestoreButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RestoreButtonDisabled">
+      <summary>Represents the state of a Window class RestoreButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HelpButtonNormal">
+      <summary>Represents the state of a Window class HelpButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HelpButtonHot">
+      <summary>Represents the state of a Window class HelpButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HelpButtonPushed">
+      <summary>Represents the state of a Window class HelpButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HelpButtonDisabled">
+      <summary>Represents the state of a Window class HelpButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseButtonNormal">
+      <summary>Represents the state of a Window class CloseButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseButtonHot">
+      <summary>Represents the state of a Window class CloseButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseButtonPushed">
+      <summary>Represents the state of a Window class CloseButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseButtonDisabled">
+      <summary>Represents the state of a Window class CloseButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.PushButtonNormal">
+      <summary>Represents the state of a Button class PushButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.PushButtonHot">
+      <summary>Represents the state of a Button class PushButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.PushButtonPressed">
+      <summary>Represents the state of a Button class PushButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.PushButtonDisabled">
+      <summary>Represents the state of a Button class PushButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.PushButtonDefaulted">
+      <summary>Represents the state of a Button class PushButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonUncheckedNormal">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonUncheckedHot">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonUncheckedPressed">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonUncheckedDisabled">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonCheckedNormal">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonCheckedHot">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonCheckedPressed">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.RadioButtonCheckedDisabled">
+      <summary>Represents the state of a Button class RadioButton part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxUncheckedNormal">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxUncheckedHot">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxUncheckedPressed">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxUncheckedDisabled">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxCheckedNormal">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxCheckedHot">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxCheckedPressed">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxCheckedDisabled">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxMixedNormal">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxMixedHot">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxMixedPressed">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CheckBoxMixedDisabled">
+      <summary>Represents the state of a Button class CheckBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.GroupBoxNormal">
+      <summary>Represents the state of a Button class GroupBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.GroupBoxDisabled">
+      <summary>Represents the state of a Button class GroupBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ChevronNormal">
+      <summary>Represents the state of a Rebar class Chevron part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ChevronHot">
+      <summary>Represents the state of a Rebar class Chevron part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ChevronPressed">
+      <summary>Represents the state of a Rebar class Chevron part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarNormal">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarHot">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarPressed">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarDisabled">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarChecked">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ToolBarHotChecked">
+      <summary>Represents the state of a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuNormal">
+      <summary>Represents the state of a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuSelected">
+      <summary>Represents the state of a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuDemoted">
+      <summary>Represents the state of a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ListItemNormal">
+      <summary>Represents the state of a Listview class ListItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ListItemHot">
+      <summary>Represents the state of a Listview class ListItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ListItemSelected">
+      <summary>Represents the state of a Listview class ListItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ListItemDisabled">
+      <summary>Represents the state of a Listview class ListItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ListItemSelectedNotFocus">
+      <summary>Represents the state of a Listview class ListItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemNormal">
+      <summary>Represents the state of a Header class HeaderItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemHot">
+      <summary>Represents the state of a Header class HeaderItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemPressed">
+      <summary>Represents the state of a Header class HeaderItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemLeftNormal">
+      <summary>Represents the state of a Header class HeaderItemLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemLeftHot">
+      <summary>Represents the state of a Header class HeaderItemLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemLeftPressed">
+      <summary>Represents the state of a Header class HeaderItemLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemRightNormal">
+      <summary>Represents the state of a Header class HeaderItemRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemRightHot">
+      <summary>Represents the state of a Header class HeaderItemRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderItemRightPressed">
+      <summary>Represents the state of a Header class HeaderItemRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderSortArrowSortedUp">
+      <summary>Represents the state of a Header class HeaderSortArrow part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderSortArrowSortedDown">
+      <summary>Represents the state of a Header class HeaderSortArrow part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemNormal">
+      <summary>Represents the state of a Tab class TabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemHot">
+      <summary>Represents the state of a Tab class TabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemSelected">
+      <summary>Represents the state of a Tab class TabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemDisabled">
+      <summary>Represents the state of a Tab class TabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemFocused">
+      <summary>Represents the state of a Tab class TabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemLeftEdgeNormal">
+      <summary>Represents the state of a Tab class TabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemLeftEdgeHot">
+      <summary>Represents the state of a Tab class TabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemLeftEdgeSelected">
+      <summary>Represents the state of a Tab class TabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemLeftEdgeDisabled">
+      <summary>Represents the state of a Tab class TabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemLeftEdgeFocused">
+      <summary>Represents the state of a Tab class TabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemRightEdgeNormal">
+      <summary>Represents the state of a Tab class TabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemRightEdgeHot">
+      <summary>Represents the state of a Tab class TabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemRightEdgeSelected">
+      <summary>Represents the state of a Tab class TabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemRightEdgeDisabled">
+      <summary>Represents the state of a Tab class TabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemRightEdgeFocused">
+      <summary>Represents the state of a Tab class TabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemBothEdgesNormal">
+      <summary>Represents the state of a Tab class TabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemBothEdgesHot">
+      <summary>Represents the state of a Tab class TabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemBothEdgesSelected">
+      <summary>Represents the state of a Tab class TabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemBothEdgesDisabled">
+      <summary>Represents the state of a Tab class TabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TabItemBothEdgesFocused">
+      <summary>Represents the state of a Tab class TabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemNormal">
+      <summary>Represents the state of a Tab class TopTabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemHot">
+      <summary>Represents the state of a Tab class TopTabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemSelected">
+      <summary>Represents the state of a Tab class TopTabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemDisabled">
+      <summary>Represents the state of a Tab class TopTabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemFocused">
+      <summary>Represents the state of a Tab class TopTabItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemLeftEdgeNormal">
+      <summary>Represents the state of a Tab class TopTabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemLeftEdgeHot">
+      <summary>Represents the state of a Tab class TopTabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemLeftEdgeSelected">
+      <summary>Represents the state of a Tab class TopTabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemLeftEdgeDisabled">
+      <summary>Represents the state of a Tab class TopTabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemLeftEdgeFocused">
+      <summary>Represents the state of a Tab class TopTabItemLeftEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemRightEdgeNormal">
+      <summary>Represents the state of a Tab class TopTabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemRightEdgeHot">
+      <summary>Represents the state of a Tab class TopTabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemRightEdgeSelected">
+      <summary>Represents the state of a Tab class TopTabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemRightEdgeDisabled">
+      <summary>Represents the state of a Tab class TopTabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemRightEdgeFocused">
+      <summary>Represents the state of a Tab class TopTabItemRightEdge part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemBothEdgesNormal">
+      <summary>Represents the state of a Tab class TopTabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemBothEdgesHot">
+      <summary>Represents the state of a Tab class TopTabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemBothEdgesSelected">
+      <summary>Represents the state of a Tab class TopTabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemBothEdgesDisabled">
+      <summary>Represents the state of a Tab class TopTabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TopTabItemBothEdgesFocused">
+      <summary>Represents the state of a Tab class TopTabItemBothEdges part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TrackBarNormal">
+      <summary>Represents the state of a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TrackNormal">
+      <summary>Represents the state of a Trackbar class Track part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TrackVertNormal">
+      <summary>Represents the state of a Trackbar class TrackVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbNormal">
+      <summary>Represents the state of a Trackbar class Thumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbHot">
+      <summary>Represents the state of a Trackbar class Thumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbPressed">
+      <summary>Represents the state of a Trackbar class Thumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbFocused">
+      <summary>Represents the state of a Trackbar class Thumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbDisabled">
+      <summary>Represents the state of a Trackbar class Thumb part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbBottomNormal">
+      <summary>Represents the state of a Trackbar class ThumbBottom part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbBottomHot">
+      <summary>Represents the state of a Trackbar class ThumbBottom part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbBottomPressed">
+      <summary>Represents the state of a Trackbar class ThumbBottom part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbBottomFocused">
+      <summary>Represents the state of a Trackbar class ThumbBottom part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbBottomDisabled">
+      <summary>Represents the state of a Trackbar class ThumbBottom part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbTopNormal">
+      <summary>Represents the state of a Trackbar class ThumbTop part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbTopHot">
+      <summary>Represents the state of a Trackbar class ThumbTop part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbTopPressed">
+      <summary>Represents the state of a Trackbar class ThumbTop part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbTopFocused">
+      <summary>Represents the state of a Trackbar class ThumbTop part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbTopDisabled">
+      <summary>Represents the state of a Trackbar class ThumbTop part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbVertNormal">
+      <summary>Represents the state of a Trackbar class ThumbVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbVertHot">
+      <summary>Represents the state of a Trackbar class ThumbVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbVertPressed">
+      <summary>Represents the state of a Trackbar class ThumbVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbVertFocused">
+      <summary>Represents the state of a Trackbar class ThumbVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbVertDisabled">
+      <summary>Represents the state of a Trackbar class ThumbVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbLeftNormal">
+      <summary>Represents the state of a Trackbar class ThumbLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbLeftHot">
+      <summary>Represents the state of a Trackbar class ThumbLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbLeftPressed">
+      <summary>Represents the state of a Trackbar class ThumbLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbLeftFocused">
+      <summary>Represents the state of a Trackbar class ThumbLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbLeftDisabled">
+      <summary>Represents the state of a Trackbar class ThumbLeft part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbRightNormal">
+      <summary>Represents the state of a Trackbar class ThumbRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbRightHot">
+      <summary>Represents the state of a Trackbar class ThumbRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbRightPressed">
+      <summary>Represents the state of a Trackbar class ThumbRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbRightFocused">
+      <summary>Represents the state of a Trackbar class ThumbRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ThumbRightDisabled">
+      <summary>Represents the state of a Trackbar class ThumbRight part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TicsNormal">
+      <summary>Represents the state of a Trackbar class Tics part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TicsVertNormal">
+      <summary>Represents the state of a Trackbar class TicsVert part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseNormal">
+      <summary>Represents the state of a ToolTip class Close part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.CloseHot">
+      <summary>Represents the state of a ToolTip class Close part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ClosePressed">
+      <summary>Represents the state of a ToolTip class Close part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.StandardNormal">
+      <summary>Represents the state of a ToolTip class Standard part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.StandardLink">
+      <summary>Represents the state of a ToolTip class Standard part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.BalloonNormal">
+      <summary>Represents the state of a ToolTip class Balloon part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.BalloonLink">
+      <summary>Represents the state of a ToolTip class Balloon part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TreeItemNormal">
+      <summary>Represents the state of a Treeview class TreeItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TreeItemHot">
+      <summary>Represents the state of a Treeview class TreeItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TreeItemSelected">
+      <summary>Represents the state of a Treeview class TreeItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TreeItemDisabled">
+      <summary>Represents the state of a Treeview class TreeItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.TreeItemSelectedNotFocus">
+      <summary>Represents the state of a Treeview class TreeItem part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.GlyphClosed">
+      <summary>Represents the state of a Treeview class Glyph part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.GlyphOpened">
+      <summary>Represents the state of a Treeview class Glyph part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpNormal">
+      <summary>Represents the state of a Spin or Page class Up part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpHot">
+      <summary>Represents the state of a Spin or Page class Up part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpPressed">
+      <summary>Represents the state of a Spin or Page class Up part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpDisabled">
+      <summary>Represents the state of a Spin or Page class Up part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownNormal">
+      <summary>Represents the state of a Spin or Page class Down part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownHot">
+      <summary>Represents the state of a Spin or Page class Down part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownPressed">
+      <summary>Represents the state of a Spin or Page class Down part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownDisabled">
+      <summary>Represents the state of a Spin or Page class Down part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpHorzNormal">
+      <summary>Represents the state of a Spin or Page class UpHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpHorzHot">
+      <summary>Represents the state of a Spin or Page class UpHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpHorzPressed">
+      <summary>Represents the state of a Spin or Page class UpHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.UpHorzDisabled">
+      <summary>Represents the state of a Spin or Page class UpHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownHorzNormal">
+      <summary>Represents the state of a Spin or Page class DownHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownHorzHot">
+      <summary>Represents the state of a Spin or Page class DownHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownHorzPressed">
+      <summary>Represents the state of a Spin or Page class DownHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.DownHorzDisabled">
+      <summary>Represents the state of a Spin or Page class DownHorz part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnUpNormal">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnUpHot">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnUpPressed">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnUpDisabled">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnDownNormal">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnDownHot">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnDownPressed">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnDownDisabled">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnLeftNormal">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnLeftHot">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnLeftPressed">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnLeftDisabled">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnRightNormal">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnRightHot">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnRightPressed">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ArrowBtnRightDisabled">
+      <summary>Represents the state of a Scrollbar class ArrowBtn part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ScrollBarNormal">
+      <summary>Represents the state of a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ScrollBarHot">
+      <summary>Represents the state of a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ScrollBarPressed">
+      <summary>Represents the state of a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ScrollBarDisabled">
+      <summary>Represents the state of a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SizeBoxRightAlign">
+      <summary>Represents the state of a Scrollbar class SizeBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SizeBoxLeftAlign">
+      <summary>Represents the state of a Scrollbar class SizeBox part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextNormal">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextHot">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextSelected">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextDisabled">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextFocused">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextReadOnly">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.EditTextAssist">
+      <summary>Represents the state of an Edit class Text part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ComboBoxNormal">
+      <summary>Represents the state of a ComboBox class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ComboBoxHot">
+      <summary>Represents the state of a ComboBox class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ComboBoxPressed">
+      <summary>Represents the state of a ComboBox class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ComboBoxDisabled">
+      <summary>Represents the state of a ComboBox class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.ClockNormal">
+      <summary>Represents the state of a Clock class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MoreProgramsArrowNormal">
+      <summary>Represents the state of a StartPanel class MoreProgramsArrow part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MoreProgramsArrowHot">
+      <summary>Represents the state of a StartPanel class MoreProgramsArrow part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MoreProgramsArrowPressed">
+      <summary>Represents the state of a StartPanel class MoreProgramsArrow part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.LogoffButtonsNormal">
+      <summary>Represents the state of a StartPanel class LogoffButtons part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.LogoffButtonsHot">
+      <summary>Represents the state of a StartPanel class LogoffButtons part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.LogoffButtonsPressed">
+      <summary>Represents the state of a StartPanel class LogoffButtons part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderCloseNormal">
+      <summary>Represents the state of an Explorerbar class HeaderClose part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderCloseHot">
+      <summary>Represents the state of an Explorerbar class HeaderClose part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderClosePressed">
+      <summary>Represents the state of an Explorerbar class HeaderClose part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinNormal">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinHot">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinPressed">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinSelectedNormal">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinSelectedHot">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.HeaderPinSelectedPressed">
+      <summary>Represents the state of an Explorerbar class HeaderPin part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.IEBarMenuNormal">
+      <summary>Represents the state of an Explorerbar class IEBarMenu part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.IEBarMenuHot">
+      <summary>Represents the state of an Explorerbar class IEBarMenu part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.IEBarMenuPressed">
+      <summary>Represents the state of an Explorerbar class IEBarMenu part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupCollapseNormal">
+      <summary>Represents the state of an Explorerbar class NormalGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupCollapseHot">
+      <summary>Represents the state of an Explorerbar class NormalGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupCollapsePressed">
+      <summary>Represents the state of an Explorerbar class NormalGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupExpandNormal">
+      <summary>Represents the state of an Explorerbar class NormalGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupExpandHot">
+      <summary>Represents the state of an Explorerbar class NormalGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.NormalGroupExpandPressed">
+      <summary>Represents the state of an Explorerbar class NormalGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupCollapseNormal">
+      <summary>Represents the state of an Explorerbar class SpecialGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupCollapseHot">
+      <summary>Represents the state of an Explorerbar class SpecialGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupCollapsePressed">
+      <summary>Represents the state of an Explorerbar class SpecialGroupCollapse part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupExpandNormal">
+      <summary>Represents the state of an Explorerbar class SpecialGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupExpandHot">
+      <summary>Represents the state of an Explorerbar class SpecialGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.SpecialGroupExpandPressed">
+      <summary>Represents the state of an Explorerbar class SpecialGroupExpand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandNormal">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandHot">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandPressed">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandDisabled">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandChecked">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeStates.MenuBandHotChecked">
+      <summary>Represents the state of a TaskBand class MenuBand part that can be drawn by a theme.</summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.VisualStyleEnhanced">
+      <summary>
+            Specifies whether visual styles are enhanced for a specific control.
+            </summary>
+      <remarks>
+			To specify whether all controls are enhanced by default, use the
+			<see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Type,System.Boolean)">VisualStyleFilter.SetEnhancedDefault</see> method.
+		</remarks>
+    </member>
+    <member name="F:Skybound.VisualStyles.VisualStyleEnhanced.Default">
+      <summary>
+            Visual styles are enhanced based on the default setting specified by
+            <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Type,System.Boolean)">VisualStyleFilter.SetEnhancedDefault</see>.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.VisualStyleEnhanced.No">
+      <summary>
+            Visual styles are not enhanced.
+            </summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.VisualStyleEnhanced.Yes">
+      <summary>
+            Visual styles are enhanced.
+            </summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.VisualStyleFilter">
+      <summary>
+            Enables or disables visual style enhancement for specific controls or control types.
+            </summary>
+      <remarks>
+        <para>
+				When added to a form designer, this component adds a <b>VisualStyleEnhanced</b> property to each other control
+				on the form.  You may use this property to specify whether each individual control is enhanced.
+			</para>
+        <para>
+          <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetVisualStyleEnhanced(System.Windows.Forms.Control,Skybound.VisualStyles.VisualStyleEnhanced)" /> is an <b>instance</b> method used to enhance individual controls, while
+				<see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Type,System.Boolean)" /> is a <see langword="static" /> method used to specifiy whether all controls—or all
+				controls of a specific type—are enhanced.
+			</para>
+      </remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.CanExtend(System.Object)">
+      <summary>
+            Returns a value which indicates whether the specified control supports visual style enhancement.
+            </summary>
+      <param name="extendee">The object to check.</param>
+      <returns>True if the control supports visual style enhancement; otherwise, false.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.SetVisualStyleEnhanced(System.Windows.Forms.Control,Skybound.VisualStyles.VisualStyleEnhanced)">
+      <summary>
+            Sets whether visual styles are enhanced on a specified control.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to set.</param>
+      <param name="enhanced">One of the <see cref="T:Skybound.VisualStyles.VisualStyleEnhanced" /> values that specifies if and when visual styles
+            should be enhanced on the control.</param>
+      <seealso cref="T:Skybound.VisualStyles.VisualStyleEnhanced" />
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.GetVisualStyleEnhanced(System.Windows.Forms.Control)">
+      <summary>
+            Gets whether visual styles are enhanced on a specified control.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to check.</param>
+      <returns>One of the <see cref="T:Skybound.VisualStyles.VisualStyleEnhanced" /> values that specifies if and when visual styles are enhanced
+            on the control.</returns>
+      <seealso cref="T:Skybound.VisualStyles.VisualStyleEnhanced" />
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Type,System.Boolean)">
+      <summary>
+            Sets whether visual styles are enhanced by default for all controls of the given type.  This method takes precidence
+            over <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Boolean)" /></summary>
+      <param name="controlType">The <see cref="T:System.Type" /> of the control's whose default is set.</param>
+      <param name="on">True if visual styles are enhanced by default; otherwise, false, and controls of the given
+            type are not enhanced by default.</param>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Boolean)">
+      <summary>
+            Sets whether visual styles are enhanced by default for all controls.
+            </summary>
+      <param name="on">True if visual styles are enhanced by default; otherwise, false, and controls are not enhanced
+            by default.</param>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.IsVisualStyleEnhanced(System.Windows.Forms.Control)">
+      <summary>
+            Returns a value that indicates whether visual styles are enhanced on the specified <see cref="T:System.Windows.Forms.Control" />.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to test.</param>
+      <returns>True if visual styles are enhanced; otherwise, false.</returns>
+      <remarks>
+			This method determines whether visual styles are being enhanced for a specific control.  If enhancement has been explicitly
+			turned on using <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetVisualStyleEnhanced(System.Windows.Forms.Control,Skybound.VisualStyles.VisualStyleEnhanced)" />, a value of <see langword="true" /> is returned.  If enhancement has
+			been explicitly turned off, a value of <see langword="false" /> is returned.  Otherwise, the return value is dependant on
+			the default application-wide setting specified by the <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetEnhancedDefault(System.Type,System.Boolean)" /> method.
+			
+		</remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.SetTextEnhancedDefault(System.Type,System.Boolean)">
+      <summary>
+            Sets whether visual style text is enhanced by default for all controls of the given type.  This method takes precidence
+            over <see cref="M:Skybound.VisualStyles.VisualStyleFilter.SetTextEnhancedDefault(System.Boolean)" /></summary>
+      <param name="controlType">The <see cref="T:System.Type" /> of the control's whose default is set.</param>
+      <param name="on">True if visual style text is enhanced by default; otherwise, false, and visual style text on controls of the given
+            type is not enhanced by default.</param>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.SetTextEnhancedDefault(System.Boolean)">
+      <summary>
+            Sets whether visual style text is enhanced by default for all controls.
+            </summary>
+      <param name="on">True if visual style text is enhanced by default; otherwise, false, and visual style text on controls of the given
+            type is not enhanced by default.</param>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleFilter.IsVisualStyleTextEnhanced(System.Windows.Forms.Control)">
+      <summary>
+            Returns a value that indicates whether visual style text is enhanced on the specified <see cref="T:System.Windows.Forms.Control" />.
+            </summary>
+      <param name="control">The <see cref="T:System.Windows.Forms.Control" /> to test.</param>
+      <returns>True if visual style text is enhanced; otherwise, false.</returns>
+      <!-- No matching elements were found for the following include tag -->
+      <include file="_Docs.xml" path="docs/member[@name=&quot;VisualStyleFilter.IsVisualStyleTextEnhanced&quot;]/*" />
+    </member>
+    <member name="P:Skybound.VisualStyles.VisualStyleFilter.Global">
+      <summary>
+            Gets an instance of <see cref="T:Skybound.VisualStyles.VisualStyleFilter" /> which is useful at runtime when no other <see cref="T:Skybound.VisualStyles.VisualStyleFilter" />
+            instance is available.
+            </summary>
+      <value>A shared, global instance of <see cref="T:Skybound.VisualStyles.VisualStyleFilter" />.</value>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemeInformation">
+      <summary>
+            Provides information about whether visual styles are supported on the system and whether they are enabled in
+            the current application.
+            </summary>
+      <remarks>
+        <para>
+				In a custom drawing routine, use this class to determine whether visual styles are enabled in the current application
+				before drawing.  When they are not, you should use your own custom drawing code.
+			</para>
+        <para>
+				The VisualStyles assembly requires permission to call unmanaged code in order to use the Theme API.  When loaded
+				in a partial trust security context (for example, when the application was launched from Internet Exploerer or
+				from a network share) access to unmanaged code is not allowed.  Therefore, this class will report that
+				visual styles are not enabled. However, there are by default no such restrictions for assemblies that are installed
+				in the Global Assembly Cache.  To use VisualStyles in a partial trust security context, install it into
+				the Global Assembly Cache first.
+			</para>
+      </remarks>
+      <example>
+        <para>
+				This example draws the background of a button onto a <b>Graphics</b> surface.  When visual styles are enabled,
+				the button is drawn using the Theme API.  Otherwise, it is drawn using the <b>DrawButton</b> method of
+				the framework <b>ControlPaint</b> class.
+			</para>
+        <code language="C#">
+private void DrawButtonBackground(Graphics g, Rectangle bounds)
+{
+  // check whether visual styles are enabled:
+  if (ThemeInformation.VisualStylesEnabled)
+  {
+    // draw the button background using the Theme API:
+    ThemePaint.Draw(
+      g,
+      this,
+      ThemeClasses.Button,
+      ThemeParts.ButtonPushButton,
+      ThemeStates.PushButtonNormal,
+      bounds, bounds
+      );
+  }
+  else
+  {
+    // draw the button background without the Theme API:
+    ControlPaint.DrawButton(g, bounds, ButtonState.Normal);
+  }
+}</code>
+      </example>
+    </member>
+    <member name="E:Skybound.VisualStyles.ThemeInformation.ThemeChanged">
+      <summary>
+            Occurs when the system theme is changed.  Examples of theme change events are the activation of a theme, the
+            deactivation of a theme, or a transition from one theme to another.
+            </summary>
+    </member>
+    <member name="P:Skybound.VisualStyles.ThemeInformation.VisualStylesSupported">
+      <summary>
+            Gets a value that indicates whether the system supports visual styles.
+            </summary>
+      <value>
+        <see langword="true" /> if the system supports visual styles; otherwise, <see langword="false" />.</value>
+    </member>
+    <member name="P:Skybound.VisualStyles.ThemeInformation.VisualStylesEnabled">
+      <summary>
+            Gets a value that indicates whether visual styles are enabled for the current application.
+            </summary>
+      <value>
+        <see langword="true" /> if visual styles are enabled for the current application; otherwise, <see langword="false" />.</value>
+      <remarks>If visual styles are enabled or disabled in Control Panel/Display Properties while your application is running,
+            the value of this property will change.</remarks>
+    </member>
+    <member name="P:Skybound.VisualStyles.ThemeInformation.CommonControlVersion">
+      <summary>
+            Gets the version of the Windows Common Controls DLL to which this application is linked.
+            </summary>
+      <value>A <see cref="T:System.Version" /> object representing the version of the Windows Common Controls DLL
+            to which this application is linked.</value>
+    </member>
+    <member name="M:Skybound.Windows.InteropServices.RECT.ToRectangle">
+      <summary>
+            Converts the current instance of <see cref="T:Skybound.Windows.InteropServices.RECT" /> to a <see cref="T:System.Drawing.Rectangle">System.Drawing.Rectangle</see>.
+            </summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemeClasses">
+      <summary>
+            Each field of the <b>ThemeClasses</b> class is the name of a class that can be drawn by the Theme API.
+            </summary>
+      <remarks>
+			Use the fields in this class when calling the <see cref="M:Skybound.VisualStyles.ThemePaint.Draw(System.Drawing.Graphics,System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.Rectangle)" /> method of <see cref="T:Skybound.VisualStyles.ThemePaint" />
+			to draw a control.
+		</remarks>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Window">
+      <summary>Represents the Window theme class.  This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Button">
+      <summary>Represents the Button theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Rebar">
+      <summary>Represents the Rebar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Toolbar">
+      <summary>Represents the Toolbar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Status">
+      <summary>Represents the Status theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Menu">
+      <summary>Represents the Menu theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.ListView">
+      <summary>Represents the ListView theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Header">
+      <summary>Represents the Header theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Progress">
+      <summary>Represents the Progress theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Tab">
+      <summary>Represents the Tab theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Trackbar">
+      <summary>Represents the Trackbar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Tooltip">
+      <summary>Represents the Tooltip theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Treeview">
+      <summary>Represents the Treeview theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Spin">
+      <summary>Represents the Spin theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Page">
+      <summary>Represents the Page theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Scrollbar">
+      <summary>Represents the Scrollbar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Edit">
+      <summary>Represents the Edit theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.ComboBox">
+      <summary>Represents the ComboBox theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Clock">
+      <summary>Represents the Clock theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.TrayNotify">
+      <summary>Represents the TrayNotify theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.TaskBar">
+      <summary>Represents the TaskBar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.TaskBand">
+      <summary>Represents the TaskBand theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.StartPanel">
+      <summary>Represents the StartPanel theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.ExplorerBar">
+      <summary>Represents the ExplorerBar theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.MenuBand">
+      <summary>Represents the MenuBand theme class. This field is read-only.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeClasses.Globals">
+      <summary>Represents the Globals theme class. This field is read-only.</summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.VisualStyleContext">
+      <summary>
+            An object which activates application-wide visual style enhancement until it is disposed.
+            </summary>
+      <remarks>
+        <para>
+				The standard Windows Forms controls do not draw properly when visual styles are enabled.  For example, the <b>TabPage</b>
+				control draws a gray background instead of the properly themed gradient background.  Transparent controls placed
+				on tab pages also draw this gray background, even when the tab page itself is properly themed.  Furthermore,
+				the <b>Image</b> property is ignored and no image is drawn on <b>Button</b>, <b>CheckBox</b>, and
+				<b>RadioButton</b> controls.
+			</para>
+        <para>
+				The <b>VisualStyleContext</b> class fixes these problems.  When you create a new <b>VisualStyleContext</b>,
+				VisualStyles it will use its internal drawing routines to enhance all the controls in your application.  This means that transparent
+				controls will draw properly on tab pages, and images will be displayed properly on <b>Button</b>, <b>CheckBox</b>,
+				and <b>RadioButton</b> controls.  Also, controls that should have transparent backgrounds (such as <b>Label</b>
+				and <b>TrackBar</b>, and read-only <b>TextBox</b> controls) are drawn correctly.
+			</para>
+        <para>To learn how to use a <b>VisualStyleContext</b> in your application, please refer to <b>1. Enabling VisualStyles</b>
+			in the Programmer's Guide.</para>
+      </remarks>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleContext.Create">
+      <summary>
+            Creates a new <see cref="T:Skybound.VisualStyles.VisualStyleContext" /> which activates application-wide visual style enhancement
+            until it is disposed.  This method is usually called in a program's entry point method (Main) before
+            <see cref="M:System.Windows.Forms.Application.Run">Application.Run</see>.
+            </summary>
+      <returns>An instance of <see cref="T:Skybound.VisualStyles.VisualStyleContext" /> which activates application-wide visual style enhancement
+            until it is disposed.</returns>
+    </member>
+    <member name="M:Skybound.VisualStyles.VisualStyleContext.Dispose">
+      <summary>
+            Deactivates application-wide visual style enhancement.
+            </summary>
+    </member>
+    <member name="T:Skybound.VisualStyles.ThemeParts">
+      <summary>
+            Provides a set of constants that define the parts of a theme that can be drawn.
+            </summary>
+      <remarks>
+        <para>
+				Each theme class has many parts that can be drawn.  For example, the <b>StatusBar</b> theme class has
+				<b>StatusPane</b>, <b>StatusGripperPane</b> and <b>StatusGripper</b> parts that can be drawn seperately.
+				You can also specify the state of each part using the fields of <see cref="T:Skybound.VisualStyles.ThemeStates" />.
+			</para>
+        <para>
+				Use the fields in this class when calling the <see cref="M:Skybound.VisualStyles.ThemePaint.Draw(System.Drawing.Graphics,System.Windows.Forms.Control,System.String,System.Int32,System.Int32,System.Drawing.Rectangle,System.Drawing.Rectangle)" /> and <see cref="M:Skybound.VisualStyles.ThemePaint.GetForeColor(System.Windows.Forms.Control,System.String,System.Int32,System.Int32)" />
+				methods of <see cref="T:Skybound.VisualStyles.ThemePaint" /> when drawing a control.
+			</para>
+      </remarks>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMinCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallMinCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMaxCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallMaxCaption">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameLeft">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameRight">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameBottom">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameLeft">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameRight">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameBottom">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSysButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMdiSysButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMinButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMdiMinButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMaxButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowCloseButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallCloseButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMdiCloseButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowRestoreButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMdiRestoreButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowHelpButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowMdiHelpButton">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowHorzScroll">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowHorzThumb">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowVertScroll">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowVertThumb">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowDialog">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowCaptionSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallCaptionSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameLeftSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameLeftSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameRightSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameRightSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowFrameBottomSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.WindowSmallFrameBottomSizingTemplate">
+      <summary>Represents a Window class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ButtonPushButton">
+      <summary>Represents a Button class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ButtonRadioButton">
+      <summary>Represents a Button class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ButtonCheckBox">
+      <summary>Represents a Button class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ButtonGroupBox">
+      <summary>Represents a Button class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ButtonUserButton">
+      <summary>Represents a Button class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.RebarGripper">
+      <summary>Represents a Rebar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.RebarGripperVert">
+      <summary>Represents a Rebar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.RebarBand">
+      <summary>Represents a Rebar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.RebarChevron">
+      <summary>Represents a Rebar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.RebarChevronVert">
+      <summary>Represents a Rebar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarButton">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarDropDownButton">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarSplitButton">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarSplitButtonDropDown">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarSeparator">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolBarSeparatorVert">
+      <summary>Represents a Toolbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StatusPane">
+      <summary>Represents a Status class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StatusGripperPane">
+      <summary>Represents a Status class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StatusGripper">
+      <summary>Represents a Status class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuMenuItem">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuMenuDropDown">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuMenuBarItem">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuMenuBarDropDown">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuChevron">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuSeparator">
+      <summary>Represents a Menu class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ListViewListItem">
+      <summary>Represents a Listview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ListViewListGroup">
+      <summary>Represents a Listview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ListViewListDetail">
+      <summary>Represents a Listview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ListViewListSortedDetail">
+      <summary>Represents a Listview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ListViewEmptyText">
+      <summary>Represents a Listview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.HeaderItem">
+      <summary>Represents a Header class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.HeaderItemLeft">
+      <summary>Represents a Header class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.HeaderItemRight">
+      <summary>Represents a Header class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.HeaderSortArrow">
+      <summary>Represents a Header class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ProgressBar">
+      <summary>Represents a Progress class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ProgressBarVert">
+      <summary>Represents a Progress class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ProgressChunk">
+      <summary>Represents a Progress class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ProgressChunkVert">
+      <summary>Represents a Progress class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabItem">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabItemLeftEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabItemRightEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabItemBothEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabTopTabItem">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabTopTabItemLeftEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabTopTabItemRightEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabTopTabItemBothEdge">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabPane">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TabBody">
+      <summary>Represents a Tab class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarTrack">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarTrackVert">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumb">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumbBottom">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumbTop">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumbVert">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumbLeft">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarThumbRight">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarTics">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrackBarTicsVert">
+      <summary>Represents a TrackBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolTipStandard">
+      <summary>Represents a ToolTip class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolTipStandardTitle">
+      <summary>Represents a ToolTip class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolTipBalloon">
+      <summary>Represents a ToolTip class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolTipBalloonTitle">
+      <summary>Represents a ToolTip class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ToolTipClose">
+      <summary>Represents a ToolTip class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TreeViewTreeItem">
+      <summary>Represents a Treeview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TreeViewGlyph">
+      <summary>Represents a Treeview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TreeViewBranch">
+      <summary>Represents a Treeview class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.PageUp">
+      <summary>Represents a Page class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.PageDown">
+      <summary>Represents a Page class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.PageUpHorz">
+      <summary>Represents a Page class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.PageDownHorz">
+      <summary>Represents a Page class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarArrowBtn">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarThumbBtnHorz">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarThumbBtnVert">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarLowerTrackHorz">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarUpperTrackHorz">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarLowerTrackVert">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarUpperTrackVert">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarGripperHorz">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarGripperVert">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ScrollBarSizeBox">
+      <summary>Represents a Scrollbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.SpinUp">
+      <summary>Represents a Spin class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.SpinDown">
+      <summary>Represents a Spin class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.SpinUpHorz">
+      <summary>Represents a Spin class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.SpinDownHorz">
+      <summary>Represents a Spin class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.EditText">
+      <summary>Represents an Edit class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.EditCaret">
+      <summary>Represents an Edit class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ComboBoxDropDownButton">
+      <summary>Represents a ComboBox class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ClockTime">
+      <summary>Represents a Clock class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrayNotifyBackground">
+      <summary>Represents a TrayNotify class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TrayNotifyAnimBackground">
+      <summary>Represents a part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarBackgroundBottom">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarBackgroundRight">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarBackgroundTop">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarBackgroundLeft">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarSizingBarBottom">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarSizingBarRight">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarSizingBarTop">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBarSizingBarLeft">
+      <summary>Represents a Trackbar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBandGroupCount">
+      <summary>Represents a TaskBand class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBandFlashButton">
+      <summary>Represents a TaskBand class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.TaskBandFlashButtonGroupMenu">
+      <summary>Represents a TaskBand class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelUserPane">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelMorePrograms">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelMoreProgramsArrow">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelProgList">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelProgListSeparator">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelPlacesList">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelPlacesListSeparator">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelLogoff">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelLogoffButtonS">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelUserPicture">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.StartPanelPreview">
+      <summary>Represents a StartPanel class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarHeaderBackground">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarHeaderClose">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarHeaderPin">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarIEBarMenu">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarNormalGroupBackground">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarNormalGroupCollapse">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarNormalGroupExpand">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarNormalGroupHead">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarSpecialGroupBackground">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarSpecialGroupCollapse">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarSpecialGroupExpand">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.ExplorerBarSpecialGroupHead">
+      <summary>Represents an ExplorerBar class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuBandNewAppButton">
+      <summary>Represents a MenuBand class part that can be drawn by a theme.</summary>
+    </member>
+    <member name="F:Skybound.VisualStyles.ThemeParts.MenuBandSeparator">
+      <summary>Represents a MenuBand class part that can be drawn by a theme.</summary>
+    </member>
+  </members>
+</doc>

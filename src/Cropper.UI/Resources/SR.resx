@@ -1,0 +1,193 @@
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="culture_info">
+    <value>Resources.CultureInfo</value>
+  </resheader>
+  <resheader name="resource_namespace">
+    <value>Fusion8.Cropper.Resources</value>
+  </resheader>
+  <data name="MessageNoOutputLoaded" xml:space="preserve">
+    <value>No outputs loaded.</value>
+  </data>
+  <data name="MessageInvalidTemplateCharacters" xml:space="preserve">
+    <value>The template cannot contain any of the following characters:
+/ * : ? \" &lt; &gt; |</value>
+  </data>
+  <data name="MessageInvalidPathCharacters" xml:space="preserve">
+    <value>The path cannot contain any of the following characters:
+/ * : ? \" &lt; &gt; |</value>
+  </data>
+  <data name="MessageHelp" xml:space="preserve">
+    <value>Screenshot: DblClick or Enter
+Move: Arrow Keys
+Resize: Alt + Arrow Keys
+[ or ] + Alt: Resize thumbnail
+Move/Resize 10px: +Ctrl
+Images: In Desktop/Cropper</value>
+  </data>
+  <data name="MessageAbout" xml:space="preserve">
+    <value>Copyright � 2004
+Brian Scott
+blogs.geekdojo.net/brian
+
+Transparent UI inspired by Ruler
+Copyright � 2004, Jeff Key
+www.sliver.com</value>
+  </data>
+  <data name="ExceptionCenterSizeOutOfRange" xml:space="preserve">
+    <value>The CenterSize interval must be between -50 and 50.</value>
+  </data>
+  <data name="ExceptionUnhandledCaption" xml:space="preserve">
+    <value>Unhandled Error</value>
+  </data>
+  <data name="ExceptionUnhandled" xml:space="preserve">
+    <value>An unhandled exception has occurred in Cropper.  If  you continue to receive an error, please restart the application.  An entry has been added to the event log with the full details of the error.</value>
+  </data>
+  <data name="FolderBrowseText" xml:space="preserve">
+    <value>Choose the folder where Cropper will automatically save all screenshots and thumbnails.</value>
+  </data>
+  <data name="HomepageLinkUrl" xml:space="preserve">
+    <value>http://blogs.geekdojo.net/brian/articles/Cropper.aspx</value>
+  </data>
+  <data name="MenuOnTop" xml:space="preserve">
+    <value>Always On Top</value>
+  </data>
+  <data name="MenuHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="MenuShow" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="MenuOpacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="MenuOutput" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="MenuThumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+  <data name="MenuInvert" xml:space="preserve">
+    <value>Next Color</value>
+  </data>
+  <data name="MenuSize" xml:space="preserve">
+    <value>Predefined Size</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="MenuHelpHowTo" xml:space="preserve">
+    <value>How To</value>
+  </data>
+  <data name="MenuHelpWeb" xml:space="preserve">
+    <value>Home Page</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="MenuSeperator" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="MenuReset" xml:space="preserve">
+    <value>Reset Form</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="MenuBrowse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="MenuUnknownText" xml:space="preserve">
+    <value>Unknown menu item.</value>
+  </data>
+  <data name="MenuUnknownCaption" xml:space="preserve">
+    <value>Menu Error</value>
+  </data>
+  <data name="OptionOutputFolderLabelTemplate" xml:space="preserve">
+    <value>Save screenshots to this folder.</value>
+  </data>
+  <data name="OptionFullImageTemplateLabelText" xml:space="preserve">
+    <value>Full Image Name Template.</value>
+  </data>
+  <data name="OptionThumbImageTemplateLabelText" xml:space="preserve">
+    <value>Thumb Image Name Template.</value>
+  </data>
+  <data name="OptionOutputFolderGroupText" xml:space="preserve">
+    <value>Output Folder</value>
+  </data>
+  <data name="OptionOutputTemplateGroupText" xml:space="preserve">
+    <value>Output Templates</value>
+  </data>
+  <data name="OptionOutputTemplatesDescription" xml:space="preserve">
+    <value>Click the buttons to the right to insert templates into the filename. When saving a capture, the template will be replaced with the current value at the time of the capture.</value>
+  </data>
+  <data name="OptionHotKeysDescription" xml:space="preserve">
+    <value>Use the Print Screen key to take full screen and window captures. Holding the Alt key will take a screen shot of the active window. Holding Ctrl + Alt will take a capture of the region under the mouse.</value>
+  </data>
+  <data name="OptionNonRectWindowsDescription" xml:space="preserve">
+    <value>Using Alt + Print Screen, fill the transparent area of the window with the color of your choice. An example is non rectangular media players. Extra transparent space around the window will be removed.</value>
+  </data>
+  <data name="OptionVisibility" xml:space="preserve">
+    <value>Allows Cropper to capture other translucent windows and for proper operation running on Vista� with glass enable.</value>
+  </data>
+</root>

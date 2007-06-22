@@ -1,0 +1,8 @@
+#! culture_info = Resources.CultureInfo
+#! resource_namespace = Fusion8.Cropper.Resources
+
+[strings]
+BitmapDescription = Saves the capture to the clipboard in Bitmap format. This format is useful for pasting into external graphics applications for further editing.
+PngDescription = Saves the capture to the clipboard in Png format.
+JpgDescription = Saves the capture to the clipboard in Jpeg format with the selected image quality. This format is useful if you need smaller file sizes when capturing full color areas or using the image in a web page.
+ImageQuality(int) = Jpeg &Quality: {0}%
