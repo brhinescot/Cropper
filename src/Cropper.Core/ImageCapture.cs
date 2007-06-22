@@ -77,10 +77,10 @@ namespace Fusion8.Cropper.Core
 
         private IPersistableImageFormat imageFormat;
         private Rectangle captureRectangle;
-        private FileNameTemplate template = new FileNameTemplate();
+        private readonly FileNameTemplate template = new FileNameTemplate();
         private string lastImageCaptured;
 
-        private static ImageOutputCollection imageOutputCollection;
+        private static readonly ImageOutputCollection imageOutputCollection;
 
         /// <summary>
         /// Required designer variable.
@@ -382,8 +382,7 @@ namespace Fusion8.Cropper.Core
             int newHeight = Convert.ToInt32(image.Height/ratio);
 
             IntPtr ip = new IntPtr();
-            Image.GetThumbnailImageAbort imageAbort = new
-                Image.GetThumbnailImageAbort(AbortThumb);
+            Image.GetThumbnailImageAbort imageAbort = AbortThumb;
 
             return image.GetThumbnailImage(newWidth, newHeight, imageAbort, ip);
         }

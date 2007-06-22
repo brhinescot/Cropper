@@ -80,7 +80,7 @@ namespace Fusion8.Cropper
     {
         #region Member Fields
 
-        private Hashtable errors = new Hashtable();
+        private readonly Hashtable errors = new Hashtable();
         private FolderBrowserDialog folder;
         private Button okButton;
         private Button cancelButton;
@@ -1031,7 +1031,7 @@ namespace Fusion8.Cropper
             currentTextBox.SelectionLength = 0;
         }
 
-        private static void InsertTemplate(TextBox templateBox, string template)
+        private static void InsertTemplate(TextBoxBase templateBox, string template)
         {
             templateBox.SelectedText = template;
         }

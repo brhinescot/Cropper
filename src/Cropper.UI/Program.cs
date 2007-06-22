@@ -88,7 +88,7 @@ namespace Fusion8.Cropper
             
             VisualStyleFilter.Global.SetVisualStyleEnhanced(mainCropForm, VisualStyleEnhanced.No);
 	        
-            mainCropForm.Closed += new EventHandler(HandleMainCropFormClosed);
+            mainCropForm.Closed += HandleMainCropFormClosed;
 			Application.Run();
 		}
 

@@ -75,8 +75,8 @@ namespace Fusion8.Cropper
 		#region Member Variables
 
 		private const string FormatName = "Printer";
-		private IPersistableOutput _output;
-		private Image _capturedImage;
+		private IPersistableOutput output;
+		private Image capturedImage;
 
 		#endregion
 
@@ -104,7 +104,7 @@ namespace Fusion8.Cropper
 				MenuItem menuItem = new MenuItem();
 				menuItem.RadioCheck = true;
 				menuItem.Text = FormatName;
-				menuItem.Click += new EventHandler(menuItem_Click);
+				menuItem.Click += HandleMenuItemClick;
 				return menuItem;
 			}
 		}
@@ -118,15 +118,15 @@ namespace Fusion8.Cropper
 			if (persistableOutput == null)
 				throw new ArgumentNullException("persistableOutput");
 
-			_output = persistableOutput;
-			_output.ImageCaptured += new ImageCapturedEventHandler(_output_ImageCaptured);
+			output = persistableOutput;
+			output.ImageCaptured += HandleOutputImageCaptured;
 		}
 
 		public void Disconnect()
 		{
-			_output.ImageCaptured -= new ImageCapturedEventHandler(_output_ImageCaptured);
-			if (_capturedImage != null)
-				_capturedImage.Dispose();
+			output.ImageCaptured -= HandleOutputImageCaptured;
+			if (capturedImage != null)
+				capturedImage.Dispose();
 		}
 
 		#region Printing
@@ -137,7 +137,7 @@ namespace Fusion8.Cropper
 			PrintDocument printImage = new PrintDocument();
 
 			printImage.DocumentName = "Cropper Captured Image";
-			printImage.PrintPage += new PrintPageEventHandler(OnPrintPage);
+			printImage.PrintPage += OnPrintPage;
 
 			printDialog.Document = printImage;
 
@@ -167,9 +167,9 @@ namespace Fusion8.Cropper
 			try
 			{
 				PrintDocument document = (PrintDocument) sender;
-				SizeF imageInches = CalculateSizeInInches(_capturedImage);
+				SizeF imageInches = CalculateSizeInInches(capturedImage);
 				PointF originInches = CalculateOriginInInches(imageInches, document);
-				ppea.Graphics.DrawImage(_capturedImage, originInches.X, originInches.Y);
+				ppea.Graphics.DrawImage(capturedImage, originInches.X, originInches.Y);
 			}
 			catch (InvalidPrinterException)
 			{
@@ -198,9 +198,9 @@ namespace Fusion8.Cropper
 		{
 			PointF point = new PointF();
 			point.X = (((document.DefaultPageSettings.Bounds.Width/100) -
-			            sizesInInches.Width)/2)*_capturedImage.HorizontalResolution;
+			            sizesInInches.Width)/2)*capturedImage.HorizontalResolution;
 			point.Y = (((document.DefaultPageSettings.Bounds.Height/100) -
-			            sizesInInches.Height)/2)*_capturedImage.VerticalResolution;
+			            sizesInInches.Height)/2)*capturedImage.VerticalResolution;
 			return point;
 		}
 
@@ -208,13 +208,13 @@ namespace Fusion8.Cropper
 
 		#region Event Handling
 
-		private void _output_ImageCaptured(object sender, ImageCapturedEventArgs e)
+		private void HandleOutputImageCaptured(object sender, ImageCapturedEventArgs e)
 		{
-			_capturedImage = e.FullSizeImage;
+			capturedImage = e.FullSizeImage;
 			Print();
 		}
 
-		private void menuItem_Click(object sender, EventArgs e)
+		private void HandleMenuItemClick(object sender, EventArgs e)
 		{
 			ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
 			formatEvents.ClickedMenuItem = (MenuItem) sender;

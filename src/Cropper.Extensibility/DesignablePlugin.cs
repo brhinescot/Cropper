@@ -69,7 +69,7 @@ namespace Fusion8.Cropper.Extensibility
 	/// </summary>
 	public abstract class DesignablePlugin : IConfigurablePlugin
 	{
-		private MenuItem menu = new MenuItem();
+		private readonly MenuItem menu = new MenuItem();
 
 		public DesignablePlugin()
 		{
@@ -78,7 +78,7 @@ namespace Fusion8.Cropper.Extensibility
 
 	    private void Initialize() 
         {
-	        menu.Click += new EventHandler(MenuItemClick);
+	        menu.Click += MenuItemClick;
 	        menu.Text = Description;
 	        menu.RadioCheck = true;
 	    }

@@ -71,7 +71,7 @@ namespace Fusion8.Cropper
     /// <summary>
     /// Summary description for ClipboardFormatClipboardFormat.
     /// </summary>
-    public class ClipboardFormat : IPersistableImageFormat, IConfigurablePlugin
+    public class ClipboardFormat : IConfigurablePlugin
     {
         #region Member Variables
 
@@ -79,7 +79,7 @@ namespace Fusion8.Cropper
         private const string DESCRIPTION = "Clipboard";
         private IPersistableOutput output;
         private Options configurationForm;
-        private bool hostInOptions = true;
+        private readonly bool hostInOptions = true;
         private ClipboardOutputSettings settings;
         private const string EncoderType = "image/jpeg";
         private const int EncoderParameterCount = 1;
@@ -112,7 +112,7 @@ namespace Fusion8.Cropper
                 MenuItem menuItem = new MenuItem();
                 menuItem.RadioCheck = true;
                 menuItem.Text = EXTENSION;
-                menuItem.Click += new EventHandler(HandleMenuItemClick);
+                menuItem.Click += HandleMenuItemClick;
                 return menuItem;
             }
         }

@@ -126,6 +126,9 @@ namespace Fusion8.Cropper.Extensibility
             InitializeComponent();
         }
 
+        ///<summary>
+        /// Save the plug-in's settings.
+        ///</summary>
         public void Save()
         {
             OnOptionsSaved(EventArgs.Empty);

@@ -61,7 +61,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Xml.Serialization;
 using Fusion8.Cropper.Extensibility;
 
 #endregion
@@ -99,19 +98,19 @@ namespace Fusion8.Cropper
 				throw new ArgumentNullException("persistableOutput");
 
 			output = persistableOutput;
-			output.ImageCaptured += new ImageCapturedEventHandler(persistableOutput_ImageCaptured);
+			output.ImageCaptured += persistableOutput_ImageCaptured;
 		}
 
 		public override void Disconnect()
 		{
-			output.ImageCaptured -= new ImageCapturedEventHandler(persistableOutput_ImageCaptured);
+			output.ImageCaptured -= persistableOutput_ImageCaptured;
 		}
 
 		private void persistableOutput_ImageCaptured(object sender, ImageCapturedEventArgs e)
 		{
-			output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.FullSize, e.FullSizeImage);
+			output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
 			if (e.IsThumbnailed)
-				output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.Thumbnail, e.ThumbnailImage);
+				output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
 		}
 
 		private static void SaveImage(Stream stream, Image image)

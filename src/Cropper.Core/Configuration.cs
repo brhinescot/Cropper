@@ -72,9 +72,9 @@ namespace Fusion8.Cropper.Core
 	{
 		#region Member Variables
 
-		private static string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SR.ConfigurationPath);
-		private static string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"cropper.portable");
-		private static string portableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
+		private static readonly string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SR.ConfigurationPath);
+		private static readonly string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"cropper.portable");
+		private static readonly string portableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
 		private static Settings cropperSettings;
 
 		#endregion		
@@ -172,7 +172,7 @@ namespace Fusion8.Cropper.Core
 		/// <param name="settings">The configuration object to save.</param>
 		/// <param name="path">The path where the file should be saved.</param>
 		/// <returns>true if successful, false if not.</returns>
-		private static bool SaveConfiguration(Settings settings, string path)
+		private static void SaveConfiguration(Settings settings, string path)
 		{
 			if (null == path)
 				throw new ArgumentNullException("path", SR.ExceptionConfigPathNull);
@@ -181,28 +181,24 @@ namespace Fusion8.Cropper.Core
 				throw new ArgumentNullException("configuration", SR.ExceptionConfigObjectNull);
 
 			EnsureConfigDirectory(path);
-			bool result;
 
-			try
+		    try
 			{
                 ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace);
                 configurationPersistence.Save(path, settings, GetAdditionalTypes());
-				result = true;
 			}
 			catch (IOException)
 			{
 				//An error occured, let the client know.
 				//
-				result = false;
 			}
 			catch (InvalidOperationException)
 			{
 				//An error occured, let the client know.
 				//
-				result = false;
 			}
 
-			return result;
+		    return;
 		}
 
 		private static void EnsureConfigDirectory(string path)
