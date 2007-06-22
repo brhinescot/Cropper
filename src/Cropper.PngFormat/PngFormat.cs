@@ -99,7 +99,7 @@ namespace Fusion8.Cropper
 				MenuItem mi = new MenuItem();
 				mi.RadioCheck = true;
 				mi.Text = FormatName;
-				mi.Click += new EventHandler(MenuItemClick);
+				mi.Click += MenuItemClick;
 				return mi;
 			}
 		}
@@ -110,22 +110,22 @@ namespace Fusion8.Cropper
 				throw new ArgumentNullException("persistableOutput");
 
 			output = persistableOutput;
-			output.ImageCaptured += new ImageCapturedEventHandler(persistableOutput_ImageCaptured);
+			output.ImageCaptured += persistableOutput_ImageCaptured;
 		}
 
 		public void Disconnect()
 		{
-			output.ImageCaptured -= new ImageCapturedEventHandler(persistableOutput_ImageCaptured);
+			output.ImageCaptured -= persistableOutput_ImageCaptured;
 		}
 
 		private void persistableOutput_ImageCaptured(object sender, ImageCapturedEventArgs e)
 		{
-			output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.FullSize, e.FullSizeImage);
+			output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
 			if (e.IsThumbnailed)
-				output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.Thumbnail, e.ThumbnailImage);
+				output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
 		}
 
-		private void SaveImage(Stream stream, Image image)
+		private static void SaveImage(Stream stream, Image image)
 		{
 			image.Save(stream, ImageFormat.Png);
 		}

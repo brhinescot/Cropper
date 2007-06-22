@@ -1,7 +1,6 @@
 #region Using Directives
 
 using System.Drawing;
-using Fusion8.Cropper.Extensibility;
 
 #endregion
 

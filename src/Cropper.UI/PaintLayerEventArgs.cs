@@ -69,9 +69,9 @@ namespace Fusion8.Cropper
 	{
 		#region Member Fields 
 
-		private Graphics graphics;
-		private Bitmap surface;
-		private Size size;
+		private readonly Graphics graphics;
+		private readonly Bitmap surface;
+		private readonly Size size;
 
 		#endregion
 

@@ -139,7 +139,7 @@ namespace Fusion8.Cropper
 		private Point mouseDownPoint;
 
 		// Point locations for drawing the tabs.
-		private Point[] points = new Point[]
+		private readonly Point[] points = new Point[]
 			{
 				new Point(TransparentMargin - TabHeight,
 				          TransparentMargin - TabHeight),
@@ -164,23 +164,23 @@ namespace Fusion8.Cropper
 		private Size thumbnailSize = new Size(DefaultMaxThumbnailSize,
 		                                      DefaultMaxThumbnailSize);
 
-		private Font feedbackFont = new Font("Verdana", 8f);
+		private readonly Font feedbackFont = new Font("Verdana", 8f);
 
 		// Brushes
 		// TODO: [Performance] Use one brush and set colors as needed.
 		// Brush for the tab background.
-		private SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
-		private SolidBrush tabTextBrush = new SolidBrush(Color.Black);
+		private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
+		private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
 		// Brush for the visible form background.
-		private SolidBrush areaBrush = new SolidBrush(Color.White);
+		private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
 		// Brush for the visible form background.
-		private Pen outlinePen = new Pen(Color.Black);
+		private readonly Pen outlinePen = new Pen(Color.Black);
 		// Brush for the drawn text and lines.
-		private SolidBrush formTextBrush = new SolidBrush(Color.Black);
+		private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
 
-		private ArrayList colorTables = new ArrayList();
+		private readonly ArrayList colorTables = new ArrayList();
 		private CropFormColorTable currentColorTable;
-		private ContextMenu menu = new ContextMenu();
+		private readonly ContextMenu menu = new ContextMenu();
         private MenuItem outputMenuItem;
 		private MenuItem opacityMenuItem;
 		private MenuItem showHideMenu;
@@ -188,7 +188,7 @@ namespace Fusion8.Cropper
 
 		private ResizeRegion resizeRegion = ResizeRegion.None;
 		private ResizeRegion thumbResizeRegion;
-		private ImageCapture imageCapture;
+		private readonly ImageCapture imageCapture;
 
 	    #endregion
 
@@ -295,7 +295,7 @@ namespace Fusion8.Cropper
 			    MenuItem subMenu;
 			    subMenu = new MenuItem(i + "%");
 				subMenu.RadioCheck = true;
-				subMenu.Click += new EventHandler(HandleMenuOpacityClick);
+				subMenu.Click += HandleMenuOpacityClick;
 				opacityMenuItem.MenuItems.Add(subMenu);
 				if (i == Convert.ToInt32(Configuration.Current.UserOpacity*100))
 					subMenu.Checked = true;
@@ -347,7 +347,7 @@ namespace Fusion8.Cropper
 			return mi;
 		}
 
-        private static MenuItem AddSubMenuItem(MenuItem parent, string text, EventHandler handler)
+        private static MenuItem AddSubMenuItem(Menu parent, string text, EventHandler handler)
         {
             MenuItem mi = new MenuItem(text);
             if (handler != null)
@@ -369,7 +369,7 @@ namespace Fusion8.Cropper
 			{
                 IPersistableImageFormat outputFormat = imageOutputFormat.Format;
 				MenuItem menuItem = outputFormat.Menu;
-				outputFormat.ImageFormatClick += new ImageFormatClickEventHandler(HandleImageFormatClick);
+				outputFormat.ImageFormatClick += HandleImageFormatClick;
 				if (menuItem != null)
 				{
 					outputMenuItem.MenuItems.Add(menuItem);
@@ -381,7 +381,7 @@ namespace Fusion8.Cropper
 			}
 		}
 
-		private static void ClearImageFormatChecks(MenuItem menuItem)
+		private static void ClearImageFormatChecks(Menu menuItem)
 		{
 			foreach (MenuItem item in menuItem.MenuItems)
 			{
@@ -1072,7 +1072,7 @@ namespace Fusion8.Cropper
 			notifyIcon = new NotifyIcon();
 			notifyIcon.Icon = ((Icon) (resources.GetObject("NotifyIcon")));
 			notifyIcon.Visible = true;
-			notifyIcon.MouseUp += new MouseEventHandler(HandleNotifyIconMouseUp);
+			notifyIcon.MouseUp += HandleNotifyIconMouseUp;
 			notifyIcon.Text = "Cropper\nOutput: " + outputDescription;
 
 			Text = "Cropper";

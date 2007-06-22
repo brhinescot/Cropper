@@ -16,8 +16,8 @@ namespace Fusion8.Cropper.Core
     {
         #region Member Fields
 
-        private Queue<T> items;
-        private bool isReadOnly;
+        private readonly Queue<T> items;
+        private readonly bool isReadOnly;
 
         #endregion
 

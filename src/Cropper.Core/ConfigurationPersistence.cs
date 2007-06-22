@@ -59,7 +59,6 @@ In return, we simply require that you agree:
 
 using System;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 
 #endregion
