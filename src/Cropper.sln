@@ -60,13 +60,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
-		..\cropper.build = ..\cropper.build
-		..\Cropper.FxCop = ..\Cropper.FxCop
-		Cropper.vsd = Cropper.vsd
-		extras\CropperExt.cs = extras\CropperExt.cs
-		go.bat = go.bat
-		..\extras\License.rtf = ..\extras\License.rtf
-		..\extras\ReadMe.htm = ..\extras\ReadMe.htm
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 		VersionAssemblyInfo.cs = VersionAssemblyInfo.cs
 	EndProjectSection
