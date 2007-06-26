@@ -30,14 +30,14 @@ namespace Fusion8.Cropper
         {
             this.extension = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ConfigurationTabControl.SuspendLayout();
-            this.FirstTabPage.SuspendLayout();
+            this.themedTabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // FirstTabPage
             // 
-            this.FirstTabPage.Controls.Add(this.label1);
-            this.FirstTabPage.Controls.Add(this.extension);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.extension);
             // 
             // extension
             // 
@@ -62,9 +62,9 @@ namespace Fusion8.Cropper
             this.ClientSize = new System.Drawing.Size(300, 276);
             this.Name = "Options";
             this.Text = "Options";
-            this.ConfigurationTabControl.ResumeLayout(false);
-            this.FirstTabPage.ResumeLayout(false);
-            this.FirstTabPage.PerformLayout();
+            this.themedTabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
 
         }

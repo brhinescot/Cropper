@@ -26,44 +26,44 @@ namespace Fusion8.Cropper.Extensibility
             base.Dispose(disposing);
         }
 
-        protected CustomThemedTabControl ConfigurationTabControl;
-        protected TabPage FirstTabPage;
+        protected CustomThemedTabControl themedTabControl1;
+        protected TabPage tabPage1;
 
         #region Windows Form Designer generated code
 
         private void InitializeComponent()
         {
-            this.ConfigurationTabControl = new CustomThemedTabControl();
-            this.FirstTabPage = new TabPage();
-            this.ConfigurationTabControl.SuspendLayout();
+            this.themedTabControl1 = new CustomThemedTabControl();
+            this.tabPage1 = new TabPage();
+            this.themedTabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ConfigurationTabControl
             // 
-            this.ConfigurationTabControl.Controls.Add(this.FirstTabPage);
-            this.ConfigurationTabControl.Dock = DockStyle.Fill;
-            this.ConfigurationTabControl.Location = new Point(0, 0);
-            this.ConfigurationTabControl.Name = "ConfigurationTabControl";
-            this.ConfigurationTabControl.SelectedIndex = 0;
-            this.ConfigurationTabControl.Size = new Size(300, 276);
-            this.ConfigurationTabControl.TabIndex = 0;
+            this.themedTabControl1.Controls.Add(this.tabPage1);
+            this.themedTabControl1.Dock = DockStyle.Fill;
+            this.themedTabControl1.Location = new Point(0, 0);
+            this.themedTabControl1.Name = "themedTabControl1";
+            this.themedTabControl1.SelectedIndex = 0;
+            this.themedTabControl1.Size = new Size(300, 276);
+            this.themedTabControl1.TabIndex = 0;
             // 
             // FirstTabPage
             // 
-            this.FirstTabPage.Location = new Point(4, 22);
-            this.FirstTabPage.Name = "FirstTabPage";
-            this.FirstTabPage.Padding = new Padding(3);
-            this.FirstTabPage.Size = new Size(292, 250);
-            this.FirstTabPage.TabIndex = 0;
-            this.FirstTabPage.Text = "General";
-            this.FirstTabPage.UseVisualStyleBackColor = true;
+            this.tabPage1.Location = new Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new Padding(3);
+            this.tabPage1.Size = new Size(292, 250);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "General";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // BaseConfigurationForm
             // 
             this.ClientSize = new Size(300, 276);
-            this.Controls.Add(this.ConfigurationTabControl);
+            this.Controls.Add(this.themedTabControl1);
             this.Name = "BaseConfigurationForm";
-            this.ConfigurationTabControl.ResumeLayout(false);
+            this.themedTabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
