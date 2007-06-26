@@ -1,0 +1,407 @@
+<html>
+	<head>
+		<style> 
+		body { font-family: Verdana, Tahoma, Arial, Helvetica; font-size: 70%; color: #444444; }
+	td { line-height: 12pt; font-family: Verdana, Tahoma, Arial, Helvetica; font-size: 70%; color: #444444; }
+	b { color: #000000; font-weight: bold; }
+	p { margin-top: "0.2em"; margin-bottom: "1.0em"; }
+	a { color: #000080; }
+	a:hover { color: #0000c0; }
+	h6 { font-size: 120%; margin-bottom: "0"; }
+	    </style>
+	</head>
+	<body bgcolor="#ffffff">
+		<table width="520">
+			<tr>
+				<td>
+					<p>
+				  <h6><FONT size="3">Cropper 1.8 Release Notes</FONT>
+				  </h6>
+						2 February 2006
+						<hr size="1" color="#cccccc">
+					<p>
+						Cropper is a screen capture utility written in C# on the Microsoft .Net 
+						platform. It makes it fast and easy to grab parts of your screen. Use it to 
+						easily crop out sections of vector graphic files such as Fireworks without 
+						having to flatten the files or open in a new editor. Use it to easily capture 
+						parts of a web site, including text and images. It's also great for writing 
+						documentation that needs images of your application or web site.
+					</p>
+					<p>
+						The files are saved straight to a folder on your desktop in the format you 
+						specify. No more 'Print Screen'... open image editor... paste from clipboard... 
+						crop... export. Just double-click the form or press enter, and whatever is 
+						visible below the form is captured.
+					</p>
+					<p>
+						The source code is freely available with shared source licensing. The license 
+						information is available in each class file.
+					</p>
+					<p>
+						The only recording capability is to an Avi file. Previous versions allowed you 
+						to recorded to a series of individual images. New plug-ins are being created 
+						for that functionality.</p>
+					<p>
+						Please send any feedback on this release to me at <a href="mailto:brian@thegridmaster.com">
+							my email address</a> or <a href="http://blogs.geekdojo.net/brian">my blog</a>.</p>
+					<p>
+						Visit the <a href="http://blogs.geekdojo.net/brian/articles/Cropper.aspx">Cropper 
+							section</a> on my blog for the most up to date info.
+					</p>
+					<P><FONT size="2"> <strong>Requirements</strong></FONT></P>
+					<P>
+						Requires version 1.1 of the Microsoft .Net Framework<br>
+						Available at Windows Update site.</P>
+					<p>
+						<b><FONT size="2">Controls</FONT></b></p>
+					<P>Right Click on the main form for a context menu.</P>
+					<p>
+						Arrow Keys: Nudge form one pixel.
+					</p>
+					<p>
+						Alt + Arrow Keys: Resize form one pixel.
+					</p>
+					<p>
+						[ or ]: Resize entire form while keeping the crosshairs centered.
+					</p>
+					<p>
+						[ or ] + Alt: Resize the thumbnail indicator one pixel;</p>
+					<p>
+						+ Ctrl changes all resize and nudge amounts to ten pixels.
+					</p>
+					<p>
+						Double-click or Enter: Take a screen shot or start/stop a recording plug-in.</p>
+					<p>
+						Tab: Toggle color inversion.</p>
+					<p>
+						Esc: Exit the program</p>
+					<p>
+						<b><FONT size="2">Output Options</FONT></b></p>
+					<P>Cropper is able to output images to a variety of formats. New in version 1.6 is 
+						the extensibility model allowing developers to create custom output plug-ins. 
+						Descriptions of some of the default plug-ins are given below.</P>
+					<p>
+						BMP - Large files but no compression artifacts.</p>
+					<p>
+						PNG - Smaller files with lossless compression, good for most image formats 
+						except full color photographic. Think of it as a replacement for the simpler 
+						GIF format. All modern browsers can display a Png file.</p>
+					<p>
+						JPEG - Good for full color photographic images. Cropper can save JPEG's in 
+						varying quality settings from 10 to 100. 10 being the lowest quality and 
+						smallest file size. 100 being the highest quality and largest file size. In my 
+						work, I've discovered that a quality setting of 60-70 is usually good for the 
+						web. It's a good trade off between file size and image quality.</p>
+					<p>
+						Clipboard - The image is placed on the clipboard and can be pasted into any 
+						application that accepts images.</p>
+					<p>
+						Printer - Presents a print dialog that allows you to send the image straight to 
+						the printer.</p>
+					<P>
+						<b><FONT size="2">Release History</FONT></b></P>
+					<P><EM><STRONG><FONT color="slategray">[Version 1.8.0 2/2/2006 12:05 PM CST: New features and bug fixes]</FONT></STRONG></EM></P>
+					<P>1) <strong>Per pixel alpha blending</strong>. Cropper now uses per pixel alpha blending to render the main window. The size tabs, text and lines have a higher alpha value. This makes the form indicators easier to see at lower opacity levels. The main form area's opacity is still adjustable. On slower machines the crop form may respond slower, in that case you may turn off per pixel alpha blending on the Appearance tab of the options dialog.</P>
+					<P>2) <strong>More settings persisted</strong>. Always on top and hidden settings are now saved between sessions. Cropper will now start  minimized the first time it is run on a computer. Thumbnails enabled and the thumbnal indicator showing is also saved between sessions. </P>
+					<P>3) <strong>Print Screen captures</strong>. You can now use the Print Screen button to take screen shots with Cropper. The crop form can be minimized. The images will be saved with the same options as regular screen shots. Print Screen will capture and save the entire desktop. Alt + Print Screen will capture the current active window. Ctrl + Alt + Print Screen will capture the region below the mouse. Enable and disable this feature in the options dialog. </P>
+					<P>4) <strong>Transparent window area fill</strong>. When using Alt + Print Screen, the transparent areas of the foreground window are filled with the color of your choice. The capture is also cropped to the smallest rectangle that will include the visible areas of the form. Enable and disable this feature in the options dialog. </P>
+					<P>5) <strong>Portable Cropper.</strong> If you run cropper from a thumb drive you can add a file named cropper.portable to the application directory. If Cropper detects this file, it will save the configuration in the application directory and will default to a sub directory named 'Cropper Captures' for the images. </P>
+					<P>6) <strong>New window color.</strong> Added a blue window color that is more visible across light and dark backgrounds. I also think it looks nicer. The Tab key now cycles through the three color states.</P>
+					<P>7) <strong>S key captures</strong>.  The S keys initiates a crop form capture in addition to the Enter key and double clicking.</P>
+					<P>8) <strong>Mouse wheel sizing.</strong> The mouse wheel now sizes the form out from the center in addition to the [ and ] keys. </P>
+					<P>9) The opacity setting is now located in the options dialog. There is also an option to restore it to the menu if you prefer. </P>
+					<P>10) The menu has been rearranged. Since it has grown it seemed to loose and sense of grouping. I tried to add a more logical layout to it. </P>
+					<P>11) The Escape key now hides the form instead of closing it. </P>
+					<P>12) Fixed a bug where the incorrect small icon and  application name showed in alternative Alt-Tab applications like TaskSwithXP.</P>
+					<P>13) Fixed a bug introduced in version 1.7.1 that could cause high CPU usage in some cases. </P>
+					<P><EM><STRONG><FONT color="slategray">[Version 1.7.1 1/20/2006 5:30 AM CST: Bug Fixes and 
+									minor additions]</FONT></STRONG></EM></P>
+					<P>1) Fixed a bug when trying to browse the output folder before it was created..</P>
+					<P>2) Made changes to the way the resize keys [&nbsp;and ]&nbsp;&nbsp;are handled 
+						to better support international keyboards.</P>
+					<P>3) Added new file name templates for User, Domain, Machine, and Prompt. The 
+						prompt template will prompt the user for the text to insert.&nbsp;A Default 
+						option was also added that will set the&nbsp;entire template&nbsp;back to the 
+						original value.</P>
+					<P><EM><STRONG><FONT color="slategray">[Version 1.7.0 1/16/2006 5:30 AM CST: New Features and 
+									Bug Fixes]</FONT></STRONG></EM></P>
+					<P>1) Fixed a problem that would cause the plug-ins to not load when launched from 
+						applications like SlickRun and AppRocket.</P>
+					<P>2) Fixed a rendering probem when using applications like TaskSwithXP that show 
+						live previews of applications in their window. This caused Cropper's window to 
+						become non-selectable and render incorrectly.</P>
+					<P>3) Added a browse item to the menu that opens the current output folder.</P>
+					<P>4) Added file name templates for the full image and thumbnail. The templates are 
+						set in the options dialog. There are four templates. More templates will be 
+						available in the next release.</P>
+					<P><EM><STRONG>{date}</STRONG></EM> inserts the current date into the file name.</P>
+					<P><EM><STRONG>{time}</STRONG></EM> inserts the current time into the file name.</P>
+					<P><EM><STRONG>{increment}</STRONG></EM> inserts an increasing counter number into 
+						the file name. (note: The file names will automatically be incremented if this 
+						template is not inserted. This template allows greater control over how and 
+						where the counter is inserted.)</P>
+					<P><EM><STRONG>{extension}</STRONG></EM> inserts the current extension into the 
+						file name. (note: The extension is automatically added to the file name. This 
+						template allows inserting the extension elsewhere in the filename or seperating 
+						the files into folders by extension.)</P>
+					<P>The templates also allow seperating files into subfolders of the output folder.
+					</P>
+					<P><EM><STRONG>{date}\AppScreens</STRONG></EM> will place the files into subfolders 
+						by date. Each day the files will go into a new folder.</P>
+					<P><EM><STRONG>{extension}{date}\DocScreens</STRONG></EM> will place the files into 
+						different folders based on the extension and date.</P>
+					<P>Full size images and thumbnails may be seperated by using a different folder in 
+						the template for each.</P>
+					<P><EM><STRONG>Full\AppScreen {date}</STRONG></EM> for the full size image will 
+						place it in a subfolder named Full.</P>
+					<P><EM><STRONG>Thumb\AppScreen Thumb {date}</STRONG></EM> for the thumbnail will 
+						place it in a subfolder named Thumb.</P>
+					<P>A dropdown is available to the right of the template text boxes for inserting 
+						template text at the insertion point.
+					</P>
+					<P>5) The thumbnail size indicator is now resizable via the mouse.</P>
+					<P>6) Added size grips to the main form and thumbnail size indicator.</P>
+					<P>7) Cropper is now available in a Windows Installer package.</P>
+					<P><EM><STRONG><FONT color="slategray">[Version 1.6.24 8/19/2005 5:30 PM CST: New Features and 
+									Bug Fixes]</FONT></STRONG></EM></P>
+					<p>
+						1) The capture output location is now configurable through the Options seletion 
+						on the right-click menu.</p>
+					<p>
+						2) Cropper now uses completely owner drawn layered windows. All double 
+						buffering of the user interface is custom coded and uses the 
+						UpdateLayeredWindow API for improved performance. You should notice a very 
+						large improvement when resizing the window, especially at larger sizes. This 
+						also allowed some further performance tweaks to the UI painting.
+					</p>
+					<p>
+						3) Fixed a resource error that occurred when trying to take a screenshot with 
+						no plug-ins loaded.</p>
+					<p>
+						4) Fixed an error that occured if the output directory was deleted while the 
+						application was running.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.6.0 11/22/2004 10:15 PM CST: New Features]</FONT></STRONG></em></p>
+					<p>
+						1) Cropper's output is now extensible through a plug-in interface. All output 
+						formats have been moved into plug-ins. If you would like to develop a plug-in, 
+						you can get started with the CropperExt.cs sample file that is included with 
+						the source distribution. Full documentation on the extensibility API will be 
+						included with the final release.
+					</p>
+					<p>
+						2) The current output format is now displayed in the top-left corner of the 
+						crop form.</p>
+					<p>
+						3) There is now a brief outline and text color change when a screen shot is 
+						taken providing feedback that the operation did happen. I'm looking into a 
+						better means of notification.
+					</p>
+					<p>
+						4) The configuration file is now saved as xml.
+					</p>
+					<p>
+						5) A lot of changes to the source code. Much of the code has been separated out 
+						into separate assemblies which allowed me to unit test the app while building 
+						the extensibility model.
+					</p>
+					<p>
+						6) Includes an Avi output plug-in sample. Double-click/Enter to start/stop the 
+						recording. It shows how a plug-in can alternately get a series of images from 
+						the host application and toggle the output on double-click/Enter. Much of the 
+						actual code that creates the Avi files is from a library by <a href="mailto:cj@binary-universe.net">
+							Corinna John</a>. I haven't fully tested it and the code isn't fully CLS 
+						compliant.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.5.2 09/29/2004 3:42 PM CST: New Features]</FONT></STRONG></em></p>
+					<p>
+						1) Added license information to source files.<br>
+						2) A couple small tweaks to better clean up resources.<br>
+						3) The top of the Jpeg quality menu has “Quality” to better reflect what the 
+						numbers are.<br>
+						4) The output options are explained in the ReadMe.txt file.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.5.1 09/26/2004 12:40 AM CST]</FONT></STRONG></em></p>
+					<p>
+						1) Small change in configuration class. Moved management methods into the class 
+						itself where they should be. Renamed IO class to CaptureOutput since it now 
+						contains only Image saving and printing methods.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.5.0 09/17/2004 3:00 PM CST: New Features]</FONT></STRONG></em></p>
+					<p>
+						1) The Image menu name has been changed to Output to better reflect the new 
+						output options.<br>
+						2) Cropper can now output directly to a printer. Accessed in Output menu.<br>
+						3) The configuration file is now saved to the Application Data folder of the 
+						current user.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.4.0 09/12/2004 10:30 AM CST: New Features]</FONT></STRONG></em></p>
+					<p>
+						1) Cropper now remembers its size and location between sessions.<br>
+						2) Size indicators have been moved to a tab on the top left for better viewing 
+						at smaller crop sizes.<br>
+						3) Added a color invert feature to make it easier to see the crop line against 
+						a dark background. Press the Tab key or select Invert from the context menu to 
+						toggle it.<br>
+						4) The Jpeg image option has been expanded into a submenu. You can now save 
+						Jpegs from 10 to 100 quality.<br>
+						5) Added a thumbnail feature. Clicking the Thumbnail option in the context menu 
+						will overlay another box on the form indicating the thumbnail size. You can 
+						adjust the size by pressing [ or ] while holding the Alt or Alt + Ctrl keys. 
+						When the thumbnail is enable, the normal screen shot will be taken and saved. 
+						There will also be a resized file with _Thumbnail' appended to the name.
+						<br>
+						<br>
+						The thumbnail works off of a maximum size. If the<br>
+						maximum size is set to 80px, then the ratio of the thumbnail will be updated to 
+						keep both the width and height within the maximum size. The thumbnail indicator 
+						will reflect the ratio in real time. If you resize the form to within 30 px of 
+						the thumbnails max size, the thumbnail indicator will disappear and thumbnails 
+						will not be saved. Thumbnails will resume once the form is enlarged past the 
+						max thumbnail size.<br>
+						6) The last used thumbnail size will be saved between
+						<br>
+						sessions.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.3.0 09/09/2004 2:30 PM CST: New Feature]</FONT></STRONG></em></p>
+					<p>
+						1) Cropper now remembers its opacity level and image format between sessions.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.2.0 09/08/2004 5:00 PM CST: New Feature]</FONT></STRONG></em></p>
+					<p>
+						1) Added Png file format support. Selectable in the Image menu.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.1.0 09/08/2004 1:00 PM CST: New Feature]</FONT></STRONG></em></p>
+					<p>
+						1) Added the ability to save the image to the clipboard.
+						<br>
+						Selectable in the Image menu.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.0.1 09/08/2004 11:00AM CST: Bugfixes]</FONT></STRONG>
+						</em>
+					</p>
+					<p>
+						1) Cropper should now work on multiple monitor systems in any configuration.<br>
+						2) Fixed an issue where the images folder would not be placed on the desktop if 
+						the desktop folder was mapped to a different location.</p>
+					<p>
+						<em><STRONG><FONT color="slategray">[Version 1.0.0 09/07/2004 2:35 AM CST: Initial Release]</FONT></STRONG></em></p>
+					<p>
+						Cropper in C#. Grab parts of your screen.</p>
+					<P>
+						<b><FONT size="2">Known Issues</FONT></b></P>
+					<P>
+						Unable to capture images of movies in WMP or Winamp. This usually applies to 
+						all screen capture programs. It's hardware acceleration / hardware video 
+						overlay that causes it. In Windows Media Player, under the performance tab, 
+						slide the
+						<br>
+						video acceleration to something less than full. In Winamp, under Video Options, 
+						uncheck 'Allow hardware video overlay'. This should allow you to take 
+						screenshots with any program.</P>
+					<p>
+						<b><FONT size="2">Source Notes</FONT></b>
+					</p>
+					<P>Things that may be of interest to C# developers in the sourcecode.
+					</P>
+					<p>
+						Cropper.Core.Plugins: Loading assemblies at runtime using reflection and 
+						temporary AppDomains.</p>
+					<p>
+						Cropper.Extensibility.ImagePairNames: Operator overloading.</p>
+					<p>
+						Cropper.Core.ImageCapture.FetchCapture: Using delegates and call backs to 
+						retrieve an Image and (Cropper.Core.ImageCapture.FetchOutputStream) a Stream.</p>
+					<p>
+						Cropper.Core.CropFormConfiguration: XML serialization and deserialization.
+					</p>
+					<p>
+						Each plug-in makes use of multiple delegates and events. The plug-ins are 
+						passed a referance to the host, and each one can subscribe to the events 
+						exposed by the host.</p>
+					<p>
+						<b><FONT size="2">Thanks</FONT></b>
+					</p>
+					<P>
+						Thank you to everyone for your feedback. I didn't expect this app to be so 
+						popular. It hit 200 downloads in 2 days and has now well surpassed 1000. Now I 
+						feel obligated to make it better :) If you like it, find it useful, or want it 
+						to do more... let me know on <a href="http://blogs.geekdojo.net/brian">my blog.</a>
+						You can also <a href="mailto:brian@thegridmaster.com">contact me by email</a>.
+					</P>
+					<p>
+						Thanks also to <a href="http://www.jongalloway.com/">John Galloway</a> for 
+						sending me the libraries used in the Avi plug-in and soon to come Gif plug-in. 
+						Also thanks for the capture feedback suggestion.
+					</p>
+					<p>
+						Brian</p>
+					<P><B><FONT size="2">License Information</FONT></B>
+					</P>
+					<P>Copyright 9/07/2004 Brian Scott
+						<BR>
+						<A href="http://blogs.geekdojo.net/brian">http://blogs.geekdojo.net/brian</A>
+					</P>
+					<P>This license governs use of the accompanying software ('Software'), and your use 
+						of the Software constitutes acceptance of this license. You may use the 
+						Software for any commercial or noncommercial purpose, including distributing 
+						derivative works. In return, we simply require that you agree:
+					</P>
+					<P>1. Not to remove any copyright or other notices from the Software.
+					</P>
+					<P>2. That if you distribute the Software in source code form you do so only under 
+						this license (i.e. you must include a complete copy of this license with your 
+						distribution), and if you distribute the Software solely in object form you 
+						only do so under a license that complies with this license.
+					</P>
+					<P>3. That the Software comes "as is", with no warranties. None whatsoever. This 
+						means no express, implied or statutory warranty, including without limitation, 
+						warranties of merchantability or fitness for a particular purpose or any 
+						warranty of title or non-infringement. Also, you must pass this disclaimer on 
+						whenever you distribute the Software or derivative works.
+					</P>
+					<P>4. That no contributor to the Software will be liable for any of those types of 
+						damages known as indirect, special, consequential, or incidental related to the 
+						Software or this license, to the maximum extent the law permits, no matter what 
+						legal theory it’s based on. Also, you must pass this limitation of liability on 
+						whenever you distribute the Software or derivative works.
+					</P>
+					<P>5. That if you sue anyone over patents that you think may apply to the Software 
+						for a person's use of the Software, your license to the Software ends 
+						automatically.
+					</P>
+					<P>6. That the patent rights, if any, granted in this license only apply to the 
+						Software, not to any derivative works you make.
+					</P>
+					<P>7. That the Software is subject to U.S. export jurisdiction at the time it is 
+						licensed to you, and it may be subject to additional export or import laws in 
+						other places. You agree to comply with all such laws and regulations that may 
+						apply to the Software after delivery of the software to you.
+					</P>
+					<P>8. That if you are an agency of the U.S. Government, (i) Software provided 
+						pursuant to a solicitation issued on or after December 1, 1995, is provided 
+						with the commercial license rights set forth in this license, and (ii) Software 
+						provided pursuant to a solicitation issued prior to December 1, 1995, is 
+						provided with “Restricted Rights” as set forth in FAR, 48 C.F.R. 52.227-14 
+						(June 1987) or DFAR, 48 C.F.R. 252.227-7013 (Oct 1988), as applicable.
+					</P>
+					<P>9. That your rights under this License end automatically if you breach it in any 
+						way.
+					</P>
+					<P>10.That all rights not expressly granted to you in this license are reserved.
+						<br>
+					</P>
+					<hr size="1" color="#cccccc">
+					<i>Disclaimer: This software is provided "AS IS" with no warranties of any kind. 
+						The entire risk arising out of the use or performance of the software is with 
+						you.</i>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+			</tr>
+		</table>
+		<P></P>
+	</body>
+</html>
