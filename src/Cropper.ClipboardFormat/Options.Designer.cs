@@ -94,27 +94,27 @@ namespace Fusion8.Cropper
             this.pngDescription = new System.Windows.Forms.Label();
             this.jpgDescription = new System.Windows.Forms.Label();
             this.imageQuality = new System.Windows.Forms.Label();
-            this.ConfigurationTabControl.SuspendLayout();
-            this.FirstTabPage.SuspendLayout();
+            this.themedTabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualitySlider)).BeginInit();
             this.SuspendLayout();
             // 
             // themedTabControl1
             // 
-            this.ConfigurationTabControl.Size = new System.Drawing.Size(324, 391);
+            this.themedTabControl1.Size = new System.Drawing.Size(324, 391);
             // 
             // FirstTabPage
             // 
-            this.FirstTabPage.Controls.Add(this.imageQuality);
-            this.FirstTabPage.Controls.Add(this.jpgDescription);
-            this.FirstTabPage.Controls.Add(this.pngDescription);
-            this.FirstTabPage.Controls.Add(this.bitmapDescription);
-            this.FirstTabPage.Controls.Add(this.qualitySlider);
-            this.FirstTabPage.Controls.Add(this.radioBitmap);
-            this.FirstTabPage.Controls.Add(this.radioJpg);
-            this.FirstTabPage.Controls.Add(this.radioPng);
-            this.FirstTabPage.Size = new System.Drawing.Size(316, 365);
-            this.FirstTabPage.Text = "Format";
+            this.tabPage1.Controls.Add(this.imageQuality);
+            this.tabPage1.Controls.Add(this.jpgDescription);
+            this.tabPage1.Controls.Add(this.pngDescription);
+            this.tabPage1.Controls.Add(this.bitmapDescription);
+            this.tabPage1.Controls.Add(this.qualitySlider);
+            this.tabPage1.Controls.Add(this.radioBitmap);
+            this.tabPage1.Controls.Add(this.radioJpg);
+            this.tabPage1.Controls.Add(this.radioPng);
+            this.tabPage1.Size = new System.Drawing.Size(316, 365);
+            this.tabPage1.Text = "Format";
             // 
             // radioBitmap
             // 
@@ -211,9 +211,9 @@ namespace Fusion8.Cropper
             this.ClientSize = new System.Drawing.Size(324, 391);
             this.Name = "Options";
             this.Text = "Options";
-            this.ConfigurationTabControl.ResumeLayout(false);
-            this.FirstTabPage.ResumeLayout(false);
-            this.FirstTabPage.PerformLayout();
+            this.themedTabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualitySlider)).EndInit();
             this.ResumeLayout(false);
 
