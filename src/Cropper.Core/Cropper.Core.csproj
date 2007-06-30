@@ -225,6 +225,13 @@
     <Compile Include="FileNameTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HotKeyAction.cs" />
+    <Compile Include="HotKeySelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotKeySelection.Designer.cs">
+      <DependentUpon>HotKeySelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageCapture.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -254,9 +261,16 @@
     <Compile Include="Settings\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ShortcutTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Templates.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="HotKeySelection.resx">
+      <DependentUpon>HotKeySelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImageCapture.resx">
       <DependentUpon>ImageCapture.cs</DependentUpon>
       <SubType>Designer</SubType>
