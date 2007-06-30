@@ -123,6 +123,8 @@ namespace Fusion8.Cropper.Core
         [DllImport("user32.dll")]
         static extern int GetSystemMetrics(int smIndex);
 
+        [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
+        internal static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, IntPtr wParam, IntPtr lParam);
 
         #endregion
 
@@ -135,6 +137,14 @@ namespace Fusion8.Cropper.Core
         private const ulong WS_VISIBLE = 0x10000000L;
         private const ulong WS_BORDER = 0x00800000L;
         private const ulong TARGETWINDOW = WS_BORDER | WS_VISIBLE;
+
+
+        internal const Int32 WM_USER = 0x0400;
+        internal const Int32 HKM_GETHOTKEY = (WM_USER + 2);
+        internal const Int32 HOTKEYF_SHIFT = 0x01;
+        internal const Int32 HOTKEYF_CONTROL = 0x02;
+        internal const Int32 HOTKEYF_ALT = 0x04;
+        internal const Int32 HOTKEYF_EXT = 0x08;
 
         #endregion
 

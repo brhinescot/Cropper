@@ -131,7 +131,7 @@ namespace Fusion8.Cropper
         private TabPage appearanceTab;
         private GroupBox opaityGroup;
         private CheckBox perPixelAlphaBlend;
-        private TabPage tabPage1;
+        private TabPage pluginsTab;
         private ComboBox comboBox1;
         private Panel panel1;
         private CheckBox keepPrntScrnOnClipboard;
@@ -151,6 +151,8 @@ namespace Fusion8.Cropper
 
         private static readonly Regex isNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
         private Label label2;
+        private TabPage keyboardTab;
+        private HotKeySelection hotKeySelection1;
         private bool addingSize;
 
         #endregion
@@ -291,7 +293,9 @@ namespace Fusion8.Cropper
             this.opacitySlider = new System.Windows.Forms.TrackBar();
             this.opacityDescription = new System.Windows.Forms.Label();
             this.perPixelAlphaBlend = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.keyboardTab = new System.Windows.Forms.TabPage();
+            this.hotKeySelection1 = new Fusion8.Cropper.Core.HotKeySelection();
+            this.pluginsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
@@ -308,7 +312,8 @@ namespace Fusion8.Cropper
             this.groupBox1.SuspendLayout();
             this.opaityGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
-            this.tabPage1.SuspendLayout();
+            this.keyboardTab.SuspendLayout();
+            this.pluginsTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelOutputFolder
@@ -500,7 +505,7 @@ namespace Fusion8.Cropper
             this.widthInput.TabIndex = 0;
             this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
             this.widthInput.WordWrap = false;
-            this.widthInput.Enter += new System.EventHandler(HandleSizeInputEnter);
+            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
             this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             // 
@@ -514,7 +519,7 @@ namespace Fusion8.Cropper
             this.heightInput.TabIndex = 2;
             this.toolTip.SetToolTip(this.heightInput, "The height of the crop form.");
             this.heightInput.WordWrap = false;
-            this.heightInput.Enter += new System.EventHandler(HandleSizeInputEnter);
+            this.heightInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
             this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             // 
@@ -700,7 +705,8 @@ namespace Fusion8.Cropper
             this.optionsTabs.Controls.Add(this.outputTab);
             this.optionsTabs.Controls.Add(this.capturesTab);
             this.optionsTabs.Controls.Add(this.appearanceTab);
-            this.optionsTabs.Controls.Add(this.tabPage1);
+            this.optionsTabs.Controls.Add(this.keyboardTab);
+            this.optionsTabs.Controls.Add(this.pluginsTab);
             this.optionsTabs.Location = new System.Drawing.Point(8, 6);
             this.optionsTabs.Name = "optionsTabs";
             this.optionsTabs.SelectedIndex = 0;
@@ -889,16 +895,34 @@ namespace Fusion8.Cropper
             this.perPixelAlphaBlend.Text = "Use &per pixel alpha blending. Disable if the crop form responds slowly.";
             this.perPixelAlphaBlend.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // FirstTabPage
+            // keyboardTab
             // 
-            this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Controls.Add(this.comboBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(336, 395);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "Plug-ins";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.keyboardTab.Controls.Add(this.hotKeySelection1);
+            this.keyboardTab.Location = new System.Drawing.Point(4, 22);
+            this.keyboardTab.Name = "keyboardTab";
+            this.keyboardTab.Padding = new System.Windows.Forms.Padding(3);
+            this.keyboardTab.Size = new System.Drawing.Size(336, 395);
+            this.keyboardTab.TabIndex = 4;
+            this.keyboardTab.Text = "Keyboard";
+            this.keyboardTab.UseVisualStyleBackColor = true;
+            // 
+            // hotKeySelection1
+            // 
+            this.hotKeySelection1.Location = new System.Drawing.Point(30, 30);
+            this.hotKeySelection1.Name = "hotKeySelection1";
+            this.hotKeySelection1.Size = new System.Drawing.Size(267, 160);
+            this.hotKeySelection1.TabIndex = 0;
+            // 
+            // pluginsTab
+            // 
+            this.pluginsTab.Controls.Add(this.panel1);
+            this.pluginsTab.Controls.Add(this.comboBox1);
+            this.pluginsTab.Location = new System.Drawing.Point(4, 22);
+            this.pluginsTab.Name = "pluginsTab";
+            this.pluginsTab.Size = new System.Drawing.Size(336, 395);
+            this.pluginsTab.TabIndex = 3;
+            this.pluginsTab.Text = "Plug-ins";
+            this.pluginsTab.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -954,7 +978,8 @@ namespace Fusion8.Cropper
             this.opaityGroup.ResumeLayout(false);
             this.opaityGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
-            this.tabPage1.ResumeLayout(false);
+            this.keyboardTab.ResumeLayout(false);
+            this.pluginsTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1184,7 +1209,7 @@ namespace Fusion8.Cropper
                 predefinedSizeList.SelectedIndex = index > predefinedSizeList.Items.Count - 1 ? predefinedSizeList.Items.Count - 1 : index;
         }
 
-        private static void HandleSizeInputEnter(object sender, EventArgs e)
+        private void HandleSizeInputEnter(object sender, EventArgs e)
         {
             TextBox box = sender as TextBox;
             if (box == null) 
