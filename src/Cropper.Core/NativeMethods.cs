@@ -61,6 +61,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
+using System.Text;
 
 #endregion
 
@@ -125,6 +126,21 @@ namespace Fusion8.Cropper.Core
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
         internal static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, IntPtr wParam, IntPtr lParam);
+        
+        [DllImport("user32.dll")]
+        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyExW", ExactSpelling = true)]
+        internal static extern uint MapVirtualKeyEx(uint uCode, uint uMapType, IntPtr dwhkl);
+
+        [DllImport("user32", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern int GetKeyNameText(uint lParam, StringBuilder lpString, int nSize);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetKeyboardLayout(uint idThread);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
+        internal static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, IntPtr lParam);
 
         #endregion
 
@@ -145,6 +161,13 @@ namespace Fusion8.Cropper.Core
         internal const Int32 HOTKEYF_CONTROL = 0x02;
         internal const Int32 HOTKEYF_ALT = 0x04;
         internal const Int32 HOTKEYF_EXT = 0x08;
+        internal const String HOTKEY_CLASS = "msctls_hotkey32";
+
+        internal const Int32 MAPVK_VK_TO_VSC = 0;
+        internal const Int32 MAPVK_VSC_TO_VK = 1;
+        internal const Int32 MAPVK_VK_TO_CHAR = 2;
+        internal const Int32 MAPVK_VSC_TO_VK_EX = 3;
+        internal const uint KLF_NOTELLSHELL = 0x00000080;
 
         #endregion
 

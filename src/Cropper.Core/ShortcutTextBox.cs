@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Core
@@ -16,7 +17,7 @@ namespace Fusion8.Cropper.Core
             get
             {
                 CreateParams createParams = base.CreateParams;
-                createParams.ClassName = "msctls_hotkey32";
+                createParams.ClassName = NativeMethods.HOTKEY_CLASS;
                 return createParams;
             }
         }
@@ -29,9 +30,9 @@ namespace Fusion8.Cropper.Core
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
                 int keyCode = (message & 0xFF);
-                return (Keys) keyCode;
+                return (Keys)keyCode;
             }
         }
 
@@ -43,11 +44,11 @@ namespace Fusion8.Cropper.Core
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
                 int keyCode = (message & 0xFF);
                 int flags = (message >> 8);
 
-                Keys keyData = (Keys) keyCode;
+                Keys keyData = (Keys)keyCode;
                 if ((flags & NativeMethods.HOTKEYF_ALT) == NativeMethods.HOTKEYF_ALT)
                     keyData |= Keys.Alt | Keys.Menu;
                 if ((flags & NativeMethods.HOTKEYF_CONTROL) == NativeMethods.HOTKEYF_CONTROL)
@@ -67,7 +68,7 @@ namespace Fusion8.Cropper.Core
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
                 int flags = (message >> 8);
 
                 Keys modifiers = Keys.None;
@@ -81,26 +82,58 @@ namespace Fusion8.Cropper.Core
             }
         }
 
+        /// <summary>
+        /// Gets the current text in the <see cref="ShortcutTextBox"/>.
+        /// </summary>
+        /// <value></value>
+        /// <filterPriority>1</filterPriority>
         public override string Text
         {
             get
             {
-                Keys modifiers = Modifiers;
-                string text = null;
-                if ((modifiers & Keys.Shift) == Keys.Shift)
-                    text += "Shift + ";
-                if ((modifiers & Keys.Control) == Keys.Control)
-                    text += "Ctrl + ";
-                if ((modifiers & Keys.Alt) == Keys.Alt)
-                    text += "Alt + ";
+                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int keyCode = (message & 0xFF);
+                int flags = (message >> 8);
 
-                text += KeyCode;
-                return text;
+                StringBuilder builder = new StringBuilder();
+                builder.Append(GetKeyName((uint)keyCode));
+
+                if ((flags & NativeMethods.HOTKEYF_ALT) == NativeMethods.HOTKEYF_ALT)
+                    builder.Insert(0, GetKeyName((uint)Keys.Menu) + " + ");
+                if ((flags & NativeMethods.HOTKEYF_SHIFT) == NativeMethods.HOTKEYF_SHIFT)
+                    builder.Insert(0, GetKeyName((uint)Keys.ShiftKey) + " + ");
+                if ((flags & NativeMethods.HOTKEYF_CONTROL) == NativeMethods.HOTKEYF_CONTROL)
+                    builder.Insert(0, GetKeyName((uint)Keys.ControlKey) + " + ");
+
+                return builder.ToString();
             }
-            set
+            set { throw new NotImplementedException(); }
+        }
+
+        private static string GetKeyName(uint keyCode)
+        {
+            IntPtr hkl = NativeMethods.GetKeyboardLayout(0);
+            uint scanCode = NativeMethods.MapVirtualKeyEx(keyCode, NativeMethods.MAPVK_VK_TO_VSC, hkl);
+
+            switch ((Keys)keyCode)
             {
-                base.Text = value;
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.Insert:
+                case Keys.Delete:
+                case Keys.PageUp:
+                case Keys.PageDown:
+                case Keys.Home:
+                case Keys.End:
+                    scanCode += 0x100;
+                    break;
             }
+
+            StringBuilder buffer = new StringBuilder(260);
+            NativeMethods.GetKeyNameText(scanCode << 16, buffer, buffer.Capacity);
+            return buffer.ToString();
         }
     }
 }

@@ -58,6 +58,7 @@ In return, we simply require that you agree:
 #region Using Directives 
 
 using System.Drawing;
+using Fusion8.Cropper.Extensibility;
 
 #endregion
 
