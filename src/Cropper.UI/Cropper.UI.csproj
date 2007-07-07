@@ -224,7 +224,6 @@
     <Compile Include="CropFormBlueColorTable.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CropFormColorTable.cs" />
     <Compile Include="CropFormDarkColorTable.cs">
       <SubType>Code</SubType>
     </Compile>
