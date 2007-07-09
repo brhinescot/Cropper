@@ -125,8 +125,8 @@ namespace Fusion8.Cropper.Core
 			    if (!File.Exists(path))
 			        return new Settings();
 
-			    ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace);
-                return configurationPersistence.Load(path, GetAdditionalTypes());
+                ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
+                return configurationPersistence.Load(path);
 			}
 			catch (SerializationException)
 			{
@@ -184,8 +184,8 @@ namespace Fusion8.Cropper.Core
 
 		    try
 			{
-                ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace);
-                configurationPersistence.Save(path, settings, GetAdditionalTypes());
+                ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
+                configurationPersistence.Save(path, settings);
 			}
 			catch (IOException)
 			{
@@ -197,7 +197,7 @@ namespace Fusion8.Cropper.Core
 				//An error occured, let the client know.
 				//
 			}
-
+            
 		    return;
 		}
 

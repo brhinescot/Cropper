@@ -65,6 +65,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Resources;
+using System.Text;
 using System.Windows.Forms;
 using Fusion8.Cropper.Core;
 using Fusion8.Cropper.Extensibility;
@@ -271,6 +272,7 @@ namespace Fusion8.Cropper
 			SetUpForm();
 			SetUpMenu();
 			Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
+            SaveConfiguration();
 		}
 
 		#endregion
@@ -639,24 +641,29 @@ namespace Fusion8.Cropper
 			if (isDisposed)
 				throw new ObjectDisposedException((this).ToString());
 
-			string extension = string.Empty;
-			if (imageCapture.ImageFormat != null)
-				extension = imageCapture.ImageFormat.Extension;
-
-			Configuration.Current.ImageFormat = extension;
-			Configuration.Current.MaxThumbnailSize = maxThumbSize;
-			Configuration.Current.IsThumbnailed = isThumbnailed;
-			Configuration.Current.Location = Location;
-			Configuration.Current.UserSize = VisibleClientSize;
-			Configuration.Current.ColorIndex = colorIndex;
-			Configuration.Current.AlwaysOnTop = TopMost;
-			Configuration.Current.Hidden = !Visible;
-
-			Configuration.Save();
-			base.OnClosing(e);
+			SaveConfiguration();
+		    base.OnClosing(e);
 		}
 
-		protected override void OnResize(EventArgs e)
+	    private void SaveConfiguration() 
+        {
+	        string extension = string.Empty;
+	        if (imageCapture.ImageFormat != null)
+	            extension = imageCapture.ImageFormat.Extension;
+
+	        Configuration.Current.ImageFormat = extension;
+	        Configuration.Current.MaxThumbnailSize = maxThumbSize;
+	        Configuration.Current.IsThumbnailed = isThumbnailed;
+	        Configuration.Current.Location = Location;
+	        Configuration.Current.UserSize = VisibleClientSize;
+	        Configuration.Current.ColorIndex = colorIndex;
+	        Configuration.Current.AlwaysOnTop = TopMost;
+	        Configuration.Current.Hidden = !Visible;
+
+	        Configuration.Save();
+	    }
+
+	    protected override void OnResize(EventArgs e)
 		{
 			middle.X = (VisibleWidth/2) + TransparentMargin;
 			middle.Y = (VisibleHeight/2) + TransparentMargin;

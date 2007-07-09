@@ -127,6 +127,20 @@ namespace Fusion8.Cropper.Core
                 case Keys.PageDown:
                 case Keys.Home:
                 case Keys.End:
+                case Keys.Oem1:
+                case Keys.Oem102:
+                case Keys.Oem2:
+                case Keys.Oem3:
+                case Keys.Oem4:
+                case Keys.Oem5:
+                case Keys.Oem6:
+                case Keys.Oem7:
+                case Keys.Oem8:
+                case Keys.OemClear:
+                case Keys.Oemcomma:
+                case Keys.OemMinus:
+                case Keys.OemPeriod:
+                case Keys.Oemplus:
                     scanCode += 0x100;
                     break;
             }

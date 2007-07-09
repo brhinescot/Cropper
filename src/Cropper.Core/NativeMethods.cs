@@ -142,6 +142,7 @@ namespace Fusion8.Cropper.Core
         [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
         internal static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, IntPtr lParam);
 
+
         #endregion
 
         #region Fields

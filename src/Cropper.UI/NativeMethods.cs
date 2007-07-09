@@ -60,6 +60,7 @@ In return, we simply require that you agree:
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 
 #endregion
 
@@ -115,6 +116,7 @@ namespace Fusion8.Cropper
 		[DllImport("gdi32.dll", CharSet=CharSet.Ansi, ExactSpelling=true, SetLastError=true)]
 		[return : MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool DeleteObject(IntPtr hObject);
+        
 
 		internal const Int32 WM_SETICON = 0x80;
 		internal const Int32 WM_SETTEXT = 0x000c;

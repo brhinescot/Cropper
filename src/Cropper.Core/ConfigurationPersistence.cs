@@ -90,30 +90,29 @@ namespace Fusion8.Cropper.Core
 
         #endregion
 
+        private static XmlSerializer serializer;
+
         #region .ctors
 
         public ConfigurationPersistence() : this(null, null) { }
 
-        public ConfigurationPersistence(string xmlRootName, string rootNamespace)
+        public ConfigurationPersistence(string xmlRootName, string rootNamespace, params Type[] additionalTypes)
         {
             this.xmlRootName = xmlRootName;
             this.rootNamespace = rootNamespace;
+            serializer = CreateSerializer(additionalTypes);
         }
 
         #endregion
 
-        public void Save(string path, T objectToSave, params Type[] additionalTypes)
+        public void Save(string path, T objectToSave)
         {
-            XmlSerializer serializer = CreateSerializer(additionalTypes);
-
             using (TextWriter textWriter = new StreamWriter(path))
                 serializer.Serialize(textWriter, objectToSave);
         }
 
-        public T Load(string path, params Type[] additionalTypes)
+        public T Load(string path)
         {
-            XmlSerializer serializer = CreateSerializer(additionalTypes);
-
             using (TextReader textReader = new StreamReader(path))
                 return (T)serializer.Deserialize(textReader);
         }
