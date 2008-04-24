@@ -1,68 +1,28 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Extensibility", "Cropper.Extensibility\Cropper.Extensibility.csproj", "{3956A306-228F-419A-AE19-717BE1CAF9F7}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Core", "Cropper.Core\Cropper.Core.csproj", "{930E83DA-4C59-4A7F-A082-5FDCC99524D4}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.PngFormat", "Cropper.PngFormat\Cropper.PngFormat.csproj", "{CC3BE0DA-871E-46D3-9301-94CFCA5DB04F}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.ClipboardFormat", "Cropper.ClipboardFormat\Cropper.ClipboardFormat.csproj", "{1DEC5341-1E24-4297-B4CF-7660079E3FB8}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.PrinterOutput", "Cropper.PrinterOutput\Cropper.PrinterOutput.csproj", "{1114B0CB-C03B-4EF4-A57B-C62D06E4142C}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.BmpFormat", "Cropper.BmpFormat\Cropper.BmpFormat.csproj", "{59B6DA9E-22DB-4A43-B8FF-A847CD4EBA42}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.JpgFormat", "Cropper.JpgFormat\Cropper.JpgFormat.csproj", "{88AA2BDF-12FB-4105-B95F-7985F4BDFD4F}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.UI", "Cropper.UI\Cropper.UI.csproj", "{4FAACCE1-AA19-4C1C-85F5-AC1BF33BDAF0}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CropperSetup", "CropperSetup\CropperSetup.vdproj", "{69B7AAB3-DAFE-4D7B-B35B-37B3AA157949}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{446681A4-0226-4C98-BA81-21C5C97AD1B9}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 		VersionAssemblyInfo.cs = VersionAssemblyInfo.cs
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Extensibility", "Cropper.Extensibility\Cropper.Extensibility.csproj", "{3956A306-228F-419A-AE19-717BE1CAF9F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Core", "Cropper.Core\Cropper.Core.csproj", "{930E83DA-4C59-4A7F-A082-5FDCC99524D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.PngFormat", "Cropper.PngFormat\Cropper.PngFormat.csproj", "{CC3BE0DA-871E-46D3-9301-94CFCA5DB04F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.ClipboardFormat", "Cropper.ClipboardFormat\Cropper.ClipboardFormat.csproj", "{1DEC5341-1E24-4297-B4CF-7660079E3FB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.PrinterOutput", "Cropper.PrinterOutput\Cropper.PrinterOutput.csproj", "{1114B0CB-C03B-4EF4-A57B-C62D06E4142C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.BmpFormat", "Cropper.BmpFormat\Cropper.BmpFormat.csproj", "{59B6DA9E-22DB-4A43-B8FF-A847CD4EBA42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.JpgFormat", "Cropper.JpgFormat\Cropper.JpgFormat.csproj", "{88AA2BDF-12FB-4105-B95F-7985F4BDFD4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.UI", "Cropper.UI\Cropper.UI.csproj", "{4FAACCE1-AA19-4C1C-85F5-AC1BF33BDAF0}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CropperSetup", "CropperSetup\CropperSetup.vdproj", "{69B7AAB3-DAFE-4D7B-B35B-37B3AA157949}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
