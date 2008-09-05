@@ -1,6 +1,10 @@
+#region Using Directives
+
 using System;
 using System.Text;
 using System.Windows.Forms;
+
+#endregion
 
 namespace Fusion8.Cropper.Core
 {
@@ -8,6 +12,8 @@ namespace Fusion8.Cropper.Core
     ///</summary>
     public class ShortcutTextBox : TextBox
     {
+        #region Property Accessors
+
         /// <summary>
         /// Encapsulates the information needed when creating a control.
         /// </summary>
@@ -21,6 +27,12 @@ namespace Fusion8.Cropper.Core
                 return createParams;
             }
         }
+        
+        public Keys KeyData
+        {
+            get { return KeyCode | Modifiers; }
+            set { SetKeys(value); }
+        }
 
         /// <summary>
         /// Gets the key code.
@@ -30,34 +42,12 @@ namespace Fusion8.Cropper.Core
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
-                int keyCode = (message & 0xFF);
+                IntPtr message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int keyCode = (message.ToInt32() & 0xff);
+
                 return (Keys)keyCode;
             }
-        }
-
-        /// <summary>
-        /// Gets the key data.
-        /// </summary>
-        /// <value>The key data.</value>
-        public Keys KeyData
-        {
-            get
-            {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
-                int keyCode = (message & 0xFF);
-                int flags = (message >> 8);
-
-                Keys keyData = (Keys)keyCode;
-                if ((flags & NativeMethods.HOTKEYF_ALT) == NativeMethods.HOTKEYF_ALT)
-                    keyData |= Keys.Alt | Keys.Menu;
-                if ((flags & NativeMethods.HOTKEYF_CONTROL) == NativeMethods.HOTKEYF_CONTROL)
-                    keyData |= Keys.Control | Keys.ControlKey;
-                if ((flags & NativeMethods.HOTKEYF_SHIFT) == NativeMethods.HOTKEYF_SHIFT)
-                    keyData |= Keys.Shift | Keys.ShiftKey;
-
-                return keyData;
-            }
+            set { SetKeys(value, Modifiers); }
         }
 
         /// <summary>
@@ -68,8 +58,8 @@ namespace Fusion8.Cropper.Core
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, 0, IntPtr.Zero);
-                int flags = (message >> 8);
+                IntPtr message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+                int flags = (message.ToInt32() >> 8);
 
                 Keys modifiers = Keys.None;
                 if ((flags & NativeMethods.HOTKEYF_ALT) == NativeMethods.HOTKEYF_ALT)
@@ -80,37 +70,187 @@ namespace Fusion8.Cropper.Core
                     modifiers |= Keys.Shift;
                 return modifiers;
             }
+            set { SetKeys(KeyCode, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the Alt key is displayed in 
+        /// the <see cref="ShortcutTextBox"/> control.
+        /// </summary>
+        public bool Alt
+        {
+            get { return (Modifiers & Keys.Alt) == Keys.Alt; }
+            set
+            {
+                if (value)
+                    Modifiers |= Keys.Alt;
+                else
+                    Modifiers &= ~Keys.Alt;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the Shift key is displayed in 
+        /// the <see cref="ShortcutTextBox"/> control.
+        /// </summary>
+        public bool Shift
+        {
+            get { return (Modifiers & Keys.Shift) == Keys.Shift; }
+            set
+            {
+                if (value)
+                    Modifiers |= Keys.Shift;
+                else
+                    Modifiers &= ~Keys.Shift;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the Control key is displayed in 
+        /// the <see cref="ShortcutTextBox"/> control.
+        /// </summary>
+        public bool Control
+        {
+            get { return (Modifiers & Keys.Control) == Keys.Control; }
+            set
+            {
+                if (value)
+                    Modifiers |= Keys.Control;
+                else
+                    Modifiers &= ~Keys.Control;
+            }
+        }
+
+        public bool HasShortcut
+        {
+            get { return KeyCode != Keys.None; }
         }
 
         /// <summary>
         /// Gets the current text in the <see cref="ShortcutTextBox"/>.
         /// </summary>
+        /// <remarks>This property will throw an exception if the setter is called.</remarks>
         /// <value></value>
         /// <filterPriority>1</filterPriority>
         public override string Text
         {
             get
             {
-                int message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
-                int keyCode = (message & 0xFF);
-                int flags = (message >> 8);
-
+                Keys modifiers = Modifiers;
                 StringBuilder builder = new StringBuilder();
-                builder.Append(GetKeyName((uint)keyCode));
 
-                if ((flags & NativeMethods.HOTKEYF_ALT) == NativeMethods.HOTKEYF_ALT)
-                    builder.Insert(0, GetKeyName((uint)Keys.Menu) + " + ");
-                if ((flags & NativeMethods.HOTKEYF_SHIFT) == NativeMethods.HOTKEYF_SHIFT)
-                    builder.Insert(0, GetKeyName((uint)Keys.ShiftKey) + " + ");
-                if ((flags & NativeMethods.HOTKEYF_CONTROL) == NativeMethods.HOTKEYF_CONTROL)
-                    builder.Insert(0, GetKeyName((uint)Keys.ControlKey) + " + ");
+                builder.Append(KeyCode == Keys.None ? Keys.None.ToString() : RetrieveKeyName((uint)KeyCode));
+
+                if ((modifiers & Keys.Alt) == Keys.Alt)
+                    builder.Insert(0, RetrieveKeyName((uint)Keys.Menu) + " + ");
+                if ((modifiers & Keys.Shift) == Keys.Shift)
+                    builder.Insert(0, RetrieveKeyName((uint)Keys.ShiftKey) + " + ");
+                if ((modifiers & Keys.Control) == Keys.Control)
+                    builder.Insert(0, RetrieveKeyName((uint)Keys.ControlKey) + " + ");
 
                 return builder.ToString();
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                try
+                {
+                    Keys keys = (Keys)Enum.Parse(typeof(Keys), value.Replace('+', ',').Replace("Ctrl", "Control"));
+                    SetKeys(keys);
+                }
+                catch (ArgumentException)
+                {
+                    SetKeys(Keys.None);
+                }
+            }
         }
 
-        private static string GetKeyName(uint keyCode)
+        #endregion
+
+        #region .ctor
+
+        public ShortcutTextBox()
+        {
+            SetInvalidKeys(Keys.Control, Keys.None, Keys.Shift);
+        }
+
+        #endregion
+
+        public void SetInvalidKeys(Keys replacementModifiers, params Keys[] invalidModifiers)
+        {
+            int hotKeyF = 0;
+
+            foreach (Keys keys in invalidModifiers)
+            {
+                switch (keys)
+                {
+                    case Keys.Alt:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_A;
+                        break;
+                    case Keys.Control:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_C;
+                        break;
+                    case Keys.Control | Keys.Alt:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_CA;
+                        break;
+                    case Keys.None:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_NONE;
+                        break;
+                    case Keys.Shift:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_S;
+                        break;
+                    case Keys.Shift | Keys.Alt:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_SA;
+                        break;
+                    case Keys.Shift | Keys.Control:
+                        hotKeyF = (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_SC;
+                        break;
+                    case Keys.Shift | Keys.Control | Keys.Alt:
+                        hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_SCA;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            int replacement = 0;
+            if ((replacementModifiers & Keys.Alt) == Keys.Alt)
+                replacement |= NativeMethods.HOTKEYF_ALT;
+            if ((replacementModifiers & Keys.Control) == Keys.Control)
+                replacement |= NativeMethods.HOTKEYF_CONTROL;
+            if ((replacementModifiers & Keys.Shift) == Keys.Shift)
+                replacement |= NativeMethods.HOTKEYF_SHIFT;
+
+            NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETRULES, (IntPtr)hotKeyF, (IntPtr)replacement);
+        }
+
+        public void SetKeys(Keys keyCode, Keys modifiers)
+        {
+            SetKeys(keyCode | modifiers);
+        }
+
+        public void SetKeys(Keys keyData)
+        {
+            Keys keyCode = keyData & (~Keys.Alt & ~Keys.Control & ~Keys.Shift);
+
+            int hotKeyF = 0;
+            if ((keyData & Keys.Alt) == Keys.Alt)
+                hotKeyF |= NativeMethods.HOTKEYF_ALT;
+            if ((keyData & Keys.Control) == Keys.Control)
+                hotKeyF |= NativeMethods.HOTKEYF_CONTROL;
+            if ((keyData & Keys.Shift) == Keys.Shift)
+                hotKeyF |= NativeMethods.HOTKEYF_SHIFT;
+
+            NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETHOTKEY, MakeHotKeyWParam((int)keyCode, hotKeyF), IntPtr.Zero);
+        }
+
+        #region Private Helpers
+
+        private static IntPtr MakeHotKeyWParam(int keyCode, int modifiers)
+        {
+            return (IntPtr)((modifiers << 8) | (keyCode & 0xffff));
+        }
+
+        private static string RetrieveKeyName(uint keyCode)
         {
             IntPtr hkl = NativeMethods.GetKeyboardLayout(0);
             uint scanCode = NativeMethods.MapVirtualKeyEx(keyCode, NativeMethods.MAPVK_VK_TO_VSC, hkl);
@@ -149,5 +289,7 @@ namespace Fusion8.Cropper.Core
             NativeMethods.GetKeyNameText(scanCode << 16, buffer, buffer.Capacity);
             return buffer.ToString();
         }
+
+        #endregion
     }
 }

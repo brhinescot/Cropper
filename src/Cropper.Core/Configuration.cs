@@ -68,12 +68,12 @@ using Fusion8.Cropper.Extensibility;
 
 namespace Fusion8.Cropper.Core
 {
-	public sealed class Configuration
+	public static class Configuration
 	{
 		#region Member Variables
 
 		private static readonly string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SR.ConfigurationPath);
-		private static readonly string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"cropper.portable");
+		private static readonly string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "cropper.portable");
 		private static readonly string portableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
 		private static Settings cropperSettings;
 
@@ -81,9 +81,7 @@ namespace Fusion8.Cropper.Core
 
 		#region .ctor
 
-		private Configuration() {}
-
-		#endregion
+	    #endregion
 
 		#region Methods
 
@@ -93,17 +91,17 @@ namespace Fusion8.Cropper.Core
 			{
 				if (cropperSettings == null)
 				{
-					if(File.Exists(portableConfigPath))
-					{
-						cropperSettings = LoadConfiguration(portableConfigPath);
-						cropperSettings.OutputPath = portableOutputPath;
-					}
-					else
-					{
-						cropperSettings = LoadConfiguration(configPath);
-						if(!Directory.Exists(cropperSettings.OutputPath))
-							cropperSettings.OutputPath = Settings.DefaultOutputPath;
-					}
+                    if (File.Exists(portableConfigPath))
+                    {
+                        cropperSettings = LoadConfiguration(portableConfigPath);
+                        cropperSettings.OutputPath = portableOutputPath;
+                    }
+                    else
+                    {
+                        cropperSettings = LoadConfiguration(configPath);
+                        if (!Directory.Exists(cropperSettings.OutputPath))
+                            cropperSettings.OutputPath = Settings.DefaultOutputPath;
+                    }
 				}
 				return cropperSettings;
 			}
@@ -115,6 +113,8 @@ namespace Fusion8.Cropper.Core
 		/// <remarks>The <see cref="Settings"/> class is xml deserialized from disk.</remarks>
 		/// <param name="path"></param>
 		/// <returns></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is null; nothing 
+        /// in Visual Basic.</exception>
 		private static Settings LoadConfiguration(string path)
 		{
 			if (null == path)
@@ -159,10 +159,10 @@ namespace Fusion8.Cropper.Core
 		/// </summary>
 		public static void Save()
 		{
-			if(File.Exists(portableConfigPath))
-				SaveConfiguration(cropperSettings, portableConfigPath);
-			else
-				SaveConfiguration(cropperSettings, configPath);
+            if (File.Exists(portableConfigPath))
+                SaveConfiguration(cropperSettings, portableConfigPath);
+            else
+                SaveConfiguration(cropperSettings, configPath);
 		}
 
 		/// <summary>
@@ -172,53 +172,55 @@ namespace Fusion8.Cropper.Core
 		/// <param name="settings">The configuration object to save.</param>
 		/// <param name="path">The path where the file should be saved.</param>
 		/// <returns>true if successful, false if not.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="settings"/> or <paramref name="path"/> 
+        /// is null; nothing in Visual Basic.</exception>
 		private static void SaveConfiguration(Settings settings, string path)
 		{
-			if (null == path)
-				throw new ArgumentNullException("path", SR.ExceptionConfigPathNull);
+		    if (null == path)
+		        throw new ArgumentNullException("path", SR.ExceptionConfigPathNull);
 
-			if (null == settings)
-				throw new ArgumentNullException("configuration", SR.ExceptionConfigObjectNull);
+		    if (null == settings)
+		        throw new ArgumentNullException("settings", SR.ExceptionConfigObjectNull);
 
-			EnsureConfigDirectory(path);
+		    EnsureConfigDirectory(path);
 
 		    try
-			{
-                ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
-                configurationPersistence.Save(path, settings);
-			}
-			catch (IOException)
-			{
-				//An error occured, let the client know.
-				//
-			}
-			catch (InvalidOperationException)
-			{
-				//An error occured, let the client know.
-				//
-			}
+		    {
+		        ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
+		        configurationPersistence.Save(path, settings);
+		    }
+		    catch (IOException)
+		    {
+		        //An error occured, let the client know.
+		        //
+		    }
+		    catch (InvalidOperationException)
+		    {
+		        //An error occured, let the client know.
+		        //
+		    }
             
 		    return;
 		}
 
-		private static void EnsureConfigDirectory(string path)
-		{
-		    if (!Directory.Exists(Path.GetDirectoryName(path)))
-		        Directory.CreateDirectory(Path.GetDirectoryName(path));
-		}
+	    private static void EnsureConfigDirectory(string path)
+	    {
+	        if (!Directory.Exists(Path.GetDirectoryName(path)))
+	            Directory.CreateDirectory(Path.GetDirectoryName(path));
+	    }
 
-        private static Type[] GetAdditionalTypes()
-        {
-            List<Type> types = new List<Type>();
-            foreach (IPersistableImageFormat format in ImageCapture.ImageOutputs)
-            {
-                IConfigurablePlugin plugin = format as IConfigurablePlugin;
-                if (plugin != null && plugin.Settings != null)
-                    types.Add(plugin.Settings.GetType());
-            }
-            return types.ToArray();
-        }
+	    private static Type[] GetAdditionalTypes()
+	    {
+	        List<Type> types = new List<Type>();
+	        foreach (IPersistableImageFormat format in ImageCapture.ImageOutputs)
+	        {
+	            IConfigurablePlugin plugin = format as IConfigurablePlugin;
+	            if (plugin != null && plugin.Settings != null)
+	                types.Add(plugin.Settings.GetType());
+	        }
+	        return types.ToArray();
+	    }
 
-		#endregion
+	    #endregion
 	}
 }

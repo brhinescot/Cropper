@@ -10,7 +10,11 @@ namespace Fusion8.Cropper.Core
 {
     public partial class HotKeySelection : UserControl
     {
-        #region HotKeyList Delegating Members
+        public HotKeySelection()
+        {
+            InitializeComponent();
+//            shortcutList.Items[0].Selected = true;
+        }
 
         ///<summary>
         ///Gets or sets a value indicating whether the selected item in the control remains highlighted when the control loses focus.
@@ -27,11 +31,13 @@ namespace Fusion8.Cropper.Core
         }
 
         ///<summary>
-        ///Gets or sets a value indicating whether the text of an item or subitem has the appearance of a hyperlink when the mouse pointer passes over it.
+        ///Gets or sets a value indicating whether the text of an item or subitem has the appearance of a 
+        /// hyperlink when the mouse pointer passes over it.
         ///</summary>
         ///
         ///<returns>
-        ///true if the item text has the appearance of a hyperlink when the mouse passes over it; otherwise, false. The default is false.
+        ///true if the item text has the appearance of a hyperlink when the mouse passes over it; otherwise, 
+        /// false. The default is false.
         ///</returns>
         ///<filterpriority>2</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool HotTracking
@@ -41,11 +47,13 @@ namespace Fusion8.Cropper.Core
         }
 
         ///<summary>
-        ///Gets or sets a value indicating whether an item is automatically selected when the mouse pointer remains over the item for a few seconds.
+        ///Gets or sets a value indicating whether an item is automatically selected when the mouse pointer 
+        /// remains over the item for a few seconds.
         ///</summary>
         ///
         ///<returns>
-        ///true if an item is automatically selected when the mouse pointer hovers over it; otherwise, false. The default is false.
+        ///true if an item is automatically selected when the mouse pointer hovers over it; otherwise, false. 
+        /// The default is false.
         ///</returns>
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool HoverSelection
@@ -59,7 +67,8 @@ namespace Fusion8.Cropper.Core
         ///</summary>
         ///
         ///<returns>
-        ///A <see cref="T:System.Windows.Forms.ListView.ListViewItemCollection"></see> that contains all the items in the <see cref="T:System.Windows.Forms.ListView"></see> control.
+        ///A <see cref="T:System.Windows.Forms.ListView.ListViewItemCollection"></see> that contains all the 
+        /// items in the <see cref="T:System.Windows.Forms.ListView"></see> control.
         ///</returns>
         ///<filterpriority>1</filterpriority>
         public ListView.ListViewItemCollection Items
@@ -165,6 +174,76 @@ namespace Fusion8.Cropper.Core
         }
 
         ///<summary>
+        ///Gets the collection of all column headers that appear in the control.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A <see cref="T:System.Windows.Forms.ListView.ColumnHeaderCollection"></see> that represents the column headers that appear when the <see cref="P:System.Windows.Forms.ListView.View"></see> property is set to <see cref="F:System.Windows.Forms.View.Details"></see>.
+        ///</returns>
+        ///<filterpriority>1</filterpriority>
+        public ListView.ColumnHeaderCollection Columns
+        {
+            get { return shortcutList.Columns; }
+        }
+
+        ///<summary>
+        ///Gets the item in the control that currently has focus.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A <see cref="T:System.Windows.Forms.ListViewItem"></see> that represents the item that has focus, or null if no item has the focus in the <see cref="T:System.Windows.Forms.ListView"></see>.
+        ///</returns>
+        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        public ListViewItem FocusedItem
+        {
+            get { return shortcutList.FocusedItem; }
+            set { shortcutList.FocusedItem = value; }
+        }
+
+        ///<summary>
+        ///Gets or sets a value indicating whether clicking an item selects all its subitems.
+        ///</summary>
+        ///
+        ///<returns>
+        ///true if clicking an item selects the item and all its subitems; false if clicking an item selects only the item itself. The default is false.
+        ///</returns>
+        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        public bool FullRowSelect
+        {
+            get { return shortcutList.FullRowSelect; }
+            set { shortcutList.FullRowSelect = value; }
+        }
+
+        ///<summary>
+        ///Gets or sets a value indicating whether grid lines appear between the rows and columns containing the items and subitems in the control.
+        ///</summary>
+        ///
+        ///<returns>
+        ///true if grid lines are drawn around items and subitems; otherwise, false. The default is false.
+        ///</returns>
+        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        public bool GridLines
+        {
+            get { return shortcutList.GridLines; }
+            set { shortcutList.GridLines = value; }
+        }
+
+        ///<summary>
+        ///Gets or sets the column header style.
+        ///</summary>
+        ///
+        ///<returns>
+        ///One of the <see cref="T:System.Windows.Forms.ColumnHeaderStyle"></see> values. The default is <see cref="F:System.Windows.Forms.ColumnHeaderStyle.Clickable"></see>.
+        ///</returns>
+        ///
+        ///<exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the <see cref="T:System.Windows.Forms.ColumnHeaderStyle"></see> values. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        public ColumnHeaderStyle HeaderStyle
+        {
+            get { return shortcutList.HeaderStyle; }
+            set { shortcutList.HeaderStyle = value; }
+        }
+
+        ///<summary>
         ///Occurs when the user clicks a column header within the list view control.
         ///</summary>
         ///<filterpriority>1</filterpriority>
@@ -209,7 +288,10 @@ namespace Fusion8.Cropper.Core
         ///<param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false. </param>
         ///<param name="startIndex">The index of the item at which to start the search.</param>
         ///<param name="text">The text to search for.</param>
-        ///<exception cref="T:System.ArgumentOutOfRangeException">startIndex is less 0 or more than the number items in the <see cref="T:System.Windows.Forms.ListView"></see>. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        ///<exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startIndex"/> is less 
+        /// 0 or more than the number items in the <see cref="T:System.Windows.Forms.ListView"></see>. 
+        /// </exception><filterpriority>1</filterpriority>
+        /// <PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
         {
             return shortcutList.FindItemWithText(text, includeSubItemsInSearch, startIndex);
@@ -227,7 +309,7 @@ namespace Fusion8.Cropper.Core
         ///<param name="includeSubItemsInSearch">true to include subitems in the search; otherwise, false. </param>
         ///<param name="startIndex">The index of the item at which to start the search.</param>
         ///<param name="text">The text to search for.</param>
-        ///<exception cref="T:System.ArgumentOutOfRangeException">startIndex is less 0 or more than the number of items in the <see cref="T:System.Windows.Forms.ListView"></see>. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        ///<exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startIndex"/> is less 0 or more than the number of items in the <see cref="T:System.Windows.Forms.ListView"></see>. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ListViewItem FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
         {
             return shortcutList.FindItemWithText(text, includeSubItemsInSearch, startIndex, isPrefixSearch);
@@ -319,89 +401,33 @@ namespace Fusion8.Cropper.Core
             shortcutList.Sort();
         }
 
-        ///<summary>
-        ///Gets the collection of all column headers that appear in the control.
-        ///</summary>
-        ///
-        ///<returns>
-        ///A <see cref="T:System.Windows.Forms.ListView.ColumnHeaderCollection"></see> that represents the column headers that appear when the <see cref="P:System.Windows.Forms.ListView.View"></see> property is set to <see cref="F:System.Windows.Forms.View.Details"></see>.
-        ///</returns>
-        ///<filterpriority>1</filterpriority>
-        public ListView.ColumnHeaderCollection Columns
+        private void HandleShortcutAssignClick(object sender, EventArgs e)
         {
-            get { return shortcutList.Columns; }
+            AddShortcut();
         }
 
-        ///<summary>
-        ///Gets the item in the control that currently has focus.
-        ///</summary>
-        ///
-        ///<returns>
-        ///A <see cref="T:System.Windows.Forms.ListViewItem"></see> that represents the item that has focus, or null if no item has the focus in the <see cref="T:System.Windows.Forms.ListView"></see>.
-        ///</returns>
-        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
-        public ListViewItem FocusedItem
-        {
-            get { return shortcutList.FocusedItem; }
-            set { shortcutList.FocusedItem = value; }
-        }
-
-        ///<summary>
-        ///Gets or sets a value indicating whether clicking an item selects all its subitems.
-        ///</summary>
-        ///
-        ///<returns>
-        ///true if clicking an item selects the item and all its subitems; false if clicking an item selects only the item itself. The default is false.
-        ///</returns>
-        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
-        public bool FullRowSelect
-        {
-            get { return shortcutList.FullRowSelect; }
-            set { shortcutList.FullRowSelect = value; }
-        }
-
-        ///<summary>
-        ///Gets or sets a value indicating whether grid lines appear between the rows and columns containing the items and subitems in the control.
-        ///</summary>
-        ///
-        ///<returns>
-        ///true if grid lines are drawn around items and subitems; otherwise, false. The default is false.
-        ///</returns>
-        ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
-        public bool GridLines
-        {
-            get { return shortcutList.GridLines; }
-            set { shortcutList.GridLines = value; }
-        }
-
-        ///<summary>
-        ///Gets or sets the column header style.
-        ///</summary>
-        ///
-        ///<returns>
-        ///One of the <see cref="T:System.Windows.Forms.ColumnHeaderStyle"></see> values. The default is <see cref="F:System.Windows.Forms.ColumnHeaderStyle.Clickable"></see>.
-        ///</returns>
-        ///
-        ///<exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the <see cref="T:System.Windows.Forms.ColumnHeaderStyle"></see> values. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
-        public ColumnHeaderStyle HeaderStyle
-        {
-            get { return shortcutList.HeaderStyle; }
-            set { shortcutList.HeaderStyle = value; }
-        }
-
-        #endregion
-
-        public HotKeySelection()
-        {
-            InitializeComponent();
-            shortcutList.Items[0].Selected = true;
-        }
-
-        private void HandleShorcutAssignClick(object sender, EventArgs e)
+        private void AddShortcut()
         {
             shortcutList.SelectedItems[0].SubItems[1].Text = shortcut.Text;
+            shortcutList.SelectedItems[0].Tag = shortcut.KeyData;
+            shortcut.Focus();
         }
 
-        private void HandleShortcutListSelectedIndexChanged(object sender, EventArgs e) {}
+        private void HandleShortcutListSelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection items = shortcutList.SelectedItems;
+            if (items.Count == 0 || items[0] == null || items[0].Tag == null)
+                return;
+
+            shortcut.KeyData = (Keys) items[0].Tag;
+        }
+
+        private void HandleShortcutPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            AddShortcut();
+        }
     }
 }

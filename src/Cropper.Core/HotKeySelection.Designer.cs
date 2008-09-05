@@ -28,26 +28,6 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Show",
-            "",
-            "Yes"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Hide",
-            "",
-            "No"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Thumbnail",
-            "",
-            "No"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Next Size",
-            "",
-            "No"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Capture",
-            "",
-            "Yes"}, -1);
             this.shortcutList = new System.Windows.Forms.ListView();
             this.actionHeader = new System.Windows.Forms.ColumnHeader();
             this.shortcutHeader = new System.Windows.Forms.ColumnHeader();
@@ -70,12 +50,6 @@ namespace Fusion8.Cropper.Core
             this.shortcutList.FullRowSelect = true;
             this.shortcutList.GridLines = true;
             this.shortcutList.HideSelection = false;
-            this.shortcutList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5});
             this.shortcutList.Location = new System.Drawing.Point(3, 16);
             this.shortcutList.Name = "shortcutList";
             this.shortcutList.Size = new System.Drawing.Size(313, 198);
@@ -104,11 +78,11 @@ namespace Fusion8.Cropper.Core
             this.shortcutAssign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.shortcutAssign.Location = new System.Drawing.Point(241, 231);
             this.shortcutAssign.Name = "shortcutAssign";
-            this.shortcutAssign.Size = new System.Drawing.Size(75, 22);
+            this.shortcutAssign.Size = new System.Drawing.Size(75, 26);
             this.shortcutAssign.TabIndex = 4;
             this.shortcutAssign.Text = "&Assign";
             this.shortcutAssign.UseVisualStyleBackColor = true;
-            this.shortcutAssign.Click += new System.EventHandler(this.HandleShorcutAssignClick);
+            this.shortcutAssign.Click += new System.EventHandler(this.HandleShortcutAssignClick);
             // 
             // label1
             // 
@@ -131,12 +105,20 @@ namespace Fusion8.Cropper.Core
             // 
             // shortcut
             // 
+            this.shortcut.Alt = false;
             this.shortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.shortcut.Control = false;
+            this.shortcut.KeyCode = System.Windows.Forms.Keys.None;
+            this.shortcut.KeyData = System.Windows.Forms.Keys.None;
             this.shortcut.Location = new System.Drawing.Point(3, 233);
+            this.shortcut.Modifiers = System.Windows.Forms.Keys.None;
             this.shortcut.Name = "shortcut";
+            this.shortcut.Shift = false;
             this.shortcut.Size = new System.Drawing.Size(232, 20);
             this.shortcut.TabIndex = 3;
+            this.shortcut.Text = "None";
+            this.shortcut.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleShortcutPreviewKeyDown);
             // 
             // HotKeySelection
             // 
@@ -161,7 +143,7 @@ namespace Fusion8.Cropper.Core
         private System.Windows.Forms.ColumnHeader shortcutHeader;
         private System.Windows.Forms.ColumnHeader globalHeader;
         private System.Windows.Forms.Button shortcutAssign;
-        private Fusion8.Cropper.Core.ShortcutTextBox shortcut;
+        private ShortcutTextBox shortcut;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

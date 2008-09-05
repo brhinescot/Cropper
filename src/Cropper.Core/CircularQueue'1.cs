@@ -93,7 +93,7 @@ namespace Fusion8.Cropper.Core
             items.TrimExcess();
         }
 
-        ///<summary>
+        /// <summary>
         ///Adds an object to the end of the <see cref="CircularQueue{T}"></see>.
         ///</summary>
         ///
@@ -109,22 +109,22 @@ namespace Fusion8.Cropper.Core
 
         #region ICollection Implementation
 
-        ///<summary>
-        ///Copies the elements of the <see cref="ICollection"></see> to an 
+        /// <summary>
+        /// Copies the elements of the <see cref="ICollection"></see> to an 
         /// <see cref="Array"></see>, starting at a particular <see cref="Array"></see> index.
-        ///</summary>
+        /// </summary>
         ///
-        ///<param name="array">The one-dimensional <see cref="Array"></see> that is the 
+        /// <param name="array">The one-dimensional <see cref="Array"></see> that is the 
         /// destination of the elements copied from <see cref="ICollection"></see>. 
         /// The <see cref="Array"></see> must have zero-based indexing. </param>
-        ///<param name="index">The zero-based index in array at which copying begins. </param>
-        ///<exception cref="ArgumentNullException">array is null. </exception>
-        ///<exception cref="ArgumentOutOfRangeException">index is less than zero. </exception>
-        ///<exception cref="ArgumentException">array is multidimensional.-or- index is 
+        /// <param name="index">The zero-based index in array at which copying begins. </param>
+        /// <exception cref="ArgumentNullException">array is null. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">index is less than zero. </exception>
+        /// <exception cref="ArgumentException">array is multidimensional.-or- index is 
         /// equal to or greater than the length of array.-or- The number of elements in the source 
         /// <see cref="ICollection"></see> is greater than the available space 
         /// from index to the end of the destination array. </exception>
-        ///<exception cref="InvalidCastException">The type of the source 
+        /// <exception cref="InvalidCastException">The type of the source 
         /// <see cref="ICollection"></see> cannot be cast automatically to 
         /// the type of the destination array. </exception><filterpriority>2</filterpriority>
         void ICollection.CopyTo(Array array, int index)
@@ -132,14 +132,14 @@ namespace Fusion8.Cropper.Core
             ((ICollection)items).CopyTo(array, index);
         }
 
-        ///<summary>
-        ///Gets the number of elements contained in the <see cref="ICollection"></see>.
-        ///</summary>
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="ICollection"></see>.
+        /// </summary>
         ///
-        ///<returns>
-        ///The number of elements contained in the <see cref="ICollection"></see>.
-        ///</returns>
-        ///<filterpriority>2</filterpriority>
+        /// <returns>
+        /// The number of elements contained in the <see cref="ICollection"></see>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public int Count
         {
             get { return items.Count; }
