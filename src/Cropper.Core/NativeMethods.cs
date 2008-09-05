@@ -75,10 +75,8 @@ namespace Fusion8.Cropper.Core
     /// <note type="caution">This class is not thread safe.</note> 
     /// <remarks>This class has been scaled back to the essentials for capturing a segment of 
     /// the desktop in order to keep Cropper as small as possible.</remarks>
-    internal sealed class NativeMethods
+    internal static class NativeMethods
     {
-        private NativeMethods() {}
-
         #region Dll Imports
 
         [DllImport("user32.dll", CharSet=CharSet.Ansi, ExactSpelling=true, SetLastError=false)]
@@ -125,7 +123,7 @@ namespace Fusion8.Cropper.Core
         static extern int GetSystemMetrics(int smIndex);
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
-        internal static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, IntPtr wParam, IntPtr lParam);
         
         [DllImport("user32.dll")]
         internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
@@ -155,9 +153,11 @@ namespace Fusion8.Cropper.Core
         private const ulong WS_BORDER = 0x00800000L;
         private const ulong TARGETWINDOW = WS_BORDER | WS_VISIBLE;
 
-
         internal const Int32 WM_USER = 0x0400;
+
+        internal const Int32 HKM_SETHOTKEY = (WM_USER + 1);
         internal const Int32 HKM_GETHOTKEY = (WM_USER + 2);
+        internal const Int32 HKM_SETRULES = (WM_USER + 3);
         internal const Int32 HOTKEYF_SHIFT = 0x01;
         internal const Int32 HOTKEYF_CONTROL = 0x02;
         internal const Int32 HOTKEYF_ALT = 0x04;
@@ -171,6 +171,18 @@ namespace Fusion8.Cropper.Core
         internal const uint KLF_NOTELLSHELL = 0x00000080;
 
         #endregion
+
+         public enum InvalidHotKeyModifiers
+        {
+            HKCOMB_NONE = 1,
+            HKCOMB_S = 2,
+            HKCOMB_C = 4,
+            HKCOMB_A = 8,
+            HKCOMB_SC = 16,
+            HKCOMB_SA = 32,
+            HKCOMB_CA = 64,
+            HKCOMB_SCA = 128
+        }
 
         #region Structures
 
@@ -335,9 +347,9 @@ namespace Fusion8.Cropper.Core
                     GraphicsUnit unit = GraphicsUnit.Pixel;
                     bounds = capture.GetBounds(ref unit);
 
-                    if((GetWindowLongA(hWnd, GWL_STYLE) & TARGETWINDOW) == TARGETWINDOW)
+                    if ((GetWindowLongA(hWnd, GWL_STYLE) & TARGETWINDOW) == TARGETWINDOW)
                     {
-                        IntPtr windowRegion = CreateRoundRectRgn(0, 0, (int)bounds.Width + 1, (int)bounds.Height + 1, 9, 9);
+                        IntPtr windowRegion = CreateRoundRectRgn(0, 0, (int) bounds.Width + 1, (int) bounds.Height + 1, 9, 9);
                         Region r = Region.FromHrgn(windowRegion);
 
                         r.Complement(bounds);

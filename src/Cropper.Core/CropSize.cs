@@ -31,7 +31,7 @@ namespace Fusion8.Cropper.Core
 
         public bool Equals(CropSize other)
         {
-            return (other.Width == Width && other.Height == Height) ;
+            return (other.Width == Width && other.Height == Height);
         }
 
         public override bool Equals(object obj)
@@ -43,7 +43,7 @@ namespace Fusion8.Cropper.Core
 
         public override int GetHashCode()
         {
-            return width + 29*height;
+            return width + 29 * height;
         }
     }
 }

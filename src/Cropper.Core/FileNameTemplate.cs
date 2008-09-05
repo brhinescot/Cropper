@@ -111,9 +111,9 @@ namespace Fusion8.Cropper.Core
 		{
 			string thumbImageTemplate;
 			if (Configuration.Current.ThumbImageTemplate != null && Configuration.Current.ThumbImageTemplate.Length > 0)
-				thumbImageTemplate = Configuration.Current.ThumbImageTemplate;
+                thumbImageTemplate = Configuration.Current.ThumbImageTemplate;
 			else
-				thumbImageTemplate = DefaultThumbImageTemplate;
+                thumbImageTemplate = DefaultThumbImageTemplate;
 			return thumbImageTemplate;
 		}
 

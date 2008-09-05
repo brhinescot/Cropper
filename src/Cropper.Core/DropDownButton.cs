@@ -149,7 +149,7 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         protected override void OnPaint(PaintEventArgs pe)
         {
-            if(Application.RenderWithVisualStyles)
+            if (Application.RenderWithVisualStyles)
                 ComboBoxRenderer.DrawDropDownButton(
                     pe.Graphics, 
                     ClientRectangle, 

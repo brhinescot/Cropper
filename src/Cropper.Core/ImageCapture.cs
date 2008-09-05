@@ -309,7 +309,7 @@ namespace Fusion8.Cropper.Core
             OnImageCapturing(new ImageCapturingEventArgs());
             using (Image image = NativeMethods.GetDesktopBitmap(hdc, cropAndColor, Color.FromArgb(Configuration.Current.NonFormAreaColorArgb)))
             {
-                if(Configuration.Current.LeavePrintScreenOnClipboard)
+                if (Configuration.Current.LeavePrintScreenOnClipboard)
                     Clipboard.SetImage(image);
 
                 ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, 0.0);
@@ -374,12 +374,12 @@ namespace Fusion8.Cropper.Core
 
             double ratio;
             if (image.Height > image.Width)
-                ratio = image.Height/maxSize;
+                ratio = image.Height / maxSize;
             else
-                ratio = image.Width/maxSize;
+                ratio = image.Width / maxSize;
 
-            int newWidth = Convert.ToInt32(image.Width/ratio);
-            int newHeight = Convert.ToInt32(image.Height/ratio);
+            int newWidth = Convert.ToInt32(image.Width / ratio);
+            int newHeight = Convert.ToInt32(image.Height / ratio);
 
             IntPtr ip = new IntPtr();
             Image.GetThumbnailImageAbort imageAbort = AbortThumb;

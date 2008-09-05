@@ -90,14 +90,14 @@ namespace Fusion8.Cropper.Core
         private Point location = new Point(100, 100);
         private int nonFormAreaColorArgb = Color.White.ToArgb();
         private bool colorNonFormArea = true;
-        private bool alwaysOnTop = false;
+        private bool alwaysOnTop;
         private bool hidden = true;
-        private bool showOpacityMenu = false;
+        private bool showOpacityMenu;
         private bool trapPrintScreen = true;
         private bool leavePrintScreenOnClipboard = true;
         private bool usePerPixelAlpha = true;
         private bool isThumbnailed;
-        private int colorIndex = 0;
+        private int colorIndex;
         private bool hideFormDuringCapture;
         private string outputPath = DefaultOutputPath;
 
@@ -105,6 +105,7 @@ namespace Fusion8.Cropper.Core
         private string fileNameThumbTemplate = FileNameTemplate.DefaultThumbImageTemplate;
 
         private object[] pluginSettings;
+        private HotKeySetting[] hotKeySettings;
         private CircularQueue<CropSize> cropSizeQueue;
 
         private IWin32Window activeCropWindow;
@@ -306,6 +307,14 @@ namespace Fusion8.Cropper.Core
                 foreach (CropSize size in value)
                     cropSizeQueue.Enqueue(size);
             }
+        }
+
+        [XmlArray("HotKeySettings", IsNullable = true), 
+         XmlArrayItem("HotKeySetting", typeof(HotKeySetting))]
+        public HotKeySetting[] HotKeySettings
+        {
+            get { return hotKeySettings; }
+            set { hotKeySettings = value; }
         }
 
         #endregion
