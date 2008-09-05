@@ -111,7 +111,7 @@ namespace Fusion8.Cropper
         private GroupBox outputTemplateGroup;
         private GroupBox hotKeysGroup;
         private Label labelOutputFolder;
-        private Label labelThumbImageTemplate;
+        private Label LabelThumbImageTemplate;
         private Label labelFullImageTemplate;
         private TrackBar opacitySlider;
         private Label opacityValue;
@@ -129,7 +129,7 @@ namespace Fusion8.Cropper
         private TabPage outputTab;
         private TabPage capturesTab;
         private TabPage appearanceTab;
-        private GroupBox opacityGroup;
+        private GroupBox opaityGroup;
         private CheckBox perPixelAlphaBlend;
         private TabPage pluginsTab;
         private ComboBox comboBox1;
@@ -178,30 +178,6 @@ namespace Fusion8.Cropper
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
                 predefinedSizeList.Items.Add(size);
 
-            if(Configuration.Current.HotKeySettings != null)
-            {
-                foreach (string name in Enum.GetNames(typeof(HotKeyAction)))
-                {
-                    bool assigned = false;
-                    foreach (HotKeySetting setting in Configuration.Current.HotKeySettings)
-                    {
-                        if(setting.Action.ToString() != name)
-                            continue;
-                        hotKeySelection1.Items.Add(new ListViewItem(new[] { setting.Action.ToString(), setting.KeyCode, setting.Global.ToString() }));
-                        assigned = true;
-                        break;
-                    }
-                    if(!assigned)
-                        hotKeySelection1.Items.Add(new ListViewItem(new[] { name, string.Empty, "False" }));
-                }                
-            }
-            else
-            {
-                foreach (string name in Enum.GetNames(typeof(HotKeyAction)))
-                    hotKeySelection1.Items.Add(new ListViewItem(new[] {name, string.Empty, "False"}));
-            }
-
-
             SetStrings();
 
             comboBox1.Items.Clear();
@@ -214,7 +190,7 @@ namespace Fusion8.Cropper
             }
             comboBox1.SelectedIndex = 0;
 
-            //AcceptButton = okButton;
+            AcceptButton = okButton;
             CancelButton = cancelButton;
         }
 
@@ -228,7 +204,7 @@ namespace Fusion8.Cropper
 
         private static bool ValidateFileName(string name)
         {
-            return !(name.IndexOfAny(new[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
+            return !(name.IndexOfAny(new char[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
         }
 
         /// <summary>
@@ -255,10 +231,6 @@ namespace Fusion8.Cropper
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Show",
-            string.Empty,
-            "Yes"}, -1);
             this.folder = new System.Windows.Forms.FolderBrowserDialog();
             this.labelOutputFolder = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
@@ -266,7 +238,7 @@ namespace Fusion8.Cropper
             this.labelFullImageTemplate = new System.Windows.Forms.Label();
             this.fullImageTemplate = new System.Windows.Forms.TextBox();
             this.thumbImageTemplate = new System.Windows.Forms.TextBox();
-            this.labelThumbImageTemplate = new System.Windows.Forms.Label();
+            this.LabelThumbImageTemplate = new System.Windows.Forms.Label();
             this.templateMenu = new System.Windows.Forms.ContextMenu();
             this.templateIncrement = new System.Windows.Forms.MenuItem();
             this.templateDate = new System.Windows.Forms.MenuItem();
@@ -315,7 +287,7 @@ namespace Fusion8.Cropper
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.visibilityDescription = new System.Windows.Forms.Label();
             this.hideDuringCapture = new System.Windows.Forms.CheckBox();
-            this.opacityGroup = new System.Windows.Forms.GroupBox();
+            this.opaityGroup = new System.Windows.Forms.GroupBox();
             this.opacityValue = new System.Windows.Forms.Label();
             this.showOpacityMenu = new System.Windows.Forms.CheckBox();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -338,7 +310,7 @@ namespace Fusion8.Cropper
             this.appearanceTab.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.opacityGroup.SuspendLayout();
+            this.opaityGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.keyboardTab.SuspendLayout();
             this.pluginsTab.SuspendLayout();
@@ -350,7 +322,7 @@ namespace Fusion8.Cropper
             this.labelOutputFolder.Name = "labelOutputFolder";
             this.labelOutputFolder.Size = new System.Drawing.Size(208, 23);
             this.labelOutputFolder.TabIndex = 1;
-            this.labelOutputFolder.Text = "&Save screen shots to this folder. ";
+            this.labelOutputFolder.Text = "&Save screenshots to this folder. ";
             // 
             // okButton
             // 
@@ -408,13 +380,13 @@ namespace Fusion8.Cropper
             // 
             // LabelThumbImageTemplate
             // 
-            this.labelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.LabelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelThumbImageTemplate.Location = new System.Drawing.Point(16, 140);
-            this.labelThumbImageTemplate.Name = "labelThumbImageTemplate";
-            this.labelThumbImageTemplate.Size = new System.Drawing.Size(248, 23);
-            this.labelThumbImageTemplate.TabIndex = 4;
-            this.labelThumbImageTemplate.Text = "&Thumbnail image file name template.";
+            this.LabelThumbImageTemplate.Location = new System.Drawing.Point(16, 140);
+            this.LabelThumbImageTemplate.Name = "LabelThumbImageTemplate";
+            this.LabelThumbImageTemplate.Size = new System.Drawing.Size(248, 23);
+            this.LabelThumbImageTemplate.TabIndex = 4;
+            this.LabelThumbImageTemplate.Text = "&Thumbnail image file name template.";
             // 
             // templateMenu
             // 
@@ -533,9 +505,9 @@ namespace Fusion8.Cropper
             this.widthInput.TabIndex = 0;
             this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
             this.widthInput.WordWrap = false;
-            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
-            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             // 
             // heightInput
             // 
@@ -547,9 +519,9 @@ namespace Fusion8.Cropper
             this.heightInput.TabIndex = 2;
             this.toolTip.SetToolTip(this.heightInput, "The height of the crop form.");
             this.heightInput.WordWrap = false;
-            this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
-            this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             this.heightInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             // 
             // fullImageMenuButton
             // 
@@ -640,7 +612,7 @@ namespace Fusion8.Cropper
             this.outputTemplateGroup.Controls.Add(this.fullImageTemplate);
             this.outputTemplateGroup.Controls.Add(this.thumbImageTemplate);
             this.outputTemplateGroup.Controls.Add(this.labelFullImageTemplate);
-            this.outputTemplateGroup.Controls.Add(this.labelThumbImageTemplate);
+            this.outputTemplateGroup.Controls.Add(this.LabelThumbImageTemplate);
             this.outputTemplateGroup.Controls.Add(this.fullImageMenuButton);
             this.outputTemplateGroup.Controls.Add(this.thumbImageMenuButton);
             this.outputTemplateGroup.Location = new System.Drawing.Point(8, 120);
@@ -687,7 +659,7 @@ namespace Fusion8.Cropper
             this.outputFolderDescription.Name = "outputFolderDescription";
             this.outputFolderDescription.Size = new System.Drawing.Size(284, 24);
             this.outputFolderDescription.TabIndex = 0;
-            this.outputFolderDescription.Text = "This is the root folder for all file based screen shots.";
+            this.outputFolderDescription.Text = "This is the root folder for all file based screenshots.";
             // 
             // hotKeysGroup
             // 
@@ -767,7 +739,7 @@ namespace Fusion8.Cropper
             // 
             this.appearanceTab.Controls.Add(this.groupBox2);
             this.appearanceTab.Controls.Add(this.groupBox1);
-            this.appearanceTab.Controls.Add(this.opacityGroup);
+            this.appearanceTab.Controls.Add(this.opaityGroup);
             this.appearanceTab.Location = new System.Drawing.Point(4, 22);
             this.appearanceTab.Name = "appearanceTab";
             this.appearanceTab.Size = new System.Drawing.Size(336, 395);
@@ -867,17 +839,17 @@ namespace Fusion8.Cropper
             // 
             // opaityGroup
             // 
-            this.opacityGroup.Controls.Add(this.opacityValue);
-            this.opacityGroup.Controls.Add(this.showOpacityMenu);
-            this.opacityGroup.Controls.Add(this.opacitySlider);
-            this.opacityGroup.Controls.Add(this.opacityDescription);
-            this.opacityGroup.Controls.Add(this.perPixelAlphaBlend);
-            this.opacityGroup.Location = new System.Drawing.Point(8, 8);
-            this.opacityGroup.Name = "opacityGroup";
-            this.opacityGroup.Size = new System.Drawing.Size(316, 155);
-            this.opacityGroup.TabIndex = 0;
-            this.opacityGroup.TabStop = false;
-            this.opacityGroup.Text = "&Opacity";
+            this.opaityGroup.Controls.Add(this.opacityValue);
+            this.opaityGroup.Controls.Add(this.showOpacityMenu);
+            this.opaityGroup.Controls.Add(this.opacitySlider);
+            this.opaityGroup.Controls.Add(this.opacityDescription);
+            this.opaityGroup.Controls.Add(this.perPixelAlphaBlend);
+            this.opaityGroup.Location = new System.Drawing.Point(8, 8);
+            this.opaityGroup.Name = "opaityGroup";
+            this.opaityGroup.Size = new System.Drawing.Size(316, 155);
+            this.opaityGroup.TabIndex = 0;
+            this.opaityGroup.TabStop = false;
+            this.opaityGroup.Text = "&Opacity";
             // 
             // opacityValue
             // 
@@ -936,22 +908,10 @@ namespace Fusion8.Cropper
             // 
             // hotKeySelection1
             // 
-            this.hotKeySelection1.FocusedItem = null;
-            this.hotKeySelection1.FullRowSelect = true;
-            this.hotKeySelection1.GridLines = true;
-            this.hotKeySelection1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Clickable;
-            this.hotKeySelection1.HideSelection = false;
-            this.hotKeySelection1.HotTracking = false;
-            this.hotKeySelection1.HoverSelection = false;
-            this.hotKeySelection1.Location = new System.Drawing.Point(6, 35);
-            this.hotKeySelection1.MultiSelect = true;
+            this.hotKeySelection1.Location = new System.Drawing.Point(30, 30);
             this.hotKeySelection1.Name = "hotKeySelection1";
-            this.hotKeySelection1.Scrollable = true;
-            this.hotKeySelection1.ShowItemToolTips = false;
-            this.hotKeySelection1.Size = new System.Drawing.Size(324, 354);
-            this.hotKeySelection1.SmallImageList = null;
+            this.hotKeySelection1.Size = new System.Drawing.Size(267, 160);
             this.hotKeySelection1.TabIndex = 0;
-            this.hotKeySelection1.TopItem = listViewItem1;
             // 
             // pluginsTab
             // 
@@ -1015,8 +975,8 @@ namespace Fusion8.Cropper
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.opacityGroup.ResumeLayout(false);
-            this.opacityGroup.PerformLayout();
+            this.opaityGroup.ResumeLayout(false);
+            this.opaityGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.keyboardTab.ResumeLayout(false);
             this.pluginsTab.ResumeLayout(false);
@@ -1059,14 +1019,6 @@ namespace Fusion8.Cropper
             foreach (CropSize size in predefinedSizeList.Items)
                 cropSize.Add(size);
             Configuration.Current.PredefinedSizes = cropSize.ToArray();
-
-            List<HotKeySetting> hotKeySettings = new List<HotKeySetting>();
-            foreach (ListViewItem item in hotKeySelection1.Items)
-            {
-                if (!string.IsNullOrEmpty(item.SubItems[1].Text))
-                    hotKeySettings.Add(new HotKeySetting((HotKeyAction) Enum.Parse(typeof (HotKeyAction), item.SubItems[0].Text), false, item.SubItems[1].Text));
-            }
-            Configuration.Current.HotKeySettings = hotKeySettings.ToArray();
 
             List<object> pluginSettings = new List<object>();
             foreach (IPersistableImageFormat output in ImageCapture.ImageOutputs)
@@ -1242,7 +1194,18 @@ namespace Fusion8.Cropper
                 Convert.ToInt32(heightInput.Text));
 
             if (!predefinedSizeList.Items.Contains(size))
+            {
                 predefinedSizeList.Items.Add(size);
+
+                List<CropSize> cropSize = new List<CropSize>();
+                foreach (CropSize item in predefinedSizeList.Items)
+                    cropSize.Add(item);
+                predefinedSizeList.Items.Clear();
+                CropSize[] sizes = cropSize.ToArray();
+                Array.Sort(sizes);
+                foreach (CropSize item in sizes)
+                    predefinedSizeList.Items.Add(item);
+            }
 
             widthInput.Focus();
         }

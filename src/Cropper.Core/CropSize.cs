@@ -1,7 +1,7 @@
 using System;
 namespace Fusion8.Cropper.Core
 {
-    public struct CropSize : IEquatable<CropSize>
+    public struct CropSize : IEquatable<CropSize>, IComparable<CropSize>
     {
         private int width;
         private int height;
@@ -31,7 +31,12 @@ namespace Fusion8.Cropper.Core
 
         public bool Equals(CropSize other)
         {
-            return (other.Width == Width && other.Height == Height);
+            return (other.Width == Width && other.Height == Height) ;
+        }
+
+        public int CompareTo(CropSize other)
+        {
+            return (Width - other.Width != 0) ? (Width - other.Width) : (Height - other.Height);
         }
 
         public override bool Equals(object obj)
@@ -43,7 +48,7 @@ namespace Fusion8.Cropper.Core
 
         public override int GetHashCode()
         {
-            return width + 29 * height;
+            return width + 29*height;
         }
     }
 }
