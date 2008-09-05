@@ -59,7 +59,6 @@ In return, we simply require that you agree:
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -315,8 +314,6 @@ namespace Fusion8.Cropper
 			AddTopLevelMenuItem(SR.MenuOnTop, HandleMenuOnTopClick).Checked = TopMost;
             AddTopLevelMenuItem(SR.MenuInvert, HandleMenuInvertClick);
             MenuItem predefinedSizes = AddTopLevelMenuItem(SR.MenuSize, null);
-            AddSubMenuItem(predefinedSizes, "Current", HandleMenuSizeCurrentClick);
-            AddSubMenuItem(predefinedSizes, SR.MenuSeperator, null);
 		    if(Configuration.Current.PredefinedSizes.Length == 0)
 		    {
 		        MenuItem nextSize = AddSubMenuItem(predefinedSizes, "None Defined", null);
@@ -467,23 +464,7 @@ namespace Fusion8.Cropper
             VisibleClientSize = new Size(size.Width, size.Height);
 		}
 
-        private void HandleMenuSizeCurrentClick(object sender, EventArgs e)
-        {
-            CropSize size = new CropSize(VisibleClientSize.Width, VisibleClientSize.Height);
-            List<CropSize> list = new List<CropSize>(Configuration.Current.PredefinedSizes);
-            if (list.Contains(size))
-                return;
-
-            list.Add(size);
-            CropSize[] cropSizes = list.ToArray();
-
-            //Array.Sort(cropSizes);
-
-            Configuration.Current.PredefinedSizes = cropSizes;
-            RefreshMenuItems();
-        }
-
-	    private void HandleMenuOptionsClick(object sender, EventArgs e)
+		private void HandleMenuOptionsClick(object sender, EventArgs e)
 		{
 			ShowOptionsDialog();
 		}
@@ -524,7 +505,8 @@ namespace Fusion8.Cropper
 		{
 			EnsureMinimumDialogWidth();
 			showHelp = true;
-			PaintLayeredWindow();
+            PaintLayeredWindow();
+            CycleFormVisibility(false);
 		}
 
 		private void HandleMenuAboutClick(object sender, EventArgs e)
@@ -532,6 +514,7 @@ namespace Fusion8.Cropper
 			EnsureMinimumDialogWidth();
 			showAbout = true;
 			PaintLayeredWindow();
+            CycleFormVisibility(false);
 		}
 
         private static void HandleMenuHelpWebClick(object sender, EventArgs e)
