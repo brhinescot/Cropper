@@ -1,4 +1,4 @@
-#region License Information 
+#region License Information
 
 /**********************************************************************************
 Shared Source License for Cropper
@@ -68,367 +68,371 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Core
 {
-    /// <summary>
-    /// Represents a class for managing the capturing and saving of screenshots.
-    /// </summary>
-    public class ImageCapture : Component, IPersistableOutput
-    {
-        #region Member Fields
+	/// <summary>
+	/// Represents a class for managing the capturing and saving of screenshots.
+	/// </summary>
+	public class ImageCapture : Component, IPersistableOutput
+	{
+		#region Member Fields
 
-        private IPersistableImageFormat imageFormat;
-        private Rectangle captureRectangle;
-        private readonly FileNameTemplate template = new FileNameTemplate();
-        private string lastImageCaptured;
+		private IPersistableImageFormat imageFormat;
+		private Rectangle captureRectangle;
+		private readonly FileNameTemplate template = new FileNameTemplate();
+		private string lastImageCaptured;
 
-        private static readonly ImageOutputCollection imageOutputCollection;
+		private static ImageOutputCollection imageOutputCollection;
 
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private Container components;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private Container components;
 
-        #endregion
+		#endregion
 
-        #region Property Accessors
+		#region Property Accessors
 
-        /// <summary>
-        /// The <see cref="IPersistableImageFormat"/>object to use when saving an image.
-        /// </summary>
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPersistableImageFormat ImageFormat
-        {
-            get { return imageFormat; }
-            set
-            {
-                if (imageFormat != null)
-                    imageFormat.Disconnect();
-                imageFormat = value;
-                if (imageFormat != null)
-                {
-                    imageFormat.Connect(this);
-                    OnImageCaptureInitialized(new EventArgs());
-                }
-            }
-        }
+		/// <summary>
+		/// The <see cref="IPersistableImageFormat"/>object to use when saving an image.
+		/// </summary>
+		[Browsable(false),
+		 DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public IPersistableImageFormat ImageFormat
+		{
+			get { return imageFormat; }
+			set
+			{
+				if (imageFormat != null)
+					imageFormat.Disconnect();
+				imageFormat = value;
+				if (imageFormat != null)
+				{
+					imageFormat.Connect(this);
+					OnImageCaptureInitialized(new EventArgs());
+				}
+			}
+		}
 
-        /// <summary>
-        /// A collection of loaded image output plugins.
-        /// </summary>
-        public static ImageOutputCollection ImageOutputs
-        {
-            get { return imageOutputCollection; }
-        }
+		/// <summary>
+		/// A collection of loaded image output plugins.
+		/// </summary>
+		public static ImageOutputCollection ImageOutputs
+		{
+			get
+			{
+				EnsureOutputsLoaded();
+				return imageOutputCollection;
+			}
+		}
 
-        /// <summary>
-        /// Last image captured
-        /// </summary>
-        public string LastImageCaptured
-        {
-            get { return lastImageCaptured; }
-        }
+		private static void EnsureOutputsLoaded()
+		{
+			if (imageOutputCollection == null)
+			{
+				imageOutputCollection = Plugins.Load();
+				foreach (IPersistableImageFormat format in imageOutputCollection)
+				{
+					IConfigurablePlugin plugin = format as IConfigurablePlugin;
+					if (plugin != null && plugin.Settings != null)
+					{
+						object settings = Configuration.Current.RetrieveSettingsForPlugin(plugin.Settings.GetType());
+						if (settings != null)
+							plugin.Settings = settings;
+					}
+				}
+			}
+		}
 
-        #endregion
+		/// <summary>
+		/// Last image captured
+		/// </summary>
+		public string LastImageCaptured
+		{
+			get { return lastImageCaptured; }
+		}
 
-        #region .ctors
+		#endregion
 
-        #region .cctor
+		#region .ctors
 
-        static ImageCapture()
-        {
-            imageOutputCollection = Plugins.Load();
-            foreach (IPersistableImageFormat format in imageOutputCollection)
-            {
-                IConfigurablePlugin plugin = format as IConfigurablePlugin;
-                if (plugin != null && plugin.Settings != null)
-                {
-                    object settings = Configuration.Current.RetrieveSettingsForPlugin(plugin.Settings.GetType());
-                    if (settings != null)
-                        plugin.Settings = settings;
-                }
-            }
-        }
+		public ImageCapture(IContainer container)
+			: this()
+		{
+			container.Add(this);
+		}
 
-        #endregion
+		public ImageCapture()
+		{
+			InitializeComponent();
+		}
 
-        public ImageCapture(IContainer container) : this()
-        {
-            container.Add(this);
-        }
+		#endregion
 
-        public ImageCapture()
-        {
-            InitializeComponent();
-        }
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new Container();
+		}
 
-        #endregion
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose(disposing);
+		}
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            components = new Container();
-        }
+		#region Capture Overloads
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(Rectangle captureArea)
+		{
+			Capture(captureArea.Location, captureArea.Size);
+		}
 
-        #region Capture Overloads
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(Point location, Size size)
+		{
+			Capture(location.X, location.Y, size.Width, size.Height);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(Rectangle captureArea)
-        {
-            Capture(captureArea.Location, captureArea.Size);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(int x, int y, int width, int height)
+		{
+			Capture(x, y, width, height, 0.0);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(Point location, Size size)
-        {
-            Capture(location.X, location.Y, size.Width, size.Height);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <param name="captureArea"></param>
+		/// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(Rectangle captureArea, double maxThumbnailSize)
+		{
+			Capture(captureArea.X, captureArea.Y, captureArea.Width, captureArea.Height, maxThumbnailSize);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(int x, int y, int width, int height)
-        {
-            Capture(x, y, width, height, 0.0);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <param name="location"></param>
+		/// <param name="size"></param>
+		/// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(Point location, Size size, double maxThumbnailSize)
+		{
+			Capture(location.X, location.Y, size.Width, size.Height, maxThumbnailSize);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <param name="captureArea"></param>
-        /// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(Rectangle captureArea, double maxThumbnailSize)
-        {
-            Capture(captureArea.X, captureArea.Y, captureArea.Width, captureArea.Height, maxThumbnailSize);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void Capture(int x, int y, int width, int height, double maxThumbnailSize)
+		{
+			if (ImageFormat == null)
+				throw new InvalidOperationException(SR.ExceptionImageFormatNull);
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <param name="location"></param>
-        /// <param name="size"></param>
-        /// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(Point location, Size size, double maxThumbnailSize)
-        {
-            Capture(location.X, location.Y, size.Width, size.Height, maxThumbnailSize);
-        }
+			captureRectangle = new Rectangle(x, y, width, height);
+			OnImageCapturing(new ImageCapturingEventArgs());
+			using (Image image = NativeMethods.GetDesktopBitmap(x, y, width, height))
+			{
+				ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, maxThumbnailSize);
+				OnImageCaptured(imageCapturedEventArgs);
+			}
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="maxThumbnailSize">A double representing the maximum thumbnail size.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void Capture(int x, int y, int width, int height, double maxThumbnailSize)
-        {
-            if (ImageFormat == null)
-                throw new InvalidOperationException(SR.ExceptionImageFormatNull);
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void CaptureDesktop()
+		{
+			if (ImageFormat == null)
+				throw new InvalidOperationException(SR.ExceptionImageFormatNull);
+			CaptureByHdc(NativeMethods.FindWindow(null, "Program Manager"), false);
+		}
 
-            captureRectangle = new Rectangle(x, y, width, height);
-            OnImageCapturing(new ImageCapturingEventArgs());
-            using (Image image = NativeMethods.GetDesktopBitmap(x, y, width, height))
-            {
-                ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, maxThumbnailSize);
-                OnImageCaptured(imageCapturedEventArgs);
-            }
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void CaptureForegroundForm()
+		{
+			if (ImageFormat == null)
+				throw new InvalidOperationException(SR.ExceptionImageFormatNull);
+			CaptureByHdc(NativeMethods.GetForegroundWindow(), Configuration.Current.ColorNonFormArea);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void CaptureDesktop()
-        {
-            if (ImageFormat == null)
-                throw new InvalidOperationException(SR.ExceptionImageFormatNull);
-            CaptureByHdc(NativeMethods.FindWindow(null, "Program Manager"), false);
-        }
+		/// <summary>
+		/// Captures a screenshot and raises events that notify the loaded plugin.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
+		/// has not been properly set.</exception>
+		public void CaptureWindowAtPoint(Point windowLocation)
+		{
+			if (ImageFormat == null)
+				throw new InvalidOperationException(SR.ExceptionImageFormatNull);
+			CaptureByHdc(NativeMethods.WindowFromPoint((NativeMethods.POINT)windowLocation), Configuration.Current.ColorNonFormArea);
+		}
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void CaptureForegroundForm()
-        {
-            if (ImageFormat == null)
-                throw new InvalidOperationException(SR.ExceptionImageFormatNull);
-            CaptureByHdc(NativeMethods.GetForegroundWindow(), Configuration.Current.ColorNonFormArea);
-        }
+		private void CaptureByHdc(IntPtr hdc, bool cropAndColor)
+		{
+			OnImageCapturing(new ImageCapturingEventArgs());
+			using (Image image = NativeMethods.GetDesktopBitmap(hdc, cropAndColor, Color.FromArgb(Configuration.Current.NonFormAreaColorArgb)))
+			{
+				if (Configuration.Current.LeavePrintScreenOnClipboard)
+					Clipboard.SetImage(image);
 
-        /// <summary>
-        /// Captures a screenshot and raises events that notify the loaded plugin.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the <see cref="ImageFormat"/> 
-        /// has not been properly set.</exception>
-        public void CaptureWindowAtPoint(Point windowLocation)
-        {
-            if (ImageFormat == null)
-                throw new InvalidOperationException(SR.ExceptionImageFormatNull);
-            CaptureByHdc(NativeMethods.WindowFromPoint((NativeMethods.POINT) windowLocation), Configuration.Current.ColorNonFormArea);
-        }
+				ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, 0.0);
+				OnImageCaptured(imageCapturedEventArgs);
+			}
+		}
 
-        private void CaptureByHdc(IntPtr hdc, bool cropAndColor)
-        {
-            OnImageCapturing(new ImageCapturingEventArgs());
-            using (Image image = NativeMethods.GetDesktopBitmap(hdc, cropAndColor, Color.FromArgb(Configuration.Current.NonFormAreaColorArgb)))
-            {
-                if (Configuration.Current.LeavePrintScreenOnClipboard)
-                    Clipboard.SetImage(image);
+		private ImageCapturedEventArgs ProcessCapturedImage(Image image, double maxThumbnailSize)
+		{
+			ImageCapturedEventArgs imageCapturedEventArgs = new ImageCapturedEventArgs();
+			imageCapturedEventArgs.ImageNames = template.Parse(ImageFormat.Extension);
+			imageCapturedEventArgs.FullSizeImage = image;
+			imageCapturedEventArgs.IsThumbnailed = (maxThumbnailSize > 0.0);
+			if (imageCapturedEventArgs.IsThumbnailed)
+				imageCapturedEventArgs.ThumbnailImage = CreateThumbnailImage(image, maxThumbnailSize);
+			lastImageCaptured = imageCapturedEventArgs.ImageNames.FullSize;
+			return imageCapturedEventArgs;
+		}
 
-                ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, 0.0);
-                OnImageCaptured(imageCapturedEventArgs);
-            }
-        }
+		#endregion
 
-        private ImageCapturedEventArgs ProcessCapturedImage(Image image, double maxThumbnailSize)
-        {
-            ImageCapturedEventArgs imageCapturedEventArgs = new ImageCapturedEventArgs();
-            imageCapturedEventArgs.ImageNames = template.Parse(ImageFormat.Extension);
-            imageCapturedEventArgs.FullSizeImage = image;
-            imageCapturedEventArgs.IsThumbnailed = (maxThumbnailSize > 0.0);
-            if (imageCapturedEventArgs.IsThumbnailed)
-                imageCapturedEventArgs.ThumbnailImage = CreateThumbnailImage(image, maxThumbnailSize);
-            lastImageCaptured = imageCapturedEventArgs.ImageNames.FullSize;
-            return imageCapturedEventArgs;
-        }
+		/// <summary>
+		/// Retrieves another cropped image once a capture has been initialized.
+		/// </summary>
+		/// <param name="imageHandler">An <see cref="ImageHandler"/> delegate containing the 
+		/// method to call once the image is retrieved.</param>
+		void IPersistableOutput.FetchCapture(ImageHandler imageHandler)
+		{
+			using (Image image = NativeMethods.GetDesktopBitmap(captureRectangle))
+				imageHandler(image);
+		}
 
-        #endregion
+		/// <summary>
+		/// Retrieves a stream for saving an image.
+		/// </summary>
+		/// <param name="streamHandler">A <see cref="StreamHandler"/>Delegate containg the method to call 
+		/// when the stream is retrieved and the image to pass to the callback.</param>
+		/// <param name="fileName">The image's file name.</param>
+		/// <param name="image">The image to return to the callback method.</param>
+		public void FetchOutputStream(StreamHandler streamHandler, string fileName, Image image)
+		{
+			if (streamHandler == null)
+				throw new ArgumentNullException("streamHandler");
 
-        /// <summary>
-        /// Retrieves another cropped image once a capture has been initialized.
-        /// </summary>
-        /// <param name="imageHandler">An <see cref="ImageHandler"/> delegate containing the 
-        /// method to call once the image is retrieved.</param>
-        void IPersistableOutput.FetchCapture(ImageHandler imageHandler)
-        {
-            using (Image image = NativeMethods.GetDesktopBitmap(captureRectangle))
-                imageHandler(image);
-        }
+			if (fileName == null)
+				throw new ArgumentNullException("fileName");
 
-        /// <summary>
-        /// Retrieves a stream for saving an image.
-        /// </summary>
-        /// <param name="streamHandler">A <see cref="StreamHandler"/>Delegate containg the method to call 
-        /// when the stream is retrieved and the image to pass to the callback.</param>
-        /// <param name="fileName">The image's file name.</param>
-        /// <param name="image">The image to return to the callback method.</param>
-        public void FetchOutputStream(StreamHandler streamHandler, string fileName, Image image)
-        {
-            if (streamHandler == null)
-                throw new ArgumentNullException("streamHandler");
+			if (image == null)
+				throw new ArgumentNullException("image");
 
-            if (fileName == null)
-                throw new ArgumentNullException("fileName");
+			using (FileStream stream = File.Open(fileName, FileMode.Create))
+				streamHandler(stream, image);
+		}
 
-            if (image == null)
-                throw new ArgumentNullException("image");
+		private static Image CreateThumbnailImage(Image image, double maxSize)
+		{
+			if (maxSize < 0 || maxSize > Int32.MaxValue)
+				throw new ArgumentOutOfRangeException(
+						"maxSize",
+						maxSize,
+						SR.ExeptionThumbnailSizeOutOfRange);
 
-            using (FileStream stream = File.Open(fileName, FileMode.Create))
-                streamHandler(stream, image);
-        }
+			double ratio;
+			if (image.Height > image.Width)
+				ratio = image.Height / maxSize;
+			else
+				ratio = image.Width / maxSize;
 
-        private static Image CreateThumbnailImage(Image image, double maxSize)
-        {
-            if (maxSize < 0 || maxSize > Int32.MaxValue)
-                throw new ArgumentOutOfRangeException(
-                    "maxSize",
-                    maxSize,
-                    SR.ExeptionThumbnailSizeOutOfRange);
+			int newWidth = Convert.ToInt32(image.Width / ratio);
+			int newHeight = Convert.ToInt32(image.Height / ratio);
 
-            double ratio;
-            if (image.Height > image.Width)
-                ratio = image.Height / maxSize;
-            else
-                ratio = image.Width / maxSize;
+			IntPtr ip = new IntPtr();
+			Image.GetThumbnailImageAbort imageAbort = AbortThumb;
 
-            int newWidth = Convert.ToInt32(image.Width / ratio);
-            int newHeight = Convert.ToInt32(image.Height / ratio);
+			return image.GetThumbnailImage(newWidth, newHeight, imageAbort, ip);
+		}
 
-            IntPtr ip = new IntPtr();
-            Image.GetThumbnailImageAbort imageAbort = AbortThumb;
+		//Never called in this version of GDI+, but needed.
+		//
+		private static bool AbortThumb()
+		{
+			return false;
+		}
 
-            return image.GetThumbnailImage(newWidth, newHeight, imageAbort, ip);
-        }
+		#region Event Declarations
 
-        //Never called in this version of GDI+, but needed.
-        //
-        private static bool AbortThumb()
-        {
-            return false;
-        }
+		public event ImageCapturingEventHandler ImageCapturing;
+		public event ImageCapturedEventHandler ImageCaptured;
+		public event ImageCaptureInitializedEventHandler ImageCaptureInitialized;
 
-        #region Event Declarations
+		#endregion
 
-        public event ImageCapturingEventHandler ImageCapturing;
-        public event ImageCapturedEventHandler ImageCaptured;
-        public event ImageCaptureInitializedEventHandler ImageCaptureInitialized;
+		#region Events
 
-        #endregion
+		protected void OnImageCaptureInitialized(EventArgs e)
+		{
+			ImageCaptureInitializedEventHandler handler = ImageCaptureInitialized;
+			if (handler != null)
+				handler(this, e);
+		}
 
-        #region Events
+		protected void OnImageCapturing(ImageCapturingEventArgs e)
+		{
+			ImageCapturingEventHandler handler = ImageCapturing;
+			if (handler != null)
+				handler(this, e);
+		}
 
-        protected void OnImageCaptureInitialized(EventArgs e)
-        {
-            ImageCaptureInitializedEventHandler handler = ImageCaptureInitialized;
-            if (handler != null)
-                handler(this, e);
-        }
+		protected void OnImageCaptured(ImageCapturedEventArgs e)
+		{
+			ImageCapturedEventHandler handler = ImageCaptured;
+			if (handler != null)
+				handler(this, e);
+		}
 
-        protected void OnImageCapturing(ImageCapturingEventArgs e)
-        {
-            ImageCapturingEventHandler handler = ImageCapturing;
-            if (handler != null)
-                handler(this, e);
-        }
+		#endregion
 
-        protected void OnImageCaptured(ImageCapturedEventArgs e)
-        {
-            ImageCapturedEventHandler handler = ImageCaptured;
-            if (handler != null)
-                handler(this, e);
-        }
+		#region Internal Classes
 
-        #endregion
-
-        #region Internal Classes
-
-        #endregion
-    }
+		#endregion
+	}
 }
