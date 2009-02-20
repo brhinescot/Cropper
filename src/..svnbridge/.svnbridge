@@ -2,4 +2,10 @@
 Cropper.4.0.resharper
 Cropper.4.0.resharper.user
 *.suo
+</Value></Property><Property><Name>svn:ignore</Name><Value>_ReSharper.Cropper
+Cropper.4.0.resharper
+Cropper.4.0.resharper.user
+*.suo
+Cropper.4.5.resharper
+Cropper.4.5.resharper.user
 </Value></Property></Properties></ItemProperties>
