@@ -14,6 +14,7 @@ namespace Fusion8.Cropper.Core
         {
             InitializeComponent();
 //            shortcutList.Items[0].Selected = true;
+            Enabled = false;
         }
 
         ///<summary>
