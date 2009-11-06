@@ -74,7 +74,7 @@ namespace Fusion8.Cropper
 	public class PngFormat : IPersistableImageFormat
 	{
 		private IPersistableOutput output;
-		private const string FormatName = "Png";
+		private const string FormatName = "png";
 		public event ImageFormatClickEventHandler ImageFormatClick;
 
 		public IPersistableImageFormat Format

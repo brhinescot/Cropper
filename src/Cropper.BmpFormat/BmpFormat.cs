@@ -72,7 +72,7 @@ namespace Fusion8.Cropper
 	/// </summary>
 	public class BmpFormat : DesignablePlugin
 	{
-		private const string FormatName = "Bmp";
+		private const string FormatName = "bmp";
 		private const string Desc = "Bmp";
 
 		private IPersistableOutput output;
