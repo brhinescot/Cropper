@@ -98,7 +98,7 @@ namespace Fusion8.Cropper
 			{
 				MenuItem mi = new MenuItem();
 				mi.RadioCheck = true;
-				mi.Text = FormatName;
+				mi.Text = Description;
 				mi.Click += MenuItemClick;
 				return mi;
 			}
