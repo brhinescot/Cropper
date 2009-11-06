@@ -78,7 +78,6 @@ namespace Fusion8.Cropper
 
         private IPersistableOutput output;
         private long imageQuality = 80L;
-        private const string FormatName = "Jpg";
         private const string EncoderType = "image/jpeg";
         private const int EncoderParameterCount = 1;
         private MenuItem menuItem;
@@ -112,7 +111,7 @@ namespace Fusion8.Cropper
                     return menuItem;
 
                 menuItem = new MenuItem();
-                menuItem.Text = FormatName;
+                menuItem.Text = Description;
                 MenuItem subMenu = new MenuItem("Quality");
                 subMenu.Enabled = false;
                 menuItem.MenuItems.Add(subMenu);
