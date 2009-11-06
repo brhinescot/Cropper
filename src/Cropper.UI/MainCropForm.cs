@@ -420,6 +420,7 @@ namespace Fusion8.Cropper
 		{
 			if (Visible && allowHide)
 			{
+				DialogCloseIfNeeded();
 				showHideMenu.Text = SR.MenuShow;
 				Hide();
 				Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
@@ -522,16 +523,12 @@ namespace Fusion8.Cropper
 
 		private void HandleMenuHelpClick(object sender, EventArgs e)
 		{
-			EnsureMinimumDialogWidth();
-			showHelp = true;
-			PaintLayeredWindow();
+			DialogShow(b => showHelp = b);
 		}
 
 		private void HandleMenuAboutClick(object sender, EventArgs e)
 		{
-			EnsureMinimumDialogWidth();
-			showAbout = true;
-			PaintLayeredWindow();
+			DialogShow(b => showAbout = b);
 		}
 
         private static void HandleMenuHelpWebClick(object sender, EventArgs e)
@@ -1050,12 +1047,32 @@ namespace Fusion8.Cropper
 		{
 			if (IsMouseInRectangle(dialogCloseRectangle))
 			{
-				VisibleClientSize = userFormSize;
-				dialogCloseRectangle.Inflate(-dialogCloseRectangle.Size.Width, -dialogCloseRectangle.Size.Height);
-				showAbout = false;
-				showHelp = false;
-				PaintLayeredWindow();
+				DialogClose();
 			}
+		}
+
+		private void DialogClose()
+		{
+			VisibleClientSize = userFormSize;
+			dialogCloseRectangle.Inflate(-dialogCloseRectangle.Size.Width, -dialogCloseRectangle.Size.Height);
+			showAbout = false;
+			showHelp = false;
+			PaintLayeredWindow();
+		}
+
+		private void DialogCloseIfNeeded()
+		{
+			if (showHelp || showAbout)
+				DialogClose();
+		}
+
+		private void DialogShow(Action<bool> setTheFlag)
+		{
+			DialogCloseIfNeeded();
+			EnsureMinimumDialogWidth();
+			setTheFlag(true);
+			PaintLayeredWindow();
+			CycleFormVisibility(false);
 		}
 
 		private void ApplyConfiguration()
