@@ -1034,6 +1034,9 @@ namespace Fusion8.Cropper
                 if (currentlyVisibile)
                     Show();
 
+                if (Visible && Configuration.Current.HideFormAfterCapture)
+                    Hide();
+
 				highlight = false;
 				PaintLayeredWindow();
 			}

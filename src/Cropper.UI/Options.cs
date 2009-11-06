@@ -140,6 +140,7 @@ namespace Fusion8.Cropper
         private GroupBox groupBox1;
         private Label visibilityDescription;
         private CheckBox hideDuringCapture;
+        private CheckBox hideAfterCapture;
         private GroupBox groupBox2;
         private Button buttonRemoveSize;
         private Button buttonAddSize;
@@ -151,6 +152,7 @@ namespace Fusion8.Cropper
 
         private static readonly Regex isNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
         private Label label2;
+        private Label label3;
         private TabPage keyboardTab;
         private HotKeySelection hotKeySelection1;
         private bool addingSize;
@@ -173,6 +175,7 @@ namespace Fusion8.Cropper
             trapPrintScreen.Checked = Configuration.Current.TrapPrintScreen;
             perPixelAlphaBlend.Checked = Configuration.Current.UsePerPixelAlpha;
             hideDuringCapture.Checked = Configuration.Current.HideFormDuringCapture;
+            hideAfterCapture.Checked = Configuration.Current.HideFormAfterCapture;
             keepPrntScrnOnClipboard.Checked = Configuration.Current.LeavePrintScreenOnClipboard;
 
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
@@ -279,6 +282,7 @@ namespace Fusion8.Cropper
             this.capturesTab = new System.Windows.Forms.TabPage();
             this.appearanceTab = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRemoveSize = new System.Windows.Forms.Button();
@@ -287,6 +291,7 @@ namespace Fusion8.Cropper
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.visibilityDescription = new System.Windows.Forms.Label();
             this.hideDuringCapture = new System.Windows.Forms.CheckBox();
+            this.hideAfterCapture = new System.Windows.Forms.CheckBox();
             this.opaityGroup = new System.Windows.Forms.GroupBox();
             this.opacityValue = new System.Windows.Forms.Label();
             this.showOpacityMenu = new System.Windows.Forms.CheckBox();
@@ -811,7 +816,9 @@ namespace Fusion8.Cropper
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.visibilityDescription);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.hideDuringCapture);
+            this.groupBox1.Controls.Add(this.hideAfterCapture);
             this.groupBox1.Location = new System.Drawing.Point(8, 169);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(316, 93);
@@ -830,12 +837,30 @@ namespace Fusion8.Cropper
             // hideDuringCapture
             // 
             this.hideDuringCapture.AutoSize = true;
-            this.hideDuringCapture.Location = new System.Drawing.Point(19, 67);
+            this.hideDuringCapture.Location = new System.Drawing.Point(115, 67);
             this.hideDuringCapture.Name = "hideDuringCapture";
-            this.hideDuringCapture.Size = new System.Drawing.Size(182, 17);
+            this.hideDuringCapture.Size = new System.Drawing.Size(94, 17);
             this.hideDuringCapture.TabIndex = 1;
-            this.hideDuringCapture.Text = "&Hide crop window during capture";
+            this.hideDuringCapture.Text = "&during capture";
             this.hideDuringCapture.UseVisualStyleBackColor = true;
+            // 
+            // hideAfterCapture
+            // 
+            this.hideAfterCapture.AutoSize = true;
+            this.hideAfterCapture.Location = new System.Drawing.Point(214, 67);
+            this.hideAfterCapture.Name = "hideAfterCapture";
+            this.hideAfterCapture.Size = new System.Drawing.Size(86, 17);
+            this.hideAfterCapture.TabIndex = 2;
+            this.hideAfterCapture.Text = "&after capture";
+            this.hideAfterCapture.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(16, 68);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 16);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Hide crop window";
             // 
             // opaityGroup
             // 
@@ -1013,6 +1038,7 @@ namespace Fusion8.Cropper
             Configuration.Current.TrapPrintScreen = trapPrintScreen.Checked;
             Configuration.Current.UsePerPixelAlpha = perPixelAlphaBlend.Checked;
             Configuration.Current.HideFormDuringCapture = hideDuringCapture.Checked;
+            Configuration.Current.HideFormAfterCapture = hideAfterCapture.Checked;
             Configuration.Current.LeavePrintScreenOnClipboard = keepPrntScrnOnClipboard.Checked;
 
             List<CropSize> cropSize = new List<CropSize>();

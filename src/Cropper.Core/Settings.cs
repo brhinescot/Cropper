@@ -99,6 +99,7 @@ namespace Fusion8.Cropper.Core
         private bool isThumbnailed;
         private int colorIndex;
         private bool hideFormDuringCapture;
+        private bool hideFormAfterCapture;
         private string outputPath = DefaultOutputPath;
 
         private string fileNameTemplate = FileNameTemplate.DefaultFullImageTemplate;
@@ -281,6 +282,13 @@ namespace Fusion8.Cropper.Core
         {
             get { return hideFormDuringCapture; }
             set { hideFormDuringCapture = value; }
+        }
+
+        [XmlElement("HideFormAfterCapture", typeof(bool))]
+        public bool HideFormAfterCapture
+        {
+            get { return hideFormAfterCapture; }
+            set { hideFormAfterCapture = value; }
         }
 
         [XmlArray("PluginSettings")]
