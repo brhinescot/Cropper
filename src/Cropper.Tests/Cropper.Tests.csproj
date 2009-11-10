@@ -68,6 +68,7 @@
     <Compile Include="Extensibility\ImageCaptureInitializesEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageFormatEventArgsTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
+    <Compile Include="JpgFormat\JpegSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cropper.ClipboardFormat\Cropper.ClipboardFormat.csproj">
@@ -81,6 +82,10 @@
     <ProjectReference Include="..\Cropper.Extensibility\Cropper.Extensibility.csproj">
       <Project>{3956A306-228F-419A-AE19-717BE1CAF9F7}</Project>
       <Name>Cropper.Extensibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cropper.JpgFormat\Cropper.JpgFormat.csproj">
+      <Project>{88AA2BDF-12FB-4105-B95F-7985F4BDFD4F}</Project>
+      <Name>Cropper.JpgFormat</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
