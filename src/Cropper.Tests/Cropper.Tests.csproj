@@ -62,12 +62,17 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="Extensibility\ImageCapturedEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageCaptureInitializesEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageFormatEventArgsTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cropper.Core\Cropper.Core.csproj">
+      <Project>{930E83DA-4C59-4A7F-A082-5FDCC99524D4}</Project>
+      <Name>Cropper.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cropper.Extensibility\Cropper.Extensibility.csproj">
       <Project>{3956A306-228F-419A-AE19-717BE1CAF9F7}</Project>
       <Name>Cropper.Extensibility</Name>
