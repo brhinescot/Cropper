@@ -63,12 +63,17 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Core\CropSizeTests.cs" />
+    <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
     <Compile Include="Extensibility\ImageCapturedEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageCaptureInitializesEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageFormatEventArgsTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cropper.ClipboardFormat\Cropper.ClipboardFormat.csproj">
+      <Project>{1DEC5341-1E24-4297-B4CF-7660079E3FB8}</Project>
+      <Name>Cropper.ClipboardFormat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cropper.Core\Cropper.Core.csproj">
       <Project>{930E83DA-4C59-4A7F-A082-5FDCC99524D4}</Project>
       <Name>Cropper.Core</Name>
