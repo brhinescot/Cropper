@@ -62,6 +62,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BmpFormat\BmpFormatTests.cs" />
     <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
     <Compile Include="Extensibility\ImageCapturedEventArgsTests.cs" />
@@ -71,6 +72,10 @@
     <Compile Include="JpgFormat\JpegSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cropper.BmpFormat\Cropper.BmpFormat.csproj">
+      <Project>{59B6DA9E-22DB-4A43-B8FF-A847CD4EBA42}</Project>
+      <Name>Cropper.BmpFormat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cropper.ClipboardFormat\Cropper.ClipboardFormat.csproj">
       <Project>{1DEC5341-1E24-4297-B4CF-7660079E3FB8}</Project>
       <Name>Cropper.ClipboardFormat</Name>
