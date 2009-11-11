@@ -57,7 +57,7 @@ In return, we simply require that you agree:
 
 using NUnit.Framework;
 
-namespace Fusion8.Cropper.JpgFormat
+namespace Fusion8.Cropper
 {
     [TestFixture]
     public class JpegSettingsTests
