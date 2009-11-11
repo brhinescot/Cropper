@@ -71,6 +71,7 @@
     <Compile Include="Extensibility\ImageFormatEventArgsTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
     <Compile Include="JpgFormat\JpegSettingsTests.cs" />
+    <Compile Include="JpgFormat\JpgFormatTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cropper.BmpFormat\Cropper.BmpFormat.csproj">
