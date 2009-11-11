@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BmpFormat\BmpFormatTests.cs" />
+    <Compile Include="ClipboardFormat\ClipboardFormatTests.cs" />
     <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
     <Compile Include="Extensibility\ImageCapturedEventArgsTests.cs" />
