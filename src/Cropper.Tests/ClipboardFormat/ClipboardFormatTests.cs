@@ -92,10 +92,18 @@ namespace Fusion8.Cropper
         }
 
         [Test]
+        public void HostInOptions_is_true()
+        {
+            ClipboardFormat format = new ClipboardFormat();
+
+            Assert.IsTrue(format.HostInOptions);
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Connect_throws_exception_when_IPersistableOutput_is_null()
         {
-            new BmpFormat().Connect(null);
+            new ClipboardFormat().Connect(null);
         }
 
         [Test]
