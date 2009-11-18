@@ -66,6 +66,7 @@
     <Compile Include="ClipboardFormat\ClipboardFormatTests.cs" />
     <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
+    <Compile Include="Core\FileNameTemplateTests.cs" />
     <Compile Include="Extensibility\ImageCapturedEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageCaptureInitializesEventArgsTests.cs" />
     <Compile Include="Extensibility\ImageFormatEventArgsTests.cs" />
