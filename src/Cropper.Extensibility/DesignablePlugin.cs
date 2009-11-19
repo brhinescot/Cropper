@@ -87,7 +87,7 @@ namespace Fusion8.Cropper.Extensibility
 		{
 			ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
 			formatEvents.ClickedMenuItem = (MenuItem) sender;
-			formatEvents.ImageOutputFormat = Format;
+			formatEvents.ImageOutputFormat = this;
 			OnImageFormatClick(sender, formatEvents);
 		}
 
@@ -115,12 +115,7 @@ namespace Fusion8.Cropper.Extensibility
 
 		public event ImageFormatClickEventHandler ImageFormatClick;
 
-		public virtual IPersistableImageFormat Format
-		{
-			get { return this; }
-		}
-
-		public abstract void Connect(IPersistableOutput persistableOutput);
+	    public abstract void Connect(IPersistableOutput persistableOutput);
 		public abstract void Disconnect();
 		public abstract string Extension { get; }
 		public abstract string Description { get; }

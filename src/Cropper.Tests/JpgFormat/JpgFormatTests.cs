@@ -64,14 +64,6 @@ namespace Fusion8.Cropper
     public class JpgFormatTests
     {
         [Test]
-        public void Format_is_JpgFormat()
-        {
-            JpgFormat format = new JpgFormat();
-
-            Assert.AreEqual(format, format.Format);
-        }
-
-        [Test]
         public void Extension_is_jpg()
         {
             string expected = "jpg";

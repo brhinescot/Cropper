@@ -64,14 +64,6 @@ namespace Fusion8.Cropper
     public class ClipboardFormatTests
     {
         [Test]
-        public void Format_is_ClipboardFormat()
-        {
-            ClipboardFormat format = new ClipboardFormat();
-
-            Assert.AreEqual(format, format.Format);
-        }
-
-        [Test]
         public void Extension_is_Clipboard()
         {
             string expected = "Clipboard";

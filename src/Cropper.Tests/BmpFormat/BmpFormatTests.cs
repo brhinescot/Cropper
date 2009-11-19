@@ -64,14 +64,6 @@ namespace Fusion8.Cropper
     public class BmpFormatTests
     {
         [Test]
-        public void Format_is_BmpFormat()
-        {
-            BmpFormat format = new BmpFormat();
-
-            Assert.AreEqual(format, format.Format);
-        }
-
-        [Test]
         public void Extension_is_bmp()
         {
             string expected = "bmp";
