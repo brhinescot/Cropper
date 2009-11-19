@@ -372,7 +372,7 @@ namespace Fusion8.Cropper
 		{
 			foreach (IPersistableImageFormat imageOutputFormat in ImageCapture.ImageOutputs)
 			{
-                IPersistableImageFormat outputFormat = imageOutputFormat.Format;
+                IPersistableImageFormat outputFormat = imageOutputFormat;
 				MenuItem menuItem = outputFormat.Menu;
 				outputFormat.ImageFormatClick += HandleImageFormatClick;
 				if (menuItem != null)

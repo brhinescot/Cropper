@@ -70,12 +70,6 @@ namespace Fusion8.Cropper.Extensibility
         event ImageFormatClickEventHandler ImageFormatClick;
 
         /// <summary>
-        /// Gets the format.
-        /// </summary>
-        /// <value>The format.</value>
-        IPersistableImageFormat Format { get; }
-
-        /// <summary>
         /// Connects the specified persistable output.
         /// </summary>
         /// <param name="persistableOutput">The persistable output.</param>

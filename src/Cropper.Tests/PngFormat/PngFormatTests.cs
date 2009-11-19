@@ -64,14 +64,6 @@ namespace Fusion8.Cropper
     public class PngFormatTests
     {
         [Test]
-        public void Format_is_PngFormat()
-        {
-            PngFormat format = new PngFormat();
-
-            Assert.AreEqual(format, format.Format);
-        }
-
-        [Test]
         public void Extension_is_png()
         {
             string expected = "png";

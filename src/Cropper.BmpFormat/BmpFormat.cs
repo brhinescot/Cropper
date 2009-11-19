@@ -77,12 +77,7 @@ namespace Fusion8.Cropper
 
 		private IPersistableOutput output;
 
-		public override IPersistableImageFormat Format
-		{
-			get { return this; }
-		}
-
-		public override string Extension
+	    public override string Extension
 		{
 			get { return FormatName; }
 		}
