@@ -59,57 +59,57 @@ using System.Runtime.InteropServices;
 
 namespace Fusion8.Cropper.Extensibility
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public struct ImagePairNames
-	{
-		private string fullSize, thumbnail;
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ImagePairNames
+    {
+        private string fullSize, thumbnail;
 
-		public string FullSize
-		{
-			get { return fullSize; }
-			set { fullSize = value; }
-		}
+        public string FullSize
+        {
+            get { return fullSize; }
+            set { fullSize = value; }
+        }
 
-		public string Thumbnail
-		{
-			get { return thumbnail; }
-			set { thumbnail = value; }
-		}
+        public string Thumbnail
+        {
+            get { return thumbnail; }
+            set { thumbnail = value; }
+        }
 
-		public ImagePairNames(string fullSize, string thumbnail)
-		{
-			this.fullSize = fullSize;
-			this.thumbnail = thumbnail;
-		}
+        public ImagePairNames(string fullSize, string thumbnail)
+        {
+            this.fullSize = fullSize;
+            this.thumbnail = thumbnail;
+        }
 
-		public static bool operator ==(ImagePairNames leftPair, ImagePairNames rightPair)
-		{
-			if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
-				return true;
-			else
-				return false;
-		}
+        public static bool operator ==(ImagePairNames leftPair, ImagePairNames rightPair)
+        {
+            if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
+                return true;
+            else
+                return false;
+        }
 
-		public static bool operator !=(ImagePairNames leftPair, ImagePairNames rightPair)
-		{
-			if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
-				return false;
-			else
-				return true;
-		}
+        public static bool operator !=(ImagePairNames leftPair, ImagePairNames rightPair)
+        {
+            if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
+                return false;
+            else
+                return true;
+        }
 
-		public override int GetHashCode()
-		{
-			return fullSize.GetHashCode() + thumbnail.GetHashCode();
-		}
+        public override int GetHashCode()
+        {
+            return fullSize.GetHashCode() + thumbnail.GetHashCode();
+        }
 
-		public override bool Equals(object obj)
-		{
-			ImagePairNames imagePair = (ImagePairNames) obj;
-			if (imagePair.FullSize.Equals(FullSize) && imagePair.Thumbnail.Equals(Thumbnail))
-				return true;
-			else
-				return false;
-		}
-	}
+        public override bool Equals(object obj)
+        {
+            ImagePairNames imagePair = (ImagePairNames)obj;
+            if (imagePair.FullSize.Equals(FullSize) && imagePair.Thumbnail.Equals(Thumbnail))
+                return true;
+            else
+                return false;
+        }
+    }
 }
