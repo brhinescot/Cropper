@@ -101,8 +101,11 @@ namespace Fusion8.Cropper.Core
 			get { return imageFormat; }
 			set
 			{
-				if (imageFormat != null)
-					imageFormat.Disconnect();
+                if (imageFormat != null)
+                {
+                    imageFormat.Disconnect();
+                    template.ResetIncrement();
+                }
 				imageFormat = value;
 				if (imageFormat != null)
 				{
