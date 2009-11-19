@@ -64,21 +64,21 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Extensibility
 {
-	public class ImageFormatEventArgs : EventArgs
-	{
-		private MenuItem clickedMenuItem;
-		private IPersistableImageFormat imageFormat;
+    public class ImageFormatEventArgs : EventArgs
+    {
+        private MenuItem clickedMenuItem;
+        private IPersistableImageFormat imageFormat;
 
-		public MenuItem ClickedMenuItem
-		{
-			get { return clickedMenuItem; }
-			set { clickedMenuItem = value; }
-		}
+        public MenuItem ClickedMenuItem
+        {
+            get { return clickedMenuItem; }
+            set { clickedMenuItem = value; }
+        }
 
-		public IPersistableImageFormat ImageOutputFormat
-		{
-			get { return imageFormat; }
-			set { imageFormat = value; }
-		}
-	}
+        public IPersistableImageFormat ImageOutputFormat
+        {
+            get { return imageFormat; }
+            set { imageFormat = value; }
+        }
+    }
 }
