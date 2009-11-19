@@ -107,6 +107,11 @@ namespace Fusion8.Cropper.Core
 			return names;
 		}
 
+        public void ResetIncrement()
+        {
+            this.lastIncrement = 1;
+        }
+
 		private static string GetThumbImageTemplate()
 		{
 			string thumbImageTemplate;
