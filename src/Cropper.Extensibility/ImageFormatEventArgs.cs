@@ -64,17 +64,26 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Extensibility
 {
+    /// <summary>
+    /// Provides data for the <see cref="IPersistableImageFormat.ImageFormatClick" /> event.
+    /// </summary>
     public class ImageFormatEventArgs : EventArgs
     {
         private MenuItem clickedMenuItem;
         private IPersistableImageFormat imageFormat;
 
+        /// <summary>
+        /// Gets or sets the clicked <see cref="MenuItem" />.
+        /// </summary>
         public MenuItem ClickedMenuItem
         {
             get { return clickedMenuItem; }
             set { clickedMenuItem = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the image output format.
+        /// </summary>
         public IPersistableImageFormat ImageOutputFormat
         {
             get { return imageFormat; }
