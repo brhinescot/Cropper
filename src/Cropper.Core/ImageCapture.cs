@@ -107,7 +107,7 @@ namespace Fusion8.Cropper.Core
 				if (imageFormat != null)
 				{
 					imageFormat.Connect(this);
-					OnImageCaptureInitialized(new EventArgs());
+					OnImageCaptureInitialized(new ImageCaptureInitializedEventArgs());
 				}
 			}
 		}
@@ -408,7 +408,7 @@ namespace Fusion8.Cropper.Core
 
 		#region Events
 
-		protected void OnImageCaptureInitialized(EventArgs e)
+		protected void OnImageCaptureInitialized(ImageCaptureInitializedEventArgs e)
 		{
 			ImageCaptureInitializedEventHandler handler = ImageCaptureInitialized;
 			if (handler != null)
