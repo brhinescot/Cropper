@@ -67,7 +67,7 @@ namespace Fusion8.Cropper.Extensibility
 {
 	#region Delegates
 
-	public delegate void ImageCaptureInitializedEventHandler(object sender, EventArgs e);
+	public delegate void ImageCaptureInitializedEventHandler(object sender, ImageCaptureInitializedEventArgs e);
 
 	public delegate void ImageCapturingEventHandler(object sender, ImageCapturingEventArgs e);
 
