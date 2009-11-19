@@ -84,18 +84,12 @@ namespace Fusion8.Cropper.Extensibility
 
         public static bool operator ==(ImagePairNames leftPair, ImagePairNames rightPair)
         {
-            if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
-                return true;
-            else
-                return false;
+            return leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail);
         }
 
         public static bool operator !=(ImagePairNames leftPair, ImagePairNames rightPair)
         {
-            if (leftPair.FullSize.Equals(rightPair.FullSize) && leftPair.Thumbnail.Equals(rightPair.Thumbnail))
-                return false;
-            else
-                return true;
+            return !(leftPair == rightPair);
         }
 
         public override int GetHashCode()
@@ -106,10 +100,8 @@ namespace Fusion8.Cropper.Extensibility
         public override bool Equals(object obj)
         {
             ImagePairNames imagePair = (ImagePairNames)obj;
-            if (imagePair.FullSize.Equals(FullSize) && imagePair.Thumbnail.Equals(Thumbnail))
-                return true;
-            else
-                return false;
+
+            return this == imagePair;
         }
     }
 }
