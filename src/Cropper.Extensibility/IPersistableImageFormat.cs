@@ -59,51 +59,51 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Extensibility
 {
-	public delegate void ImageFormatClickEventHandler(object sender, ImageFormatEventArgs e);
+    public delegate void ImageFormatClickEventHandler(object sender, ImageFormatEventArgs e);
 
-	/// <summary>
-	/// Summary description for IPersistableImage.
-	/// </summary>
-	public interface IPersistableImageFormat
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		event ImageFormatClickEventHandler ImageFormatClick;
+    /// <summary>
+    /// Summary description for IPersistableImage.
+    /// </summary>
+    public interface IPersistableImageFormat
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        event ImageFormatClickEventHandler ImageFormatClick;
 
-		/// <summary>
-		/// Gets the format.
-		/// </summary>
-		/// <value>The format.</value>
-		IPersistableImageFormat Format { get; }
+        /// <summary>
+        /// Gets the format.
+        /// </summary>
+        /// <value>The format.</value>
+        IPersistableImageFormat Format { get; }
 
-		/// <summary>
-		/// Connects the specified persistable output.
-		/// </summary>
-		/// <param name="persistableOutput">The persistable output.</param>
-		void Connect(IPersistableOutput persistableOutput);
+        /// <summary>
+        /// Connects the specified persistable output.
+        /// </summary>
+        /// <param name="persistableOutput">The persistable output.</param>
+        void Connect(IPersistableOutput persistableOutput);
 
-		/// <summary>
-		/// Disconnects this instance.
-		/// </summary>
-		void Disconnect();
+        /// <summary>
+        /// Disconnects this instance.
+        /// </summary>
+        void Disconnect();
 
-		/// <summary>
-		/// Gets the extension.
-		/// </summary>
-		/// <value>The extension.</value>
-		string Extension { get; }
+        /// <summary>
+        /// Gets the extension.
+        /// </summary>
+        /// <value>The extension.</value>
+        string Extension { get; }
 
-		/// <summary>
-		/// Gets the description.
-		/// </summary>
-		/// <value>The description.</value>
-		string Description { get; }
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        string Description { get; }
 
-		/// <summary>
-		/// Gets the menu.
-		/// </summary>
-		/// <value>The menu.</value>
-		MenuItem Menu { get; }
-	}
+        /// <summary>
+        /// Gets the menu.
+        /// </summary>
+        /// <value>The menu.</value>
+        MenuItem Menu { get; }
+    }
 }
