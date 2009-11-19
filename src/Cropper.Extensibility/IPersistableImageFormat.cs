@@ -59,8 +59,6 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Extensibility
 {
-    public delegate void ImageFormatClickEventHandler(object sender, ImageFormatEventArgs e);
-
     /// <summary>
     /// Summary description for IPersistableImage.
     /// </summary>
