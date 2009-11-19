@@ -64,44 +64,6 @@ namespace Fusion8.Cropper.Extensibility
     public class ImagePairNamesTests
     {
         [Test]
-        public void FullSize_is_null_by_default()
-        {
-            ImagePairNames pair = new ImagePairNames();
-
-            Assert.IsNull(pair.FullSize);
-        }
-
-        [Test]
-        public void Thumbnail_is_null_by_default()
-        {
-            ImagePairNames pair = new ImagePairNames();
-
-            Assert.IsNull(pair.Thumbnail);
-        }
-
-        [Test]
-        public void FullSize_property_is_not_altered()
-        {
-            string fullSize = "fullSize";
-
-            ImagePairNames pair = new ImagePairNames();
-            pair.FullSize = fullSize;
-
-            Assert.AreEqual(fullSize, pair.FullSize);
-        }
-
-        [Test]
-        public void Thumbnail_property_is_not_altered()
-        {
-            string thumbnail = "thumbnail";
-
-            ImagePairNames pair = new ImagePairNames();
-            pair.Thumbnail = thumbnail;
-
-            Assert.AreEqual(thumbnail, pair.Thumbnail);
-        }
-
-        [Test]
         public void Constructor_parameters_are_not_altered()
         {
             string fullSize = "fullSize";

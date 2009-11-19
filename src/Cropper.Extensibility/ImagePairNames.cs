@@ -62,24 +62,14 @@ namespace Fusion8.Cropper.Extensibility
     [StructLayout(LayoutKind.Sequential)]
     public struct ImagePairNames
     {
-        private string fullSize, thumbnail;
+        public string FullSize { get; set; }
 
-        public string FullSize
-        {
-            get { return fullSize; }
-            set { fullSize = value; }
-        }
+        public string Thumbnail { get; set; }
 
-        public string Thumbnail
+        public ImagePairNames(string fullSize, string thumbnail) : this()
         {
-            get { return thumbnail; }
-            set { thumbnail = value; }
-        }
-
-        public ImagePairNames(string fullSize, string thumbnail)
-        {
-            this.fullSize = fullSize;
-            this.thumbnail = thumbnail;
+            this.FullSize = fullSize;
+            this.Thumbnail = thumbnail;
         }
 
         public static bool operator ==(ImagePairNames leftPair, ImagePairNames rightPair)
@@ -94,7 +84,7 @@ namespace Fusion8.Cropper.Extensibility
 
         public override int GetHashCode()
         {
-            return fullSize.GetHashCode() + thumbnail.GetHashCode();
+            return FullSize.GetHashCode() + Thumbnail.GetHashCode();
         }
 
         public override bool Equals(object obj)
