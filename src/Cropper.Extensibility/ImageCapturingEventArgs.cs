@@ -55,9 +55,18 @@ In return, we simply require that you agree:
 
 #endregion
 
+#region Using Directives
+
 using System;
+
+#endregion
 
 namespace Fusion8.Cropper.Extensibility
 {
-    public class ImageCapturingEventArgs : EventArgs {}
+    /// <summary>
+    /// Provides data for the <see cref="IPersistableOutput.ImageCapturing" /> event.
+    /// </summary>
+    public class ImageCapturingEventArgs : EventArgs
+    {
+    }
 }
