@@ -69,25 +69,14 @@ namespace Fusion8.Cropper.Extensibility
     /// </summary>
     public class ImageFormatEventArgs : EventArgs
     {
-        private MenuItem clickedMenuItem;
-        private IPersistableImageFormat imageFormat;
-
         /// <summary>
         /// Gets or sets the clicked <see cref="MenuItem" />.
         /// </summary>
-        public MenuItem ClickedMenuItem
-        {
-            get { return clickedMenuItem; }
-            set { clickedMenuItem = value; }
-        }
+        public MenuItem ClickedMenuItem { get; set; }
 
         /// <summary>
         /// Gets or sets the image output format.
         /// </summary>
-        public IPersistableImageFormat ImageOutputFormat
-        {
-            get { return imageFormat; }
-            set { imageFormat = value; }
-        }
+        public IPersistableImageFormat ImageOutputFormat { get; set; }
     }
 }
