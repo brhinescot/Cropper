@@ -217,6 +217,7 @@
     <Compile Include="CustomThemedTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Delegates.cs" />
     <Compile Include="DesignablePlugin.cs">
       <SubType>Code</SubType>
     </Compile>
