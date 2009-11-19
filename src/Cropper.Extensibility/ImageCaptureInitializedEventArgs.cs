@@ -55,11 +55,18 @@ In return, we simply require that you agree:
 
 #endregion
 
+#region Using Directives
+
 using System;
 using System.Windows.Forms;
 
+#endregion
+
 namespace Fusion8.Cropper.Extensibility
 {
+    /// <summary>
+    /// Provides data for the <see cref="IPersistableOutput.ImageCaptureInitialized" /> event.
+    /// </summary>
     public class ImageCaptureInitializedEventArgs : EventArgs
     {
         private MenuItem menuItem;
