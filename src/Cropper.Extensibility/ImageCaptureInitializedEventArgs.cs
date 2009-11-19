@@ -69,17 +69,5 @@ namespace Fusion8.Cropper.Extensibility
     /// </summary>
     public class ImageCaptureInitializedEventArgs : EventArgs
     {
-        private MenuItem menuItem;
-
-        public MenuItem OutputMenu
-        {
-            get { return menuItem; }
-            set { menuItem = value; }
-        }
-
-        public ImageCaptureInitializedEventArgs(MenuItem menuItem)
-        {
-            this.menuItem = menuItem;
-        }
     }
 }
