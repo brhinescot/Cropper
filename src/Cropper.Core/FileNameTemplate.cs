@@ -221,31 +221,19 @@ namespace Fusion8.Cropper.Core
 			startNames.FullSize = fullTemplate.Replace(Templates.Increment, lastIncrement.ToString());
 			startNames.Thumbnail = thumbTemplate.Replace(Templates.Increment, lastIncrement.ToString());
 
-			if (File.Exists(startNames.FullSize) ||
-			    File.Exists(startNames.Thumbnail))
+			while (File.Exists(startNames.FullSize) || File.Exists(startNames.Thumbnail))
 			{
 				lastIncrement++;
-				while (true)
-				{
-					if (fullTemplate.IndexOf(Templates.Increment) < 0)
-						fullTemplate = fullTemplate.Insert(fullTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
-					startNames.FullSize = fullTemplate.Replace(Templates.Increment, lastIncrement.ToString());
-					if (!File.Exists(startNames.FullSize))
-					{
-						if (thumbTemplate.IndexOf("{increment}") < 0)
-							thumbTemplate = thumbTemplate.Insert(thumbTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
-						startNames.Thumbnail = thumbTemplate.Replace(Templates.Increment, lastIncrement.ToString());
-						if (!File.Exists(startNames.Thumbnail))
-							break;
-					}
 
-					lastIncrement++;
-				}
+				if (fullTemplate.IndexOf(Templates.Increment) < 0)
+					fullTemplate = fullTemplate.Insert(fullTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
+				if (thumbTemplate.IndexOf(Templates.Increment) < 0)
+					thumbTemplate = thumbTemplate.Insert(thumbTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
+
+				startNames.FullSize = fullTemplate.Replace(Templates.Increment, lastIncrement.ToString());
+				startNames.Thumbnail = thumbTemplate.Replace(Templates.Increment, lastIncrement.ToString());
 			}
-			else
-			{
-				lastIncrement = 1;
-			}
+
 			return startNames;
 		}
 	}
