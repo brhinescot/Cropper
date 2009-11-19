@@ -69,49 +69,24 @@ namespace Fusion8.Cropper.Extensibility
     /// </summary>
     public class ImageCapturedEventArgs : EventArgs
     {
-        #region Member Fields
-
-        private Image capturedImage;
-        private Image capturedImageThumbnail;
-        private bool isThumbnailed;
-        private ImagePairNames imagePairNames;
-
-        #endregion
-
         /// <summary>
         /// Gets or sets the names for the captured image.
         /// </summary>
-        public ImagePairNames ImageNames
-        {
-            get { return imagePairNames; }
-            set { imagePairNames = value; }
-        }
+        public ImagePairNames ImageNames { get; set; }
 
         /// <summary>
         /// Gets or sets the full sized captured image.
         /// </summary>
-        public Image FullSizeImage
-        {
-            get { return capturedImage; }
-            set { capturedImage = value; }
-        }
+        public Image FullSizeImage { get; set; }
 
         /// <summary>
         /// Gets or sets a thumbnail of the captured image.
         /// </summary>
-        public Image ThumbnailImage
-        {
-            get { return capturedImageThumbnail; }
-            set { capturedImageThumbnail = value; }
-        }
+        public Image ThumbnailImage { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a thumbnail was captured with the full size image.
         /// </summary>
-        public bool IsThumbnailed
-        {
-            get { return isThumbnailed; }
-            set { isThumbnailed = value; }
-        }
+        public bool IsThumbnailed { get; set; }
     }
 }
