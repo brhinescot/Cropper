@@ -378,7 +378,7 @@ namespace Fusion8.Cropper
 				if (menuItem != null)
 				{
 					outputMenuItem.MenuItems.Add(menuItem);
-					if (imageCapture.ImageFormat == null || menuItem.Text != imageCapture.ImageFormat.Extension)
+					if (imageCapture.ImageFormat == null || menuItem.Text != imageCapture.ImageFormat.Description)
 						ClearImageFormatChecks(menuItem);
 					else if (!menuItem.IsParent)
 						menuItem.Checked = true;
