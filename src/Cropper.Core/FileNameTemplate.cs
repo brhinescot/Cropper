@@ -183,11 +183,16 @@ namespace Fusion8.Cropper.Core
 
 		private static ImagePairNames TryAddTemplateDateOrTime(ImagePairNames startNames)
 		{
-			startNames.FullSize = startNames.FullSize.Replace(Templates.Date, DateTime.Now.ToString("MM-dd-yyyy"));
-			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Date, DateTime.Now.ToString("MM-dd-yyyy"));
+			var now = DateTime.Now;
 
-			startNames.FullSize = startNames.FullSize.Replace(Templates.Time, DateTime.Now.ToString("hh-mm-ss tt"));
-			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Time, DateTime.Now.ToString("hh-mm-ss tt"));
+			startNames.FullSize = startNames.FullSize.Replace(Templates.Date, now.ToString("MM-dd-yyyy"));
+			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Date, now.ToString("MM-dd-yyyy"));
+
+			startNames.FullSize = startNames.FullSize.Replace(Templates.Time, now.ToString("hh-mm-ss tt"));
+			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Time, now.ToString("hh-mm-ss tt"));
+
+			startNames.FullSize = startNames.FullSize.Replace(Templates.Timestamp, now.ToString("yyyy-MM-dd-HH-mm-ss-fffffff"));
+			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Timestamp, now.ToString("yyyy-MM-dd-HH-mm-ss-fffffff"));
 
 			return startNames;
 		}
