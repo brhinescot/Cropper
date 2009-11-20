@@ -64,6 +64,7 @@ namespace Fusion8.Cropper.Core
     {
         internal const string Date = "{date}";
         internal const string Time = "{time}";
+        internal const string Timestamp = "{timestamp}";
         internal const string Extension = "{extension}";
         internal const string Increment = "{increment}";
         internal const string User = "{user}";

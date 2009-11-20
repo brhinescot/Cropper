@@ -155,6 +155,7 @@ namespace Fusion8.Cropper
         private Label label3;
         private TabPage keyboardTab;
         private HotKeySelection hotKeySelection1;
+        private MenuItem templateTimestamp;
         private bool addingSize;
 
         #endregion
@@ -304,6 +305,7 @@ namespace Fusion8.Cropper
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.templateTimestamp = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.nonRectangularCapturesGroup.SuspendLayout();
             this.outputTemplateGroup.SuspendLayout();
@@ -399,6 +401,7 @@ namespace Fusion8.Cropper
             this.templateIncrement,
             this.templateDate,
             this.templateTime,
+            this.templateTimestamp,
             this.templateExtension,
             this.seperator1,
             this.templateUser,
@@ -428,61 +431,67 @@ namespace Fusion8.Cropper
             this.templateTime.Text = "Time";
             this.templateTime.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
+            // templateTimestamp
+            // 
+            this.templateTimestamp.Index = 3;
+            this.templateTimestamp.Text = "Timestamp";
+            this.templateTimestamp.Click += new System.EventHandler(this.HandleTemplateItemClick);
+            // 
             // templateExtension
             // 
-            this.templateExtension.Index = 3;
+            this.templateExtension.Index = 4;
             this.templateExtension.Text = "Extension";
             this.templateExtension.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // seperator1
             // 
-            this.seperator1.Index = 4;
+            this.seperator1.Index = 5;
             this.seperator1.Text = "-";
             // 
             // templateUser
             // 
-            this.templateUser.Index = 5;
+            this.templateUser.Index = 6;
             this.templateUser.Text = "User";
             this.templateUser.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // templateDomain
             // 
-            this.templateDomain.Index = 6;
+            this.templateDomain.Index = 7;
             this.templateDomain.Text = "Domain";
             this.templateDomain.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // templateMachine
             // 
-            this.templateMachine.Index = 7;
+            this.templateMachine.Index = 8;
             this.templateMachine.Text = "Machine";
             this.templateMachine.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // seperator2
             // 
-            this.seperator2.Index = 8;
+            this.seperator2.Index = 9;
             this.seperator2.Text = "-";
             // 
             // templatePrompt
             // 
-            this.templatePrompt.Index = 9;
+            this.templatePrompt.Index = 10;
             this.templatePrompt.Text = "Prompt";
             this.templatePrompt.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // menuItem1
             // 
-            this.menuItem1.Index = 10;
+            this.menuItem1.Index = 11;
             this.menuItem1.Text = "Window";
             this.menuItem1.Visible = false;
             this.menuItem1.Click += new System.EventHandler(this.HandleTemplateItemClick);
             // 
             // menuItem2
             // 
-            this.menuItem2.Index = 11;
+            this.menuItem2.Index = 12;
             this.menuItem2.Text = "-";
             // 
             // menuItem3
             // 
-            this.menuItem3.Index = 12;
+            this.menuItem3.Index = 13;
             this.menuItem3.Text = "Default";
             this.menuItem3.Click += new System.EventHandler(this.HandleDefaultTemplateClicked);
             // 
