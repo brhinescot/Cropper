@@ -68,80 +68,80 @@ using Fusion8.Cropper.Extensibility;
 
 namespace Fusion8.Cropper
 {
-	/// <summary>
-	/// Summary description for PngFormat.
-	/// </summary>
-	public class PngFormat : IPersistableImageFormat
-	{
-		private IPersistableOutput output;
-		private const string FormatName = "png";
-		public event ImageFormatClickEventHandler ImageFormatClick;
+    /// <summary>
+    /// Summary description for PngFormat.
+    /// </summary>
+    public class PngFormat : IPersistableImageFormat
+    {
+        private IPersistableOutput output;
+        private const string FormatName = "png";
+        public event ImageFormatClickEventHandler ImageFormatClick;
 
-		public IPersistableImageFormat Format
-		{
-			get { return this; }
-		}
+        public IPersistableImageFormat Format
+        {
+            get { return this; }
+        }
 
-		public string Extension
-		{
-			get { return FormatName; }
-		}
+        public string Extension
+        {
+            get { return FormatName; }
+        }
 
-		public string Description
-		{
-			get { return "Png"; }
-		}
+        public string Description
+        {
+            get { return "Png"; }
+        }
 
-		public MenuItem Menu
-		{
-			get
-			{
-				MenuItem mi = new MenuItem();
-				mi.RadioCheck = true;
-				mi.Text = Description;
-				mi.Click += MenuItemClick;
-				return mi;
-			}
-		}
+        public MenuItem Menu
+        {
+            get
+            {
+                MenuItem mi = new MenuItem();
+                mi.RadioCheck = true;
+                mi.Text = Description;
+                mi.Click += MenuItemClick;
+                return mi;
+            }
+        }
 
-		public void Connect(IPersistableOutput persistableOutput)
-		{
-			if (persistableOutput == null)
-				throw new ArgumentNullException("persistableOutput");
+        public void Connect(IPersistableOutput persistableOutput)
+        {
+            if (persistableOutput == null)
+                throw new ArgumentNullException("persistableOutput");
 
-			output = persistableOutput;
-			output.ImageCaptured += persistableOutput_ImageCaptured;
-		}
+            output = persistableOutput;
+            output.ImageCaptured += persistableOutput_ImageCaptured;
+        }
 
-		public void Disconnect()
-		{
-			output.ImageCaptured -= persistableOutput_ImageCaptured;
-		}
+        public void Disconnect()
+        {
+            output.ImageCaptured -= persistableOutput_ImageCaptured;
+        }
 
-		private void persistableOutput_ImageCaptured(object sender, ImageCapturedEventArgs e)
-		{
-			output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
-			if (e.IsThumbnailed)
-				output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
-		}
+        private void persistableOutput_ImageCaptured(object sender, ImageCapturedEventArgs e)
+        {
+            output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
+            if (e.IsThumbnailed)
+                output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
+        }
 
-		private static void SaveImage(Stream stream, Image image)
-		{
-			image.Save(stream, ImageFormat.Png);
-		}
+        private static void SaveImage(Stream stream, Image image)
+        {
+            image.Save(stream, ImageFormat.Png);
+        }
 
-		private void MenuItemClick(object sender, EventArgs e)
-		{
-			ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-			formatEvents.ClickedMenuItem = (MenuItem) sender;
-			formatEvents.ImageOutputFormat = this;
-			OnImageFormatClick(sender, formatEvents);
-		}
+        private void MenuItemClick(object sender, EventArgs e)
+        {
+            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
+            formatEvents.ClickedMenuItem = (MenuItem)sender;
+            formatEvents.ImageOutputFormat = this;
+            OnImageFormatClick(sender, formatEvents);
+        }
 
-		private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-		{
-			if (ImageFormatClick != null)
-				ImageFormatClick(sender, e);
-		}
-	}
+        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
+        {
+            if (ImageFormatClick != null)
+                ImageFormatClick(sender, e);
+        }
+    }
 }
