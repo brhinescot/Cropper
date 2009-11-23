@@ -71,6 +71,7 @@
     <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
     <Compile Include="Core\FileNameTemplateTests.cs" />
+    <Compile Include="Extensibility\CropFormColorTableTests.cs" />
     <Compile Include="Extensibility\DesignablePluginTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
     <Compile Include="JpgFormat\JpegSettingsTests.cs" />
