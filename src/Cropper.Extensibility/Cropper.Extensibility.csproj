@@ -149,6 +149,8 @@
     <Compile Include="DesignablePlugin.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DesignablePluginThatUsesFetchOutputStream.cs" />
+    <Compile Include="DesignablePluginThatUsesFetchOutputStreamAndSave.cs" />
     <Compile Include="IConfigurablePlugin.cs">
       <SubType>Code</SubType>
     </Compile>

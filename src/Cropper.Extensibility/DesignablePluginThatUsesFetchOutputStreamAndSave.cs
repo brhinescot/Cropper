@@ -57,64 +57,21 @@ In return, we simply require that you agree:
 
 #region Using Directives
 
-using System;
-using System.Windows.Forms;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 #endregion
 
 namespace Fusion8.Cropper.Extensibility
 {
-    /// <summary>
-    /// Summary description for DesignablePlugin.
-    /// </summary>
-    public abstract class DesignablePlugin : IPersistableImageFormat
+    public abstract class DesignablePluginThatUsesFetchOutputStreamAndSave : DesignablePluginThatUsesFetchOutputStream
     {
-        protected IPersistableOutput output;
+        protected abstract ImageFormat Format { get; }
 
-        public event ImageFormatClickEventHandler ImageFormatClick;
-
-        public virtual void Connect(IPersistableOutput persistableOutput)
+        protected override void SaveImage(Stream stream, Image image)
         {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
-            output.ImageCaptured += ImageCaptured;
-        }
-
-        public virtual void Disconnect()
-        {
-            output.ImageCaptured -= ImageCaptured;
-        }
-
-        protected abstract void ImageCaptured(object sender, ImageCapturedEventArgs e);
-        public abstract string Extension { get; }
-        public abstract string Description { get; }
-
-        public virtual MenuItem Menu
-        {
-            get
-            {
-                MenuItem menuItem = new MenuItem();
-                menuItem.RadioCheck = true;
-                menuItem.Text = Description;
-                menuItem.Click += MenuClick;
-                return menuItem;
-            }
-        }
-
-        protected virtual void MenuClick(object sender, EventArgs e)
-        {
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = (MenuItem)sender;
-            formatEvents.ImageOutputFormat = this;
-            OnImageFormatClick(sender, formatEvents);
-        }
-
-        protected virtual void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-        {
-            if (ImageFormatClick != null)
-                ImageFormatClick(sender, e);
+            image.Save(stream, Format);
         }
     }
 }
