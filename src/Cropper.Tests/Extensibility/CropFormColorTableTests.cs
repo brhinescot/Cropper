@@ -55,38 +55,76 @@ In return, we simply require that you agree:
 
 #endregion
 
+using System;
 using System.Drawing;
+using NUnit.Framework;
 
 namespace Fusion8.Cropper.Extensibility
 {
-    /// <summary>
-    /// Summary description for CropFormColorTable.
-    /// </summary>
-    public abstract class CropFormColorTable
+    [TestFixture]
+    public class CropFormColorTableTests
     {
-        protected CropFormColorTable()
+        [Test]
+        public void TabAlphaChannel_is_200_by_default()
         {
-            TabAlphaChannel = 200;
+            int expected = 200;
+
+            FakeCropFormColorTable colorTable = new FakeCropFormColorTable();
+
+            Assert.AreEqual(expected, colorTable.TabAlphaChannel);
         }
 
-        public virtual bool SupportsPerPixelAlpha
+        private class FakeCropFormColorTable : CropFormColorTable
         {
-            get { return true; }
+            public override Color TabColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color TabHighlightColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color TabTextColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color TabTextHighlightColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color FormColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color FormHighlightColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color FormTextColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color FormTextHighlightColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color LineColor
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override Color LineHighlightColor
+            {
+                get { throw new NotImplementedException(); }
+            }
         }
-
-        public virtual int MainAlphaChannel { get; set; }
-
-        public int TabAlphaChannel { get; set; }
-
-        public abstract Color TabColor { get; }
-        public abstract Color TabHighlightColor { get; }
-        public abstract Color TabTextColor { get; }
-        public abstract Color TabTextHighlightColor { get; }
-        public abstract Color FormColor { get; }
-        public abstract Color FormHighlightColor { get; }
-        public abstract Color FormTextColor { get; }
-        public abstract Color FormTextHighlightColor { get; }
-        public abstract Color LineColor { get; }
-        public abstract Color LineHighlightColor { get; }
     }
 }
