@@ -57,11 +57,7 @@ In return, we simply require that you agree:
 
 #region Using Directives
 
-using System;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Windows.Forms;
 using Fusion8.Cropper.Extensibility;
 
 #endregion
@@ -71,71 +67,21 @@ namespace Fusion8.Cropper
     /// <summary>
     /// Summary description for PngFormat.
     /// </summary>
-    public class PngFormat : IPersistableImageFormat
+    public class PngFormat : DesignablePluginThatUsesFetchOutputStreamAndSave
     {
-        private IPersistableOutput output;
-        public event ImageFormatClickEventHandler ImageFormatClick;
-
-        public string Extension
+        public override string Extension
         {
             get { return "png"; }
         }
 
-        public string Description
+        public override string Description
         {
             get { return "Png"; }
         }
 
-        public MenuItem Menu
+        protected override ImageFormat Format
         {
-            get
-            {
-                MenuItem mi = new MenuItem();
-                mi.RadioCheck = true;
-                mi.Text = Description;
-                mi.Click += MenuItemClick;
-                return mi;
-            }
-        }
-
-        public void Connect(IPersistableOutput persistableOutput)
-        {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
-            output.ImageCaptured += persistableOutput_ImageCaptured;
-        }
-
-        public void Disconnect()
-        {
-            output.ImageCaptured -= persistableOutput_ImageCaptured;
-        }
-
-        private void persistableOutput_ImageCaptured(object sender, ImageCapturedEventArgs e)
-        {
-            output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
-            if (e.IsThumbnailed)
-                output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
-        }
-
-        private static void SaveImage(Stream stream, Image image)
-        {
-            image.Save(stream, ImageFormat.Png);
-        }
-
-        private void MenuItemClick(object sender, EventArgs e)
-        {
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = (MenuItem)sender;
-            formatEvents.ImageOutputFormat = this;
-            OnImageFormatClick(sender, formatEvents);
-        }
-
-        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-        {
-            if (ImageFormatClick != null)
-                ImageFormatClick(sender, e);
+            get { return ImageFormat.Png; }
         }
     }
 }
