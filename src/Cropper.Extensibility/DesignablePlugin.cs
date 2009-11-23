@@ -67,7 +67,7 @@ namespace Fusion8.Cropper.Extensibility
     /// <summary>
     /// Summary description for DesignablePlugin.
     /// </summary>
-    public abstract class DesignablePlugin : IConfigurablePlugin
+    public abstract class DesignablePlugin : IPersistableImageFormat
     {
         private readonly MenuItem menu = new MenuItem();
 
@@ -90,26 +90,6 @@ namespace Fusion8.Cropper.Extensibility
             formatEvents.ImageOutputFormat = this;
             OnImageFormatClick(sender, formatEvents);
         }
-
-        #region IDesignablePlugin Members
-
-        public virtual BaseConfigurationForm ConfigurationForm
-        {
-            get { return null; }
-        }
-
-        public virtual bool HostInOptions
-        {
-            get { return true; }
-        }
-
-        public virtual object Settings
-        {
-            get { return null; }
-            set { }
-        }
-
-        #endregion
 
         #region IPersistableImageFormat Members
 
