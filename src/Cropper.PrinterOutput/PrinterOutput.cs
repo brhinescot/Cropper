@@ -82,11 +82,6 @@ namespace Fusion8.Cropper
 
 		#region Property Accessors
 
-		public IPersistableImageFormat Format
-		{
-			get { return this; }
-		}
-
 		public string Extension
 		{
 			get { return FormatName; }

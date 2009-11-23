@@ -88,11 +88,6 @@ namespace Fusion8.Cropper
 
         #region IPersistableImageFormat Members
 
-        public IPersistableImageFormat Format
-        {
-            get { return this; }
-        }
-
         public string Extension
         {
             get { return PluginSettings.Extension; }

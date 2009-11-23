@@ -76,11 +76,6 @@ namespace Fusion8.Cropper
         private IPersistableOutput output;
         public event ImageFormatClickEventHandler ImageFormatClick;
 
-        public IPersistableImageFormat Format
-        {
-            get { return this; }
-        }
-
         public string Extension
         {
             get { return "png"; }
