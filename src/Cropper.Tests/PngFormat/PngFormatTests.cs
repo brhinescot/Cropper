@@ -55,7 +55,7 @@ In return, we simply require that you agree:
 
 #endregion
 
-using System;
+using System.Drawing.Imaging;
 using NUnit.Framework;
 
 namespace Fusion8.Cropper
@@ -84,10 +84,21 @@ namespace Fusion8.Cropper
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Connect_throws_exception_when_IPersistableOutput_is_null()
+        public void Format_is_Png()
         {
-            new PngFormat().Connect(null);
+            ImageFormat expected = ImageFormat.Png;
+
+            FakePngFormat format = new FakePngFormat();
+
+            Assert.AreEqual(expected, format.FormatValue);
+        }
+
+        private class FakePngFormat : PngFormat
+        {
+            public ImageFormat FormatValue
+            {
+                get { return Format; }
+            }
         }
     }
 }
