@@ -98,9 +98,8 @@ namespace Fusion8.Cropper.Extensibility
 
         protected virtual void OnImageFormatClick(object sender, ImageFormatEventArgs e)
         {
-            ImageFormatClickEventHandler handler = ImageFormatClick;
-            if (handler != null)
-                handler(sender, e);
+            if (ImageFormatClick != null)
+                ImageFormatClick(sender, e);
         }
     }
 }
