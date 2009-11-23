@@ -69,20 +69,6 @@ namespace Fusion8.Cropper.Extensibility
     /// </summary>
     public abstract class DesignablePlugin : IPersistableImageFormat
     {
-        private readonly MenuItem menu = new MenuItem();
-
-        public DesignablePlugin()
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            menu.Click += MenuItemClick;
-            menu.Text = Description;
-            menu.RadioCheck = true;
-        }
-
         private void MenuItemClick(object sender, EventArgs e)
         {
             ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
@@ -102,7 +88,14 @@ namespace Fusion8.Cropper.Extensibility
 
         public virtual MenuItem Menu
         {
-            get { return menu; }
+            get
+            {
+                MenuItem menuItem = new MenuItem();
+                menuItem.RadioCheck = true;
+                menuItem.Text = Description;
+                menuItem.Click += MenuItemClick;
+                return menuItem;
+            }
         }
 
         #endregion
