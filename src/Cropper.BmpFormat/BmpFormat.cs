@@ -68,23 +68,20 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for PngFormat.
+    /// Summary description for BmpFormat.
     /// </summary>
     public class BmpFormat : DesignablePlugin
     {
-        private const string FormatName = "bmp";
-        private const string Desc = "Bmp";
-
         private IPersistableOutput output;
 
         public override string Extension
         {
-            get { return FormatName; }
+            get { return "bmp"; }
         }
 
         public override string Description
         {
-            get { return Desc; }
+            get { return "Bmp"; }
         }
 
         public override void Connect(IPersistableOutput persistableOutput)
