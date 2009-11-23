@@ -64,74 +64,74 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Extensibility
 {
-	/// <summary>
-	/// Summary description for DesignablePlugin.
-	/// </summary>
-	public abstract class DesignablePlugin : IConfigurablePlugin
-	{
-		private readonly MenuItem menu = new MenuItem();
+    /// <summary>
+    /// Summary description for DesignablePlugin.
+    /// </summary>
+    public abstract class DesignablePlugin : IConfigurablePlugin
+    {
+        private readonly MenuItem menu = new MenuItem();
 
-		public DesignablePlugin()
-		{
-		    Initialize();
-		}
-
-	    private void Initialize() 
+        public DesignablePlugin()
         {
-	        menu.Click += MenuItemClick;
-	        menu.Text = Description;
-	        menu.RadioCheck = true;
-	    }
+            Initialize();
+        }
 
-	    private void MenuItemClick(object sender, EventArgs e)
-		{
-			ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-			formatEvents.ClickedMenuItem = (MenuItem) sender;
-			formatEvents.ImageOutputFormat = this;
-			OnImageFormatClick(sender, formatEvents);
-		}
+        private void Initialize()
+        {
+            menu.Click += MenuItemClick;
+            menu.Text = Description;
+            menu.RadioCheck = true;
+        }
 
-		#region IDesignablePlugin Members
+        private void MenuItemClick(object sender, EventArgs e)
+        {
+            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
+            formatEvents.ClickedMenuItem = (MenuItem)sender;
+            formatEvents.ImageOutputFormat = this;
+            OnImageFormatClick(sender, formatEvents);
+        }
 
-		public virtual BaseConfigurationForm ConfigurationForm
-		{
-			get { return null; }
-		}
+        #region IDesignablePlugin Members
 
-		public virtual bool HostInOptions
-		{
-			get { return true; }
-		}
+        public virtual BaseConfigurationForm ConfigurationForm
+        {
+            get { return null; }
+        }
 
-		public virtual object Settings
-		{
-			get { return null; }
-			set {}
-		}
+        public virtual bool HostInOptions
+        {
+            get { return true; }
+        }
 
-		#endregion
+        public virtual object Settings
+        {
+            get { return null; }
+            set { }
+        }
 
-		#region IPersistableImageFormat Members
+        #endregion
 
-		public event ImageFormatClickEventHandler ImageFormatClick;
+        #region IPersistableImageFormat Members
 
-	    public abstract void Connect(IPersistableOutput persistableOutput);
-		public abstract void Disconnect();
-		public abstract string Extension { get; }
-		public abstract string Description { get; }
+        public event ImageFormatClickEventHandler ImageFormatClick;
 
-		public virtual MenuItem Menu
-		{
-			get { return menu; }
-		}
+        public abstract void Connect(IPersistableOutput persistableOutput);
+        public abstract void Disconnect();
+        public abstract string Extension { get; }
+        public abstract string Description { get; }
 
-		#endregion
+        public virtual MenuItem Menu
+        {
+            get { return menu; }
+        }
 
-		protected virtual void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-		{
-			ImageFormatClickEventHandler handler = ImageFormatClick;
-			if (handler != null)
-				handler(sender, e);
-		}
-	}
+        #endregion
+
+        protected virtual void OnImageFormatClick(object sender, ImageFormatEventArgs e)
+        {
+            ImageFormatClickEventHandler handler = ImageFormatClick;
+            if (handler != null)
+                handler(sender, e);
+        }
+    }
 }
