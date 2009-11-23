@@ -227,7 +227,11 @@ namespace Fusion8.Cropper.Core
 			startNames.Thumbnail = thumbTemplate.Replace(Templates.Increment, lastIncrement.ToString());
 
 			if (!File.Exists(startNames.FullSize) && !File.Exists(startNames.Thumbnail))
+			{
 				ResetIncrement();
+				startNames.FullSize = fullTemplate.Replace(Templates.Increment, lastIncrement.ToString());
+				startNames.Thumbnail = thumbTemplate.Replace(Templates.Increment, lastIncrement.ToString());
+			}
 
 			while (File.Exists(startNames.FullSize) || File.Exists(startNames.Thumbnail))
 			{
