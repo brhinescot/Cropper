@@ -71,16 +71,5 @@ namespace Fusion8.Cropper
 
             Assert.AreEqual(expected, settings.Extension);
         }
-
-        [Test]
-        public void Extension_property_is_not_altered()
-        {
-            string extension = "extension";
-
-            JpegSettings settings = new JpegSettings();
-            settings.Extension = extension;
-
-            Assert.AreEqual(extension, settings.Extension);
-        }
     }
 }
