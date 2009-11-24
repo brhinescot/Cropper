@@ -82,5 +82,16 @@ namespace Fusion8.Cropper
 
             Assert.AreEqual(extension, settings.Extension);
         }
+
+        [Test]
+        public void Extension_defaults_back_to_jpg_when_nullified()
+        {
+            string extension = "jpg";
+
+            JpegSettings settings = new JpegSettings();
+            settings.Extension = null;
+
+            Assert.AreEqual(extension, settings.Extension);
+        }
     }
 }
