@@ -71,50 +71,22 @@ namespace Fusion8.Cropper
     /// <summary>
     /// Summary description for ClipboardFormatClipboardFormat.
     /// </summary>
-    public class ClipboardFormat : IConfigurablePlugin
+    public class ClipboardFormat : DesignablePlugin, IConfigurablePlugin
     {
-        #region Member Variables
-
-        private const string EXTENSION = "Clipboard";
-        private const string DESCRIPTION = "Clipboard";
-        private IPersistableOutput output;
         private Options configurationForm;
-        private readonly bool hostInOptions = true;
         private ClipboardOutputSettings settings;
         private const string EncoderType = "image/jpeg";
         private const int EncoderParameterCount = 1;
 
-        #endregion
-
-        #region IPersistableImageFormat Implementation
-
-        public event ImageFormatClickEventHandler ImageFormatClick;
-
-        public string Extension
+        public override string Extension
         {
-            get { return EXTENSION; }
+            get { return "Clipboard"; }
         }
 
-        public string Description
+        public override string Description
         {
-            get { return DESCRIPTION; }
+            get { return "Clipboard"; }
         }
-
-        public MenuItem Menu
-        {
-            get
-            {
-                MenuItem menuItem = new MenuItem();
-                menuItem.RadioCheck = true;
-                menuItem.Text = EXTENSION;
-                menuItem.Click += HandleMenuItemClick;
-                return menuItem;
-            }
-        }
-
-        #endregion
-
-        #region IConfigurablePlugin Implementation
 
         /// <summary>
         /// Gets the plug-ins impementation of the <see cref="BaseConfigurationForm"/> used 
@@ -141,7 +113,7 @@ namespace Fusion8.Cropper
         /// </summary>
         public bool HostInOptions
         {
-            get { return hostInOptions; }
+            get { return true; }
         }
 
         /// <summary>
@@ -178,25 +150,7 @@ namespace Fusion8.Cropper
             PluginSettings.ImageQuality = configurationForm.ImageQuality;
         }
 
-        #endregion
-
-        public void Connect(IPersistableOutput persistableOutput)
-        {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
-            output.ImageCaptured += HandleOutputImageCaptured;
-        }
-
-        public void Disconnect()
-        {
-            output.ImageCaptured -= HandleOutputImageCaptured;
-        }
-
-        #region Event Handling
-
-        private void HandleOutputImageCaptured(object sender, ImageCapturedEventArgs e)
+        protected override void ImageCaptured(object sender, ImageCapturedEventArgs e)
         {
             switch (PluginSettings.Format)
             {
@@ -221,24 +175,6 @@ namespace Fusion8.Cropper
                     break;
             }
         }
-
-        private void HandleMenuItemClick(object sender, EventArgs e)
-        {
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = (MenuItem) sender;
-            formatEvents.ImageOutputFormat = this;
-            OnImageFormatClick(sender, formatEvents);
-        }
-
-        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-        {
-            if (ImageFormatClick != null)
-                ImageFormatClick(sender, e);
-        }
-
-        #endregion
-
-        #region Jpeg Saving
 
         private void SaveJpegImage(Stream stream, Image image)
         {
@@ -276,8 +212,6 @@ namespace Fusion8.Cropper
             }
             return null;
         }
-
-        #endregion
 
         public override string ToString()
         {
