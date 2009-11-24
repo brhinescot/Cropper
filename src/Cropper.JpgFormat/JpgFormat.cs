@@ -72,11 +72,10 @@ namespace Fusion8.Cropper
     /// <summary>
     /// Summary description for JpgFormat.
     /// </summary>
-    public class JpgFormat : IPersistableImageFormat, IConfigurablePlugin
+    public class JpgFormat : DesignablePluginThatUsesFetchOutputStream, IConfigurablePlugin
     {
         #region Member Variables
 
-        private IPersistableOutput output;
         private long imageQuality = 80L;
         private const string EncoderType = "image/jpeg";
         private const int EncoderParameterCount = 1;
@@ -88,17 +87,17 @@ namespace Fusion8.Cropper
 
         #region IPersistableImageFormat Members
 
-        public string Extension
+        public override string Extension
         {
             get { return PluginSettings.Extension; }
         }
 
-        public string Description
+        public override string Description
         {
             get { return "Jpeg"; }
         }
 
-        public MenuItem Menu
+        public override MenuItem Menu
         {
             get
             {
@@ -185,29 +184,9 @@ namespace Fusion8.Cropper
 
         #endregion
 
-        public event ImageFormatClickEventHandler ImageFormatClick;
-
-        #region Setup and teardown
-
-        public void Connect(IPersistableOutput persistableOutput)
-        {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
-            output.ImageCaptured += new ImageCapturedEventHandler(output_ImageCaptured);
-        }
-
-        public void Disconnect()
-        {
-            output.ImageCaptured -= new ImageCapturedEventHandler(output_ImageCaptured);
-        }
-
-        #endregion
-
         #region Image Saving
 
-        private void SaveImage(Stream stream, Image image)
+        protected override void SaveImage(Stream stream, Image image)
         {
             ImageCodecInfo myImageCodecInfo;
             Encoder myEncoder;
@@ -259,13 +238,6 @@ namespace Fusion8.Cropper
 
         #region Event Handling
 
-        private void output_ImageCaptured(object sender, ImageCapturedEventArgs e)
-        {
-            output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.FullSize, e.FullSizeImage);
-            if (e.IsThumbnailed)
-                output.FetchOutputStream(new StreamHandler(SaveImage), e.ImageNames.Thumbnail, e.ThumbnailImage);
-        }
-
         private void ImageQualityMenuHandler(object sender, EventArgs e)
         {
             MenuItem item = (MenuItem) sender;
@@ -275,13 +247,6 @@ namespace Fusion8.Cropper
             formatEvents.ClickedMenuItem = item;
             formatEvents.ImageOutputFormat = this;
             OnImageFormatClick(sender, formatEvents);
-        }
-
-        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-        {
-            ImageFormatClickEventHandler handler = ImageFormatClick;
-            if (handler != null)
-                handler(sender, e);
         }
 
         #endregion

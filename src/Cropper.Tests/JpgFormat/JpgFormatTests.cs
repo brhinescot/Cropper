@@ -55,7 +55,6 @@ In return, we simply require that you agree:
 
 #endregion
 
-using System;
 using NUnit.Framework;
 
 namespace Fusion8.Cropper
@@ -89,13 +88,6 @@ namespace Fusion8.Cropper
             JpgFormat format = new JpgFormat();
 
             Assert.IsTrue(format.HostInOptions);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Connect_throws_exception_when_IPersistableOutput_is_null()
-        {
-            new JpgFormat().Connect(null);
         }
 
         [Test]
