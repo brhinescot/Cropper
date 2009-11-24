@@ -67,162 +67,162 @@ using Fusion8.Cropper.Extensibility;
 
 namespace Fusion8.Cropper
 {
-	/// <summary>
-	/// Summary description for JpgFormat.
-	/// </summary>
-	public class PrinterOutput : IPersistableImageFormat
-	{
-		#region Member Variables
+    /// <summary>
+    /// Summary description for JpgFormat.
+    /// </summary>
+    public class PrinterOutput : IPersistableImageFormat
+    {
+        #region Member Variables
 
-		private const string FormatName = "Printer";
-		private IPersistableOutput output;
-		private Image capturedImage;
+        private const string FormatName = "Printer";
+        private IPersistableOutput output;
+        private Image capturedImage;
 
-		#endregion
+        #endregion
 
-		#region Property Accessors
+        #region Property Accessors
 
-		public string Extension
-		{
-			get { return FormatName; }
-		}
+        public string Extension
+        {
+            get { return FormatName; }
+        }
 
-		public string Description
-		{
-			get { return "Printer"; }
-		}
+        public string Description
+        {
+            get { return "Printer"; }
+        }
 
-		public MenuItem Menu
-		{
-			get
-			{
-				MenuItem menuItem = new MenuItem();
-				menuItem.RadioCheck = true;
-				menuItem.Text = FormatName;
-				menuItem.Click += HandleMenuItemClick;
-				return menuItem;
-			}
-		}
+        public MenuItem Menu
+        {
+            get
+            {
+                MenuItem menuItem = new MenuItem();
+                menuItem.RadioCheck = true;
+                menuItem.Text = FormatName;
+                menuItem.Click += HandleMenuItemClick;
+                return menuItem;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		public event ImageFormatClickEventHandler ImageFormatClick;
+        public event ImageFormatClickEventHandler ImageFormatClick;
 
-		public void Connect(IPersistableOutput persistableOutput)
-		{
-			if (persistableOutput == null)
-				throw new ArgumentNullException("persistableOutput");
+        public void Connect(IPersistableOutput persistableOutput)
+        {
+            if (persistableOutput == null)
+                throw new ArgumentNullException("persistableOutput");
 
-			output = persistableOutput;
-			output.ImageCaptured += HandleOutputImageCaptured;
-		}
+            output = persistableOutput;
+            output.ImageCaptured += HandleOutputImageCaptured;
+        }
 
-		public void Disconnect()
-		{
-			output.ImageCaptured -= HandleOutputImageCaptured;
-			if (capturedImage != null)
-				capturedImage.Dispose();
-		}
+        public void Disconnect()
+        {
+            output.ImageCaptured -= HandleOutputImageCaptured;
+            if (capturedImage != null)
+                capturedImage.Dispose();
+        }
 
-		#region Printing
+        #region Printing
 
-		private void Print()
-		{
-			PrintDialog printDialog = new PrintDialog();
-			PrintDocument printImage = new PrintDocument();
+        private void Print()
+        {
+            PrintDialog printDialog = new PrintDialog();
+            PrintDocument printImage = new PrintDocument();
 
-			printImage.DocumentName = "Cropper Captured Image";
-			printImage.PrintPage += OnPrintPage;
+            printImage.DocumentName = "Cropper Captured Image";
+            printImage.PrintPage += OnPrintPage;
 
-			printDialog.Document = printImage;
+            printDialog.Document = printImage;
 
-			DialogResult result = printDialog.ShowDialog();
+            DialogResult result = printDialog.ShowDialog();
 
-			// Send print message
-			try
-			{
-				if (result == DialogResult.OK)
-					printImage.Print();
-			}
-			catch (InvalidPrinterException)
-			{
-				ShowPrintError();
-			}
-			finally
-			{
-				printImage.Dispose();
-				printDialog.Dispose();
-			}
-		}
+            // Send print message
+            try
+            {
+                if (result == DialogResult.OK)
+                    printImage.Print();
+            }
+            catch (InvalidPrinterException)
+            {
+                ShowPrintError();
+            }
+            finally
+            {
+                printImage.Dispose();
+                printDialog.Dispose();
+            }
+        }
 
-		// Print Event Handler
-		//
-		private void OnPrintPage(object sender, PrintPageEventArgs ppea)
-		{
-			try
-			{
-				PrintDocument document = (PrintDocument) sender;
-				SizeF imageInches = CalculateSizeInInches(capturedImage);
-				PointF originInches = CalculateOriginInInches(imageInches, document);
-				ppea.Graphics.DrawImage(capturedImage, originInches.X, originInches.Y);
-			}
-			catch (InvalidPrinterException)
-			{
-				ShowPrintError();
-			}
-		}
+        // Print Event Handler
+        //
+        private void OnPrintPage(object sender, PrintPageEventArgs ppea)
+        {
+            try
+            {
+                PrintDocument document = (PrintDocument)sender;
+                SizeF imageInches = CalculateSizeInInches(capturedImage);
+                PointF originInches = CalculateOriginInInches(imageInches, document);
+                ppea.Graphics.DrawImage(capturedImage, originInches.X, originInches.Y);
+            }
+            catch (InvalidPrinterException)
+            {
+                ShowPrintError();
+            }
+        }
 
-		private static void ShowPrintError()
-		{
-			MessageBox.Show(
-				"There was a problem printing the image.  Please verify you are able to " +
-				"connect to the printer if it is on a network share.",
-				"Printing Problem",
-				MessageBoxButtons.OK,
-				MessageBoxIcon.Information);
-		}
+        private static void ShowPrintError()
+        {
+            MessageBox.Show(
+                "There was a problem printing the image.  Please verify you are able to " +
+                "connect to the printer if it is on a network share.",
+                "Printing Problem",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
 
-		private static SizeF CalculateSizeInInches(Image image)
-		{
-			return new SizeF(
-				image.Width/image.VerticalResolution,
-				image.Height/image.HorizontalResolution);
-		}
+        private static SizeF CalculateSizeInInches(Image image)
+        {
+            return new SizeF(
+                image.Width / image.VerticalResolution,
+                image.Height / image.HorizontalResolution);
+        }
 
-		private PointF CalculateOriginInInches(SizeF sizesInInches, PrintDocument document)
-		{
-			PointF point = new PointF();
-			point.X = (((document.DefaultPageSettings.Bounds.Width/100) -
-			            sizesInInches.Width)/2)*capturedImage.HorizontalResolution;
-			point.Y = (((document.DefaultPageSettings.Bounds.Height/100) -
-			            sizesInInches.Height)/2)*capturedImage.VerticalResolution;
-			return point;
-		}
+        private PointF CalculateOriginInInches(SizeF sizesInInches, PrintDocument document)
+        {
+            PointF point = new PointF();
+            point.X = (((document.DefaultPageSettings.Bounds.Width / 100) -
+                        sizesInInches.Width) / 2) * capturedImage.HorizontalResolution;
+            point.Y = (((document.DefaultPageSettings.Bounds.Height / 100) -
+                        sizesInInches.Height) / 2) * capturedImage.VerticalResolution;
+            return point;
+        }
 
-		#endregion
+        #endregion
 
-		#region Event Handling
+        #region Event Handling
 
-		private void HandleOutputImageCaptured(object sender, ImageCapturedEventArgs e)
-		{
-			capturedImage = e.FullSizeImage;
-			Print();
-		}
+        private void HandleOutputImageCaptured(object sender, ImageCapturedEventArgs e)
+        {
+            capturedImage = e.FullSizeImage;
+            Print();
+        }
 
-		private void HandleMenuItemClick(object sender, EventArgs e)
-		{
-			ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-			formatEvents.ClickedMenuItem = (MenuItem) sender;
-			formatEvents.ImageOutputFormat = this;
-			OnImageFormatClick(sender, formatEvents);
-		}
+        private void HandleMenuItemClick(object sender, EventArgs e)
+        {
+            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
+            formatEvents.ClickedMenuItem = (MenuItem)sender;
+            formatEvents.ImageOutputFormat = this;
+            OnImageFormatClick(sender, formatEvents);
+        }
 
-		private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-		{
-			if (ImageFormatClick != null)
-				ImageFormatClick(sender, e);
-		}
+        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
+        {
+            if (ImageFormatClick != null)
+                ImageFormatClick(sender, e);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
