@@ -95,7 +95,7 @@ namespace Fusion8.Cropper
         [ExpectedException(typeof(ArgumentNullException))]
         public void Connect_throws_exception_when_IPersistableOutput_is_null()
         {
-            new BmpFormat().Connect(null);
+            new JpgFormat().Connect(null);
         }
 
         [Test]
