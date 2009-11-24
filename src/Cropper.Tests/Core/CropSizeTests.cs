@@ -63,48 +63,6 @@ namespace Fusion8.Cropper.Core
     public class CropSizeTests
     {
         [Test]
-        public void Width_is_0_by_default()
-        {
-            int expected = 0;
-
-            CropSize size = new CropSize();
-
-            Assert.AreEqual(expected, size.Width);
-        }
-
-        [Test]
-        public void Height_is_0_by_default()
-        {
-            int expected = 0;
-
-            CropSize size = new CropSize();
-
-            Assert.AreEqual(expected, size.Height);
-        }
-
-        [Test]
-        public void Width_property_is_not_altered()
-        {
-            int width = 119;
-
-            CropSize size = new CropSize();
-            size.Width = width;
-
-            Assert.AreEqual(width, size.Width);
-        }
-
-        [Test]
-        public void Height_property_is_not_altered()
-        {
-            int height = 104;
-
-            CropSize size = new CropSize();
-            size.Height = height;
-
-            Assert.AreEqual(height, size.Height);
-        }
-
-        [Test]
         public void Constructor_parameters_are_not_altered()
         {
             int width = 119;
