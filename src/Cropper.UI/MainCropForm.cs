@@ -504,7 +504,7 @@ namespace Fusion8.Cropper
 		{
 			if (!Directory.Exists(Configuration.Current.OutputPath))
 				Directory.CreateDirectory(Configuration.Current.OutputPath);
-            if (string.IsNullOrEmpty(imageCapture.LastImageCaptured))
+            if (string.IsNullOrEmpty(imageCapture.LastImageCaptured) || !File.Exists(imageCapture.LastImageCaptured))
                 Process.Start(Configuration.Current.OutputPath);
             else
             {
