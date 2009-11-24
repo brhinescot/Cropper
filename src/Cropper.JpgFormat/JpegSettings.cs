@@ -59,11 +59,17 @@ namespace Fusion8.Cropper
 {
     public class JpegSettings
     {
-        public JpegSettings()
-        {
-            this.Extension = "jpg";
-        }
+        private string extension;
 
-        public string Extension { get; set; }
+        public string Extension
+        {
+            get
+            {
+                if (extension == null)
+                    extension = "jpg";
+                return extension;
+            }
+            set { extension = value; }
+        }
     }
 }
