@@ -68,63 +68,28 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for JpgFormat.
+    /// Summary description for PrinterOutput.
     /// </summary>
-    public class PrinterOutput : IPersistableImageFormat
+    public class PrinterOutput : DesignablePlugin
     {
-        #region Member Variables
-
-        private const string FormatName = "Printer";
-        private IPersistableOutput output;
         private Image capturedImage;
 
-        #endregion
-
-        #region Property Accessors
-
-        public string Extension
-        {
-            get { return FormatName; }
-        }
-
-        public string Description
+        public override string Extension
         {
             get { return "Printer"; }
         }
 
-        public MenuItem Menu
+        public override string Description
         {
-            get
-            {
-                MenuItem menuItem = new MenuItem();
-                menuItem.RadioCheck = true;
-                menuItem.Text = FormatName;
-                menuItem.Click += HandleMenuItemClick;
-                return menuItem;
-            }
+            get { return "Printer"; }
         }
 
-        #endregion
-
-        public event ImageFormatClickEventHandler ImageFormatClick;
-
-        public void Connect(IPersistableOutput persistableOutput)
+        public override void Disconnect()
         {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
-            output.ImageCaptured += HandleOutputImageCaptured;
-        }
-
-        public void Disconnect()
-        {
-            output.ImageCaptured -= HandleOutputImageCaptured;
+            base.Disconnect();
             if (capturedImage != null)
                 capturedImage.Dispose();
         }
-
-        #region Printing
 
         private void Print()
         {
@@ -199,30 +164,10 @@ namespace Fusion8.Cropper
             return point;
         }
 
-        #endregion
-
-        #region Event Handling
-
-        private void HandleOutputImageCaptured(object sender, ImageCapturedEventArgs e)
+        protected override void ImageCaptured(object sender, ImageCapturedEventArgs e)
         {
             capturedImage = e.FullSizeImage;
             Print();
         }
-
-        private void HandleMenuItemClick(object sender, EventArgs e)
-        {
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = (MenuItem)sender;
-            formatEvents.ImageOutputFormat = this;
-            OnImageFormatClick(sender, formatEvents);
-        }
-
-        private void OnImageFormatClick(object sender, ImageFormatEventArgs e)
-        {
-            if (ImageFormatClick != null)
-                ImageFormatClick(sender, e);
-        }
-
-        #endregion
     }
 }
