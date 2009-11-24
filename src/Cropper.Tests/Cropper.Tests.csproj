@@ -77,6 +77,7 @@
     <Compile Include="JpgFormat\JpegSettingsTests.cs" />
     <Compile Include="JpgFormat\JpgFormatTests.cs" />
     <Compile Include="PngFormat\PngFormatTests.cs" />
+    <Compile Include="PrinterOutput\PrinterOutputTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cropper.BmpFormat\Cropper.BmpFormat.csproj">
@@ -102,6 +103,10 @@
     <ProjectReference Include="..\Cropper.PngFormat\Cropper.PngFormat.csproj">
       <Project>{CC3BE0DA-871E-46D3-9301-94CFCA5DB04F}</Project>
       <Name>Cropper.PngFormat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cropper.PrinterOutput\Cropper.PrinterOutput.csproj">
+      <Project>{1114B0CB-C03B-4EF4-A57B-C62D06E4142C}</Project>
+      <Name>Cropper.PrinterOutput</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
