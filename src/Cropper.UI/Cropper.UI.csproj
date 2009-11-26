@@ -220,7 +220,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>IF NOT EXIST "$(TargetDir)plugins\"  MKDIR "$(TargetDir)plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
