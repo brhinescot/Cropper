@@ -272,9 +272,36 @@ namespace Fusion8.Cropper
 			SetColors();
 			SetUpForm();
 			SetUpMenu();
-			Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
+			if (LimitMaxWorkingSet()) Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
             SaveConfiguration();
 		}
+
+        /// <summary>
+        /// Determines if the MaxWorkingSet should be limited.
+        /// </summary>
+        /// <returns>true if MaxWorkingSet should be limited; otherwise, false</returns>
+        /// <remarks>This is only used to prevent an exception in Windows 2000 when the user is not part of the BUILTIN\Administrators group. This can be removed when Windows 2000 is no longer supported (July 13, 2010)</remarks>
+        private static bool LimitMaxWorkingSet()
+        {
+            var windows2000 = Environment.OSVersion.Version.Major == 5 &&
+                              Environment.OSVersion.Version.Minor == 0 &&
+                              Environment.OSVersion.Version.Build == 2195;
+            if (windows2000)
+            {
+                var administratorsGroupSid = "S-1-5-32-544";
+                foreach (var group in System.Security.Principal.WindowsIdentity.GetCurrent().Groups)
+                {
+                    if (group.Value == administratorsGroupSid)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
+        }
 
 		#endregion
 
