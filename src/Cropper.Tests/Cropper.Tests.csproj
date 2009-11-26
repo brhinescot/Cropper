@@ -71,6 +71,7 @@
     <Compile Include="Core\CropSizeTests.cs" />
     <Compile Include="ClipboardFormat\ClipboardOutputSettingsTests.cs" />
     <Compile Include="Core\FileNameTemplateTests.cs" />
+    <Compile Include="Core\PluginsTests.cs" />
     <Compile Include="Extensibility\CropFormColorTableTests.cs" />
     <Compile Include="Extensibility\DesignablePluginTests.cs" />
     <Compile Include="Extensibility\ImagePairNamesTests.cs" />
@@ -117,4 +118,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(TargetDir)plugins\"  MKDIR "$(TargetDir)plugins\"
+COPY "$(TargetDir)*.*" "$(TargetDir)plugins\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
