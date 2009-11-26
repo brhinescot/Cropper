@@ -61,6 +61,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Fusion8.Cropper.Extensibility;
 
@@ -152,27 +153,34 @@ namespace Fusion8.Cropper
 
         protected override void ImageCaptured(object sender, ImageCapturedEventArgs e)
         {
-            switch (PluginSettings.Format)
+            try
             {
-                case ClipboardOutputFormat.Bitmap:
-                    Clipboard.SetImage(e.FullSizeImage);
-                    break;
-                case ClipboardOutputFormat.Jpg:
-                    using (MemoryStream stream = new MemoryStream())
-                    {
-                        SaveJpegImage(stream, e.FullSizeImage);
-                        using (Image bitmap = Bitmap.FromStream(stream))
-                            Clipboard.SetDataObject(bitmap, true);
-                    }
-                    break;
-                case ClipboardOutputFormat.Png:
-                    using (MemoryStream stream = new MemoryStream())
-                    {
-                        e.FullSizeImage.Save(stream, ImageFormat.Png);
-                        using (Image bitmap = Bitmap.FromStream(stream))
-                            Clipboard.SetDataObject(bitmap, true);
-                    }
-                    break;
+                switch (PluginSettings.Format)
+                {
+                    case ClipboardOutputFormat.Bitmap:
+                        Clipboard.SetImage(e.FullSizeImage);
+                        break;
+                    case ClipboardOutputFormat.Jpg:
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            SaveJpegImage(stream, e.FullSizeImage);
+                            using (Image bitmap = Bitmap.FromStream(stream))
+                                Clipboard.SetDataObject(bitmap, true);
+                        }
+                        break;
+                    case ClipboardOutputFormat.Png:
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            e.FullSizeImage.Save(stream, ImageFormat.Png);
+                            using (Image bitmap = Bitmap.FromStream(stream))
+                                Clipboard.SetDataObject(bitmap, true);
+                        }
+                        break;
+                }
+            }
+            catch (ExternalException ex)
+            {
+                throw new InvalidOperationException("The image was not saved to the clipboard.", ex);
             }
         }
 
