@@ -141,6 +141,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>COPY "$(TargetDir)$(ProjectName).*" "$(SolutionDir)Cropper.UI\$(OutDir)plugins\</PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetDir)$(ProjectName).*" "$(SolutionDir)Cropper.UI\$(OutDir)plugins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
