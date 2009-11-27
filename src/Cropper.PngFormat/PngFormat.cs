@@ -1,4 +1,4 @@
-#region License Information 
+#region License Information
 
 /**********************************************************************************
 Shared Source License for Cropper
