@@ -104,7 +104,7 @@ www.sliver.com</value>
     <value>Choose the folder where Cropper will automatically save all screenshots and thumbnails.</value>
   </data>
   <data name="HomepageLinkUrl" xml:space="preserve">
-    <value>http://blogs.geekdojo.net/brian/articles/Cropper.aspx</value>
+    <value>http://cropper.codeplex.com/</value>
   </data>
   <data name="MenuOnTop" xml:space="preserve">
     <value>Always On Top</value>
