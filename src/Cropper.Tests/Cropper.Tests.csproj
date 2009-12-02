@@ -119,7 +119,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(TargetDir)plugins\"  MKDIR "$(TargetDir)plugins\"
-COPY "$(TargetDir)*.*" "$(TargetDir)plugins\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

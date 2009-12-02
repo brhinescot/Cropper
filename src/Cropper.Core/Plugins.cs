@@ -141,7 +141,7 @@ namespace Fusion8.Cropper.Core
 		private static string[] ParsePluginDirectory()
 		{
 			string[] pluginPaths = new string[0];
-			string directory = (Path.Combine(Environment.CurrentDirectory, PluginFolder));
+			string directory = (Path.Combine(Application.StartupPath, PluginFolder));
 			if (Directory.Exists(directory))
 				pluginPaths = Directory.GetFileSystemEntries(directory, PluginExtensionFilter);
 
