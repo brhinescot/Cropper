@@ -196,6 +196,8 @@ namespace Fusion8.Cropper
 
             AcceptButton = okButton;
             CancelButton = cancelButton;
+
+            this.optionsTabs.Controls.Remove(this.keyboardTab);
         }
 
         private void SetStrings()
