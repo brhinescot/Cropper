@@ -58,7 +58,9 @@ In return, we simply require that you agree:
 #region Using Directives
 
 using System;
+using System.Threading;
 using System.Windows.Forms;
+using Fusion8.Cropper.Core;
 using Skybound.VisualStyles;
 
 #endregion
@@ -78,18 +80,24 @@ namespace Fusion8.Cropper
 		[STAThread]
 		private static void Main()
 		{
-            Application.SetCompatibleTextRenderingDefault(false);
+            bool isFirstInstance;
+            Mutex mutex = new Mutex(false, "Local\\Cropper", out isFirstInstance);
+            if (Configuration.Current.AllowMultipleInstances || isFirstInstance)
+            {
+                Application.SetCompatibleTextRenderingDefault(false);
             
-            VisualStyleContext.Create();
-            VisualStyleFilter.SetEnhancedDefault(true);
-            VisualStyleFilter.SetTextEnhancedDefault(true);
+                VisualStyleContext.Create();
+                VisualStyleFilter.SetEnhancedDefault(true);
+                VisualStyleFilter.SetTextEnhancedDefault(true);
 			
-            MainCropForm mainCropForm = new MainCropForm();
+                MainCropForm mainCropForm = new MainCropForm();
             
-            VisualStyleFilter.Global.SetVisualStyleEnhanced(mainCropForm, VisualStyleEnhanced.No);
+                VisualStyleFilter.Global.SetVisualStyleEnhanced(mainCropForm, VisualStyleEnhanced.No);
 	        
-            mainCropForm.Closed += HandleMainCropFormClosed;
-			Application.Run();
+                mainCropForm.Closed += HandleMainCropFormClosed;
+				Application.Run();
+                GC.KeepAlive(mutex);
+            }
 		}
 
 		private static void HandleMainCropFormClosed(object sender, EventArgs e)

@@ -156,6 +156,8 @@ namespace Fusion8.Cropper
         private TabPage keyboardTab;
         private HotKeySelection hotKeySelection1;
         private MenuItem templateTimestamp;
+        private CheckBox allowMultipleCropperInstances;
+        private GroupBox otherOptionsDescription;
         private bool addingSize;
 
         #endregion
@@ -178,6 +180,7 @@ namespace Fusion8.Cropper
             hideDuringCapture.Checked = Configuration.Current.HideFormDuringCapture;
             hideAfterCapture.Checked = Configuration.Current.HideFormAfterCapture;
             keepPrntScrnOnClipboard.Checked = Configuration.Current.LeavePrintScreenOnClipboard;
+            allowMultipleCropperInstances.Checked = Configuration.Current.AllowMultipleInstances;
 
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
                 predefinedSizeList.Items.Add(size);
@@ -283,6 +286,8 @@ namespace Fusion8.Cropper
             this.optionsTabs = new System.Windows.Forms.TabControl();
             this.outputTab = new System.Windows.Forms.TabPage();
             this.capturesTab = new System.Windows.Forms.TabPage();
+            this.otherOptionsDescription = new System.Windows.Forms.GroupBox();
+            this.allowMultipleCropperInstances = new System.Windows.Forms.CheckBox();
             this.appearanceTab = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -316,6 +321,7 @@ namespace Fusion8.Cropper
             this.optionsTabs.SuspendLayout();
             this.outputTab.SuspendLayout();
             this.capturesTab.SuspendLayout();
+            this.otherOptionsDescription.SuspendLayout();
             this.appearanceTab.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -744,12 +750,31 @@ namespace Fusion8.Cropper
             // 
             this.capturesTab.Controls.Add(this.hotKeysGroup);
             this.capturesTab.Controls.Add(this.nonRectangularCapturesGroup);
+            this.capturesTab.Controls.Add(this.otherOptionsDescription);
             this.capturesTab.Location = new System.Drawing.Point(4, 22);
             this.capturesTab.Name = "capturesTab";
             this.capturesTab.Size = new System.Drawing.Size(336, 395);
             this.capturesTab.TabIndex = 1;
             this.capturesTab.Text = "Capturing";
             this.capturesTab.UseVisualStyleBackColor = true;
+            // 
+            // otherOptionsDescription
+            // 
+            this.otherOptionsDescription.Controls.Add(this.allowMultipleCropperInstances);
+            this.otherOptionsDescription.Location = new System.Drawing.Point(8, 326);
+            this.otherOptionsDescription.Name = "otherOptionsDescription";
+            this.otherOptionsDescription.Size = new System.Drawing.Size(316, 51);
+            this.otherOptionsDescription.TabIndex = 4;
+            this.otherOptionsDescription.TabStop = false;
+            this.otherOptionsDescription.Text = "Other &Options";
+            // 
+            // allowMultipleCropperInstances
+            // 
+            this.allowMultipleCropperInstances.Location = new System.Drawing.Point(19, 19);
+            this.allowMultipleCropperInstances.Name = "allowMultipleCropperInstances";
+            this.allowMultipleCropperInstances.Size = new System.Drawing.Size(268, 24);
+            this.allowMultipleCropperInstances.TabIndex = 3;
+            this.allowMultipleCropperInstances.Text = "Allow multiple &instances.";
             // 
             // appearanceTab
             // 
@@ -1007,6 +1032,7 @@ namespace Fusion8.Cropper
             this.optionsTabs.ResumeLayout(false);
             this.outputTab.ResumeLayout(false);
             this.capturesTab.ResumeLayout(false);
+            this.otherOptionsDescription.ResumeLayout(false);
             this.appearanceTab.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1052,6 +1078,7 @@ namespace Fusion8.Cropper
             Configuration.Current.HideFormDuringCapture = hideDuringCapture.Checked;
             Configuration.Current.HideFormAfterCapture = hideAfterCapture.Checked;
             Configuration.Current.LeavePrintScreenOnClipboard = keepPrntScrnOnClipboard.Checked;
+            Configuration.Current.AllowMultipleInstances = allowMultipleCropperInstances.Checked;
 
             List<CropSize> cropSize = new List<CropSize>();
             foreach (CropSize size in predefinedSizeList.Items)
