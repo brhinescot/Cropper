@@ -449,7 +449,7 @@ namespace Fusion8.Cropper
 				DialogCloseIfNeeded();
 				showHideMenu.Text = SR.MenuShow;
 				Hide();
-				Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
+				if (LimitMaxWorkingSet()) Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
 				GC.Collect(2);
 			}
 			else if (!Visible)
