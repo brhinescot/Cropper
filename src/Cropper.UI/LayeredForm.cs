@@ -136,7 +136,7 @@ namespace Fusion8.Cropper
 		protected virtual void OnPaintLayer(PaintLayerEventArgs e)
 		{
             EventHandler<PaintLayerEventArgs> handler = PaintLayer;
-			if (!DesignMode && (handler != null))
+			if (handler != null)
 				PaintLayer(this, e);
 		}
 
@@ -232,6 +232,11 @@ namespace Fusion8.Cropper
 		{
 			get
 			{
+				if (DesignMode)
+				{
+					return base.CreateParams;
+				}
+
 				CreateParams cParams = base.CreateParams;
 				cParams.ExStyle |= NativeMethods.WS_EX_LAYERED;
 				return cParams;
@@ -242,6 +247,13 @@ namespace Fusion8.Cropper
 
 		protected override void OnPaintBackground(PaintEventArgs pevent)
 		{
+			if (DesignMode)
+			{
+				base.OnPaintBackground(pevent);
+
+				return;
+			}
+
 			// Eat event to prevent rendering error when WM_PAINT message 
 			// is sent.
 		}
