@@ -908,6 +908,7 @@ namespace Fusion8.Cropper
             this.opacitySlider.LargeChange = 1;
             this.opacitySlider.Location = new System.Drawing.Point(52, 44);
             this.opacitySlider.Maximum = 9;
+            this.opacitySlider.Minimum = 1;
             this.opacitySlider.Name = "opacitySlider";
             this.opacitySlider.Size = new System.Drawing.Size(248, 45);
             this.opacitySlider.TabIndex = 2;
