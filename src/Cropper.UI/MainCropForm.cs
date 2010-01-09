@@ -1441,14 +1441,14 @@ namespace Fusion8.Cropper
 					    CycleColors();
 					e.Handled = true;
 					break;
-				case (Keys) 219:
+				case Keys.OemOpenBrackets:
 					if (e.Alt)
 						ResizeThumbnail(interval);
 					else
 						CenterSize(AlternateSizingInterval);
 					e.Handled = true;
 					break;
-				case (Keys) 221:
+				case Keys.OemCloseBrackets:
 					if (e.Alt)
 						ResizeThumbnail(-interval);
 					else
