@@ -76,6 +76,7 @@ namespace Fusion8.Cropper.Core
 		private static readonly string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "cropper.portable");
 		private static readonly string portableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
 		private static Settings cropperSettings;
+	    private static ConfigurationPersistence<Settings> configurationPersistence;
 
 		#endregion		
 
@@ -107,6 +108,22 @@ namespace Fusion8.Cropper.Core
 			}
 		}
 
+        /// <summary>
+        /// Lazily creates a single instance of the <see cref="ConfigurationPersistence" /> class so that the configuration can be saved when the user logs off, restarts, or shuts down.
+        /// </summary>
+	    private static ConfigurationPersistence<Settings> ConfigurationPersistence
+	    {
+	        get
+	        {
+	            if (configurationPersistence == null)
+	            {
+                    configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
+	            }
+
+	            return configurationPersistence;
+	        }
+	    }
+
 		/// <summary>
 		/// Loads the configuration file.
 		/// </summary>
@@ -125,8 +142,7 @@ namespace Fusion8.Cropper.Core
 			    if (!File.Exists(path))
 			        return new Settings();
 
-                ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
-                return configurationPersistence.Load(path);
+                return ConfigurationPersistence.Load(path);
 			}
 			catch (SerializationException)
 			{
@@ -186,8 +202,7 @@ namespace Fusion8.Cropper.Core
 
 		    try
 		    {
-		        ConfigurationPersistence<Settings> configurationPersistence = new ConfigurationPersistence<Settings>(Settings.XmlRootName, Settings.RootNamespace, GetAdditionalTypes());
-		        configurationPersistence.Save(path, settings);
+		        ConfigurationPersistence.Save(path, settings);
 		    }
 		    catch (IOException)
 		    {
