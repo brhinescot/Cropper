@@ -94,8 +94,6 @@ namespace Fusion8.Cropper.Core
 
         #region .ctors
 
-        public ConfigurationPersistence() : this(null, null) { }
-
         public ConfigurationPersistence(string xmlRootName, string rootNamespace, params Type[] additionalTypes)
         {
             this.xmlRootName = xmlRootName;
