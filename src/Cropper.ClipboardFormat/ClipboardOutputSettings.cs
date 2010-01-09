@@ -59,19 +59,13 @@ namespace Fusion8.Cropper
 {
     public class ClipboardOutputSettings
     {
-        private int imageQuality = 80;
-        private ClipboardOutputFormat format;
-
-        public int ImageQuality
+        public ClipboardOutputSettings()
         {
-            get { return imageQuality; }
-            set { imageQuality = value; }
+            ImageQuality = 80;
         }
 
-        public ClipboardOutputFormat Format
-        {
-            get { return format; }
-            set { format = value; }
-        }
+        public int ImageQuality { get; set; }
+
+        public ClipboardOutputFormat Format { get; set; }
     }
 }

@@ -81,27 +81,5 @@ namespace Fusion8.Cropper
 
             Assert.AreEqual(expected, settings.Format);
         }
-
-        [Test]
-        public void ImageQuality_property_is_not_altered()
-        {
-            int imageQuality = 10581;
-
-            ClipboardOutputSettings settings = new ClipboardOutputSettings();
-            settings.ImageQuality = imageQuality;
-
-            Assert.AreEqual(imageQuality, settings.ImageQuality);
-        }
-
-        [Test]
-        public void Format_property_is_not_altered()
-        {
-            ClipboardOutputFormat format = ClipboardOutputFormat.Jpg;
-
-            ClipboardOutputSettings settings = new ClipboardOutputSettings();
-            settings.Format = format;
-
-            Assert.AreEqual(format, settings.Format);
-        }
     }
 }
