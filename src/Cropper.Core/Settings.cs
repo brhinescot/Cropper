@@ -101,6 +101,7 @@ namespace Fusion8.Cropper.Core
         private bool hideFormDuringCapture;
         private bool hideFormAfterCapture;
         private string outputPath = DefaultOutputPath;
+        private bool allowMultipleInstances = true;
 
         private string fileNameTemplate = FileNameTemplate.DefaultFullImageTemplate;
         private string fileNameThumbTemplate = FileNameTemplate.DefaultThumbImageTemplate;
@@ -121,6 +122,16 @@ namespace Fusion8.Cropper.Core
         }
 
         #region Property Accessors
+
+        /// <summary>
+        /// Allow multiple instances per user
+        /// </summary>
+        [XmlElement("AllowMultipleInstances", typeof (bool))]
+        public bool AllowMultipleInstances
+        {
+            get { return allowMultipleInstances; }
+            set { allowMultipleInstances = value; }
+        }
 
         /// <summary>
         /// The users last used image format.

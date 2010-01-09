@@ -524,6 +524,7 @@ namespace Fusion8.Cropper
 				SetColors();
 				TrapPrintScreen = Configuration.Current.TrapPrintScreen;
 				RefreshMenuItems();
+				SaveConfiguration();
 			}
 		}
 
