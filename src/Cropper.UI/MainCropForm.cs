@@ -1118,7 +1118,7 @@ namespace Fusion8.Cropper
 
 		    
 
-		    if (settings.UserOpacity < 0.1 || settings.UserOpacity >= 1.0)
+		    if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
 				settings.UserOpacity = 0.4;
 			
             if (!settings.UsePerPixelAlpha)
