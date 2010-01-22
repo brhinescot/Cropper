@@ -158,6 +158,7 @@ namespace Fusion8.Cropper
         private MenuItem templateTimestamp;
         private CheckBox allowMultipleCropperInstances;
         private GroupBox otherOptionsDescription;
+        private CheckBox includeMouseCursorInCapture;
         private bool addingSize;
 
         #endregion
@@ -181,6 +182,7 @@ namespace Fusion8.Cropper
             hideAfterCapture.Checked = Configuration.Current.HideFormAfterCapture;
             keepPrntScrnOnClipboard.Checked = Configuration.Current.LeavePrintScreenOnClipboard;
             allowMultipleCropperInstances.Checked = Configuration.Current.AllowMultipleInstances;
+            includeMouseCursorInCapture.Checked = Configuration.Current.IncludeMouseCursorInCapture;
 
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
                 predefinedSizeList.Items.Add(size);
@@ -313,6 +315,7 @@ namespace Fusion8.Cropper
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.templateTimestamp = new System.Windows.Forms.MenuItem();
+            this.includeMouseCursorInCapture = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.nonRectangularCapturesGroup.SuspendLayout();
             this.outputTemplateGroup.SuspendLayout();
@@ -760,10 +763,11 @@ namespace Fusion8.Cropper
             // 
             // otherOptionsDescription
             // 
+            this.otherOptionsDescription.Controls.Add(this.includeMouseCursorInCapture);
             this.otherOptionsDescription.Controls.Add(this.allowMultipleCropperInstances);
             this.otherOptionsDescription.Location = new System.Drawing.Point(8, 326);
             this.otherOptionsDescription.Name = "otherOptionsDescription";
-            this.otherOptionsDescription.Size = new System.Drawing.Size(316, 51);
+            this.otherOptionsDescription.Size = new System.Drawing.Size(316, 66);
             this.otherOptionsDescription.TabIndex = 4;
             this.otherOptionsDescription.TabStop = false;
             this.otherOptionsDescription.Text = "Other &Options";
@@ -1006,6 +1010,14 @@ namespace Fusion8.Cropper
             // 
             this.colorDialog.AnyColor = true;
             // 
+            // includeMouseCursorInCapture
+            // 
+            this.includeMouseCursorInCapture.Location = new System.Drawing.Point(19, 40);
+            this.includeMouseCursorInCapture.Name = "includeMouseCursorInCapture";
+            this.includeMouseCursorInCapture.Size = new System.Drawing.Size(268, 20);
+            this.includeMouseCursorInCapture.TabIndex = 4;
+            this.includeMouseCursorInCapture.Text = "Include &mouse cursor in capture.";
+            // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -1079,6 +1091,7 @@ namespace Fusion8.Cropper
             Configuration.Current.HideFormAfterCapture = hideAfterCapture.Checked;
             Configuration.Current.LeavePrintScreenOnClipboard = keepPrntScrnOnClipboard.Checked;
             Configuration.Current.AllowMultipleInstances = allowMultipleCropperInstances.Checked;
+            Configuration.Current.IncludeMouseCursorInCapture = includeMouseCursorInCapture.Checked;
 
             List<CropSize> cropSize = new List<CropSize>();
             foreach (CropSize size in predefinedSizeList.Items)
