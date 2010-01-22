@@ -102,6 +102,7 @@ namespace Fusion8.Cropper.Core
         private bool hideFormAfterCapture;
         private string outputPath = DefaultOutputPath;
         private bool allowMultipleInstances = true;
+        private bool includeMouseCursorInCapture;
 
         private string fileNameTemplate = FileNameTemplate.DefaultFullImageTemplate;
         private string fileNameThumbTemplate = FileNameTemplate.DefaultThumbImageTemplate;
@@ -300,6 +301,13 @@ namespace Fusion8.Cropper.Core
         {
             get { return hideFormAfterCapture; }
             set { hideFormAfterCapture = value; }
+        }
+
+        [XmlElement("IncludeMouseCursorInCapture", typeof(bool))]
+        public bool IncludeMouseCursorInCapture
+        {
+            get { return includeMouseCursorInCapture; }
+            set { includeMouseCursorInCapture = value; }
         }
 
         [XmlArray("PluginSettings")]
