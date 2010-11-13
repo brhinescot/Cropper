@@ -690,11 +690,11 @@ namespace Fusion8.Cropper
 
 	    private void SaveConfiguration() 
         {
-	        string extension = string.Empty;
+	        string description = string.Empty;
 	        if (imageCapture.ImageFormat != null)
-	            extension = imageCapture.ImageFormat.Extension;
+	            description = imageCapture.ImageFormat.Description;
 
-	        Configuration.Current.ImageFormat = extension;
+	        Configuration.Current.ImageFormat = description;
 	        Configuration.Current.MaxThumbnailSize = maxThumbSize;
 	        Configuration.Current.IsThumbnailed = isThumbnailed;
 	        Configuration.Current.Location = Location;
