@@ -76,7 +76,7 @@ namespace Fusion8.Cropper.Core
                 IPersistableImageFormat returnFormat = null;
                 foreach (IPersistableImageFormat imageFormat in this)
                 {
-                    if (imageFormat.Extension == name)
+                    if (imageFormat.Description == name)
                         returnFormat = imageFormat;
                 }
                 return returnFormat;
