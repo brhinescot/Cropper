@@ -145,7 +145,7 @@ namespace Fusion8.Cropper.Core
         }
 
         /// <summary>
-        /// The users last used image format.
+        /// The users last used output directory.
         /// </summary>
         [XmlElement("OutputDirectory", typeof (String))]
         public string OutputPath
