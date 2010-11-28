@@ -64,4 +64,4 @@ using System.Resources;
 [assembly : NeutralResourcesLanguage("en-US")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
-[assembly : AssemblyVersion("1.9.3.89")]
+[assembly : AssemblyVersion("1.9.4.89")]
