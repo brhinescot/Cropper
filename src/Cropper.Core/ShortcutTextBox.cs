@@ -67,8 +67,12 @@ namespace Fusion8.Cropper.Core
 {
     ///<summary>
     ///</summary>
-    public class ShortcutTextBox : TextBox
+    public class ShortcutTextBox : Control
     {
+        private const string Seperator = " + ";
+
+        private ShortcutMode mode;
+
         #region Property Accessors
 
         /// <summary>
@@ -77,14 +81,34 @@ namespace Fusion8.Cropper.Core
         /// <value></value>
         protected override CreateParams CreateParams
         {
-            get
-            {
+            get {
                 CreateParams createParams = base.CreateParams;
                 createParams.ClassName = NativeMethods.HOTKEY_CLASS;
                 return createParams;
             }
         }
-        
+
+        public ShortcutMode Mode
+        {
+            get { return mode; }
+            set {
+                mode = value;
+
+                switch (mode)
+                {
+                    case ShortcutMode.Global:
+                        SetInvalidKeys(~Keys.Control, Keys.None);
+                        break;
+                    case ShortcutMode.Local:
+                        NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETRULES, IntPtr.Zero, IntPtr.Zero);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the 
+        /// </summary>
         public Keys KeyData
         {
             get { return KeyCode | Modifiers; }
@@ -97,8 +121,7 @@ namespace Fusion8.Cropper.Core
         /// <value>The key code.</value>
         public Keys KeyCode
         {
-            get
-            {
+            get {
                 IntPtr message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
                 int keyCode = (message.ToInt32() & 0xff);
 
@@ -113,8 +136,7 @@ namespace Fusion8.Cropper.Core
         /// <value>The modifiers.</value>
         public Keys Modifiers
         {
-            get
-            {
+            get {
                 IntPtr message = NativeMethods.SendMessage(Handle, NativeMethods.HKM_GETHOTKEY, IntPtr.Zero, IntPtr.Zero);
                 int flags = (message.ToInt32() >> 8);
 
@@ -137,8 +159,7 @@ namespace Fusion8.Cropper.Core
         public bool Alt
         {
             get { return (Modifiers & Keys.Alt) == Keys.Alt; }
-            set
-            {
+            set {
                 if (value)
                     Modifiers |= Keys.Alt;
                 else
@@ -153,8 +174,7 @@ namespace Fusion8.Cropper.Core
         public bool Shift
         {
             get { return (Modifiers & Keys.Shift) == Keys.Shift; }
-            set
-            {
+            set {
                 if (value)
                     Modifiers |= Keys.Shift;
                 else
@@ -169,18 +189,12 @@ namespace Fusion8.Cropper.Core
         public bool Control
         {
             get { return (Modifiers & Keys.Control) == Keys.Control; }
-            set
-            {
+            set {
                 if (value)
                     Modifiers |= Keys.Control;
                 else
                     Modifiers &= ~Keys.Control;
             }
-        }
-
-        public bool HasShortcut
-        {
-            get { return KeyCode != Keys.None; }
         }
 
         /// <summary>
@@ -191,24 +205,8 @@ namespace Fusion8.Cropper.Core
         /// <filterPriority>1</filterPriority>
         public override string Text
         {
-            get
-            {
-                Keys modifiers = Modifiers;
-                StringBuilder builder = new StringBuilder();
-
-                builder.Append(KeyCode == Keys.None ? Keys.None.ToString() : RetrieveKeyName((uint)KeyCode));
-
-                if ((modifiers & Keys.Alt) == Keys.Alt)
-                    builder.Insert(0, RetrieveKeyName((uint)Keys.Menu) + " + ");
-                if ((modifiers & Keys.Shift) == Keys.Shift)
-                    builder.Insert(0, RetrieveKeyName((uint)Keys.ShiftKey) + " + ");
-                if ((modifiers & Keys.Control) == Keys.Control)
-                    builder.Insert(0, RetrieveKeyName((uint)Keys.ControlKey) + " + ");
-
-                return builder.ToString();
-            }
-            set
-            {
+            get { return GetShorcutText(KeyData); }
+            set {
                 try
                 {
                     Keys keys = (Keys)Enum.Parse(typeof(Keys), value.Replace('+', ',').Replace("Ctrl", "Control"));
@@ -227,12 +225,38 @@ namespace Fusion8.Cropper.Core
 
         public ShortcutTextBox()
         {
-            SetInvalidKeys(Keys.Control, Keys.None, Keys.Shift);
+            SetStyle(ControlStyles.UserPaint, false);
+            SetInvalidKeys(~Keys.Control, Keys.None, Keys.Shift);
         }
 
         #endregion
 
-        public void SetInvalidKeys(Keys replacementModifiers, params Keys[] invalidModifiers)
+        public void Clear()
+        {
+            NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETHOTKEY, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        public static string GetShorcutText(Keys keyData)
+        {
+            Keys keyCode = StripModifiers(keyData);
+            Keys modifiers = keyData & ~keyCode;
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append(keyCode == Keys.None ? Keys.None.ToString() : RetrieveKeyName((uint)keyCode));
+
+            if ((modifiers & Keys.Alt) == Keys.Alt)
+                builder.Insert(0, RetrieveKeyName((uint)Keys.Menu) + Seperator);
+            if ((modifiers & Keys.Shift) == Keys.Shift)
+                builder.Insert(0, RetrieveKeyName((uint)Keys.ShiftKey) + Seperator);
+            if ((modifiers & Keys.Control) == Keys.Control)
+                builder.Insert(0, RetrieveKeyName((uint)Keys.ControlKey) + Seperator);
+
+            return builder.ToString();
+        }
+
+        #region Private Helpers
+
+        private void SetInvalidKeys(Keys replacementModifiers, params Keys[] invalidModifiers)
         {
             int hotKeyF = 0;
 
@@ -264,8 +288,6 @@ namespace Fusion8.Cropper.Core
                     case Keys.Shift | Keys.Control | Keys.Alt:
                         hotKeyF |= (int)NativeMethods.InvalidHotKeyModifiers.HKCOMB_SCA;
                         break;
-                    default:
-                        break;
                 }
             }
 
@@ -280,37 +302,50 @@ namespace Fusion8.Cropper.Core
             NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETRULES, (IntPtr)hotKeyF, (IntPtr)replacement);
         }
 
-        public void SetKeys(Keys keyCode, Keys modifiers)
+        private void SetKeys(Keys keyData)
         {
-            SetKeys(keyCode | modifiers);
+            Keys keyCode = StripModifiers(keyData);
+            Keys modifiers = keyData & ~keyCode;
+
+            SetKeys(keyCode, modifiers);
         }
 
-        public void SetKeys(Keys keyData)
+        private void SetKeys(Keys keyCode, Keys modifiers)
         {
-            Keys keyCode = keyData & (~Keys.Alt & ~Keys.Control & ~Keys.Shift);
+            int modifiers2 = 0;
+            if ((modifiers & Keys.Alt) == Keys.Alt)
+                modifiers2 |= NativeMethods.HOTKEYF_ALT;
+            if ((modifiers & Keys.Control) == Keys.Control)
+                modifiers2 |= NativeMethods.HOTKEYF_CONTROL;
+            if ((modifiers & Keys.Shift) == Keys.Shift)
+                modifiers2 |= NativeMethods.HOTKEYF_SHIFT;
 
-            int hotKeyF = 0;
-            if ((keyData & Keys.Alt) == Keys.Alt)
-                hotKeyF |= NativeMethods.HOTKEYF_ALT;
-            if ((keyData & Keys.Control) == Keys.Control)
-                hotKeyF |= NativeMethods.HOTKEYF_CONTROL;
-            if ((keyData & Keys.Shift) == Keys.Shift)
-                hotKeyF |= NativeMethods.HOTKEYF_SHIFT;
-
-            NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETHOTKEY, MakeHotKeyWParam((int)keyCode, hotKeyF), IntPtr.Zero);
+            NativeMethods.SendMessage(Handle, NativeMethods.HKM_SETHOTKEY, MakeWParam((int)keyCode, modifiers2), IntPtr.Zero);
         }
 
-        #region Private Helpers
-
-        private static IntPtr MakeHotKeyWParam(int keyCode, int modifiers)
+        private static Keys StripModifiers(Keys keyData)
         {
-            return (IntPtr)((modifiers << 8) | (keyCode & 0xffff));
+            return keyData & ~(Keys.Alt | Keys.Control | Keys.Shift);
+        }
+
+        private static IntPtr MakeWParam(int l, int h)
+        {
+            return (IntPtr)((l & 0xFFFF) | (h << 8));
         }
 
         private static string RetrieveKeyName(uint keyCode)
         {
+            uint scanCode = GetScanCode(keyCode);
+
+            StringBuilder buffer = new StringBuilder(260);
+            NativeMethods.GetKeyNameText(scanCode << 16, buffer, buffer.Capacity);
+            return buffer.ToString();
+        }
+
+        private static uint GetScanCode(uint keyCode)
+        {
             IntPtr hkl = NativeMethods.GetKeyboardLayout(0);
-            uint scanCode = NativeMethods.MapVirtualKeyEx(keyCode, NativeMethods.MAPVK_VK_TO_VSC, hkl);
+            uint scanCode = NativeMethods.MapVirtualKeyEx(keyCode, NativeMethods.MapVirtualKeyMapTypes.MAPVK_VK_TO_VSC, hkl);
 
             switch ((Keys)keyCode)
             {
@@ -341,12 +376,15 @@ namespace Fusion8.Cropper.Core
                     scanCode += 0x100;
                     break;
             }
-
-            StringBuilder buffer = new StringBuilder(260);
-            NativeMethods.GetKeyNameText(scanCode << 16, buffer, buffer.Capacity);
-            return buffer.ToString();
+            return scanCode;
         }
 
         #endregion
+    }
+
+    public enum ShortcutMode
+    {
+        Global,
+        Local
     }
 }

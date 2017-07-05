@@ -129,7 +129,7 @@ namespace Fusion8.Cropper.Core
         internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyExW", ExactSpelling = true)]
-        internal static extern uint MapVirtualKeyEx(uint uCode, uint uMapType, IntPtr dwhkl);
+        internal static extern uint MapVirtualKeyEx(uint uCode, MapVirtualKeyMapTypes uMapType, IntPtr dwhkl);
 
         [DllImport("user32", SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern int GetKeyNameText(uint lParam, StringBuilder lpString, int nSize);
@@ -150,6 +150,20 @@ namespace Fusion8.Cropper.Core
         /// </returns>
         [DllImport("user32.dll")]
         static extern bool GetCursorInfo(out CURSORINFO pci);
+
+        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, int vic);
+
+        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern ushort GlobalAddAtom(string lpString);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        internal static extern ushort GlobalDeleteAtom(ushort nAtom);
 
         /// <summary>
         /// The GetIconInfo function retrieves information about the specified icon or cursor.
@@ -262,15 +276,14 @@ namespace Fusion8.Cropper.Core
         internal const Int32 HOTKEYF_EXT = 0x08;
         internal const String HOTKEY_CLASS = "msctls_hotkey32";
 
-        internal const Int32 MAPVK_VK_TO_VSC = 0;
-        internal const Int32 MAPVK_VSC_TO_VK = 1;
-        internal const Int32 MAPVK_VK_TO_CHAR = 2;
-        internal const Int32 MAPVK_VSC_TO_VK_EX = 3;
-        internal const uint KLF_NOTELLSHELL = 0x00000080;
+        internal const uint MOD_ALT = 0x0001;
+        internal const uint MOD_CONTROL = 0x0002;
+        internal const uint MOD_SHIFT = 0x0004;
+        internal const uint WS_SYSMENU = 0x80000;
 
         #endregion
 
-         public enum InvalidHotKeyModifiers
+        public enum InvalidHotKeyModifiers
         {
             HKCOMB_NONE = 1,
             HKCOMB_S = 2,
@@ -280,6 +293,47 @@ namespace Fusion8.Cropper.Core
             HKCOMB_SA = 32,
             HKCOMB_CA = 64,
             HKCOMB_SCA = 128
+        }
+
+        /// <summary>
+        /// The set of valid MapTypes used in MapVirtualKey
+        /// </summary>
+        public enum MapVirtualKeyMapTypes : uint
+        {
+            /// <summary>
+            /// uCode is a virtual-key code and is translated into a scan code.
+            /// If it is a virtual-key code that does not distinguish between left- and
+            /// right-hand keys, the left-hand scan code is returned.
+            /// If there is no translation, the function returns 0.
+            /// </summary>
+            MAPVK_VK_TO_VSC = 0x00,
+
+            /// <summary>
+            /// uCode is a scan code and is translated into a virtual-key code that
+            /// does not distinguish between left- and right-hand keys. If there is no
+            /// translation, the function returns 0.
+            /// </summary>
+            MAPVK_VSC_TO_VK = 0x01,
+
+            /// <summary>
+            /// uCode is a virtual-key code and is translated into an unshifted
+            /// character value in the low-order word of the return value. Dead keys (diacritics)
+            /// are indicated by setting the top bit of the return value. If there is no
+            /// translation, the function returns 0.
+            /// </summary>
+            MAPVK_VK_TO_CHAR = 0x02,
+
+            /// <summary>
+            /// Windows NT/2000/XP: uCode is a scan code and is translated into a
+            /// virtual-key code that distinguishes between left- and right-hand keys. If
+            /// there is no translation, the function returns 0.
+            /// </summary>
+            MAPVK_VSC_TO_VK_EX = 0x03,
+
+            /// <summary>
+            /// Not currently documented
+            /// </summary>
+            MAPVK_VK_TO_VSC_EX = 0x04
         }
 
         #region Structures

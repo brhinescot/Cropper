@@ -59,119 +59,42 @@ In return, we simply require that you agree:
 
 using System;
 using System.Windows.Forms;
+using Fusion8.Cropper.Core;
 
 #endregion
 
 namespace Fusion8.Cropper
 {
-	public class CropForm : LayeredForm
-	{
-		public event KeyEventHandler HotKeyPress;
+    public class CropForm : LayeredForm
+    {
+        public event KeyEventHandler HotKeyPressed;
 
-		#region Member Fields
-
-		private ushort printScreenId;
-		private ushort altPrintScreenId;
-		private ushort altCtrlPrintScreenId;
-		private ushort f12Id;
-		private bool trapPrintScreen = true;
-		private bool hotKeysRegistered;
-
-		#endregion
-
-		public bool TrapPrintScreen
-		{
-			get { return trapPrintScreen; }
-			set
-			{
-				if(trapPrintScreen != value)
-				{
-					trapPrintScreen = value;
-					if(trapPrintScreen && !hotKeysRegistered)
-						RegisterHotKeys();
-					else if(hotKeysRegistered)
-						UnregisterHotKeys();
-				}
-			}
-		}
-
-		private void RegisterHotKeys()
-		{
-			printScreenId = NativeMethods.GlobalAddAtom("CropperPrintScreen" + DateTime.Now.Ticks);
-			altPrintScreenId = NativeMethods.GlobalAddAtom("CropperAltPrintScreen" + DateTime.Now.Ticks);
-			altCtrlPrintScreenId = NativeMethods.GlobalAddAtom("CropperAltCtrlPrintScreen" + DateTime.Now.Ticks);
-            f12Id = NativeMethods.GlobalAddAtom("Cropperf12Id" + DateTime.Now.Ticks);
-
-			NativeMethods.RegisterHotKey(Handle, printScreenId, 0, (int) Keys.PrintScreen);
-			NativeMethods.RegisterHotKey(Handle, altPrintScreenId, 1, (int) Keys.PrintScreen);
-            NativeMethods.RegisterHotKey(Handle, altCtrlPrintScreenId, 3, (int)Keys.PrintScreen);
-            NativeMethods.RegisterHotKey(Handle, f12Id, 0, (int)Keys.F8);
-			
-			hotKeysRegistered = true;
-		}
-		
-		private void UnregisterHotKeys() 
-		{
-			NativeMethods.GlobalDeleteAtom(printScreenId) ;
-            NativeMethods.GlobalDeleteAtom(altPrintScreenId);
-            NativeMethods.GlobalDeleteAtom(altCtrlPrintScreenId);
-            NativeMethods.GlobalDeleteAtom(f12Id);
-
-			NativeMethods.UnregisterHotKey(Handle, printScreenId);
-            NativeMethods.UnregisterHotKey(Handle, altPrintScreenId);
-            NativeMethods.UnregisterHotKey(Handle, altCtrlPrintScreenId);
-            NativeMethods.UnregisterHotKey(Handle, f12Id);
-			
-			hotKeysRegistered = false;
-		}
-		
-		protected CropForm()
-		{
-			if(trapPrintScreen)
-				RegisterHotKeys();
-		}
-
-		protected override void WndProc(ref Message m)
-		{
-			if (m.Msg == NativeMethods.WM_HOTKEY)
-			{
-				if(m.WParam == (IntPtr)printScreenId)
-				{
-					KeyEventArgs args = new KeyEventArgs(Keys.PrintScreen);
-					OnHotKeyPress(args);
-				}
-				else if(m.WParam == (IntPtr)altPrintScreenId)
-				{
-					KeyEventArgs args = new KeyEventArgs(Keys.PrintScreen | Keys.Alt);
-					OnHotKeyPress(args);
-				}
-				else if(m.WParam == (IntPtr)altCtrlPrintScreenId)
-				{
-					KeyEventArgs args = new KeyEventArgs(Keys.PrintScreen | Keys.Alt | Keys.Control);
-					OnHotKeyPress(args);
-				}
-                else if (m.WParam == (IntPtr)f12Id)
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == NativeMethods.WM_HOTKEY)
+            {
+                Keys keyData = HotKeys.GetKeyData(m.WParam);
+                if (keyData != Keys.None)
                 {
-                    KeyEventArgs args = new KeyEventArgs(Keys.F8);
-                    OnHotKeyPress(args);
+                    KeyEventArgs args = new KeyEventArgs(keyData);
+                    OnHotKeyPressed(args);
                 }
-				return;
-			}
-			
-			base.WndProc(ref m);
-		}
-		
-		protected virtual void OnHotKeyPress(KeyEventArgs e)
-		{
-			KeyEventHandler handler = HotKeyPress;
-			if(handler != null && !e.Handled)
-				HotKeyPress(this, e);
-		}
-		
-		protected override void OnClosed(EventArgs e)
-		{
-			UnregisterHotKeys();
-			base.OnClosed (e);
-		}
-	}
+            }
+
+            base.WndProc(ref m);
+        }
+
+        protected virtual void OnHotKeyPressed(KeyEventArgs e)
+        {
+            KeyEventHandler handler = HotKeyPressed;
+            if (handler != null && !e.Handled)
+                handler(this, e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            //			UnregisterHotKeys();
+            base.OnClosed(e);
+        }
+    }
 }

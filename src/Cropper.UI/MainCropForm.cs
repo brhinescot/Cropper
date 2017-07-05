@@ -186,7 +186,8 @@ namespace Fusion8.Cropper
         private MenuItem outputMenuItem;
 		private MenuItem opacityMenuItem;
 		private MenuItem showHideMenu;
-		private NotifyIcon notifyIcon;
+	    private MenuItem toggleThumbnailMenu;
+        private NotifyIcon notifyIcon;
 
 		private ResizeRegion resizeRegion = ResizeRegion.None;
 		private ResizeRegion thumbResizeRegion;
@@ -264,7 +265,8 @@ namespace Fusion8.Cropper
 		{
 		    Configuration.Current.ActiveCropWindow = this;
 			imageCapture = new ImageCapture();
-			ApplyConfiguration();
+		    RegisterHotKeys();
+            ApplyConfiguration();
 			colorTables.Add(new CropFormBlueColorTable());
 			colorTables.Add(new CropFormDarkColorTable());
 			colorTables.Add(new CropFormLightColorTable());
@@ -303,14 +305,92 @@ namespace Fusion8.Cropper
             return true;
         }
 
-		#endregion
+        #endregion
 
-		#region Menu Handling
+	    #region Hot Keys
 
-		/// <summary>
-		/// Setup the main context menu
-		/// </summary>
-		private void SetUpMenu()
+	    private void RegisterHotKeys()
+	    {
+	        const string prefix = "com.colossusinteractive.cropper.hotkey";
+
+	        HotKeys.RegisterGlobal(prefix + ".showhide", Keys.F8 | Keys.Control, this, "Show/Hide Cropper", () => CycleFormVisibility(true), groupName: "Global");
+
+	        HotKeys.RegisterLocal(prefix + ".thumbnail", Keys.T, "Toggle Thumbnail", () => ToggleThumbnail(toggleThumbnailMenu), groupName: "Thumbnail");
+	        HotKeys.RegisterLocal(prefix + ".increasethumb", Keys.OemOpenBrackets | Keys.Alt, "Increase Thumbnail Size", () => ResizeThumbnail(DefaultSizingInterval), groupName: "Thumbnail");
+	        HotKeys.RegisterLocal(prefix + ".decreasethumb", Keys.OemCloseBrackets | Keys.Alt, "Decrease Thumbnail Size", () => ResizeThumbnail(-DefaultSizingInterval), groupName: "Thumbnail");
+	        HotKeys.RegisterLocal(prefix + ".increasethumbalt", Keys.OemOpenBrackets | Keys.Alt | Keys.Control, "Increase Thumbnail Size Big", () => ResizeThumbnail(AlternateSizingInterval), groupName: "Thumbnail");
+	        HotKeys.RegisterLocal(prefix + ".decreasethumbalt", Keys.OemCloseBrackets | Keys.Alt | Keys.Control, "Decrease Thumbnail Size Big", () => ResizeThumbnail(-AlternateSizingInterval), groupName: "Thumbnail");
+
+	        HotKeys.RegisterLocal(prefix + ".centerincrease", Keys.OemOpenBrackets, "Center Size Increase", () => CenterSize(DefaultSizingInterval), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".centerdecrease", Keys.OemCloseBrackets, "Center Size Decrease", () => CenterSize(-DefaultSizingInterval), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".centerincreasealt", Keys.OemOpenBrackets | Keys.Control, "Center Size Increase Big", () => CenterSize(AlternateSizingInterval), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".centerdecreasealt", Keys.OemCloseBrackets | Keys.Control, "Center Size Decrease Big", () => CenterSize(-AlternateSizingInterval), groupName: "Size");
+
+	        HotKeys.RegisterLocal(prefix + ".increasewidth", Keys.Right | Keys.Alt, "Increase Width", () => Width = Width + DefaultSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".decreasewidth", Keys.Left | Keys.Alt, "Decrease Width", () => Width = Width - DefaultSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".increasewidthalt", Keys.Right | Keys.Alt | Keys.Control, "Increase Width Big", () => Width = Width + AlternateSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".decreasewidthalt", Keys.Left | Keys.Alt | Keys.Control, "Decrease Width Big", () => Width = Width - AlternateSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".increaseheight", Keys.Up | Keys.Alt, "Increase Height", () => Height = Height - DefaultSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".decreaseheight", Keys.Down | Keys.Alt, "Decrease Height", () => Height = Height + DefaultSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".increaseheightalt", Keys.Up | Keys.Alt | Keys.Control, "Increase Height Big", () => Height = Height - AlternateSizingInterval, groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".decreaseheightalt", Keys.Down | Keys.Alt | Keys.Control, "Decrease Height Big", () => Height = Height + AlternateSizingInterval, groupName: "Size");
+
+	        HotKeys.RegisterLocal(prefix + ".moveleft", Keys.Left, "Move Left", () => Left = Left - DefaultSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".moveright", Keys.Right, "Move Right", () => Left = Left + DefaultSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".moveleftalt", Keys.Left | Keys.Control, "Move Left Big", () => Left = Left - AlternateSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".moverightalt", Keys.Right | Keys.Control, "Move Right Big", () => Left = Left + AlternateSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".moveup", Keys.Up, "Move Up", () => Top = Top - DefaultSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".movedown", Keys.Down, "Move Down", () => Top = Top + DefaultSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".moveupalt", Keys.Up | Keys.Control, "Move Up Big", () => Top = Top - AlternateSizingInterval, groupName: "Position");
+	        HotKeys.RegisterLocal(prefix + ".movedownalt", Keys.Down | Keys.Control, "Move Down Big", () => Top = Top + AlternateSizingInterval, groupName: "Position");
+
+	        HotKeys.RegisterLocal(prefix + ".sizedefault", Keys.NumPad0 | Keys.Control, "Default Size", () => ResetForm(true), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size1", Keys.NumPad1 | Keys.Control, "Saved Size 1", () => ApplyCropSize(0), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size2", Keys.NumPad2 | Keys.Control, "Saved Size 2", () => ApplyCropSize(1), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size3", Keys.NumPad3 | Keys.Control, "Saved Size 3", () => ApplyCropSize(2), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size4", Keys.NumPad4 | Keys.Control, "Saved Size 4", () => ApplyCropSize(3), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size5", Keys.NumPad5 | Keys.Control, "Saved Size 5", () => ApplyCropSize(4), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size6", Keys.NumPad6 | Keys.Control, "Saved Size 6", () => ApplyCropSize(5), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size7", Keys.NumPad7 | Keys.Control, "Saved Size 7", () => ApplyCropSize(6), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size8", Keys.NumPad8 | Keys.Control, "Saved Size 8", () => ApplyCropSize(7), groupName: "Size");
+	        HotKeys.RegisterLocal(prefix + ".size9", Keys.NumPad9 | Keys.Control, "Saved Size 9", () => ApplyCropSize(8), groupName: "Size");
+
+	        HotKeys.RegisterLocal(prefix + ".browse", Keys.B | Keys.Control, "Browse Captures", BrowseCaptures, groupName: "General");
+
+	        HotKeys.RegisterGlobal(prefix + ".printscreen", Keys.PrintScreen, this, "Capture Desktop", () => TakeScreenShot(ScreenShotBounds.FullScreen), hide: true);
+	        HotKeys.RegisterGlobal(prefix + ".altprintscreen", Keys.PrintScreen | Keys.Alt, this, "Capture Active Window", () => TakeScreenShot(ScreenShotBounds.ActiveForm), hide: true);
+	        HotKeys.RegisterGlobal(prefix + ".ctrlaltprintscreen", Keys.PrintScreen | Keys.Alt | Keys.Control, this, "Capture at Point", () => TakeScreenShot(ScreenShotBounds.Window), hide: true);
+
+	        HotKeys.RegisterLocal(prefix + ".nextcolor", Keys.Tab, "Next Color", CycleColors, hide: true);
+	        HotKeys.RegisterLocal(prefix + ".nextsize", Keys.Tab | Keys.Shift, "Next Size", CycleSizes, hide: true);
+
+	        HotKeys.RegisterLocal(prefix + ".hide", Keys.Escape, "Hide Cropper", () => CycleFormVisibility(true), hide: true, groupName: "General");
+	        HotKeys.RegisterLocal(prefix + ".screenshot", Keys.Enter, "Take Screenshot", () => TakeScreenShot(ScreenShotBounds.Rectangle), hide: true, groupName: "General");
+	    }
+
+	    /// <summary>
+	    /// Raises the <see cref="CropForm.HotKeyPressed"/> event.
+	    /// </summary>
+	    /// <param name="e">A <see cref="KeyEventArgs"/> that contains the event data.</param>
+	    protected override void OnHotKeyPressed(KeyEventArgs e)
+	    {
+	        if (isDisposed)
+	            throw new ObjectDisposedException((this).ToString());
+
+	        base.OnHotKeyPressed(e);
+
+	        if (!e.Handled)
+	            HotKeys.Process(e.KeyData);
+	    }
+
+	    #endregion
+
+        #region Menu Handling
+
+        /// <summary>
+        /// Setup the main context menu
+        /// </summary>
+        private void SetUpMenu()
 		{
 			AddTopLevelMenuItems();
 			if (Configuration.Current.ShowOpacityMenu)
@@ -318,32 +398,18 @@ namespace Fusion8.Cropper
 			AddOutputSubMenus();
 		}
 
-		private void AddOpacitySubMenu()
-		{
-		    for (int i = 10; i <= 90; i += 10)
-			{
-			    MenuItem subMenu;
-			    subMenu = new MenuItem(i + "%");
-				subMenu.RadioCheck = true;
-				subMenu.Click += HandleMenuOpacityClick;
-				opacityMenuItem.MenuItems.Add(subMenu);
-				if (i == Convert.ToInt32(Configuration.Current.UserOpacity*100))
-					subMenu.Checked = true;
-			}
-		}
-
-		private void AddTopLevelMenuItems()
+	    private void AddTopLevelMenuItems()
 		{
 			outputMenuItem = AddTopLevelMenuItem(SR.MenuOutput, null);
-			AddTopLevelMenuItem(SR.MenuThumbnail, HandleMenuThumbnailClick).Checked = isThumbnailed;
-			AddTopLevelMenuItem(SR.MenuOptions, HandleMenuOptionsClick);
+		    toggleThumbnailMenu = AddTopLevelMenuItem(SR.MenuThumbnail, HandleMenuThumbnailClick);
+		    toggleThumbnailMenu.Checked = isThumbnailed;
+            AddTopLevelMenuItem(SR.MenuOptions, HandleMenuOptionsClick);
 			AddTopLevelMenuItem(SR.MenuBrowse, HandleMenuBrowseClick);
 			AddTopLevelMenuItem(SR.MenuSeperator, null);
 			AddTopLevelMenuItem(SR.MenuOnTop, HandleMenuOnTopClick).Checked = TopMost;
             AddTopLevelMenuItem(SR.MenuInvert, HandleMenuInvertClick);
+		    
             MenuItem predefinedSizes = AddTopLevelMenuItem(SR.MenuSize, null);
-            AddSubMenuItem(predefinedSizes, "Current", HandleMenuSizeCurrentClick);
-            AddSubMenuItem(predefinedSizes, SR.MenuSeperator, null);
 		    if(Configuration.Current.PredefinedSizes.Length == 0)
 		    {
 		        MenuItem nextSize = AddSubMenuItem(predefinedSizes, "None Defined", null);
@@ -354,8 +420,12 @@ namespace Fusion8.Cropper
                 MenuItem nextSize = AddSubMenuItem(predefinedSizes, size.ToString(), HandleMenuSizeClick);
 		        nextSize.Tag = size;
 		    }
+            AddSubMenuItem(predefinedSizes, SR.MenuSeperator, null);
+            AddSubMenuItem(predefinedSizes, "Add Current", HandleMenuSizeCurrentClick);
+		    
 			if (Configuration.Current.ShowOpacityMenu)
 				opacityMenuItem = AddTopLevelMenuItem(SR.MenuOpacity, null);
+		    
 			AddTopLevelMenuItem(SR.MenuSeperator, null);
 			showHideMenu = AddTopLevelMenuItem(SR.MenuHide, HandleMenuShowHideClick);
 			AddTopLevelMenuItem(SR.MenuReset, HandleMenuResetClick);
@@ -369,7 +439,21 @@ namespace Fusion8.Cropper
 			AddTopLevelMenuItem(SR.MenuExit, HandleMenuExitClick);
 		}
 
-		private MenuItem AddTopLevelMenuItem(string text, EventHandler handler)
+	    private void AddOpacitySubMenu()
+	    {
+	        for (int i = 10; i <= 90; i += 10)
+	        {
+	            MenuItem subMenu;
+	            subMenu = new MenuItem(i + "%");
+	            subMenu.RadioCheck = true;
+	            subMenu.Click += HandleMenuOpacityClick;
+	            opacityMenuItem.MenuItems.Add(subMenu);
+	            if (i == Convert.ToInt32(Configuration.Current.UserOpacity*100))
+	                subMenu.Checked = true;
+	        }
+	    }
+
+	    private MenuItem AddTopLevelMenuItem(string text, EventHandler handler)
 		{
 			MenuItem mi = new MenuItem(text);
 			if (handler != null)
@@ -421,17 +505,20 @@ namespace Fusion8.Cropper
 			}
 		}
 
-		private void ResetForm()
-		{
-			VisibleWidth = DefaultVisibleHeightWidth;
-			VisibleHeight = DefaultVisibleHeightWidth;
-			VisibleLeft = DefaultPositionLeft;
-			VisibleTop = DefaultPositionTop;
-			Configuration.Current.UserOpacity = DefaultLayerOpacity;
-			maxThumbSize = DefaultMaxThumbnailSize;
-		}
+	    private void ResetForm(bool sizeOnly = false)
+	    {
+	        VisibleWidth = DefaultVisibleHeightWidth;
+	        VisibleHeight = DefaultVisibleHeightWidth;
+	        if (sizeOnly)
+	            return;
 
-		private void HandleMenuOnTopClick(object sender, EventArgs e)
+	        VisibleLeft = DefaultPositionLeft;
+	        VisibleTop = DefaultPositionTop;
+	        Configuration.Current.UserOpacity = DefaultLayerOpacity;
+	        maxThumbSize = DefaultMaxThumbnailSize;
+	    }
+
+        private void HandleMenuOnTopClick(object sender, EventArgs e)
 		{
 			MenuItem mi = (MenuItem) sender;
 			TopMost = mi.Checked = !mi.Checked;
@@ -471,10 +558,8 @@ namespace Fusion8.Cropper
 
 		private void HandleMenuThumbnailClick(object sender, EventArgs e)
 		{
-			MenuItem mi = (MenuItem) sender;
-			isThumbnailed = mi.Checked = !mi.Checked;
-			PaintLayeredWindow();
-		}
+		    ToggleThumbnail((MenuItem)sender);
+        }
 
 		private void HandleMenuInvertClick(object sender, EventArgs e)
 		{
@@ -517,38 +602,41 @@ namespace Fusion8.Cropper
 
 		private void ShowOptionsDialog()
 		{
-			Options options = new Options();
-			options.Visible = false;
-			if (options.ShowDialog(this) == DialogResult.OK)
-			{
-				SetColors();
-				TrapPrintScreen = Configuration.Current.TrapPrintScreen;
-				RefreshMenuItems();
-				SaveConfiguration();
-			}
-		}
+		    Options options = new Options { Visible = false };
+		    if (options.ShowDialog(this) != DialogResult.OK)
+		        return;
+
+		    SetColors();
+		    RefreshMenuItems();
+		    SaveConfiguration();
+        }
 
 		private void HandleMenuBrowseClick(object sender, EventArgs e)
 		{
-			if (!Directory.Exists(Configuration.Current.OutputPath))
-				Directory.CreateDirectory(Configuration.Current.OutputPath);
-            if (string.IsNullOrEmpty(imageCapture.LastImageCaptured) || !File.Exists(imageCapture.LastImageCaptured))
-                Process.Start(Configuration.Current.OutputPath);
-            else
-            {
-                // Browse to folder and select last image
-                // Thanks to Jon Galloway
-                ProcessStartInfo processStartInfo = new ProcessStartInfo();
-                processStartInfo.FileName = "explorer";
-                processStartInfo.UseShellExecute = true;
-                processStartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                processStartInfo.Arguments = "/e,/select,\""
-                    + imageCapture.LastImageCaptured + "\"";
-                Process.Start(processStartInfo);
-            }
-		}
+		    BrowseCaptures();
+        }
 
-		private void HandleMenuHelpClick(object sender, EventArgs e)
+
+	    private void BrowseCaptures()
+	    {
+	        if (!Directory.Exists(Configuration.Current.OutputPath))
+	            Directory.CreateDirectory(Configuration.Current.OutputPath);
+	        if (string.IsNullOrEmpty(imageCapture.LastImageCaptured) || !File.Exists(imageCapture.LastImageCaptured))
+	            Process.Start(Configuration.Current.OutputPath);
+	        else
+	        {
+	            // Browse to folder and select last image
+	            // Thanks to Jon Galloway
+	            ProcessStartInfo processStartInfo = new ProcessStartInfo();
+	            processStartInfo.FileName = "explorer";
+	            processStartInfo.UseShellExecute = true;
+	            processStartInfo.WindowStyle = ProcessWindowStyle.Normal;
+	            processStartInfo.Arguments = "/e,/select,\"" + imageCapture.LastImageCaptured + "\"";
+	            Process.Start(processStartInfo);
+	        }
+	    }
+
+        private void HandleMenuHelpClick(object sender, EventArgs e)
 		{
 			DialogShow(b => showHelp = b);
 		}
@@ -655,25 +743,17 @@ namespace Fusion8.Cropper
 		/// <param name="e">A <see cref="KeyEventArgs"/> that contains the event data.</param>
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			HandleKeyDown(e);
-			base.OnKeyDown(e);
-		}
+		    if (isDisposed)
+		        throw new ObjectDisposedException((this).ToString());
 
-		protected override void OnHotKeyPress(KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.PrintScreen)
-			{
-				if (e.Alt && e.Control)
-					TakeScreenShot(ScreenShotBounds.Window);
-				else if (e.Alt)
-					TakeScreenShot(ScreenShotBounds.ActiveForm);
-				else if(e.KeyCode == Keys.PrintScreen)
-                    TakeScreenShot(ScreenShotBounds.FullScreen);
-			}
-            else if (e.KeyCode == Keys.F8)
-                CycleFormVisibility(false);
-			base.OnHotKeyPress(e);
-		}
+		    base.OnKeyDown(e);
+		    if (e.Handled)
+		        return;
+
+		    e.Handled = true;
+		    e.SuppressKeyPress = true;
+		    HotKeys.Process(e.KeyData);
+        }
 
 		/// <summary>
 		/// Raises the <see cref="Form.Closing"/> event.
@@ -703,8 +783,17 @@ namespace Fusion8.Cropper
 	        Configuration.Current.AlwaysOnTop = TopMost;
 	        Configuration.Current.Hidden = !Visible;
 
-	        Configuration.Save();
-	    }
+            try
+            {
+                Configuration.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(
+                    "There was a problem saving your current settings. This may be caused by a plug-in. No changes have been made to your configuration.",
+                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+        }
 
 	    protected override void OnResize(EventArgs e)
 		{
@@ -873,44 +962,6 @@ namespace Fusion8.Cropper
 			PaintLayeredWindow();
 		}
 
-		private void AdjustPosition(int interval, Keys keys)
-		{
-			switch (keys)
-			{
-				case Keys.Left:
-					Left = Left - interval;
-					break;
-				case Keys.Right:
-					Left = Left + interval;
-					break;
-				case Keys.Up:
-					Top = Top - interval;
-					break;
-				case Keys.Down:
-					Top = Top + interval;
-					break;
-			}
-		}
-
-		private void AdjustSize(int interval, Keys keys)
-		{
-			switch (keys)
-			{
-				case Keys.Left:
-					Width = Width - interval;
-					break;
-				case Keys.Right:
-					Width = Width + interval;
-					break;
-				case Keys.Up:
-					Height = Height - interval;
-					break;
-				case Keys.Down:
-					Height = Height + interval;
-					break;
-			}
-		}
-
 		private void CenterSize(int interval)
 		{
 			if (interval < -AlternateSizingInterval || interval > AlternateSizingInterval)
@@ -989,8 +1040,14 @@ namespace Fusion8.Cropper
 
 			return (resizeInnerRect.Contains(clientCursorPos));
 		}
+        
+	    private void ToggleThumbnail(MenuItem mi)
+	    {
+	        isThumbnailed = mi.Checked = !mi.Checked;
+	        PaintLayeredWindow();
+	    }
 
-		private void SetResizeCursor(ResizeRegion region)
+        private void SetResizeCursor(ResizeRegion region)
 		{
 			switch (region)
 			{
@@ -1069,11 +1126,21 @@ namespace Fusion8.Cropper
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Helper Methods
+        #region Helper Methods
+        
+	    private void ApplyCropSize(int index)
+	    {
+	        CropSize[] predefinedSizes = Configuration.Current.PredefinedSizes;
+	        if (predefinedSizes.Length <= index)
+	            return;
 
-		private void CheckForDialogClosing()
+	        CropSize size = predefinedSizes[index];
+	        VisibleClientSize = new Size(size.Width, size.Height);
+	    }
+
+        private void CheckForDialogClosing()
 		{
 			if (IsMouseInRectangle(dialogCloseRectangle))
 			{
@@ -1114,20 +1181,25 @@ namespace Fusion8.Cropper
 			isThumbnailed = settings.IsThumbnailed;
 			maxThumbSize = settings.MaxThumbnailSize;
 			Location = settings.Location;
-			TrapPrintScreen = settings.TrapPrintScreen;
 			TopMost = settings.AlwaysOnTop;
 
-		    
+		    if (settings.HotKeySettings != null)
+		    {
+		        foreach (HotKeySetting hk in settings.HotKeySettings)
+		        {
+		            if (string.IsNullOrEmpty(hk.Id))
+		                continue;
 
-		    if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
+		            HotKeys.UpdateHotKey(hk.Id, (Keys)hk.KeyCode);
+		        }
+		    }
+
+            if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
 				settings.UserOpacity = 0.4;
-			
-            if (!settings.UsePerPixelAlpha)
-				LayerOpacity = settings.UserOpacity;
-			else
-				LayerOpacity = 1.0;
 
-		    if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
+		    LayerOpacity = !settings.UsePerPixelAlpha ? settings.UserOpacity : 1.0;
+
+            if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
 			{
 				imageCapture.ImageFormat = ImageCapture.ImageOutputs[settings.ImageFormat];
 				outputDescription = imageCapture.ImageFormat.Description;
@@ -1170,7 +1242,6 @@ namespace Fusion8.Cropper
 		#endregion
 
 		#region Painting
-
 		private void PaintUI(Graphics graphics)
 		{
 			if (currentColorTable != null)
@@ -1193,21 +1264,6 @@ namespace Fusion8.Cropper
 				PaintHeightString(graphics, VisibleHeight);
 			}
 		}
-
-//		private void AddFormRegion()
-//		{
-//			using (GraphicsPath path = new GraphicsPath())
-//			{
-//				path.AddLines(points);
-//				Region region = new Region(path);
-//				Rectangle regionRectangle = new
-//					Rectangle(visibleFormArea.Location, visibleFormArea.Size);
-//				regionRectangle.Inflate(8, 8);
-//				regionRectangle.Offset(-4, -4);
-//				region.Union(regionRectangle);
-//				Region = region;
-//			}
-//		}
 
 		private void PaintGrabber(Graphics graphics, Point grabberStart)
 		{
@@ -1412,57 +1468,6 @@ namespace Fusion8.Cropper
 		#endregion
 
 		#region Other Event Handling
-
-		private void HandleKeyDown(KeyEventArgs e)
-		{
-			int interval;
-			if (e.Control)
-				interval = AlternateSizingInterval;
-			else
-				interval = DefaultSizingInterval;
-
-			switch (e.KeyCode)
-			{
-				case Keys.Enter:
-					TakeScreenShot(ScreenShotBounds.Rectangle);
-					e.Handled = true;
-					break;
-				case Keys.S:
-					TakeScreenShot(ScreenShotBounds.Rectangle);
-					e.Handled = true;
-					break;
-				case Keys.Escape:
-					CycleFormVisibility(true);
-					e.Handled = true;
-					break;
-				case Keys.Tab:
-                    if (e.Shift)
-                        CycleSizes();
-                    else
-					    CycleColors();
-					e.Handled = true;
-					break;
-				case Keys.OemOpenBrackets:
-					if (e.Alt)
-						ResizeThumbnail(interval);
-					else
-						CenterSize(AlternateSizingInterval);
-					e.Handled = true;
-					break;
-				case Keys.OemCloseBrackets:
-					if (e.Alt)
-						ResizeThumbnail(-interval);
-					else
-						CenterSize(-AlternateSizingInterval);
-					e.Handled = true;
-					break;
-			}
-
-			if (e.Alt)
-				AdjustSize(interval, e.KeyCode);
-			else
-				AdjustPosition(interval, e.KeyCode);
-		}
 
 		/// <summary>
 		/// Handles the MouseUp event of the NotifyIcon control.
