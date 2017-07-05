@@ -69,8 +69,7 @@ namespace Fusion8.Cropper
 {
 	public class LayeredForm : Form
 	{
-		[Category("Appearance"), 
-			Description("Occurs when the layered form needs repainting.")]
+		[Category("Appearance"), Description("Occurs when the layered form needs repainting.")]
 		protected event EventHandler<PaintLayerEventArgs> PaintLayer;
 
 		#region Member Fields
@@ -120,7 +119,6 @@ namespace Fusion8.Cropper
 		protected LayeredForm()
 		{
 			FormBorderStyle = FormBorderStyle.None;
-			ShowInTaskbar = false;
 			StartPosition = FormStartPosition.Manual;
 		}
 
@@ -135,21 +133,19 @@ namespace Fusion8.Cropper
 		/// event data.</param>
 		protected virtual void OnPaintLayer(PaintLayerEventArgs e)
 		{
-            EventHandler<PaintLayerEventArgs> handler = PaintLayer;
-			if (handler != null)
-				PaintLayer(this, e);
-		}
+            PaintLayer?.Invoke(this, e);
+        }
 
 		protected void PaintLayeredWindow()
 		{
-			if (Bounds.Size != Size.Empty)
-			{
+			if (Bounds.Size != Size.Empty || (ClientRectangle.Width == 0 && ClientRectangle.Height == 0))
+            {
 				using (Bitmap surface = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, PixelFormat.Format32bppArgb))
 					PaintLayeredWindow(surface, layerOpacity);
 			}
 		}
 
-		protected void PaintLayeredWindow(Bitmap bitmap, double opacity)
+	    private void PaintLayeredWindow(Bitmap bitmap, double opacity)
 		{
 			if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
 				throw new ArgumentException("The bitmap must be 32bpp with an alpha-channel.", "bitmap");
@@ -217,11 +213,9 @@ namespace Fusion8.Cropper
 
 		protected override void OnResize(EventArgs e)
 		{
-			if (!freezePainting)
-			{
-				PaintLayeredWindow();
-				base.OnResize(e);
-			}
+		    if (freezePainting) return;
+		    PaintLayeredWindow();
+		    base.OnResize(e);
 		}
 		
 		#endregion
@@ -237,9 +231,11 @@ namespace Fusion8.Cropper
 					return base.CreateParams;
 				}
 
-				CreateParams cParams = base.CreateParams;
-				cParams.ExStyle |= NativeMethods.WS_EX_LAYERED;
-				return cParams;
+				CreateParams cp = base.CreateParams;
+			    cp.ExStyle |= NativeMethods.WS_EX_LAYERED;
+			    cp.Style |= NativeMethods.WS_MINIMIZEBOX;
+			    cp.ClassStyle |= NativeMethods.CS_DBLCLKS;
+                return cp;
 			}
 		}
 
@@ -250,12 +246,9 @@ namespace Fusion8.Cropper
 			if (DesignMode)
 			{
 				base.OnPaintBackground(pevent);
-
-				return;
 			}
 
-			// Eat event to prevent rendering error when WM_PAINT message 
-			// is sent.
+			// Eat event to prevent rendering error when WM_PAINT message is sent.
 		}
 	}
 }

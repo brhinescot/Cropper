@@ -14,13 +14,12 @@ MessageHelp = Screenshot: DblClick or Enter
 = [ or ] + Alt: Resize thumbnail
 = Move/Resize 10px: +Ctrl
 = Images: In Desktop/Cropper
-MessageAbout = Copyright © 2004
+MessageAbout = Copyright 2004
 = Brian Scott
-= blogs.geekdojo.net/brian
+= https://github.com/brhinescot
 =
 = Transparent UI inspired by Ruler
-= Copyright © 2004, Jeff Key
-= www.sliver.com
+= Copyright 2004, Jeff Key
 
 
 #EXCEPTIONS
@@ -29,7 +28,7 @@ ExceptionUnhandledCaption = Unhandled Error
 ExceptionUnhandled = An unhandled exception has occurred in Cropper.  If  you continue to receive an error, please restart the application.  An entry has been added to the event log with the full details of the error.
 
 FolderBrowseText = Choose the folder where Cropper will automatically save all screenshots and thumbnails.
-HomepageLinkUrl = http://cropper.codeplex.com/
+HomepageLinkUrl = https://github.com/brhinescot/Cropper
 
 #MENU TEXT
 MenuOnTop = Always On Top

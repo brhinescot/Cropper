@@ -83,13 +83,12 @@ Move/Resize 10px: +Ctrl
 Images: In Desktop/Cropper</value>
   </data>
   <data name="MessageAbout" xml:space="preserve">
-    <value>Copyright � 2004
+    <value>Copyright 2004
 Brian Scott
-blogs.geekdojo.net/brian
+https://github.com/brhinescot
 
 Transparent UI inspired by Ruler
-Copyright � 2004, Jeff Key
-www.sliver.com</value>
+Copyright 2004, Jeff Key</value>
   </data>
   <data name="ExceptionCenterSizeOutOfRange" xml:space="preserve">
     <value>The CenterSize interval must be between -50 and 50.</value>
@@ -104,7 +103,7 @@ www.sliver.com</value>
     <value>Choose the folder where Cropper will automatically save all screenshots and thumbnails.</value>
   </data>
   <data name="HomepageLinkUrl" xml:space="preserve">
-    <value>http://cropper.codeplex.com/</value>
+    <value>https://github.com/brhinescot/Cropper</value>
   </data>
   <data name="MenuOnTop" xml:space="preserve">
     <value>Always On Top</value>

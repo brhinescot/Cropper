@@ -205,7 +205,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HotKeyAction.cs" />
+    <Compile Include="HotKeyCache.cs" />
+    <Compile Include="HotKeyData.cs" />
+    <Compile Include="HotKeyRegistrationEventArgs.cs" />
+    <Compile Include="HotKeys.cs" />
     <Compile Include="HotKeySelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotKeySelection.Delegates.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="HotKeySelection.Designer.cs">
@@ -242,6 +249,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ShortcutTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TablessTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Templates.cs">

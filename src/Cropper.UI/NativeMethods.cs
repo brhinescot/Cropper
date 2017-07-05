@@ -126,7 +126,12 @@ namespace Fusion8.Cropper
 		internal const Int32 WS_EX_LAYERED = 0x80000;
 		internal const Int32 WM_HOTKEY = 0x0312;
 
-		internal const Byte AC_SRC_OVER = 0x00;
+
+	    internal const Int32 WS_MINIMIZEBOX = 0x20000;
+
+	    internal const Int32 CS_DBLCLKS = 0x8;
+
+        internal const Byte AC_SRC_OVER = 0x00;
 		internal const Byte AC_SRC_ALPHA = 0x01;
 
 		[StructLayout(LayoutKind.Sequential, Pack=1)]
