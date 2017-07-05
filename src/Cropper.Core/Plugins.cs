@@ -172,7 +172,7 @@ namespace Fusion8.Cropper.Core
 
 				ObjectHandle handle = domain.CreateInstanceFrom(
 					objName.CodeBase, typeof(Plugins).ToString(), false,
-					binding, null, null, null, null, null);
+					binding, null, null, null, null);
 
 				Plugins helper = (Plugins)handle.Unwrap();
 

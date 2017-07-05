@@ -57,8 +57,6 @@ In return, we simply require that you agree:
 
 using System.Reflection;
 using System.Resources;
-using System.Security.Permissions;
-[assembly : SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode=false)]
 [assembly : AssemblyTitle("Cropper.BmpFormat")]
 [assembly : AssemblyDefaultAlias("Cropper.BmpFormat")]
 [assembly : AssemblyDescription("Cropper.BmpFormat")]
