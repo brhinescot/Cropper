@@ -127,33 +127,27 @@ namespace Fusion8.Cropper
 
         private void SaveJpegImage(Stream stream, Image image)
         {
-            ImageCodecInfo myImageCodecInfo;
-            Encoder myEncoder;
-            EncoderParameter myEncoderParameter;
-            EncoderParameters myEncoderParameters;
-
-            myImageCodecInfo = GetEncoderInfo(EncoderType);
-            myEncoder = Encoder.Quality;
-            myEncoderParameters = new EncoderParameters(EncoderParameterCount);
-            myEncoderParameter = new EncoderParameter(myEncoder, PluginSettings.ImageQuality);
-            myEncoderParameters.Param[0] = myEncoderParameter;
+            ImageCodecInfo imageCodecInfo = GetEncoderInfo(EncoderType);
+            Encoder encoder = Encoder.Quality;
+            EncoderParameters encoderParameters = new EncoderParameters(EncoderParameterCount);
+            EncoderParameter encoderParameter = new EncoderParameter(encoder, PluginSettings.ImageQuality);
+            encoderParameters.Param[0] = encoderParameter;
 
             try
             {
-                image.Save(stream, myImageCodecInfo, myEncoderParameters);
+                image.Save(stream, imageCodecInfo, encoderParameters);
             }
             finally
             {
-                myEncoderParameters.Dispose();
-                myEncoderParameter.Dispose();
+                encoderParameters.Dispose();
+                encoderParameter.Dispose();
             }
         }
 
         private static ImageCodecInfo GetEncoderInfo(string mimeType)
         {
             int j;
-            ImageCodecInfo[] encoders;
-            encoders = ImageCodecInfo.GetImageEncoders();
+            ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
             for (j = 0; j < encoders.Length; j++)
                 if (encoders[j].MimeType == mimeType)
                     return encoders[j];

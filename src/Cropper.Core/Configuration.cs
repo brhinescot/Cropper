@@ -34,6 +34,7 @@ namespace Fusion8.Cropper.Core
             get
             {
                 if (cropperSettings == null)
+                {
                     if (File.Exists(PortableConfigPath))
                     {
                         cropperSettings = LoadConfiguration(PortableConfigPath);
@@ -45,6 +46,7 @@ namespace Fusion8.Cropper.Core
                         if (!Directory.Exists(cropperSettings.OutputPath))
                             cropperSettings.OutputPath = Settings.DefaultOutputPath;
                     }
+                }
                 return cropperSettings;
             }
         }

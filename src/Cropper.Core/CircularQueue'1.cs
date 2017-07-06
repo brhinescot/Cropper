@@ -91,20 +91,17 @@ namespace Fusion8.Cropper.Core
         ///     Initializes a new instance of the <see cref="CircularQueue{T}" /> class.
         /// </summary>
         /// <param name="items">The initial items in the <see cref="CircularQueue{T}" />.</param>
-        public CircularQueue(IEnumerable<T> items) : this(items, false) { }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CircularQueue{T}" /> class.
-        /// </summary>
-        /// <param name="items">The initial items in the <see cref="CircularQueue{T}" />.</param>
         /// <param name="isReadOnly">If set to <see langword="true" /> the collection is readonly.</param>
-        public CircularQueue(IEnumerable<T> items, bool isReadOnly)
+        private CircularQueue(IEnumerable<T> items, bool isReadOnly = false)
         {
             this.isReadOnly = isReadOnly;
             this.items = new Queue<T>();
-            if (items != null)
-                foreach (T item in items)
-                    this.items.Enqueue(item);
+            if (items == null) return;
+            
+            foreach (T item in items)
+            {
+                this.items.Enqueue(item);
+            }
         }
 
         #endregion

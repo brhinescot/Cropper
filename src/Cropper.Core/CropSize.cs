@@ -1,16 +1,18 @@
 #region Using Directives
 
 using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 #endregion
 
 namespace Fusion8.Cropper.Core
 {
-    public struct CropSize : IEquatable<CropSize>, IComparable<CropSize>
+    public struct CropSize : IEquatable<CropSize>, IComparable<CropSize>, IXmlSerializable
     {
-        public int Width { get; }
-
-        public int Height { get; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         public CropSize(int width, int height) : this()
         {
@@ -43,6 +45,24 @@ namespace Fusion8.Cropper.Core
         public override int GetHashCode()
         {
             return Width + 29 * Height;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            Width = Convert.ToInt32(reader.GetAttribute("Width"));
+            Height = Convert.ToInt32(reader.GetAttribute("Height"));
+            reader.Read();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Width", Width.ToString());
+            writer.WriteAttributeString("Height", Height.ToString());
         }
     }
 }
