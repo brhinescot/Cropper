@@ -204,7 +204,6 @@ namespace Fusion8.Cropper.Extensibility
         }
 
         [Test]
-        [ExpectedException(typeof(NullReferenceException))]
         public void GetHashCode_throws_an_exception_if_FullSize_is_null()
         {
             string thumbnail = "thumbnail";
@@ -212,11 +211,10 @@ namespace Fusion8.Cropper.Extensibility
             ImagePairNames pair = new ImagePairNames();
             pair.Thumbnail = thumbnail;
 
-            pair.GetHashCode();
+            Assert.Throws<NullReferenceException>(() => pair.GetHashCode());
         }
 
         [Test]
-        [ExpectedException(typeof(NullReferenceException))]
         public void GetHashCode_throws_an_exception_if_Thumbnail_is_null()
         {
             string fullSize = "fullSize";
@@ -224,17 +222,16 @@ namespace Fusion8.Cropper.Extensibility
             ImagePairNames pair = new ImagePairNames();
             pair.FullSize = fullSize;
 
-            pair.GetHashCode();
+            Assert.Throws<NullReferenceException>(() => pair.GetHashCode());
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidCastException))]
         public void Evaluating_equals_throws_an_exception_if_the_object_is_not_an_ImagePairNames()
         {
             ImagePairNames pair = new ImagePairNames();
             object obj = new object();
 
-            pair.Equals(obj);
+            Assert.Throws<InvalidCastException>(() => pair.Equals(obj));
         }
     }
 }
