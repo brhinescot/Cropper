@@ -1,4 +1,4 @@
-#region Using Directives 
+#region Using Directives
 
 using System.Drawing;
 using Fusion8.Cropper.Extensibility;
@@ -7,59 +7,29 @@ using Fusion8.Cropper.Extensibility;
 
 namespace Fusion8.Cropper
 {
-	/// <summary>
-	/// Summary description for CropFormDarkColorTable.
-	/// </summary>
-	public class CropFormDarkColorTable : CropFormColorTable
-	{
-		public override Color TabColor
-		{
-			get { return Color.FromArgb(TabAlphaChannel, Color.Firebrick); }
-		}
+    /// <summary>
+    ///     Summary description for CropFormDarkColorTable.
+    /// </summary>
+    public class CropFormDarkColorTable : CropFormColorTable
+    {
+        public override Color TabColor => Color.FromArgb(TabAlphaChannel, Color.Firebrick);
 
-		public override Color TabHighlightColor
-		{
-			get { return Color.FromArgb(TabAlphaChannel, Color.Firebrick); }
-		}
+        public override Color TabHighlightColor => Color.FromArgb(TabAlphaChannel, Color.Firebrick);
 
-		public override Color TabTextColor
-		{
-			get { return Color.White; }
-		}
+        public override Color TabTextColor => Color.White;
 
-		public override Color TabTextHighlightColor
-		{
-			get { return Color.White; }
-		}
+        public override Color TabTextHighlightColor => Color.White;
 
-		public override Color FormColor
-		{
-			get { return Color.FromArgb(MainAlphaChannel, Color.Black); }
-		}
+        public override Color FormColor => Color.FromArgb(MainAlphaChannel, Color.Black);
 
-		public override Color FormHighlightColor
-		{
-			get { return Color.FromArgb(MainAlphaChannel, Color.Black); }
-		}
+        public override Color FormHighlightColor => Color.FromArgb(MainAlphaChannel, Color.Black);
 
-		public override Color FormTextColor
-		{
-			get { return Color.White; }
-		}
+        public override Color FormTextColor => Color.White;
 
-		public override Color FormTextHighlightColor
-		{
-			get { return Color.White; }
-		}
+        public override Color FormTextHighlightColor => Color.White;
 
-		public override Color LineColor
-		{
-			get { return Color.White; }
-		}
+        public override Color LineColor => Color.White;
 
-		public override Color LineHighlightColor
-		{
-			get { return Color.Firebrick; }
-		}
-	}
+        public override Color LineHighlightColor => Color.Firebrick;
+    }
 }

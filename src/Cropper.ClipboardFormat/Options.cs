@@ -1,10 +1,25 @@
+#region Using Directives
+
+using System;
 using Fusion8.Cropper.Extensibility;
+
+#endregion
 
 namespace Fusion8.Cropper
 {
     public partial class Options : BaseConfigurationForm
     {
         private ClipboardOutputFormat format = ClipboardOutputFormat.Bitmap;
+
+        public Options()
+        {
+            InitializeComponent();
+
+            jpgDescription.Text = SR.JpgDescription;
+            bitmapDescription.Text = SR.BitmapDescription;
+            pngDescription.Text = SR.PngDescription;
+            imageQuality.Text = SR.ImageQuality(ImageQuality);
+        }
 
         public ClipboardOutputFormat Format
         {
@@ -33,21 +48,11 @@ namespace Fusion8.Cropper
 
         public int ImageQuality
         {
-            get { return qualitySlider.Value; }
-            set { qualitySlider.Value = value; }
+            get => qualitySlider.Value;
+            set => qualitySlider.Value = value;
         }
 
-        public Options()
-        {
-            InitializeComponent();
-
-            jpgDescription.Text = SR.JpgDescription;
-            bitmapDescription.Text = SR.BitmapDescription;
-            pngDescription.Text = SR.PngDescription;
-            imageQuality.Text = SR.ImageQuality(ImageQuality);
-        }
-
-        private void HandleQualitySliderValueChanged(object sender, System.EventArgs e)
+        private void HandleQualitySliderValueChanged(object sender, EventArgs e)
         {
             imageQuality.Text = SR.ImageQuality(ImageQuality);
         }

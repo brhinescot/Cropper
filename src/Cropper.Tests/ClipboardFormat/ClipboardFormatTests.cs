@@ -1,20 +1,14 @@
+#region Using Directives
+
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper
 {
     [TestFixture]
     public class ClipboardFormatTests
     {
-        [Test]
-        public void Extension_is_Clipboard()
-        {
-            string expected = "Clipboard";
-
-            ClipboardFormat format = new ClipboardFormat();
-
-            Assert.AreEqual(expected, format.Extension);
-        }
-
         [Test]
         public void Description_is_Clipboard()
         {
@@ -23,6 +17,16 @@ namespace Fusion8.Cropper
             ClipboardFormat format = new ClipboardFormat();
 
             Assert.AreEqual(expected, format.Description);
+        }
+
+        [Test]
+        public void Extension_is_Clipboard()
+        {
+            string expected = "Clipboard";
+
+            ClipboardFormat format = new ClipboardFormat();
+
+            Assert.AreEqual(expected, format.Extension);
         }
 
         [Test]

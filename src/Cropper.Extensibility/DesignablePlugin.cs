@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Fusion8.Cropper.Extensibility
 {
     /// <summary>
-    /// Summary description for DesignablePlugin.
+    ///     Summary description for DesignablePlugin.
     /// </summary>
     public abstract class DesignablePlugin : IPersistableImageFormat
     {
@@ -18,10 +18,7 @@ namespace Fusion8.Cropper.Extensibility
 
         public virtual void Connect(IPersistableOutput persistableOutput)
         {
-            if (persistableOutput == null)
-                throw new ArgumentNullException("persistableOutput");
-
-            output = persistableOutput;
+            output = persistableOutput ?? throw new ArgumentNullException(nameof(persistableOutput));
             output.ImageCaptured += ImageCaptured;
         }
 
@@ -30,7 +27,6 @@ namespace Fusion8.Cropper.Extensibility
             output.ImageCaptured -= ImageCaptured;
         }
 
-        protected abstract void ImageCaptured(object sender, ImageCapturedEventArgs e);
         public abstract string Extension { get; }
         public abstract string Description { get; }
 
@@ -38,26 +34,32 @@ namespace Fusion8.Cropper.Extensibility
         {
             get
             {
-                MenuItem menuItem = new MenuItem();
-                menuItem.RadioCheck = true;
-                menuItem.Text = Description;
+                MenuItem menuItem = new MenuItem
+                {
+                    RadioCheck = true,
+                    Text = Description
+                };
                 menuItem.Click += MenuClick;
                 return menuItem;
             }
         }
 
+        protected abstract void ImageCaptured(object sender, ImageCapturedEventArgs e);
+
         protected virtual void MenuClick(object sender, EventArgs e)
         {
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = (MenuItem)sender;
-            formatEvents.ImageOutputFormat = this;
+            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs
+            {
+                ClickedMenuItem = (MenuItem) sender,
+                ImageOutputFormat = this
+            };
             OnImageFormatClick(sender, formatEvents);
         }
 
         protected virtual void OnImageFormatClick(object sender, ImageFormatEventArgs e)
         {
-            if (ImageFormatClick != null)
-                ImageFormatClick(sender, e);
+            ImageFormatClickEventHandler handler = ImageFormatClick;
+            handler?.Invoke(sender, e);
         }
     }
 }

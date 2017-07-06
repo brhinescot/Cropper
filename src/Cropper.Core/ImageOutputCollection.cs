@@ -1,4 +1,4 @@
-#region using Directives
+#region Using Directives
 
 using System.Collections.ObjectModel;
 using Fusion8.Cropper.Extensibility;
@@ -8,7 +8,7 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper.Core
 {
     /// <summary>
-    /// Summary description for ImageOutputFormats.
+    ///     Summary description for ImageOutputFormats.
     /// </summary>
     public class ImageOutputCollection : Collection<IPersistableImageFormat>
     {
@@ -18,10 +18,8 @@ namespace Fusion8.Cropper.Core
             {
                 IPersistableImageFormat returnFormat = null;
                 foreach (IPersistableImageFormat imageFormat in this)
-                {
                     if (imageFormat.Description == name)
                         returnFormat = imageFormat;
-                }
                 return returnFormat;
             }
         }

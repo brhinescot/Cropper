@@ -12,14 +12,14 @@ namespace Fusion8.Cropper.Core
 {
     public partial class HotKeySelection : UserControl
     {
-        public event EventHandler<HotKeyRegistrationEventArgs> HotKeyRegister;
-
         public HotKeySelection()
         {
             InitializeComponent();
 
             SelectFirst();
         }
+
+        public event EventHandler<HotKeyRegistrationEventArgs> HotKeyRegister;
 
         private void SelectFirst()
         {
@@ -82,8 +82,7 @@ namespace Fusion8.Cropper.Core
             else
                 item.SubItems[1].Text = shortcut.Text;
 
-
-            HotKeyData hotKeyData = ((HotKeyData)item.Tag);
+            HotKeyData hotKeyData = (HotKeyData) item.Tag;
 
             OnHotKeyRegister(new HotKeyRegistrationEventArgs(hotKeyData.Id, item.Text, shortcut.KeyData, hotKeyData.Action, hotKeyData.KeyData, hotKeyData.Global));
 
@@ -97,7 +96,7 @@ namespace Fusion8.Cropper.Core
             if (items.Count == 0 || items[0]?.Tag == null)
                 return;
 
-            HotKeyData hotKeyData = ((HotKeyData)items[0].Tag);
+            HotKeyData hotKeyData = (HotKeyData) items[0].Tag;
 
             shortcut.Mode = hotKeyData.Global ? ShortcutMode.Global : ShortcutMode.Local;
 

@@ -11,15 +11,15 @@ using System.Windows.Forms.VisualStyles;
 namespace Fusion8.Cropper.Core
 {
     /// <summary>
-    /// The button that opens <see cref="UITypeEditor"/> controls.
+    ///     The button that opens <see cref="UITypeEditor" /> controls.
     /// </summary>
     public class DropDownButton : Button
     {
-        private bool pushed;
         private bool hover;
+        private bool pushed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DropDownButton"/> class.
+        ///     Initializes a new instance of the <see cref="DropDownButton" /> class.
         /// </summary>
         public DropDownButton()
         {
@@ -40,9 +40,9 @@ namespace Fusion8.Cropper.Core
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.MouseEnter"/> event.
+        ///     Raises the <see cref="System.Windows.Forms.Control.MouseEnter" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
@@ -50,9 +50,9 @@ namespace Fusion8.Cropper.Core
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.MouseLeave"/> event.
+        ///     Raises the <see cref="System.Windows.Forms.Control.MouseLeave" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
@@ -60,50 +60,46 @@ namespace Fusion8.Cropper.Core
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.MouseDown"/> event.
+        ///     Raises the <see cref="System.Windows.Forms.Control.MouseDown" /> event.
         /// </summary>
-        /// <param name="arg">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
+        /// <param name="arg">The <see cref="System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
         protected override void OnMouseDown(MouseEventArgs arg)
         {
             base.OnMouseDown(arg);
             if (arg.Button != MouseButtons.Left) return;
-            
+
             pushed = true;
             Invalidate();
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.MouseUp"/> event.
+        ///     Raises the <see cref="System.Windows.Forms.Control.MouseUp" /> event.
         /// </summary>
-        /// <param name="arg">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
+        /// <param name="arg">The <see cref="System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
         protected override void OnMouseUp(MouseEventArgs arg)
         {
             base.OnMouseUp(arg);
             if (arg.Button != MouseButtons.Left) return;
-            
+
             pushed = false;
             Invalidate();
         }
 
         /// <summary>
-        /// This member overrides <see cref="Control.OnPaint">Control.OnPaint</see>.
+        ///     This member overrides <see cref="Control.OnPaint">Control.OnPaint</see>.
         /// </summary>
         protected override void OnPaint(PaintEventArgs pe)
         {
             if (Application.RenderWithVisualStyles)
-            {
                 ComboBoxRenderer.DrawDropDownButton(
-                    pe.Graphics, 
-                    ClientRectangle, 
-                    !Enabled ? ComboBoxState.Disabled : (pushed ? ComboBoxState.Pressed : ((hover || Focused) ? ComboBoxState.Hot : ComboBoxState.Normal)));
-            }
+                    pe.Graphics,
+                    ClientRectangle,
+                    !Enabled ? ComboBoxState.Disabled : (pushed ? ComboBoxState.Pressed : (hover || Focused ? ComboBoxState.Hot : ComboBoxState.Normal)));
             else
-            {
                 ControlPaint.DrawComboButton(
-                    pe.Graphics, 
+                    pe.Graphics,
                     ClientRectangle,
                     !Enabled ? ButtonState.Inactive : (pushed ? ButtonState.Pushed : ButtonState.Normal));
-            }
         }
     }
 }

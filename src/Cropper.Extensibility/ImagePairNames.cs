@@ -1,18 +1,22 @@
+#region Using Directives
+
 using System.Runtime.InteropServices;
+
+#endregion
 
 namespace Fusion8.Cropper.Extensibility
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct ImagePairNames
     {
-        public string FullSize { get; set; }
+        public string FullSize { get; }
 
-        public string Thumbnail { get; set; }
+        public string Thumbnail { get; }
 
         public ImagePairNames(string fullSize, string thumbnail) : this()
         {
-            this.FullSize = fullSize;
-            this.Thumbnail = thumbnail;
+            FullSize = fullSize;
+            Thumbnail = thumbnail;
         }
 
         public static bool operator ==(ImagePairNames leftPair, ImagePairNames rightPair)
@@ -32,7 +36,7 @@ namespace Fusion8.Cropper.Extensibility
 
         public override bool Equals(object obj)
         {
-            ImagePairNames imagePair = (ImagePairNames)obj;
+            ImagePairNames imagePair = (ImagePairNames) obj;
 
             return this == imagePair;
         }

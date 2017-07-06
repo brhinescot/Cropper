@@ -1,7 +1,7 @@
 namespace Fusion8.Cropper.Core
 {
     /// <summary>
-    /// Summary description for Templates.
+    ///     Summary description for Templates.
     /// </summary>
     internal struct Templates
     {

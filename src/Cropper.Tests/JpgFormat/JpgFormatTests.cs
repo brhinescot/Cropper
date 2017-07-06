@@ -1,20 +1,14 @@
+#region Using Directives
+
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper
 {
     [TestFixture]
     public class JpgFormatTests
     {
-        [Test]
-        public void Extension_is_jpg()
-        {
-            string expected = "jpg";
-
-            JpgFormat format = new JpgFormat();
-
-            Assert.AreEqual(expected, format.Extension);
-        }
-
         [Test]
         public void Description_is_Jpeg()
         {
@@ -23,6 +17,16 @@ namespace Fusion8.Cropper
             JpgFormat format = new JpgFormat();
 
             Assert.AreEqual(expected, format.Description);
+        }
+
+        [Test]
+        public void Extension_is_jpg()
+        {
+            string expected = "jpg";
+
+            JpgFormat format = new JpgFormat();
+
+            Assert.AreEqual(expected, format.Extension);
         }
 
         [Test]

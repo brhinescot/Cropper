@@ -1,5 +1,9 @@
+#region Using Directives
+
 using System;
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper.Extensibility
 {
@@ -19,53 +23,12 @@ namespace Fusion8.Cropper.Extensibility
         }
 
         [Test]
-        public void Two_ImagePairNames_are_not_equal_if_FullSize_differs()
-        {
-            string thumbnail = "thumbnail";
-
-            ImagePairNames left = new ImagePairNames("left", thumbnail);
-            ImagePairNames right = new ImagePairNames("right", thumbnail);
-
-            Assert.IsFalse(left == right);
-            Assert.IsTrue(left != right);
-            Assert.IsFalse(left.Equals(right));
-        }
-
-        [Test]
-        public void Two_ImagePairNames_are_not_equal_if_Thumbnail_differs()
-        {
-            string fullSize = "fullSize";
-
-            ImagePairNames left = new ImagePairNames(fullSize, "left");
-            ImagePairNames right = new ImagePairNames(fullSize, "right");
-
-            Assert.IsFalse(left == right);
-            Assert.IsTrue(left != right);
-            Assert.IsFalse(left.Equals(right));
-        }
-
-        [Test]
-        public void Two_ImagePairNames_are_equal_if_FullSize_and_Thumbnail_match()
-        {
-            string fullSize = "fullSize";
-            string thumbnail = "thumbnail";
-
-            ImagePairNames left = new ImagePairNames(fullSize, thumbnail);
-            ImagePairNames right = new ImagePairNames(fullSize, thumbnail);
-
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
-            Assert.IsTrue(left.Equals(right));
-        }
-
-        [Test]
         public void Evaluating_equals_throws_an_exception_if_the_left_FullSize_is_null()
         {
             Type expected = typeof(NullReferenceException);
             string thumbnail = "thumbnail";
 
-            ImagePairNames left = new ImagePairNames();
-            left.Thumbnail = thumbnail;
+            ImagePairNames left = new ImagePairNames(null, thumbnail);
             ImagePairNames right = new ImagePairNames();
 
             try
@@ -102,8 +65,7 @@ namespace Fusion8.Cropper.Extensibility
             Type expected = typeof(NullReferenceException);
             string fullSize = "fullSize";
 
-            ImagePairNames left = new ImagePairNames();
-            left.FullSize = fullSize;
+            ImagePairNames left = new ImagePairNames(fullSize, null);
             ImagePairNames right = new ImagePairNames();
 
             try
@@ -135,6 +97,15 @@ namespace Fusion8.Cropper.Extensibility
         }
 
         [Test]
+        public void Evaluating_equals_throws_an_exception_if_the_object_is_not_an_ImagePairNames()
+        {
+            ImagePairNames pair = new ImagePairNames();
+            object obj = new object();
+
+            Assert.Throws<InvalidCastException>(() => pair.Equals(obj));
+        }
+
+        [Test]
         public void GetHashCode_is_the_combined_HashCode_of_FullSize_and_Thumbnail()
         {
             string fullSize = "fullSize";
@@ -151,8 +122,7 @@ namespace Fusion8.Cropper.Extensibility
         {
             string thumbnail = "thumbnail";
 
-            ImagePairNames pair = new ImagePairNames();
-            pair.Thumbnail = thumbnail;
+            ImagePairNames pair = new ImagePairNames(null, thumbnail);
 
             Assert.Throws<NullReferenceException>(() => pair.GetHashCode());
         }
@@ -162,19 +132,49 @@ namespace Fusion8.Cropper.Extensibility
         {
             string fullSize = "fullSize";
 
-            ImagePairNames pair = new ImagePairNames();
-            pair.FullSize = fullSize;
+            ImagePairNames pair = new ImagePairNames(fullSize, null);
 
             Assert.Throws<NullReferenceException>(() => pair.GetHashCode());
         }
 
         [Test]
-        public void Evaluating_equals_throws_an_exception_if_the_object_is_not_an_ImagePairNames()
+        public void Two_ImagePairNames_are_equal_if_FullSize_and_Thumbnail_match()
         {
-            ImagePairNames pair = new ImagePairNames();
-            object obj = new object();
+            string fullSize = "fullSize";
+            string thumbnail = "thumbnail";
 
-            Assert.Throws<InvalidCastException>(() => pair.Equals(obj));
+            ImagePairNames left = new ImagePairNames(fullSize, thumbnail);
+            ImagePairNames right = new ImagePairNames(fullSize, thumbnail);
+
+            Assert.IsTrue(left == right);
+            Assert.IsFalse(left != right);
+            Assert.IsTrue(left.Equals(right));
+        }
+
+        [Test]
+        public void Two_ImagePairNames_are_not_equal_if_FullSize_differs()
+        {
+            string thumbnail = "thumbnail";
+
+            ImagePairNames left = new ImagePairNames("left", thumbnail);
+            ImagePairNames right = new ImagePairNames("right", thumbnail);
+
+            Assert.IsFalse(left == right);
+            Assert.IsTrue(left != right);
+            Assert.IsFalse(left.Equals(right));
+        }
+
+        [Test]
+        public void Two_ImagePairNames_are_not_equal_if_Thumbnail_differs()
+        {
+            string fullSize = "fullSize";
+
+            ImagePairNames left = new ImagePairNames(fullSize, "left");
+            ImagePairNames right = new ImagePairNames(fullSize, "right");
+
+            Assert.IsFalse(left == right);
+            Assert.IsTrue(left != right);
+            Assert.IsFalse(left.Equals(right));
         }
     }
 }

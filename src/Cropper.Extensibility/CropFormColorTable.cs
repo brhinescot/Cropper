@@ -1,9 +1,13 @@
+#region Using Directives
+
 using System.Drawing;
+
+#endregion
 
 namespace Fusion8.Cropper.Extensibility
 {
     /// <summary>
-    /// Summary description for CropFormColorTable.
+    ///     Summary description for CropFormColorTable.
     /// </summary>
     public abstract class CropFormColorTable
     {
@@ -12,10 +16,7 @@ namespace Fusion8.Cropper.Extensibility
             TabAlphaChannel = 200;
         }
 
-        public virtual bool SupportsPerPixelAlpha
-        {
-            get { return true; }
-        }
+        public virtual bool SupportsPerPixelAlpha => true;
 
         public virtual int MainAlphaChannel { get; set; }
 

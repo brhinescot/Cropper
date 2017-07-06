@@ -13,28 +13,34 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for ClipboardFormatClipboardFormat.
+    ///     Summary description for ClipboardFormatClipboardFormat.
     /// </summary>
     public class ClipboardFormat : DesignablePlugin, IConfigurablePlugin
     {
-        private Options configurationForm;
-        private ClipboardOutputSettings settings;
         private const string EncoderType = "image/jpeg";
         private const int EncoderParameterCount = 1;
+        private Options configurationForm;
+        private ClipboardOutputSettings settings;
 
-        public override string Extension
+        // Helper property for IConfigurablePlugin Implementation
+        private ClipboardOutputSettings PluginSettings
         {
-            get { return "Clipboard"; }
+            get
+            {
+                if (settings == null)
+                    settings = new ClipboardOutputSettings();
+                return settings;
+            }
+            set => settings = value;
         }
 
-        public override string Description
-        {
-            get { return "Clipboard"; }
-        }
+        public override string Extension => "Clipboard";
+
+        public override string Description => "Clipboard";
 
         /// <summary>
-        /// Gets the plug-ins impementation of the <see cref="BaseConfigurationForm"/> used 
-        /// for setting plug-in specific options.
+        ///     Gets the plug-ins impementation of the <see cref="BaseConfigurationForm" /> used
+        ///     for setting plug-in specific options.
         /// </summary>
         public BaseConfigurationForm ConfigurationForm
         {
@@ -52,40 +58,28 @@ namespace Fusion8.Cropper
         }
 
         /// <summary>
-        /// Gets a value indicating if the <see cref="ConfigurationForm"/> is to be hosted 
-        /// in the options dialog or shown in its own dialog window.
+        ///     Gets a value indicating if the <see cref="ConfigurationForm" /> is to be hosted
+        ///     in the options dialog or shown in its own dialog window.
         /// </summary>
-        public bool HostInOptions
-        {
-            get { return true; }
-        }
+        public bool HostInOptions => true;
 
         /// <summary>
-        /// Gets or sets an object containing the plug-in's settings.
+        ///     Gets or sets an object containing the plug-in's settings.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// This property is set during startup with the settings contained in the applications
-        /// configuration file.</para>
-        /// <para>
-        /// The object returned by this property is serialized into the applications configuration
-        /// file on shutdown.</para></remarks>
+        ///     <para>
+        ///         This property is set during startup with the settings contained in the applications
+        ///         configuration file.
+        ///     </para>
+        ///     <para>
+        ///         The object returned by this property is serialized into the applications configuration
+        ///         file on shutdown.
+        ///     </para>
+        /// </remarks>
         public object Settings
         {
-            get { return PluginSettings; }
-            set { PluginSettings = value as ClipboardOutputSettings; }
-        }
-
-        // Helper property for IConfigurablePlugin Implementation
-        private ClipboardOutputSettings PluginSettings
-        {
-            get
-            {
-                if (settings == null)
-                    settings = new ClipboardOutputSettings();
-                return settings;
-            }
-            set { settings = value; }
+            get => PluginSettings;
+            set => PluginSettings = value as ClipboardOutputSettings;
         }
 
         private void HandleConfigurationFormOptionsSaved(object sender, EventArgs e)
@@ -107,16 +101,20 @@ namespace Fusion8.Cropper
                         using (MemoryStream stream = new MemoryStream())
                         {
                             SaveJpegImage(stream, e.FullSizeImage);
-                            using (Image bitmap = Bitmap.FromStream(stream))
+                            using (Image bitmap = Image.FromStream(stream))
+                            {
                                 Clipboard.SetDataObject(bitmap, true);
+                            }
                         }
                         break;
                     case ClipboardOutputFormat.Png:
                         using (MemoryStream stream = new MemoryStream())
                         {
                             e.FullSizeImage.Save(stream, ImageFormat.Png);
-                            using (Image bitmap = Bitmap.FromStream(stream))
+                            using (Image bitmap = Image.FromStream(stream))
+                            {
                                 Clipboard.SetDataObject(bitmap, true);
+                            }
                         }
                         break;
                 }
@@ -151,16 +149,14 @@ namespace Fusion8.Cropper
             }
         }
 
-        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
         {
             int j;
             ImageCodecInfo[] encoders;
             encoders = ImageCodecInfo.GetImageEncoders();
             for (j = 0; j < encoders.Length; j++)
-            {
                 if (encoders[j].MimeType == mimeType)
                     return encoders[j];
-            }
             return null;
         }
 

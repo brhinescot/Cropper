@@ -7,9 +7,7 @@ using System;
 namespace Fusion8.Cropper.Extensibility
 {
     /// <summary>
-    /// Provides data for the <see cref="IPersistableOutput.ImageCaptureInitialized" /> event.
+    ///     Provides data for the <see cref="IPersistableOutput.ImageCaptureInitialized" /> event.
     /// </summary>
-    public class ImageCaptureInitializedEventArgs : EventArgs
-    {
-    }
+    public class ImageCaptureInitializedEventArgs : EventArgs { }
 }

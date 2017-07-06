@@ -1,5 +1,6 @@
 #region Using Directives
 
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -7,65 +8,52 @@ using System.Windows.Forms;
 
 namespace Fusion8.Cropper.Core
 {
-	/// <summary>
-	/// Summary description for Prompt.
-	/// </summary>
-	public class Prompt : Form
-	{
-	    #region Member Fields
-
-	    private Button okButton;
-	    private Button cancelButton;
-	    private TextBox promptText;
-	    private Label label1;
-        private ErrorProvider errorProvider;
-        private IContainer components;
-
-	    #endregion
+    /// <summary>
+    ///     Summary description for Prompt.
+    /// </summary>
+    public class Prompt : Form
+    {
+        public Prompt()
+        {
+            InitializeComponent();
+        }
 
         public string Value
-		{
-			get => promptText.Text;
+        {
+            get => promptText.Text;
             set => promptText.Text = value;
         }
 
-		public Prompt()
-		{
-			InitializeComponent();
-		}
+        private static bool ValidateFileName(string name)
+        {
+            return !(name.IndexOfAny(new[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
+        }
 
-		private static bool ValidateFileName(string name)
-		{
-			return !(name.IndexOfAny(new[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
-		}
+        /// <summary>
+        ///     Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                components?.Dispose();
+            base.Dispose(disposing);
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-			    components?.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        #region Windows Form Designer generated code
 
-		#region Windows Form Designer generated code
-
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.promptText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // okButton
@@ -125,42 +113,52 @@ namespace Fusion8.Cropper.Core
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Template Prompt";
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
 
-		}
+        #endregion
 
-		#endregion
+        private void HandleOkClick(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
 
-		private void HandleOkClick(object sender, System.EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+        private void HandleCancelClick(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
 
-		private void HandleCancelClick(object sender, System.EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
+        private void HandlePromptTextChanged(object sender, EventArgs e)
+        {
+            TextBox validateBox = sender as TextBox;
+            if (validateBox == null)
+                return;
 
-		private void HandlePromptTextChanged(object sender, System.EventArgs e)
-		{
-			TextBox validateBox = sender as TextBox;
-			if (validateBox == null)
-				return;
+            if (!ValidateFileName(validateBox.Text))
+            {
+                errorProvider.SetError(validateBox, SR.MessageInvalidTemplateCharacters);
+                okButton.Enabled = false;
+            }
+            else
+            {
+                errorProvider.SetError(validateBox, string.Empty);
+                okButton.Enabled = true;
+            }
+        }
 
-			if (!ValidateFileName(validateBox.Text))
-			{
-				errorProvider.SetError(validateBox, SR.MessageInvalidTemplateCharacters);
-				okButton.Enabled = false;
-			}
-			else
-			{
-				errorProvider.SetError(validateBox, string.Empty);
-				okButton.Enabled = true;
-			}
-		}
-	}
+        #region Member Fields
+
+        private Button okButton;
+        private Button cancelButton;
+        private TextBox promptText;
+        private Label label1;
+        private ErrorProvider errorProvider;
+        private IContainer components;
+
+        #endregion
+    }
 }

@@ -14,9 +14,7 @@ namespace Fusion8.Cropper.Extensibility
             output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
 
             if (e.IsThumbnailed)
-            {
                 output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
-            }
         }
 
         protected abstract void SaveImage(Stream stream, Image image);

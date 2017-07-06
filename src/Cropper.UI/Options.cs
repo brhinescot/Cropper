@@ -7,113 +7,28 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Fusion8.Cropper.Core;
 using Fusion8.Cropper.Extensibility;
-using System.Text.RegularExpressions;
 
 #endregion
 
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Represents a form for setting options in the application.
+    ///     Represents a form for setting options in the application.
     /// </summary>
     public class Options : Form
     {
-        #region Member Fields
-
-        private readonly Hashtable errors = new Hashtable();
-        private FolderBrowserDialog folder;
-        private Button okButton;
-        private Button cancelButton;
-        private TextBox fullImageTemplate;
-        private TextBox thumbImageTemplate;
-        private DropDownButton fullImageMenuButton;
-        private ContextMenu templateMenu;
-        private DropDownButton thumbImageMenuButton;
-        private MenuItem templateIncrement;
-        private MenuItem templateDate;
-        private MenuItem templateTime;
-        private MenuItem templateExtension;
-        private TextBox currentTextBox;
-        private ErrorProvider errorProvider;
-        private ToolTip toolTip;
-        private MenuItem templateUser;
-        private MenuItem templateDomain;
-        private MenuItem templateMachine;
-        private MenuItem templatePrompt;
-        private MenuItem seperator1;
-        private MenuItem seperator2;
-        private MenuItem menuItem1;
-        private MenuItem menuItem2;
-        private MenuItem menuItem3;
-        private Button colorChooserButton;
-        private ColorDialog colorDialog;
-        private CheckBox colorNonFormAreaCheck;
-        private GroupBox outputTemplateGroup;
-        private GroupBox hotKeysGroup;
-        private Label labelOutputFolder;
-        private Label labelThumbImageTemplate;
-        private Label labelFullImageTemplate;
-        private TrackBar opacitySlider;
-        private Label opacityValue;
-        private CheckBox showOpacityMenu;
-        private CheckBox trapPrintScreen;
-        private Label nonRectWindowsDescription;
-        private Label outputTemplatesDescription;
-        private Label outputFolderDescription;
-        private Label hotKeysDescription;
-        private Label opacityDescription;
-        private Panel backgroundColor;
-        private GroupBox nonRectangularCapturesGroup;
-        private GroupBox outputFolderGroup;
-        private TablessTabControl optionsTabs;
-        private TabPage outputTab;
-        private TabPage capturesTab;
-        private TabPage appearanceTab;
-        private GroupBox opaityGroup;
-        private CheckBox perPixelAlphaBlend;
-        private TabPage pluginsTab;
-        private ComboBox comboBox1;
-        private Panel panel1;
-        private CheckBox keepPrntScrnOnClipboard;
-        private Button button1;
-        private TextBox folderChooser;
-        private GroupBox groupBox1;
-        private Label visibilityDescription;
-        private CheckBox hideDuringCapture;
-        private CheckBox hideAfterCapture;
-        private GroupBox groupBox2;
-        private Button buttonRemoveSize;
-        private Button buttonAddSize;
-        private ListBox predefinedSizeList;
-        private Label label1;
-        private TextBox heightInput;
-        private TextBox widthInput;
-        private IContainer components;
-
-        private static readonly Regex IsNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
-        private Label label2;
-        private Label label3;
-        private TabPage keyboardTab;
-        private HotKeySelection hotKeySelection;
-        private MenuItem templateTimestamp;
-        private CheckBox allowMultipleCropperInstances;
-        private GroupBox otherOptionsDescription;
-        private CheckBox includeMouseCursorInCapture;
-        private bool addingSize;
-        private TreeView optionsNavigator;
-        private GroupBox keyboardShortcutsGroup;
-
-        #endregion
+        private Form configForm;
 
         public Options()
         {
             InitializeComponent();
             foreach (TabPage page in optionsTabs.TabPages)
                 page.BackColor = SystemColors.Control;
-            
+
             folder.Description = SR.FolderBrowseText;
             folderChooser.Text = Configuration.Current.OutputPath;
             fullImageTemplate.Text = Configuration.Current.FullImageTemplate;
@@ -121,8 +36,8 @@ namespace Fusion8.Cropper
             backgroundColor.BackColor = Color.FromArgb(Configuration.Current.NonFormAreaColorArgb);
             toolTip.SetToolTip(backgroundColor, string.Format("Color\nRed:{0}\nGreen{1}\nBlue:{2}", backgroundColor.BackColor.R, backgroundColor.BackColor.G, backgroundColor.BackColor.B));
             colorNonFormAreaCheck.Checked = Configuration.Current.ColorNonFormArea;
-            opacitySlider.Value = Convert.ToInt32(Configuration.Current.UserOpacity*100)/10;
-            opacityValue.Text = (opacitySlider.Value*10) + "%";
+            opacitySlider.Value = Convert.ToInt32(Configuration.Current.UserOpacity * 100) / 10;
+            opacityValue.Text = opacitySlider.Value * 10 + "%";
             showOpacityMenu.Checked = Configuration.Current.ShowOpacityMenu;
             trapPrintScreen.Checked = Configuration.Current.TrapPrintScreen;
             perPixelAlphaBlend.Checked = Configuration.Current.UsePerPixelAlpha;
@@ -145,7 +60,7 @@ namespace Fusion8.Cropper
                 if (configurable != null && configurable.ConfigurationForm != null)
                     comboBox1.Items.Add(configurable);
             }
-            
+
             comboBox1.SelectedIndex = 0;
             AcceptButton = okButton;
             CancelButton = cancelButton;
@@ -153,7 +68,7 @@ namespace Fusion8.Cropper
             hotKeySelection.HotKeyRegister += HotKeySelectionOnHotKeyRegister;
             hotKeySelection.ShowGroups = true;
             hotKeySelection.AddRange(HotKeys.GetRegisteredHotKeys());
-            
+
             foreach (TabPage page in optionsTabs.TabPages)
             {
                 TreeNode node = optionsNavigator.Nodes.Add(page.Name, page.Text);
@@ -186,7 +101,7 @@ namespace Fusion8.Cropper
 
         private static bool ValidateFileName(string name)
         {
-            return !(name.IndexOfAny(new char[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
+            return !(name.IndexOfAny(new[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
         }
 
         private void HandleFolderChooserButtonClick(object sender, EventArgs e)
@@ -197,7 +112,7 @@ namespace Fusion8.Cropper
 
         private void HandleOkClick(object sender, EventArgs e)
         {
-            if(addingSize)
+            if (addingSize)
             {
                 addingSize = false;
                 return;
@@ -211,7 +126,7 @@ namespace Fusion8.Cropper
 
             Configuration.Current.ColorNonFormArea = colorNonFormAreaCheck.Checked;
             Configuration.Current.NonFormAreaColorArgb = backgroundColor.BackColor.ToArgb();
-            Configuration.Current.UserOpacity = (double) (opacitySlider.Value*10)/100;
+            Configuration.Current.UserOpacity = (double) (opacitySlider.Value * 10) / 100;
             Configuration.Current.ShowOpacityMenu = showOpacityMenu.Checked;
             Configuration.Current.TrapPrintScreen = trapPrintScreen.Checked;
             Configuration.Current.UsePerPixelAlpha = perPixelAlphaBlend.Checked;
@@ -331,10 +246,8 @@ namespace Fusion8.Cropper
 
         private void HandleOpacitySliderValueChanged(object sender, EventArgs e)
         {
-            opacityValue.Text = (opacitySlider.Value*10) + "%";
+            opacityValue.Text = opacitySlider.Value * 10 + "%";
         }
-
-        private Form configForm;
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -377,7 +290,7 @@ namespace Fusion8.Cropper
             AddSize();
         }
 
-        private void AddSize() 
+        private void AddSize()
         {
             if (!IsNumeric.Match(widthInput.Text).Success || !IsNumeric.Match(heightInput.Text).Success)
                 return;
@@ -393,7 +306,7 @@ namespace Fusion8.Cropper
                 List<CropSize> cropSize = new List<CropSize>();
                 foreach (CropSize item in predefinedSizeList.Items)
                     cropSize.Add(item);
-                
+
                 predefinedSizeList.Items.Clear();
                 CropSize[] sizes = cropSize.ToArray();
                 Array.Sort(sizes);
@@ -417,7 +330,7 @@ namespace Fusion8.Cropper
         private void HandleSizeInputEnter(object sender, EventArgs e)
         {
             TextBox box = sender as TextBox;
-            if (box == null) 
+            if (box == null)
                 return;
 
             box.SelectionStart = 0;
@@ -436,39 +349,34 @@ namespace Fusion8.Cropper
         private void SizeInputTextChanged(object sender, EventArgs e)
         {
             TextBox box = sender as TextBox;
-            if(box == null)
+            if (box == null)
                 return;
-
 
             errorProvider.SetError(box, !IsNumeric.Match(box.Text).Success ? "Only numeric values are valid." : null);
         }
 
         private void HandleOptionsNavigatorAfterSelect(object sender, TreeViewEventArgs e)
         {
-            TabPage page = (TabPage)e.Node.Tag;
+            TabPage page = (TabPage) e.Node.Tag;
             optionsTabs.SelectTab(page);
         }
 
         /// <summary>
-        /// Clean up any resources being used.
+        ///     Clean up any resources being used.
         /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 if (components != null)
-                {
                     components.Dispose();
-                }
-            }
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -549,7 +457,7 @@ namespace Fusion8.Cropper
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.optionsNavigator = new System.Windows.Forms.TreeView();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).BeginInit();
             this.outputFolderGroup.SuspendLayout();
             this.nonRectangularCapturesGroup.SuspendLayout();
             this.outputTemplateGroup.SuspendLayout();
@@ -559,7 +467,7 @@ namespace Fusion8.Cropper
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.opaityGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.opacitySlider)).BeginInit();
             this.outputTab.SuspendLayout();
             this.capturesTab.SuspendLayout();
             this.otherOptionsDescription.SuspendLayout();
@@ -578,7 +486,7 @@ namespace Fusion8.Cropper
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.Location = new System.Drawing.Point(330, 485);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 25);
@@ -588,7 +496,7 @@ namespace Fusion8.Cropper
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(414, 485);
             this.cancelButton.Name = "cancelButton";
@@ -598,8 +506,8 @@ namespace Fusion8.Cropper
             // 
             // labelFullImageTemplate
             // 
-            this.labelFullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelFullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                                                                                        | System.Windows.Forms.AnchorStyles.Right)));
             this.labelFullImageTemplate.Location = new System.Drawing.Point(3, 88);
             this.labelFullImageTemplate.Name = "labelFullImageTemplate";
             this.labelFullImageTemplate.Size = new System.Drawing.Size(180, 17);
@@ -608,9 +516,9 @@ namespace Fusion8.Cropper
             // 
             // fullImageTemplate
             // 
-            this.fullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fullImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                                                                                   | System.Windows.Forms.AnchorStyles.Right)));
+            this.fullImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.fullImageTemplate.HideSelection = false;
             this.errorProvider.SetIconPadding(this.fullImageTemplate, 24);
             this.fullImageTemplate.Location = new System.Drawing.Point(6, 108);
@@ -621,9 +529,9 @@ namespace Fusion8.Cropper
             // 
             // thumbImageTemplate
             // 
-            this.thumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.thumbImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.thumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                                                                                    | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.thumbImageTemplate.HideSelection = false;
             this.errorProvider.SetIconPadding(this.thumbImageTemplate, 24);
             this.thumbImageTemplate.Location = new System.Drawing.Point(6, 160);
@@ -634,8 +542,8 @@ namespace Fusion8.Cropper
             // 
             // labelThumbImageTemplate
             // 
-            this.labelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                                                                                         | System.Windows.Forms.AnchorStyles.Right)));
             this.labelThumbImageTemplate.Location = new System.Drawing.Point(6, 140);
             this.labelThumbImageTemplate.Name = "labelThumbImageTemplate";
             this.labelThumbImageTemplate.Size = new System.Drawing.Size(202, 17);
@@ -644,21 +552,23 @@ namespace Fusion8.Cropper
             // 
             // templateMenu
             // 
-            this.templateMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.templateIncrement,
-            this.templateDate,
-            this.templateTime,
-            this.templateTimestamp,
-            this.templateExtension,
-            this.seperator1,
-            this.templateUser,
-            this.templateDomain,
-            this.templateMachine,
-            this.seperator2,
-            this.templatePrompt,
-            this.menuItem1,
-            this.menuItem2,
-            this.menuItem3});
+            this.templateMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+            {
+                this.templateIncrement,
+                this.templateDate,
+                this.templateTime,
+                this.templateTimestamp,
+                this.templateExtension,
+                this.seperator1,
+                this.templateUser,
+                this.templateDomain,
+                this.templateMachine,
+                this.seperator2,
+                this.templatePrompt,
+                this.menuItem1,
+                this.menuItem2,
+                this.menuItem3
+            });
             // 
             // templateIncrement
             // 
@@ -787,7 +697,7 @@ namespace Fusion8.Cropper
             // 
             // fullImageMenuButton
             // 
-            this.fullImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.fullImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.fullImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
             this.fullImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.fullImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -805,7 +715,7 @@ namespace Fusion8.Cropper
             // 
             // thumbImageMenuButton
             // 
-            this.thumbImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.thumbImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
             this.thumbImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.thumbImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -852,7 +762,7 @@ namespace Fusion8.Cropper
             this.outputFolderDescription.Size = new System.Drawing.Size(304, 59);
             this.outputFolderDescription.TabIndex = 0;
             this.outputFolderDescription.Text = "This is the root folder for all file based screenshots. Environment variables in " +
-    "the path are supported, i.e. %userprofile%\\Desktop.";
+                                                "the path are supported, i.e. %userprofile%\\Desktop.";
             // 
             // colorChooserButton
             // 
@@ -963,9 +873,9 @@ namespace Fusion8.Cropper
             // 
             // optionsTabs
             // 
-            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                              | System.Windows.Forms.AnchorStyles.Left)
+                                                                             | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsTabs.Controls.Add(this.appearanceTab);
             this.optionsTabs.Controls.Add(this.outputTab);
             this.optionsTabs.Controls.Add(this.capturesTab);
@@ -1285,8 +1195,8 @@ namespace Fusion8.Cropper
             // 
             // optionsNavigator
             // 
-            this.optionsNavigator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.optionsNavigator.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                                  | System.Windows.Forms.AnchorStyles.Left)));
             this.optionsNavigator.Indent = 12;
             this.optionsNavigator.Location = new System.Drawing.Point(6, 6);
             this.optionsNavigator.Name = "optionsNavigator";
@@ -1312,7 +1222,7 @@ namespace Fusion8.Cropper
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Cropper Options";
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).EndInit();
             this.outputFolderGroup.ResumeLayout(false);
             this.outputFolderGroup.PerformLayout();
             this.nonRectangularCapturesGroup.ResumeLayout(false);
@@ -1327,7 +1237,7 @@ namespace Fusion8.Cropper
             this.groupBox1.PerformLayout();
             this.opaityGroup.ResumeLayout(false);
             this.opaityGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.opacitySlider)).EndInit();
             this.outputTab.ResumeLayout(false);
             this.capturesTab.ResumeLayout(false);
             this.otherOptionsDescription.ResumeLayout(false);
@@ -1335,8 +1245,94 @@ namespace Fusion8.Cropper
             this.keyboardShortcutsGroup.ResumeLayout(false);
             this.pluginsTab.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
+
+        #endregion
+
+        #region Member Fields
+
+        private readonly Hashtable errors = new Hashtable();
+        private FolderBrowserDialog folder;
+        private Button okButton;
+        private Button cancelButton;
+        private TextBox fullImageTemplate;
+        private TextBox thumbImageTemplate;
+        private DropDownButton fullImageMenuButton;
+        private ContextMenu templateMenu;
+        private DropDownButton thumbImageMenuButton;
+        private MenuItem templateIncrement;
+        private MenuItem templateDate;
+        private MenuItem templateTime;
+        private MenuItem templateExtension;
+        private TextBox currentTextBox;
+        private ErrorProvider errorProvider;
+        private ToolTip toolTip;
+        private MenuItem templateUser;
+        private MenuItem templateDomain;
+        private MenuItem templateMachine;
+        private MenuItem templatePrompt;
+        private MenuItem seperator1;
+        private MenuItem seperator2;
+        private MenuItem menuItem1;
+        private MenuItem menuItem2;
+        private MenuItem menuItem3;
+        private Button colorChooserButton;
+        private ColorDialog colorDialog;
+        private CheckBox colorNonFormAreaCheck;
+        private GroupBox outputTemplateGroup;
+        private GroupBox hotKeysGroup;
+        private Label labelOutputFolder;
+        private Label labelThumbImageTemplate;
+        private Label labelFullImageTemplate;
+        private TrackBar opacitySlider;
+        private Label opacityValue;
+        private CheckBox showOpacityMenu;
+        private CheckBox trapPrintScreen;
+        private Label nonRectWindowsDescription;
+        private Label outputTemplatesDescription;
+        private Label outputFolderDescription;
+        private Label hotKeysDescription;
+        private Label opacityDescription;
+        private Panel backgroundColor;
+        private GroupBox nonRectangularCapturesGroup;
+        private GroupBox outputFolderGroup;
+        private TablessTabControl optionsTabs;
+        private TabPage outputTab;
+        private TabPage capturesTab;
+        private TabPage appearanceTab;
+        private GroupBox opaityGroup;
+        private CheckBox perPixelAlphaBlend;
+        private TabPage pluginsTab;
+        private ComboBox comboBox1;
+        private Panel panel1;
+        private CheckBox keepPrntScrnOnClipboard;
+        private Button button1;
+        private TextBox folderChooser;
+        private GroupBox groupBox1;
+        private Label visibilityDescription;
+        private CheckBox hideDuringCapture;
+        private CheckBox hideAfterCapture;
+        private GroupBox groupBox2;
+        private Button buttonRemoveSize;
+        private Button buttonAddSize;
+        private ListBox predefinedSizeList;
+        private Label label1;
+        private TextBox heightInput;
+        private TextBox widthInput;
+        private IContainer components;
+
+        private static readonly Regex IsNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
+        private Label label2;
+        private Label label3;
+        private TabPage keyboardTab;
+        private HotKeySelection hotKeySelection;
+        private MenuItem templateTimestamp;
+        private CheckBox allowMultipleCropperInstances;
+        private GroupBox otherOptionsDescription;
+        private CheckBox includeMouseCursorInCapture;
+        private bool addingSize;
+        private TreeView optionsNavigator;
+        private GroupBox keyboardShortcutsGroup;
 
         #endregion
     }

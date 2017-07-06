@@ -1,13 +1,18 @@
+#region Using Directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Fusion8.Cropper.Core {
+#endregion
+
+namespace Fusion8.Cropper.Core
+{
     public static class HotKeys
     {
         private const string RegistrationSuffix = "CropperHotKeys";
-        private const Keys ModifierKeys = (Keys.Alt | Keys.Control | Keys.Shift);
+        private const Keys ModifierKeys = Keys.Alt | Keys.Control | Keys.Shift;
 
         private static readonly HotKeyCache Cache = new HotKeyCache();
 
@@ -67,7 +72,7 @@ namespace Fusion8.Cropper.Core {
 
         public static Keys GetKeyData(IntPtr atom)
         {
-            return Cache[(ushort)atom];
+            return Cache[(ushort) atom];
         }
 
         private static void RegisterGlobal(HotKeyData keyData, IWin32Window window)
@@ -76,7 +81,7 @@ namespace Fusion8.Cropper.Core {
 
             ushort atom = NativeMethods.GlobalAddAtom(RegistrationSuffix + keys + DateTime.Now.Ticks);
 
-            NativeMethods.RegisterHotKey(window.Handle, atom, GetModifierFlag(keys), (int)(keys & ~ModifierKeys));
+            NativeMethods.RegisterHotKey(window.Handle, atom, GetModifierFlag(keys), (int) (keys & ~ModifierKeys));
 
             Cache.Add(keyData, atom);
         }

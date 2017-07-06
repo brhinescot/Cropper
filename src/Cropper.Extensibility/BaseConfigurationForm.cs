@@ -8,16 +8,18 @@ using System.Windows.Forms;
 namespace Fusion8.Cropper.Extensibility
 {
     /// <summary>
-    /// Represents the base configuration form for plug-ins that implement the <see cref="IConfigurablePlugin"/> interface.
+    ///     Represents the base configuration form for plug-ins that implement the <see cref="IConfigurablePlugin" />
+    ///     interface.
     /// </summary>
     /// <remarks>
-    /// The form is presented to the user via the <see cref="IConfigurablePlugin.ConfigurationForm"/> property.
+    ///     The form is presented to the user via the <see cref="IConfigurablePlugin.ConfigurationForm" /> property.
     /// </remarks>
     /// <example>
-    /// <para>
-    /// The following example shows how to use the <see cref="BaseConfigurationForm"/> to obtain 
-    /// configuration data from the user.</para>
-    /// <code>
+    ///     <para>
+    ///         The following example shows how to use the <see cref="BaseConfigurationForm" /> to obtain
+    ///         configuration data from the user.
+    ///     </para>
+    ///     <code>
     ///     private Options configurationForm;
     /// 
     ///     public BaseConfigurationForm ConfigurationForm
@@ -41,19 +43,29 @@ namespace Fusion8.Cropper.Extensibility
     ///         PluginSettings.ImageQuality = configurationForm.ImageQuality;
     ///     }
     /// </code>
-    /// <para>
-    /// The Options class in the example is derived from <see cref="BaseConfigurationForm"/> and contains two additional
-    /// properties:
-    /// <code>
+    ///     <para>
+    ///         The Options class in the example is derived from <see cref="BaseConfigurationForm" /> and contains two
+    ///         additional
+    ///         properties:
+    ///         <code>
     /// public class Options : BaseConfigurationForm
     /// {
     ///     public ClipboardOutputFormat Format{get;set;}
     ///     public int ImageQuality{get;set;}
     /// }
-    /// </code></para>
+    /// </code>
+    ///     </para>
     /// </example>
     public partial class BaseConfigurationForm : Form
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BaseConfigurationForm" />
+        /// </summary>
+        public BaseConfigurationForm()
+        {
+            InitializeComponent();
+        }
+
         #region Member Fields
 
         public event EventHandler OptionsSaved;
@@ -61,16 +73,8 @@ namespace Fusion8.Cropper.Extensibility
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseConfigurationForm"/>
+        ///     Save the plug-in's settings.
         /// </summary>
-        public BaseConfigurationForm()
-        {
-            InitializeComponent();
-        }
-
-        ///<summary>
-        /// Save the plug-in's settings.
-        ///</summary>
         public void Save()
         {
             OnOptionsSaved(EventArgs.Empty);

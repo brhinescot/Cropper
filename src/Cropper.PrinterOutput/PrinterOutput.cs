@@ -1,6 +1,5 @@
 #region Using Directives
 
-using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
@@ -11,21 +10,15 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for PrinterOutput.
+    ///     Summary description for PrinterOutput.
     /// </summary>
     public class PrinterOutput : DesignablePlugin
     {
         private Image capturedImage;
 
-        public override string Extension
-        {
-            get { return "Printer"; }
-        }
+        public override string Extension => "Printer";
 
-        public override string Description
-        {
-            get { return "Printer"; }
-        }
+        public override string Description => "Printer";
 
         public override void Disconnect()
         {
@@ -69,7 +62,7 @@ namespace Fusion8.Cropper
         {
             try
             {
-                PrintDocument document = (PrintDocument)sender;
+                PrintDocument document = (PrintDocument) sender;
                 SizeF imageInches = CalculateSizeInInches(capturedImage);
                 PointF originInches = CalculateOriginInInches(imageInches, document);
                 ppea.Graphics.DrawImage(capturedImage, originInches.X, originInches.Y);
@@ -100,10 +93,10 @@ namespace Fusion8.Cropper
         private PointF CalculateOriginInInches(SizeF sizesInInches, PrintDocument document)
         {
             PointF point = new PointF();
-            point.X = (((document.DefaultPageSettings.Bounds.Width / 100) -
-                        sizesInInches.Width) / 2) * capturedImage.HorizontalResolution;
-            point.Y = (((document.DefaultPageSettings.Bounds.Height / 100) -
-                        sizesInInches.Height) / 2) * capturedImage.VerticalResolution;
+            point.X = (document.DefaultPageSettings.Bounds.Width / 100 -
+                       sizesInInches.Width) / 2 * capturedImage.HorizontalResolution;
+            point.Y = (document.DefaultPageSettings.Bounds.Height / 100 -
+                       sizesInInches.Height) / 2 * capturedImage.VerticalResolution;
             return point;
         }
 

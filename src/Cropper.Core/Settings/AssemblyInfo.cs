@@ -1,4 +1,9 @@
+#region Using Directives
+
 using System.Reflection;
-[assembly : AssemblyTitle("Cropper.Core")]
-[assembly : AssemblyDefaultAlias("Cropper.Core")]
-[assembly : AssemblyDescription("Cropper.Core")]
+
+#endregion
+
+[assembly: AssemblyTitle("Cropper.Core")]
+[assembly: AssemblyDefaultAlias("Cropper.Core")]
+[assembly: AssemblyDescription("Cropper.Core")]

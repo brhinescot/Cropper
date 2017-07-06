@@ -8,23 +8,14 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for PngFormat.
+    ///     Summary description for PngFormat.
     /// </summary>
     public class PngFormat : DesignablePluginThatUsesFetchOutputStreamAndSave
     {
-        public override string Extension
-        {
-            get { return "png"; }
-        }
+        public override string Extension => "png";
 
-        public override string Description
-        {
-            get { return "Png"; }
-        }
+        public override string Description => "Png";
 
-        protected override ImageFormat Format
-        {
-            get { return ImageFormat.Png; }
-        }
+        protected override ImageFormat Format => ImageFormat.Png;
     }
 }

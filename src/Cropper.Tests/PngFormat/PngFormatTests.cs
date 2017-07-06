@@ -1,19 +1,18 @@
+#region Using Directives
+
 using System.Drawing.Imaging;
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper
 {
     [TestFixture]
     public class PngFormatTests
     {
-        [Test]
-        public void Extension_is_png()
+        private class FakePngFormat : PngFormat
         {
-            string expected = "png";
-
-            PngFormat format = new PngFormat();
-
-            Assert.AreEqual(expected, format.Extension);
+            public ImageFormat FormatValue => Format;
         }
 
         [Test]
@@ -27,6 +26,16 @@ namespace Fusion8.Cropper
         }
 
         [Test]
+        public void Extension_is_png()
+        {
+            string expected = "png";
+
+            PngFormat format = new PngFormat();
+
+            Assert.AreEqual(expected, format.Extension);
+        }
+
+        [Test]
         public void Format_is_Png()
         {
             ImageFormat expected = ImageFormat.Png;
@@ -34,14 +43,6 @@ namespace Fusion8.Cropper
             FakePngFormat format = new FakePngFormat();
 
             Assert.AreEqual(expected, format.FormatValue);
-        }
-
-        private class FakePngFormat : PngFormat
-        {
-            public ImageFormat FormatValue
-            {
-                get { return Format; }
-            }
         }
     }
 }

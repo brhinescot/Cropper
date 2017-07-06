@@ -1,4 +1,8 @@
+#region Using Directives
+
 using System;
+
+#endregion
 
 namespace Fusion8.Cropper.Core
 {

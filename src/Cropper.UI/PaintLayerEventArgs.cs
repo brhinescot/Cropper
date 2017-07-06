@@ -8,82 +8,66 @@ using System.Drawing.Text;
 
 namespace Fusion8.Cropper
 {
-	public class PaintLayerEventArgs : EventArgs, IDisposable
-	{
-		#region Member Fields 
+    public class PaintLayerEventArgs : EventArgs, IDisposable
+    {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PaintLayerEventArgs" /> class.
+        /// </summary>
+        public PaintLayerEventArgs() { }
 
-		private readonly Graphics graphics;
-		private readonly Bitmap surface;
-		private readonly Size size;
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PaintLayerEventArgs" /> class.
+        /// </summary>
+        /// <param name="bitmap">The bitmap.</param>
+        internal PaintLayerEventArgs(Bitmap bitmap)
+        {
+            Image = bitmap;
+            Graphics = Graphics.FromImage(Image);
+            Graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+            Size = new Size(bitmap.Width, bitmap.Height);
+        }
 
-		#endregion
+        /// <summary>
+        ///     Disposes this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (Graphics != null)
+                Graphics.Dispose();
+            if (Image != null)
+                Image.Dispose();
+        }
 
-		#region Property Accessors 
+        #region Member Fields 
 
-		/// <summary>
-		/// Gets the bounds.
-		/// </summary>
-		/// <value>The bounds.</value>
-		public Rectangle Bounds
-		{
-			get { return new Rectangle(Point.Empty, Size); }
-		}
+        #endregion
 
-		/// <summary>
-		/// Gets the size.
-		/// </summary>
-		/// <value>The size.</value>
-		public Size Size
-		{
-			get { return size; }
-		}
+        #region Property Accessors 
 
-		/// <summary>
-		/// Gets the graphics.
-		/// </summary>
-		/// <value>The graphics.</value>
-		public Graphics Graphics
-		{
-			get { return graphics; }
-		}
+        /// <summary>
+        ///     Gets the bounds.
+        /// </summary>
+        /// <value>The bounds.</value>
+        public Rectangle Bounds => new Rectangle(Point.Empty, Size);
 
-		/// <summary>
-		/// Gets the image.
-		/// </summary>
-		/// <value>The image.</value>
-		internal Bitmap Image
-		{
-			get { return surface; }
-		}
+        /// <summary>
+        ///     Gets the size.
+        /// </summary>
+        /// <value>The size.</value>
+        public Size Size { get; }
 
-		#endregion
+        /// <summary>
+        ///     Gets the graphics.
+        /// </summary>
+        /// <value>The graphics.</value>
+        public Graphics Graphics { get; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PaintLayerEventArgs"/> class.
-		/// </summary>
-		public PaintLayerEventArgs() {}
+        /// <summary>
+        ///     Gets the image.
+        /// </summary>
+        /// <value>The image.</value>
+        internal Bitmap Image { get; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PaintLayerEventArgs"/> class.
-		/// </summary>
-		/// <param name="bitmap">The bitmap.</param>
-		internal PaintLayerEventArgs(Bitmap bitmap)
-		{
-			surface = bitmap;
-			graphics = Graphics.FromImage(surface);
-			graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-			size = new Size(bitmap.Width, bitmap.Height);
-		}
-
-		/// <summary>
-		/// Disposes this instance.
-		/// </summary>
-		public void Dispose()
-		{
-			if (graphics != null)
-				graphics.Dispose();
-			if (surface != null)
-				surface.Dispose();
-		}
-	}
+        #endregion
+    }
 }

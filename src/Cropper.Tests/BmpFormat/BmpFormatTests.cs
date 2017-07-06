@@ -1,19 +1,18 @@
+#region Using Directives
+
 using System.Drawing.Imaging;
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper
 {
     [TestFixture]
     public class BmpFormatTests
     {
-        [Test]
-        public void Extension_is_bmp()
+        private class FakeBmpFormat : BmpFormat
         {
-            string expected = "bmp";
-
-            BmpFormat format = new BmpFormat();
-
-            Assert.AreEqual(expected, format.Extension);
+            public ImageFormat FormatValue => Format;
         }
 
         [Test]
@@ -27,6 +26,16 @@ namespace Fusion8.Cropper
         }
 
         [Test]
+        public void Extension_is_bmp()
+        {
+            string expected = "bmp";
+
+            BmpFormat format = new BmpFormat();
+
+            Assert.AreEqual(expected, format.Extension);
+        }
+
+        [Test]
         public void Format_is_Bmp()
         {
             ImageFormat expected = ImageFormat.Bmp;
@@ -34,14 +43,6 @@ namespace Fusion8.Cropper
             FakeBmpFormat format = new FakeBmpFormat();
 
             Assert.AreEqual(expected, format.FormatValue);
-        }
-
-        private class FakeBmpFormat : BmpFormat
-        {
-            public ImageFormat FormatValue
-            {
-                get { return Format; }
-            }
         }
     }
 }

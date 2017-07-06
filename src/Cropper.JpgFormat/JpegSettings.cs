@@ -6,13 +6,8 @@ namespace Fusion8.Cropper
 
         public string Extension
         {
-            get
-            {
-                if (extension == null)
-                    extension = "jpg";
-                return extension;
-            }
-            set { extension = value; }
+            get => extension ?? (extension = "jpg");
+            set => extension = value;
         }
     }
 }

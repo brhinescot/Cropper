@@ -1,9 +1,13 @@
+#region Using Directives
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Fusion8.Cropper.Core 
+#endregion
+
+namespace Fusion8.Cropper.Core
 {
     internal class HotKeyCache : IEnumerable<HotKeyData>
     {
@@ -14,15 +18,23 @@ namespace Fusion8.Cropper.Core
 
         public HotKeyData this[Keys keys] => keyActions.ContainsKey(keys) ? keyActions[keys] : null;
 
+        public IEnumerator<HotKeyData> GetEnumerator()
+        {
+            return keyActions.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         public void Add(HotKeyData keyData, ushort globalAtom = 0)
         {
             if (globalAtom > 0)
-            {
                 if (identifierKeys.ContainsKey(globalAtom))
                     identifierKeys[globalAtom] = keyData;
                 else
                     identifierKeys.Add(globalAtom, keyData);
-            }
 
             if (keyActions.ContainsKey(keyData.KeyData))
                 keyActions[keyData.KeyData] = keyData;
@@ -47,16 +59,6 @@ namespace Fusion8.Cropper.Core
         public ushort GetAtom(Keys keyData)
         {
             return (from pair in identifierKeys where pair.Value.KeyData == keyData select pair.Key).FirstOrDefault();
-        }
-
-        public IEnumerator<HotKeyData> GetEnumerator()
-        {
-            return keyActions.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

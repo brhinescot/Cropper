@@ -13,10 +13,42 @@ using Fusion8.Cropper.Extensibility;
 namespace Fusion8.Cropper
 {
     /// <summary>
-    /// Summary description for JpgFormat.
+    ///     Summary description for JpgFormat.
     /// </summary>
     public class JpgFormat : DesignablePluginThatUsesFetchOutputStream, IConfigurablePlugin
     {
+        private void AddImageQualityMenuItem(string text, MenuItem parent)
+        {
+            MenuItem subMenu = new MenuItem(text) {RadioCheck = true};
+            
+            if (text == imageQuality.ToString(CultureInfo.InvariantCulture))
+                subMenu.Checked = true;
+            subMenu.Click += ImageQualityMenuHandler;
+            parent.MenuItems.Add(subMenu);
+        }
+
+        #region Event Handling
+
+        private void ImageQualityMenuHandler(object sender, EventArgs e)
+        {
+            MenuItem item = (MenuItem) sender;
+            imageQuality = long.Parse(item.Text, CultureInfo.InvariantCulture);
+
+            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs
+            {
+                ClickedMenuItem = item,
+                ImageOutputFormat = this
+            };
+            OnImageFormatClick(sender, formatEvents);
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return "Jpeg Format [Fusion8] ";
+        }
+
         #region Member Variables
 
         private long imageQuality = 80L;
@@ -30,15 +62,9 @@ namespace Fusion8.Cropper
 
         #region IPersistableImageFormat Members
 
-        public override string Extension
-        {
-            get { return PluginSettings.Extension; }
-        }
+        public override string Extension => PluginSettings.Extension;
 
-        public override string Description
-        {
-            get { return "Jpeg"; }
-        }
+        public override string Description => "Jpeg";
 
         public override MenuItem Menu
         {
@@ -47,10 +73,8 @@ namespace Fusion8.Cropper
                 if (menuItem != null)
                     return menuItem;
 
-                menuItem = new MenuItem();
-                menuItem.Text = Description;
-                MenuItem subMenu = new MenuItem("Quality");
-                subMenu.Enabled = false;
+                menuItem = new MenuItem {Text = Description};
+                MenuItem subMenu = new MenuItem("Quality") {Enabled = false};
                 menuItem.MenuItems.Add(subMenu);
                 subMenu = new MenuItem("-");
                 menuItem.MenuItems.Add(subMenu);
@@ -66,8 +90,8 @@ namespace Fusion8.Cropper
         #region IConfigurablePlugin Members
 
         /// <summary>
-        /// Gets the plug-in's impementation of the <see cref="BaseConfigurationForm"/> used 
-        /// for setting plug-in specific options.
+        ///     Gets the plug-in's impementation of the <see cref="BaseConfigurationForm" /> used
+        ///     for setting plug-in specific options.
         /// </summary>
         public BaseConfigurationForm ConfigurationForm
         {
@@ -75,54 +99,48 @@ namespace Fusion8.Cropper
             {
                 if (configurationForm == null)
                 {
-                    configurationForm = new JpegOptions();
-                    configurationForm.Extension = PluginSettings.Extension;
-                    configurationForm.OptionsSaved += new EventHandler(HandleConfigurationFormOptionsSaved);
+                    configurationForm = new JpegOptions {Extension = PluginSettings.Extension};
+                    configurationForm.OptionsSaved += HandleConfigurationFormOptionsSaved;
                 }
                 return configurationForm;
             }
         }
 
-        void HandleConfigurationFormOptionsSaved(object sender, EventArgs e)
+        private void HandleConfigurationFormOptionsSaved(object sender, EventArgs e)
         {
             PluginSettings.Extension = configurationForm.Extension;
         }
 
         /// <summary>
-        /// Gets a value indicating if the <see cref="IConfigurablePlugin.ConfigurationForm"/> is to be hosted 
-        /// in the options dialog or shown in its own dialog window.
+        ///     Gets a value indicating if the <see cref="IConfigurablePlugin.ConfigurationForm" /> is to be hosted
+        ///     in the options dialog or shown in its own dialog window.
         /// </summary>
-        public bool HostInOptions
-        {
-            get { return true; }
-        }
+        public bool HostInOptions => true;
 
         /// <summary>
-        /// Gets or sets an object containing the plug-in's settings.
+        ///     Gets or sets an object containing the plug-in's settings.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// This property is set during startup with the settings contained in the applications
-        /// configuration file.</para>
-        /// <para>
-        /// The object returned by this property is serialized into the applications configuration
-        /// file on shutdown.</para></remarks>
+        ///     <para>
+        ///         This property is set during startup with the settings contained in the applications
+        ///         configuration file.
+        ///     </para>
+        ///     <para>
+        ///         The object returned by this property is serialized into the applications configuration
+        ///         file on shutdown.
+        ///     </para>
+        /// </remarks>
         public object Settings
         {
-            get { return PluginSettings; }
-            set { PluginSettings = value as JpegSettings; }
+            get => PluginSettings;
+            set => PluginSettings = value as JpegSettings;
         }
 
         // Helper property for IConfigurablePlugin Implementation
         private JpegSettings PluginSettings
         {
-            get
-            {
-                if (settings == null)
-                    settings = new JpegSettings();
-                return settings;
-            }
-            set { settings = value; }
+            get => settings ?? (settings = new JpegSettings());
+            set => settings = value;
         }
 
         #endregion
@@ -131,15 +149,10 @@ namespace Fusion8.Cropper
 
         protected override void SaveImage(Stream stream, Image image)
         {
-            ImageCodecInfo myImageCodecInfo;
-            Encoder myEncoder;
-            EncoderParameter myEncoderParameter;
-            EncoderParameters myEncoderParameters;
-
-            myImageCodecInfo = GetEncoderInfo(EncoderType);
-            myEncoder = Encoder.Quality;
-            myEncoderParameters = new EncoderParameters(EncoderParameterCount);
-            myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);
+            ImageCodecInfo myImageCodecInfo = GetEncoderInfo(EncoderType);
+            Encoder myEncoder = Encoder.Quality;
+            EncoderParameters myEncoderParameters = new EncoderParameters(EncoderParameterCount);
+            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);
             myEncoderParameters.Param[0] = myEncoderParameter;
 
             try
@@ -153,50 +166,16 @@ namespace Fusion8.Cropper
             }
         }
 
-        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
         {
             int j;
-            ImageCodecInfo[] encoders;
-            encoders = ImageCodecInfo.GetImageEncoders();
+            ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
             for (j = 0; j < encoders.Length; j++)
-            {
                 if (encoders[j].MimeType == mimeType)
                     return encoders[j];
-            }
             return null;
         }
 
         #endregion
-
-        private MenuItem AddImageQualityMenuItem(string text, MenuItem parent)
-        {
-            MenuItem subMenu = new MenuItem(text);
-            subMenu.RadioCheck = true;
-            if (text == imageQuality.ToString(CultureInfo.InvariantCulture))
-                subMenu.Checked = true;
-            subMenu.Click += new EventHandler(ImageQualityMenuHandler);
-            parent.MenuItems.Add(subMenu);
-            return subMenu;
-        }
-
-        #region Event Handling
-
-        private void ImageQualityMenuHandler(object sender, EventArgs e)
-        {
-            MenuItem item = (MenuItem) sender;
-            imageQuality = long.Parse(item.Text, CultureInfo.InvariantCulture);
-
-            ImageFormatEventArgs formatEvents = new ImageFormatEventArgs();
-            formatEvents.ClickedMenuItem = item;
-            formatEvents.ImageOutputFormat = this;
-            OnImageFormatClick(sender, formatEvents);
-        }
-
-        #endregion
-
-        public override string ToString()
-        {
-            return "Jpeg Format [Fusion8] ";
-        }
     }
 }

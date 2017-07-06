@@ -1,4 +1,8 @@
+#region Using Directives
+
 using NUnit.Framework;
+
+#endregion
 
 namespace Fusion8.Cropper.Core
 {
