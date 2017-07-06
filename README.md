@@ -29,3 +29,6 @@ Cropper is able to output images to a variety of formats. There is an extensibil
 * JPEG: Good for full color photographic images. Cropper can save jpg's in varying quality settings from 10 to 100. 10 being the lowest quality and smallest file size. 100 being the highest quality and largest file size. A quality setting of 60-70 is usually good for the web. It's a good trade off between file size and image quality.
 * Clipboard: The image is placed on the clipboard and can be pasted into any application that accepts images.
 * Printer: Presents a print dialog that allows you to send the image straight to the printer.
+
+## Latest Release
+Download the latest release (https://github.com/brhinescot/Cropper/releases)
