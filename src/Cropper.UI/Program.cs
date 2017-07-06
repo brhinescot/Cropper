@@ -61,7 +61,6 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 using Fusion8.Cropper.Core;
-using Skybound.VisualStyles;
 
 #endregion
 
@@ -84,16 +83,11 @@ namespace Fusion8.Cropper
             Mutex mutex = new Mutex(false, "Local\\Cropper", out isFirstInstance);
             if (Configuration.Current.AllowMultipleInstances || isFirstInstance)
             {
+                Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
             
-                VisualStyleContext.Create();
-                VisualStyleFilter.SetEnhancedDefault(true);
-                VisualStyleFilter.SetTextEnhancedDefault(true);
-			
                 MainCropForm mainCropForm = new MainCropForm();
             
-                VisualStyleFilter.Global.SetVisualStyleEnhanced(mainCropForm, VisualStyleEnhanced.No);
-	        
                 mainCropForm.Closed += HandleMainCropFormClosed;
 				Application.Run();
                 GC.KeepAlive(mutex);

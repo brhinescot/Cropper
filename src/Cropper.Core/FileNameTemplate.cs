@@ -109,37 +109,34 @@ namespace Fusion8.Cropper.Core
 
         public void ResetIncrement()
         {
-            this.lastIncrement = 1;
+            lastIncrement = 1;
         }
 
 		private static string GetThumbImageTemplate()
 		{
-			string thumbImageTemplate;
-			if (Configuration.Current.ThumbImageTemplate != null && Configuration.Current.ThumbImageTemplate.Length > 0)
-                thumbImageTemplate = Configuration.Current.ThumbImageTemplate;
-			else
-                thumbImageTemplate = DefaultThumbImageTemplate;
-			return thumbImageTemplate;
+            return !string.IsNullOrEmpty(Configuration.Current.ThumbImageTemplate) 
+                ? Configuration.Current.ThumbImageTemplate 
+                : DefaultThumbImageTemplate;
 		}
 
 		private static string GetFullImageTemplate()
 		{
-			string fullImageTemplate;
-			if (Configuration.Current.FullImageTemplate != null && Configuration.Current.FullImageTemplate.Length > 0)
-				fullImageTemplate = Configuration.Current.FullImageTemplate;
-			else
-				fullImageTemplate = DefaultFullImageTemplate;
-			return fullImageTemplate;
+            return !string.IsNullOrEmpty(Configuration.Current.FullImageTemplate) 
+                ? Configuration.Current.FullImageTemplate 
+                : DefaultFullImageTemplate;
 		}
 
 		private static ImagePairNames TryAddTemplatePrompt(ImagePairNames startNames)
 		{
-			if (startNames.FullSize.IndexOf(Templates.Prompt) >= 0 || startNames.Thumbnail.IndexOf(Templates.Prompt) >= 0)
+			if (startNames.FullSize.IndexOf(Templates.Prompt, StringComparison.Ordinal) >= 0 || startNames.Thumbnail.IndexOf(Templates.Prompt, StringComparison.Ordinal) >= 0)
 			{
-				Prompt prompt = new Prompt();
-				prompt.TopMost = true;
-				prompt.StartPosition = FormStartPosition.CenterParent;
-                if (prompt.ShowDialog(Configuration.Current.ActiveCropWindow) == DialogResult.OK)
+			    Prompt prompt = new Prompt
+			    {
+			        TopMost = true,
+			        StartPosition = FormStartPosition.CenterParent
+			    };
+			    
+			    if (prompt.ShowDialog(Configuration.Current.ActiveCropWindow) == DialogResult.OK)
 				{
 					startNames.FullSize = startNames.FullSize.Replace(Templates.Prompt, prompt.Value);
 					startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Prompt, prompt.Value);
@@ -183,7 +180,7 @@ namespace Fusion8.Cropper.Core
 
 		private static ImagePairNames TryAddTemplateDateOrTime(ImagePairNames startNames)
 		{
-			var now = DateTime.Now;
+			DateTime now = DateTime.Now;
 
 			startNames.FullSize = startNames.FullSize.Replace(Templates.Date, now.ToString("MM-dd-yyyy"));
 			startNames.Thumbnail = startNames.Thumbnail.Replace(Templates.Date, now.ToString("MM-dd-yyyy"));
@@ -199,8 +196,8 @@ namespace Fusion8.Cropper.Core
 
 		private ImagePairNames SetFileExtension(ImagePairNames names)
 		{
-			names.FullSize = String.Format("{0}.{1}", names.FullSize, fileExtension);
-			names.Thumbnail = String.Format("{0}.{1}", names.Thumbnail, fileExtension);
+			names.FullSize = $"{names.FullSize}.{fileExtension}";
+			names.Thumbnail = $"{names.Thumbnail}.{fileExtension}";
 			return names;
 		}
 
@@ -237,9 +234,9 @@ namespace Fusion8.Cropper.Core
 			{
 				lastIncrement++;
 
-				if (fullTemplate.IndexOf(Templates.Increment) < 0)
+				if (fullTemplate.IndexOf(Templates.Increment, StringComparison.Ordinal) < 0)
 					fullTemplate = fullTemplate.Insert(fullTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
-				if (thumbTemplate.IndexOf(Templates.Increment) < 0)
+				if (thumbTemplate.IndexOf(Templates.Increment, StringComparison.Ordinal) < 0)
 					thumbTemplate = thumbTemplate.Insert(thumbTemplate.LastIndexOf('.'), " [" + Templates.Increment + "]");
 
 				startNames.FullSize = fullTemplate.Replace(Templates.Increment, lastIncrement.ToString());

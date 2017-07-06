@@ -26,14 +26,14 @@ namespace Fusion8.Cropper.Extensibility
             base.Dispose(disposing);
         }
 
-        protected CustomThemedTabControl themedTabControl1;
+        protected TabControl themedTabControl1;
         protected TabPage tabPage1;
 
         #region Windows Form Designer generated code
 
         private void InitializeComponent()
         {
-            this.themedTabControl1 = new CustomThemedTabControl();
+            this.themedTabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
             this.themedTabControl1.SuspendLayout();
             this.SuspendLayout();

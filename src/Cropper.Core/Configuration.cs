@@ -72,9 +72,9 @@ namespace Fusion8.Cropper.Core
 	{
 		#region Member Variables
 
-		private static readonly string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SR.ConfigurationPath);
-		private static readonly string portableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "cropper.portable");
-		private static readonly string portableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
+		private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SR.ConfigurationPath);
+		private static readonly string PortableConfigPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "cropper.portable");
+		private static readonly string PortableOutputPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Cropper Captures");
 		private static Settings cropperSettings;
 	    private static ConfigurationPersistence<Settings> configurationPersistence;
 
@@ -92,14 +92,14 @@ namespace Fusion8.Cropper.Core
 			{
 				if (cropperSettings == null)
 				{
-                    if (File.Exists(portableConfigPath))
+                    if (File.Exists(PortableConfigPath))
                     {
-                        cropperSettings = LoadConfiguration(portableConfigPath);
-                        cropperSettings.OutputPath = portableOutputPath;
+                        cropperSettings = LoadConfiguration(PortableConfigPath);
+                        cropperSettings.OutputPath = PortableOutputPath;
                     }
                     else
                     {
-                        cropperSettings = LoadConfiguration(configPath);
+                        cropperSettings = LoadConfiguration(ConfigPath);
                         if (!Directory.Exists(cropperSettings.OutputPath))
                             cropperSettings.OutputPath = Settings.DefaultOutputPath;
                     }
@@ -135,7 +135,7 @@ namespace Fusion8.Cropper.Core
 		private static Settings LoadConfiguration(string path)
 		{
 			if (null == path)
-				throw new ArgumentNullException("path", SR.ExceptionConfigPathNull);
+				throw new ArgumentNullException(nameof(path), SR.ExceptionConfigPathNull);
 
 			try
 			{
@@ -174,12 +174,9 @@ namespace Fusion8.Cropper.Core
 		/// Client exposed save method.
 		/// </summary>
 		public static void Save()
-		{
-            if (File.Exists(portableConfigPath))
-                SaveConfiguration(cropperSettings, portableConfigPath);
-            else
-                SaveConfiguration(cropperSettings, configPath);
-		}
+	    {
+	        SaveConfiguration(cropperSettings, File.Exists(PortableConfigPath) ? PortableConfigPath : ConfigPath);
+	    }
 
 		/// <summary>
 		/// Save the configuration settings to a file.
@@ -193,10 +190,10 @@ namespace Fusion8.Cropper.Core
 		private static void SaveConfiguration(Settings settings, string path)
 		{
 		    if (null == path)
-		        throw new ArgumentNullException("path", SR.ExceptionConfigPathNull);
+		        throw new ArgumentNullException(nameof(path), SR.ExceptionConfigPathNull);
 
 		    if (null == settings)
-		        throw new ArgumentNullException("settings", SR.ExceptionConfigObjectNull);
+		        throw new ArgumentNullException(nameof(settings), SR.ExceptionConfigObjectNull);
 
 		    EnsureConfigDirectory(path);
 
@@ -214,8 +211,6 @@ namespace Fusion8.Cropper.Core
 		        //An error occured, let the client know.
 		        //
 		    }
-            
-		    return;
 		}
 
 	    private static void EnsureConfigDirectory(string path)
@@ -230,7 +225,7 @@ namespace Fusion8.Cropper.Core
 	        foreach (IPersistableImageFormat format in ImageCapture.ImageOutputs)
 	        {
 	            IConfigurablePlugin plugin = format as IConfigurablePlugin;
-	            if (plugin != null && plugin.Settings != null)
+	            if (plugin?.Settings != null)
 	                types.Add(plugin.Settings.GetType());
 	        }
 	        return types.ToArray();

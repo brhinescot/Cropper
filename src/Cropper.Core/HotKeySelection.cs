@@ -93,9 +93,11 @@ namespace Fusion8.Cropper.Core
 
             foreach (HotKeyData keyAction in hotKeyData)
             {
-                ListViewItem item = new ListViewItem(new[] { keyAction.Name, ShortcutTextBox.GetShorcutText(keyAction.KeyData) });
-                item.Tag = keyAction;
-                item.ForeColor = keyAction.Hide ? SystemColors.GrayText : SystemColors.ControlText;
+                ListViewItem item = new ListViewItem(new[] {keyAction.Name, ShortcutTextBox.GetShorcutText(keyAction.KeyData)})
+                {
+                    Tag = keyAction,
+                    ForeColor = keyAction.Hide ? SystemColors.GrayText : SystemColors.ControlText
+                };
 
                 if (!string.IsNullOrEmpty(keyAction.Group))
                 {
@@ -149,7 +151,7 @@ namespace Fusion8.Cropper.Core
         private void HandleShortcutListSelectedIndexChanged(object sender, EventArgs e)
         {
             ListView.SelectedListViewItemCollection items = shortcutList.SelectedItems;
-            if (items.Count == 0 || items[0] == null || items[0].Tag == null)
+            if (items.Count == 0 || items[0]?.Tag == null)
                 return;
 
             HotKeyData hotKeyData = ((HotKeyData)items[0].Tag);
@@ -187,8 +189,7 @@ namespace Fusion8.Cropper.Core
         private void OnHotKeyRegister(HotKeyRegistrationEventArgs e)
         {
             EventHandler<HotKeyRegistrationEventArgs> handler = HotKeyRegister;
-            if (handler != null)
-                handler(this, e);
+            handler?.Invoke(this, e);
         }
     }
 }

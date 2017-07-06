@@ -61,19 +61,19 @@ namespace Fusion8.Cropper.Core
 {
     public struct CropSize : IEquatable<CropSize>, IComparable<CropSize>
     {
-        public int Width { get; set; }
+        public int Width { get; }
 
-        public int Height { get; set; }
+        public int Height { get; }
 
         public CropSize(int width, int height) : this()
         {
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} x {1}", Width, Height);
+            return $"{Width} x {Height}";
         }
 
         public bool Equals(CropSize other)

@@ -67,7 +67,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Fusion8.Cropper.Core;
 using Fusion8.Cropper.Extensibility;
-using Skybound.VisualStyles;
 using System.Text.RegularExpressions;
 
 #endregion
@@ -211,9 +210,7 @@ namespace Fusion8.Cropper
             hotKeySelection.HotKeyRegister += HotKeySelectionOnHotKeyRegister;
             hotKeySelection.ShowGroups = true;
             hotKeySelection.AddRange(HotKeys.GetRegisteredHotKeys());
-
-//                        this.optionsTabs.Controls.Remove(this.keyboardTab);
-
+            
             foreach (TabPage page in optionsTabs.TabPages)
             {
                 TreeNode node = optionsNavigator.Nodes.Add(page.Name, page.Text);
@@ -409,22 +406,12 @@ namespace Fusion8.Cropper
             if (plugin != null && plugin.ConfigurationForm != null)
             {
                 configForm = plugin.ConfigurationForm;
-                SetVisualStyleEnhanced(configForm, VisualStyleEnhanced.Yes);
 
                 if (plugin.HostInOptions)
                     ShowHostedConfiguration();
                 else
                     ShowDialogConfiguration();
             }
-        }
-
-        private static void SetVisualStyleEnhanced(Control parent, VisualStyleEnhanced enhanced)
-        {
-            VisualStyleFilter.Global.SetVisualStyleEnhanced(parent, enhanced);
-
-            if (parent.HasChildren)
-                foreach (Control child in parent.Controls)
-                    SetVisualStyleEnhanced(child, enhanced);
         }
 
         private void ShowHostedConfiguration()
@@ -1105,6 +1092,7 @@ namespace Fusion8.Cropper
             // 
             // buttonAddSize
             // 
+            this.buttonAddSize.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonAddSize.Location = new System.Drawing.Point(115, 46);
             this.buttonAddSize.Name = "buttonAddSize";
             this.buttonAddSize.Size = new System.Drawing.Size(75, 23);

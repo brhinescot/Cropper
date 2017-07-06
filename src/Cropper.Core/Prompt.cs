@@ -82,9 +82,9 @@ namespace Fusion8.Cropper.Core
 
         public string Value
 		{
-			get { return promptText.Text; }
-			set { promptText.Text = value; }
-		}
+			get => promptText.Text;
+            set => promptText.Text = value;
+        }
 
 		public Prompt()
 		{
@@ -93,7 +93,7 @@ namespace Fusion8.Cropper.Core
 
 		private static bool ValidateFileName(string name)
 		{
-			return !(name.IndexOfAny(new char[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
+			return !(name.IndexOfAny(new[] {'/', '*', ':', '?', '"', '<', '>', '|'}) >= 0);
 		}
 
 		/// <summary>
@@ -103,10 +103,7 @@ namespace Fusion8.Cropper.Core
 		{
 			if (disposing)
 			{
-				if (components != null)
-				{
-					components.Dispose();
-				}
+			    components?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

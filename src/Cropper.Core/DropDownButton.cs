@@ -123,11 +123,10 @@ namespace Fusion8.Cropper.Core
         protected override void OnMouseDown(MouseEventArgs arg)
         {
             base.OnMouseDown(arg);
-            if (arg.Button == MouseButtons.Left)
-            {
-                pushed = true;
-                Invalidate();
-            }
+            if (arg.Button != MouseButtons.Left) return;
+            
+            pushed = true;
+            Invalidate();
         }
 
         /// <summary>
@@ -137,11 +136,10 @@ namespace Fusion8.Cropper.Core
         protected override void OnMouseUp(MouseEventArgs arg)
         {
             base.OnMouseUp(arg);
-            if (arg.Button == MouseButtons.Left)
-            {
-                pushed = false;
-                Invalidate();
-            }
+            if (arg.Button != MouseButtons.Left) return;
+            
+            pushed = false;
+            Invalidate();
         }
 
         /// <summary>
@@ -150,15 +148,19 @@ namespace Fusion8.Cropper.Core
         protected override void OnPaint(PaintEventArgs pe)
         {
             if (Application.RenderWithVisualStyles)
+            {
                 ComboBoxRenderer.DrawDropDownButton(
                     pe.Graphics, 
                     ClientRectangle, 
                     !Enabled ? ComboBoxState.Disabled : (pushed ? ComboBoxState.Pressed : ((hover || Focused) ? ComboBoxState.Hot : ComboBoxState.Normal)));
-            else 
+            }
+            else
+            {
                 ControlPaint.DrawComboButton(
                     pe.Graphics, 
                     ClientRectangle,
-                    !Enabled ? ButtonState.Inactive : (pushed ? ButtonState.Pushed : ((hover || Focused) ? ButtonState.Normal : ButtonState.Normal)));
+                    !Enabled ? ButtonState.Inactive : (pushed ? ButtonState.Pushed : ButtonState.Normal));
+            }
         }
     }
 }

@@ -16,8 +16,8 @@ namespace Fusion8.Cropper.Core
         /// <filterpriority>2</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/></PermissionSet>
         public bool ShowGroups
         {
-            get { return shortcutList.ShowGroups; }
-            set { shortcutList.ShowGroups = value; }
+            get => shortcutList.ShowGroups;
+            set => shortcutList.ShowGroups = value;
         }
 
         /// <summary>
@@ -27,10 +27,7 @@ namespace Fusion8.Cropper.Core
         /// A <see cref="T:System.Windows.Forms.ListViewGroupCollection"/> that contains all the groups in the <see cref="T:System.Windows.Forms.ListView"/> control.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public ListViewGroupCollection Groups
-        {
-            get { return shortcutList.Groups; }
-        }
+        public ListViewGroupCollection Groups => shortcutList.Groups;
 
         ///<summary>
         ///Gets or sets a value indicating whether the selected item in the control remains highlighted when the control loses focus.
@@ -42,8 +39,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool HideSelection
         {
-            get { return shortcutList.HideSelection; }
-            set { shortcutList.HideSelection = value; }
+            get => shortcutList.HideSelection;
+            set => shortcutList.HideSelection = value;
         }
 
         ///<summary>
@@ -58,8 +55,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>2</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool HotTracking
         {
-            get { return shortcutList.HotTracking; }
-            set { shortcutList.HotTracking = value; }
+            get => shortcutList.HotTracking;
+            set => shortcutList.HotTracking = value;
         }
 
         ///<summary>
@@ -74,8 +71,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool HoverSelection
         {
-            get { return shortcutList.HoverSelection; }
-            set { shortcutList.HoverSelection = value; }
+            get => shortcutList.HoverSelection;
+            set => shortcutList.HoverSelection = value;
         }
 
         ///<summary>
@@ -87,10 +84,7 @@ namespace Fusion8.Cropper.Core
         /// items in the <see cref="T:System.Windows.Forms.ListView"></see> control.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public ListView.ListViewItemCollection Items
-        {
-            get { return shortcutList.Items; }
-        }
+        public ListView.ListViewItemCollection Items => shortcutList.Items;
 
         ///<summary>
         ///Gets or sets a value indicating whether multiple items can be selected.
@@ -102,8 +96,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool MultiSelect
         {
-            get { return shortcutList.MultiSelect; }
-            set { shortcutList.MultiSelect = value; }
+            get => shortcutList.MultiSelect;
+            set => shortcutList.MultiSelect = value;
         }
 
         ///<summary>
@@ -116,8 +110,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool Scrollable
         {
-            get { return shortcutList.Scrollable; }
-            set { shortcutList.Scrollable = value; }
+            get => shortcutList.Scrollable;
+            set => shortcutList.Scrollable = value;
         }
 
         ///<summary>
@@ -128,10 +122,7 @@ namespace Fusion8.Cropper.Core
         ///A <see cref="T:System.Windows.Forms.ListView.SelectedListViewItemCollection"></see> that contains the items that are selected in the control. If no items are currently selected, an empty <see cref="T:System.Windows.Forms.ListView.SelectedListViewItemCollection"></see> is returned.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public ListView.SelectedListViewItemCollection SelectedItems
-        {
-            get { return shortcutList.SelectedItems; }
-        }
+        public ListView.SelectedListViewItemCollection SelectedItems => shortcutList.SelectedItems;
 
         ///<summary>
         ///Gets the indexes of the selected items in the control.
@@ -141,10 +132,7 @@ namespace Fusion8.Cropper.Core
         ///A <see cref="T:System.Windows.Forms.ListView.SelectedIndexCollection"></see> that contains the indexes of the selected items. If no items are currently selected, an empty <see cref="T:System.Windows.Forms.ListView.SelectedIndexCollection"></see> is returned.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public ListView.SelectedIndexCollection SelectedIndices
-        {
-            get { return shortcutList.SelectedIndices; }
-        }
+        public ListView.SelectedIndexCollection SelectedIndices => shortcutList.SelectedIndices;
 
         ///<summary>
         ///Gets or sets the <see cref="T:System.Windows.Forms.ImageList"></see> to use when displaying items as small icons in the control.
@@ -156,8 +144,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>2</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ImageList SmallImageList
         {
-            get { return shortcutList.SmallImageList; }
-            set { shortcutList.SmallImageList = value; }
+            get => shortcutList.SmallImageList;
+            set => shortcutList.SmallImageList = value;
         }
 
         ///<summary>
@@ -170,8 +158,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool ShowItemToolTips
         {
-            get { return shortcutList.ShowItemToolTips; }
-            set { shortcutList.ShowItemToolTips = value; }
+            get => shortcutList.ShowItemToolTips;
+            set => shortcutList.ShowItemToolTips = value;
         }
 
         ///<summary>
@@ -185,8 +173,8 @@ namespace Fusion8.Cropper.Core
         ///<exception cref="T:System.InvalidOperationException">The <see cref="P:System.Windows.Forms.ListView.View"></see> property is set to <see cref="F:System.Windows.Forms.View.LargeIcon"></see>,  <see cref="F:System.Windows.Forms.View.SmallIcon"></see>, or <see cref="F:System.Windows.Forms.View.Tile"></see>.</exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ListViewItem TopItem
         {
-            get { return shortcutList.TopItem; }
-            set { shortcutList.TopItem = value; }
+            get => shortcutList.TopItem;
+            set => shortcutList.TopItem = value;
         }
 
         ///<summary>
@@ -197,10 +185,7 @@ namespace Fusion8.Cropper.Core
         ///A <see cref="T:System.Windows.Forms.ListView.ColumnHeaderCollection"></see> that represents the column headers that appear when the <see cref="P:System.Windows.Forms.ListView.View"></see> property is set to <see cref="F:System.Windows.Forms.View.Details"></see>.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public ListView.ColumnHeaderCollection Columns
-        {
-            get { return shortcutList.Columns; }
-        }
+        public ListView.ColumnHeaderCollection Columns => shortcutList.Columns;
 
         ///<summary>
         ///Gets the item in the control that currently has focus.
@@ -212,8 +197,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ListViewItem FocusedItem
         {
-            get { return shortcutList.FocusedItem; }
-            set { shortcutList.FocusedItem = value; }
+            get => shortcutList.FocusedItem;
+            set => shortcutList.FocusedItem = value;
         }
 
         ///<summary>
@@ -226,8 +211,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool FullRowSelect
         {
-            get { return shortcutList.FullRowSelect; }
-            set { shortcutList.FullRowSelect = value; }
+            get => shortcutList.FullRowSelect;
+            set => shortcutList.FullRowSelect = value;
         }
 
         ///<summary>
@@ -240,8 +225,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public bool GridLines
         {
-            get { return shortcutList.GridLines; }
-            set { shortcutList.GridLines = value; }
+            get => shortcutList.GridLines;
+            set => shortcutList.GridLines = value;
         }
 
         ///<summary>
@@ -255,8 +240,8 @@ namespace Fusion8.Cropper.Core
         ///<exception cref="T:System.ComponentModel.InvalidEnumArgumentException">The value specified is not one of the <see cref="T:System.Windows.Forms.ColumnHeaderStyle"></see> values. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
         public ColumnHeaderStyle HeaderStyle
         {
-            get { return shortcutList.HeaderStyle; }
-            set { shortcutList.HeaderStyle = value; }
+            get => shortcutList.HeaderStyle;
+            set => shortcutList.HeaderStyle = value;
         }
 
         ///<summary>
@@ -265,8 +250,8 @@ namespace Fusion8.Cropper.Core
         ///<filterpriority>1</filterpriority>
         public event ColumnClickEventHandler ColumnClick
         {
-            add { shortcutList.ColumnClick += value; }
-            remove { shortcutList.ColumnClick -= value; }
+            add => shortcutList.ColumnClick += value;
+            remove => shortcutList.ColumnClick -= value;
         }
 
         ///<summary>

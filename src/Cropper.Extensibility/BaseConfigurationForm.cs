@@ -59,7 +59,6 @@ In return, we simply require that you agree:
 
 using System;
 using System.Windows.Forms;
-using Skybound.VisualStyles;
 
 #endregion
 
@@ -139,18 +138,6 @@ namespace Fusion8.Cropper.Extensibility
             EventHandler handler = OptionsSaved;
             if (handler != null)
                 handler(this, e);
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            ThemePaint.Draw(e.Graphics,
-                            this,
-                            ThemeClasses.Tab,
-                            ThemeParts.TabBody,
-                            ThemeStates.TabItemNormal,
-                            ClientRectangle,
-                            ClientRectangle);
         }
     }
 }

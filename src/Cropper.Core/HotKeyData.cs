@@ -2,7 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Fusion8.Cropper.Core {
+namespace Fusion8.Cropper.Core 
+{
     /// <summary>
     /// 
     /// </summary>
@@ -17,32 +18,32 @@ namespace Fusion8.Cropper.Core {
         /// <summary>
         /// 
         /// </summary>
-        public string Id { get; private set; }
+        public string Id { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Action Action { get; private set; }
+        public Action Action { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Global { get; private set; }
+        public bool Global { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Hide { get; private set; }
+        public bool Hide { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Group { get; private set; }
+        public string Group { get; }
 
         /// <summary>
         /// 

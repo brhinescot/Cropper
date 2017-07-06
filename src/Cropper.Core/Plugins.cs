@@ -94,10 +94,8 @@ namespace Fusion8.Cropper.Core
 			{
 				try
 				{
-					Assembly assembly;
-					assembly = Assembly.LoadFrom(path);
-					IPersistableImageFormat imageFormatPlugin;
-					imageFormatPlugin = ExamineAssembly(assembly);
+				    Assembly assembly = Assembly.LoadFrom(path);
+				    IPersistableImageFormat imageFormatPlugin = ExamineAssembly(assembly);
 					if (imageFormatPlugin != null)
 						imageOutputCollection.Add(imageFormatPlugin);
 				}

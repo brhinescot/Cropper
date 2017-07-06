@@ -98,8 +98,8 @@ namespace Fusion8.Cropper.Core
 		 DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public IPersistableImageFormat ImageFormat
 		{
-			get { return imageFormat; }
-			set
+			get => imageFormat;
+		    set
 			{
                 if (imageFormat != null)
                 {
@@ -135,7 +135,7 @@ namespace Fusion8.Cropper.Core
 				foreach (IPersistableImageFormat format in imageOutputCollection)
 				{
 					IConfigurablePlugin plugin = format as IConfigurablePlugin;
-					if (plugin != null && plugin.Settings != null)
+					if (plugin?.Settings != null)
 					{
 						object settings = Configuration.Current.RetrieveSettingsForPlugin(plugin.Settings.GetType());
 						if (settings != null)
@@ -148,12 +148,9 @@ namespace Fusion8.Cropper.Core
 		/// <summary>
 		/// Last image captured
 		/// </summary>
-		public string LastImageCaptured
-		{
-			get { return lastImageCaptured; }
-		}
+		public string LastImageCaptured => lastImageCaptured;
 
-		#endregion
+	    #endregion
 
 		#region .ctors
 
@@ -186,10 +183,7 @@ namespace Fusion8.Cropper.Core
 		{
 			if (disposing)
 			{
-				if (components != null)
-				{
-					components.Dispose();
-				}
+			    components?.Dispose();
 			}
 			base.Dispose(disposing);
 		}
@@ -326,11 +320,13 @@ namespace Fusion8.Cropper.Core
 
 		private ImageCapturedEventArgs ProcessCapturedImage(Image image, double maxThumbnailSize)
 		{
-			ImageCapturedEventArgs imageCapturedEventArgs = new ImageCapturedEventArgs();
-			imageCapturedEventArgs.ImageNames = template.Parse(ImageFormat.Extension);
-			imageCapturedEventArgs.FullSizeImage = image;
-			imageCapturedEventArgs.IsThumbnailed = (maxThumbnailSize > 0.0);
-			if (imageCapturedEventArgs.IsThumbnailed)
+		    ImageCapturedEventArgs imageCapturedEventArgs = new ImageCapturedEventArgs
+		    {
+		        ImageNames = template.Parse(ImageFormat.Extension),
+		        FullSizeImage = image,
+		        IsThumbnailed = (maxThumbnailSize > 0.0)
+		    };
+		    if (imageCapturedEventArgs.IsThumbnailed)
 				imageCapturedEventArgs.ThumbnailImage = CreateThumbnailImage(image, maxThumbnailSize);
 			lastImageCaptured = imageCapturedEventArgs.ImageNames.FullSize;
 			return imageCapturedEventArgs;
@@ -359,13 +355,13 @@ namespace Fusion8.Cropper.Core
 		public void FetchOutputStream(StreamHandler streamHandler, string fileName, Image image)
 		{
 			if (streamHandler == null)
-				throw new ArgumentNullException("streamHandler");
+				throw new ArgumentNullException(nameof(streamHandler));
 
 			if (fileName == null)
-				throw new ArgumentNullException("fileName");
+				throw new ArgumentNullException(nameof(fileName));
 
 			if (image == null)
-				throw new ArgumentNullException("image");
+				throw new ArgumentNullException(nameof(image));
 
 			using (FileStream stream = File.Open(fileName, FileMode.Create))
 				streamHandler(stream, image);
@@ -375,7 +371,7 @@ namespace Fusion8.Cropper.Core
 		{
 			if (maxSize < 0 || maxSize > Int32.MaxValue)
 				throw new ArgumentOutOfRangeException(
-						"maxSize",
+						nameof(maxSize),
 						maxSize,
 						SR.ExeptionThumbnailSizeOutOfRange);
 
@@ -414,22 +410,19 @@ namespace Fusion8.Cropper.Core
 		protected void OnImageCaptureInitialized(ImageCaptureInitializedEventArgs e)
 		{
 			ImageCaptureInitializedEventHandler handler = ImageCaptureInitialized;
-			if (handler != null)
-				handler(this, e);
+		    handler?.Invoke(this, e);
 		}
 
 		protected void OnImageCapturing(ImageCapturingEventArgs e)
 		{
 			ImageCapturingEventHandler handler = ImageCapturing;
-			if (handler != null)
-				handler(this, e);
+		    handler?.Invoke(this, e);
 		}
 
 		protected void OnImageCaptured(ImageCapturedEventArgs e)
 		{
 			ImageCapturedEventHandler handler = ImageCaptured;
-			if (handler != null)
-				handler(this, e);
+		    handler?.Invoke(this, e);
 		}
 
 		#endregion
