@@ -99,7 +99,7 @@ namespace Fusion8.Cropper
             ((System.ComponentModel.ISupportInitialize)(this.qualitySlider)).BeginInit();
             this.SuspendLayout();
             // 
-            // themedTabControl1
+            // tabControl1
             // 
             this.themedTabControl1.Size = new System.Drawing.Size(324, 391);
             // 

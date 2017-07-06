@@ -189,9 +189,6 @@
       <DependentUpon>BaseConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CropFormColorTable.cs" />
-    <Compile Include="CustomThemedTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Delegates.cs" />
     <Compile Include="DesignablePlugin.cs">
       <SubType>Code</SubType>
