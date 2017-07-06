@@ -90,7 +90,7 @@ namespace Fusion8.Cropper.Core
 
         public ShortcutMode Mode
         {
-            get { return mode; }
+            get => mode;
             set {
                 mode = value;
 
@@ -111,8 +111,8 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         public Keys KeyData
         {
-            get { return KeyCode | Modifiers; }
-            set { SetKeys(value); }
+            get => KeyCode | Modifiers;
+            set => SetKeys(value);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Fusion8.Cropper.Core
 
                 return (Keys)keyCode;
             }
-            set { SetKeys(value, Modifiers); }
+            set => SetKeys(value, Modifiers);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Fusion8.Cropper.Core
                     modifiers |= Keys.Shift;
                 return modifiers;
             }
-            set { SetKeys(KeyCode, value); }
+            set => SetKeys(KeyCode, value);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         public bool Alt
         {
-            get { return (Modifiers & Keys.Alt) == Keys.Alt; }
+            get => (Modifiers & Keys.Alt) == Keys.Alt;
             set {
                 if (value)
                     Modifiers |= Keys.Alt;
@@ -173,7 +173,7 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         public bool Shift
         {
-            get { return (Modifiers & Keys.Shift) == Keys.Shift; }
+            get => (Modifiers & Keys.Shift) == Keys.Shift;
             set {
                 if (value)
                     Modifiers |= Keys.Shift;
@@ -188,7 +188,7 @@ namespace Fusion8.Cropper.Core
         /// </summary>
         public bool Control
         {
-            get { return (Modifiers & Keys.Control) == Keys.Control; }
+            get => (Modifiers & Keys.Control) == Keys.Control;
             set {
                 if (value)
                     Modifiers |= Keys.Control;
@@ -205,7 +205,7 @@ namespace Fusion8.Cropper.Core
         /// <filterPriority>1</filterPriority>
         public override string Text
         {
-            get { return GetShorcutText(KeyData); }
+            get => GetShorcutText(KeyData);
             set {
                 try
                 {

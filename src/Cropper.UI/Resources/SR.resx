@@ -187,6 +187,6 @@ Copyright 2004, Jeff Key</value>
     <value>Using Alt + Print Screen, fill the transparent area of the window with the color of your choice. An example is non rectangular media players. Extra transparent space around the window will be removed.</value>
   </data>
   <data name="OptionVisibility" xml:space="preserve">
-    <value>Allows Cropper to capture other translucent windows and for proper operation running on Vista� with glass enable.</value>
+    <value>Allows Cropper to capture other translucent windows and for proper operation running on Vista or later.</value>
   </data>
 </root>

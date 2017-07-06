@@ -19,7 +19,7 @@ namespace Fusion8.Cropper.Core {
         public static void UpdateHotKey(string id, Keys keyData)
         {
             if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException("id");
+                throw new ArgumentNullException(nameof(id));
 
             HotKeyData data = Cache.FirstOrDefault(hkd => hkd.Id == id);
             if (data == null)
@@ -62,8 +62,7 @@ namespace Fusion8.Cropper.Core {
                 return;
 
             HotKeyData data = Cache[keyData];
-            if (data != null)
-                data.Invoke();
+            data?.Invoke();
         }
 
         public static Keys GetKeyData(IntPtr atom)

@@ -76,51 +76,21 @@ namespace Fusion8.Cropper.Core
         internal const string XmlRootName = "Configuration";
         internal const string RootNamespace = "http://www.fusion8design.com";
 
-        internal static string DefaultOutputPath =
+        internal static readonly string DefaultOutputPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), OutputFolder);
 
         #region Member Variables
 
         private const string OutputFolder = "Cropper Captures";
 
-        private string imageFormat = "Bmp";
-        private double userOpacity = 0.40d;
-        private double maxThumbnailSize = 80d;
-        private Size userSize = new Size(300, 300);
-        private Point location = new Point(100, 100);
-        private int nonFormAreaColorArgb = Color.White.ToArgb();
-        private bool colorNonFormArea = true;
-        private bool alwaysOnTop;
-        private bool hidden = true;
-        private bool showOpacityMenu;
-        private bool trapPrintScreen = true;
-        private bool leavePrintScreenOnClipboard = true;
-        private bool usePerPixelAlpha = true;
-        private bool isThumbnailed;
-        private int colorIndex;
-        private bool hideFormDuringCapture;
-        private bool hideFormAfterCapture;
         private string outputPath = DefaultOutputPath;
-        private bool allowMultipleInstances = true;
-        private bool includeMouseCursorInCapture;
 
-        private string fileNameTemplate = FileNameTemplate.DefaultFullImageTemplate;
-        private string fileNameThumbTemplate = FileNameTemplate.DefaultThumbImageTemplate;
-
-        private object[] pluginSettings;
-        private HotKeySetting[] hotKeySettings;
         private CircularQueue<CropSize> cropSizeQueue;
-
-        private IWin32Window activeCropWindow;
 
         #endregion
 
         [XmlIgnore]
-        public IWin32Window ActiveCropWindow
-        {
-            get { return activeCropWindow; }
-            set { activeCropWindow = value; }
-        }
+        public IWin32Window ActiveCropWindow { get; set; }
 
         #region Property Accessors
 
@@ -128,21 +98,13 @@ namespace Fusion8.Cropper.Core
         /// Allow multiple instances per user
         /// </summary>
         [XmlElement("AllowMultipleInstances", typeof (bool))]
-        public bool AllowMultipleInstances
-        {
-            get { return allowMultipleInstances; }
-            set { allowMultipleInstances = value; }
-        }
+        public bool AllowMultipleInstances { get; set; } = true;
 
         /// <summary>
         /// The users last used image format.
         /// </summary>
         [XmlElement("ImageFormat", typeof (String))]
-        public string ImageFormat
-        {
-            get { return imageFormat; }
-            set { imageFormat = value; }
-        }
+        public string ImageFormat { get; set; } = "Bmp";
 
         /// <summary>
         /// The users last used output directory.
@@ -150,36 +112,24 @@ namespace Fusion8.Cropper.Core
         [XmlElement("OutputDirectory", typeof (String))]
         public string OutputPath
         {
-            get { return outputPath; }
-            set { outputPath = ResolveOutputDirectory(value); }
+            get => outputPath;
+            set => outputPath = ResolveOutputDirectory(value);
         }
 
         [XmlElement("ColorIndex", typeof (int))]
-        public int ColorIndex
-        {
-            get { return colorIndex; }
-            set { colorIndex = value; }
-        }
+        public int ColorIndex { get; set; }
 
         /// <summary>
         /// The users last used opacity level.
         /// </summary>
         [XmlElement("UserOpacity", typeof (Double))]
-        public double UserOpacity
-        {
-            get { return userOpacity; }
-            set { userOpacity = value; }
-        }
+        public double UserOpacity { get; set; } = 0.40d;
 
         /// <summary>
         /// The users last used thumbnail size.
         /// </summary>
         [XmlElement("MaxThumbnailSize", typeof (Double))]
-        public double MaxThumbnailSize
-        {
-            get { return maxThumbnailSize; }
-            set { maxThumbnailSize = value; }
-        }
+        public double MaxThumbnailSize { get; set; } = 80d;
 
         /// <summary>
         /// The users last chosen window size.
@@ -187,135 +137,67 @@ namespace Fusion8.Cropper.Core
         /// <remarks>This property is being expanded to allow the user to save a list of common
         /// used sizes. </remarks>
         [XmlElement("UserSize")]
-        public Size UserSize
-        {
-            get { return userSize; }
-            set { userSize = value; }
-        }
+        public Size UserSize { get; set; } = new Size(300, 300);
 
         /// <summary>
         /// The last location of the form.
         /// </summary>
         [XmlElement("Location")]
-        public Point Location
-        {
-            get { return location; }
-            set { location = value; }
-        }
+        public Point Location { get; set; } = new Point(100, 100);
 
         /// <summary>
         /// The users last used image format.
         /// </summary>
         [XmlElement("FullImageTemplate", typeof (String))]
-        public string FullImageTemplate
-        {
-            get { return fileNameTemplate; }
-            set { fileNameTemplate = value; }
-        }
+        public string FullImageTemplate { get; set; } = FileNameTemplate.DefaultFullImageTemplate;
 
         /// <summary>
         /// The users last used image format.
         /// </summary>
         [XmlElement("ThumbImageTemplate", typeof (String))]
-        public string ThumbImageTemplate
-        {
-            get { return fileNameThumbTemplate; }
-            set { fileNameThumbTemplate = value; }
-        }
+        public string ThumbImageTemplate { get; set; } = FileNameTemplate.DefaultThumbImageTemplate;
 
         /// <summary>
         /// The users last used image format.
         /// </summary>
         [XmlElement("NonFormAreaColorArgb", typeof (int))]
-        public int NonFormAreaColorArgb
-        {
-            get { return nonFormAreaColorArgb; }
-            set { nonFormAreaColorArgb = value; }
-        }
+        public int NonFormAreaColorArgb { get; set; } = Color.White.ToArgb();
 
         [XmlElement("ColorNonFormArea", typeof (bool))]
-        public bool ColorNonFormArea
-        {
-            get { return colorNonFormArea; }
-            set { colorNonFormArea = value; }
-        }
+        public bool ColorNonFormArea { get; set; } = true;
 
         [XmlElement("AlwaysOnTop", typeof (bool))]
-        public bool AlwaysOnTop
-        {
-            get { return alwaysOnTop; }
-            set { alwaysOnTop = value; }
-        }
+        public bool AlwaysOnTop { get; set; }
 
         [XmlElement("Hidden", typeof (bool))]
-        public bool Hidden
-        {
-            get { return hidden; }
-            set { hidden = value; }
-        }
+        public bool Hidden { get; set; } = true;
 
         [XmlElement("ShowOpacityMenu", typeof (bool))]
-        public bool ShowOpacityMenu
-        {
-            get { return showOpacityMenu; }
-            set { showOpacityMenu = value; }
-        }
+        public bool ShowOpacityMenu { get; set; }
 
         [XmlElement("UsePerPixelAlpha", typeof (bool))]
-        public bool UsePerPixelAlpha
-        {
-            get { return usePerPixelAlpha; }
-            set { usePerPixelAlpha = value; }
-        }
+        public bool UsePerPixelAlpha { get; set; } = true;
 
         [XmlElement("IsThumbnailed", typeof (bool))]
-        public bool IsThumbnailed
-        {
-            get { return isThumbnailed; }
-            set { isThumbnailed = value; }
-        }
+        public bool IsThumbnailed { get; set; }
 
         [XmlElement("TrapPrintScreen", typeof (bool))]
-        public bool TrapPrintScreen
-        {
-            get { return trapPrintScreen; }
-            set { trapPrintScreen = value; }
-        }
+        public bool TrapPrintScreen { get; set; } = true;
 
         [XmlElement("LeavePrintScreenOnClipboard", typeof(bool))]
-        public bool LeavePrintScreenOnClipboard
-        {
-            get { return leavePrintScreenOnClipboard; }
-            set { leavePrintScreenOnClipboard = value; }
-        }
+        public bool LeavePrintScreenOnClipboard { get; set; } = true;
 
         [XmlElement("HideFormDuringCapture", typeof(bool))]
-        public bool HideFormDuringCapture
-        {
-            get { return hideFormDuringCapture; }
-            set { hideFormDuringCapture = value; }
-        }
+        public bool HideFormDuringCapture { get; set; }
 
         [XmlElement("HideFormAfterCapture", typeof(bool))]
-        public bool HideFormAfterCapture
-        {
-            get { return hideFormAfterCapture; }
-            set { hideFormAfterCapture = value; }
-        }
+        public bool HideFormAfterCapture { get; set; }
 
         [XmlElement("IncludeMouseCursorInCapture", typeof(bool))]
-        public bool IncludeMouseCursorInCapture
-        {
-            get { return includeMouseCursorInCapture; }
-            set { includeMouseCursorInCapture = value; }
-        }
+        public bool IncludeMouseCursorInCapture { get; set; }
 
         [XmlArray("PluginSettings")]
-        public object[] PluginSettings
-        {
-            get { return pluginSettings; }
-            set { pluginSettings = value; }
-        }
+        public object[] PluginSettings { get; set; }
 
         [XmlArray("PredefinedSizes", IsNullable = true), 
             XmlArrayItem("Size", typeof(CropSize))]
@@ -338,18 +220,14 @@ namespace Fusion8.Cropper.Core
 
         [XmlArray("HotKeySettings", IsNullable = true), 
          XmlArrayItem("HotKeySetting", typeof(HotKeySetting))]
-        public HotKeySetting[] HotKeySettings
-        {
-            get { return hotKeySettings; }
-            set { hotKeySettings = value; }
-        }
+        public HotKeySetting[] HotKeySettings { get; set; }
 
         #endregion
 
         internal Settings()
         {
             if(Environment.OSVersion.Version.Major >= 6)
-                hideFormDuringCapture = true;
+                HideFormDuringCapture = true;
         }
 
         public Size NextFormSize()

@@ -78,14 +78,14 @@ namespace Fusion8.Cropper.Core
 
         public string XmlRootName
         {
-            get { return xmlRootName; }
-            set { xmlRootName = value; }
+            get => xmlRootName;
+            set => xmlRootName = value;
         }
 
         public string RootNamespace
         {
-            get { return rootNamespace; }
-            set { rootNamespace = value; }
+            get => rootNamespace;
+            set => rootNamespace = value;
         }
 
         #endregion
@@ -121,8 +121,7 @@ namespace Fusion8.Cropper.Core
 
             if (xmlRootName != null)
             {
-                rootAttribute = new XmlRootAttribute(xmlRootName);
-                rootAttribute.Namespace = rootNamespace;
+                rootAttribute = new XmlRootAttribute(xmlRootName) {Namespace = rootNamespace};
             }
 
             return new XmlSerializer(typeof(T), null, additionalTypes, rootAttribute, rootNamespace);

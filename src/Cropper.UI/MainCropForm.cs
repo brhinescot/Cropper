@@ -66,6 +66,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Resources;
+using System.Security.Principal;
 using System.Text;
 using System.Windows.Forms;
 using Fusion8.Cropper.Core;
@@ -285,13 +286,13 @@ namespace Fusion8.Cropper
         /// <remarks>This is only used to prevent an exception in Windows 2000 when the user is not part of the BUILTIN\Administrators group. This can be removed when Windows 2000 is no longer supported (July 13, 2010)</remarks>
         private static bool LimitMaxWorkingSet()
         {
-            var windows2000 = Environment.OSVersion.Version.Major == 5 &&
+            bool windows2000 = Environment.OSVersion.Version.Major == 5 &&
                               Environment.OSVersion.Version.Minor == 0 &&
                               Environment.OSVersion.Version.Build == 2195;
             if (windows2000)
             {
-                var administratorsGroupSid = "S-1-5-32-544";
-                foreach (var group in System.Security.Principal.WindowsIdentity.GetCurrent().Groups)
+                string administratorsGroupSid = "S-1-5-32-544";
+                foreach (IdentityReference group in System.Security.Principal.WindowsIdentity.GetCurrent().Groups)
                 {
                     if (group.Value == administratorsGroupSid)
                     {

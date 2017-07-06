@@ -204,7 +204,6 @@
     <Compile Include="FileNameTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HotKeyAction.cs" />
     <Compile Include="HotKeyCache.cs" />
     <Compile Include="HotKeyData.cs" />
     <Compile Include="HotKeyRegistrationEventArgs.cs" />
