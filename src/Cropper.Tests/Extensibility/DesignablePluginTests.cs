@@ -64,10 +64,9 @@ namespace Fusion8.Cropper.Extensibility
     public class DesignablePluginTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Connect_throws_exception_when_IPersistableOutput_is_null()
         {
-            new FakeDesignablePlugin().Connect(null);
+            Assert.Throws<ArgumentNullException>(() => new FakeDesignablePlugin().Connect(null));
         }
 
         private class FakeDesignablePlugin : DesignablePlugin
