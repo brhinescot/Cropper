@@ -18,8 +18,8 @@ Cropper is a screen capture utility written in C#. It makes it fast and easy to 
 
 If Cropper is being used to save Print Screen images (Cropper will capture even while the crop form is minimized)
 * PrintScreen: Take a screen shot of the entire desktop or start/stop a recording plug-in.
-* Alt+PrintScreen: Take a screen shot of the current active window or start/stop a recording plug-in.
-* Ctrl{"+"}Alt{"+"}PrintScreen: Take a screen shot of the region below the mouse or start/stop a recording plug-in.
+* Alt + PrintScreen: Take a screen shot of the current active window or start/stop a recording plug-in.
+* Ctrl + Alt + PrintScreen: Take a screen shot of the region below the mouse or start/stop a recording plug-in.
 
 ## Output Options
 Cropper is able to output images to a variety of formats. There is an extensibility model allowing developers to create custom output plug-ins. Descriptions of some of the default plug-ins are given below.
