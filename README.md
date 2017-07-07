@@ -31,4 +31,4 @@ Cropper is able to output images to a variety of formats. There is an extensibil
 * Printer: Presents a print dialog that allows you to send the image straight to the printer.
 
 ## Latest Release
-Download the latest release (https://github.com/brhinescot/Cropper/releases)
+[Download the latest release](https://github.com/brhinescot/Cropper/releases/latest)
