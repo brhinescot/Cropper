@@ -97,6 +97,10 @@ namespace Fusion8.Cropper
             {
                 ShowError(ex.Message, "Error Taking Screenshot");
             }
+            catch (FileNotFoundException)
+            {
+                ShowError("Cropper is unable to save the screenshot to the selected folder. This may be cause by Controlled Folder Access in Windows 10. \r\n\r\n Please add Cropper to the list of allowed apps.", "Unable to save screenshot");
+            }
             finally
             {
                 if (currentlyVisibile)
