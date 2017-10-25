@@ -41,7 +41,6 @@ namespace Fusion8.Cropper
             showOpacityMenu.Checked = Configuration.Current.ShowOpacityMenu;
             trapPrintScreen.Checked = Configuration.Current.TrapPrintScreen;
             perPixelAlphaBlend.Checked = Configuration.Current.UsePerPixelAlpha;
-            hideDuringCapture.Checked = Configuration.Current.HideFormDuringCapture;
             hideAfterCapture.Checked = Configuration.Current.HideFormAfterCapture;
             keepPrntScrnOnClipboard.Checked = Configuration.Current.LeavePrintScreenOnClipboard;
             allowMultipleCropperInstances.Checked = Configuration.Current.AllowMultipleInstances;
@@ -56,8 +55,7 @@ namespace Fusion8.Cropper
             comboBox1.Items.Add("Select Plug-in");
             foreach (IPersistableImageFormat format in ImageCapture.ImageOutputs)
             {
-                IConfigurablePlugin configurable = format as IConfigurablePlugin;
-                if (configurable != null && configurable.ConfigurationForm != null)
+                if (format is IConfigurablePlugin configurable && configurable.ConfigurationForm != null)
                     comboBox1.Items.Add(configurable);
             }
 
@@ -96,7 +94,6 @@ namespace Fusion8.Cropper
             outputTemplatesDescription.Text = SR.OptionOutputTemplatesDescription;
             hotKeysDescription.Text = SR.OptionHotKeysDescription;
             nonRectWindowsDescription.Text = SR.OptionNonRectWindowsDescription;
-            visibilityDescription.Text = SR.OptionVisibility;
         }
 
         private static bool ValidateFileName(string name)
@@ -130,7 +127,6 @@ namespace Fusion8.Cropper
             Configuration.Current.ShowOpacityMenu = showOpacityMenu.Checked;
             Configuration.Current.TrapPrintScreen = trapPrintScreen.Checked;
             Configuration.Current.UsePerPixelAlpha = perPixelAlphaBlend.Checked;
-            Configuration.Current.HideFormDuringCapture = hideDuringCapture.Checked;
             Configuration.Current.HideFormAfterCapture = hideAfterCapture.Checked;
             Configuration.Current.LeavePrintScreenOnClipboard = keepPrntScrnOnClipboard.Checked;
             Configuration.Current.AllowMultipleInstances = allowMultipleCropperInstances.Checked;
@@ -382,13 +378,8 @@ namespace Fusion8.Cropper
         {
             this.components = new System.ComponentModel.Container();
             this.folder = new System.Windows.Forms.FolderBrowserDialog();
-            this.labelOutputFolder = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.labelFullImageTemplate = new System.Windows.Forms.Label();
-            this.fullImageTemplate = new System.Windows.Forms.TextBox();
-            this.thumbImageTemplate = new System.Windows.Forms.TextBox();
-            this.labelThumbImageTemplate = new System.Windows.Forms.Label();
             this.templateMenu = new System.Windows.Forms.ContextMenu();
             this.templateIncrement = new System.Windows.Forms.MenuItem();
             this.templateDate = new System.Windows.Forms.MenuItem();
@@ -405,38 +396,19 @@ namespace Fusion8.Cropper
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.folderChooser = new System.Windows.Forms.TextBox();
-            this.widthInput = new System.Windows.Forms.TextBox();
-            this.heightInput = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.fullImageMenuButton = new Fusion8.Cropper.Core.DropDownButton();
-            this.thumbImageMenuButton = new Fusion8.Cropper.Core.DropDownButton();
-            this.outputFolderGroup = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.outputFolderDescription = new System.Windows.Forms.Label();
-            this.colorChooserButton = new System.Windows.Forms.Button();
-            this.backgroundColor = new System.Windows.Forms.Panel();
-            this.nonRectangularCapturesGroup = new System.Windows.Forms.GroupBox();
-            this.nonRectWindowsDescription = new System.Windows.Forms.Label();
-            this.colorNonFormAreaCheck = new System.Windows.Forms.CheckBox();
-            this.outputTemplateGroup = new System.Windows.Forms.GroupBox();
-            this.outputTemplatesDescription = new System.Windows.Forms.Label();
-            this.hotKeysGroup = new System.Windows.Forms.GroupBox();
-            this.keepPrntScrnOnClipboard = new System.Windows.Forms.CheckBox();
-            this.hotKeysDescription = new System.Windows.Forms.Label();
-            this.trapPrintScreen = new System.Windows.Forms.CheckBox();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.optionsNavigator = new System.Windows.Forms.TreeView();
             this.optionsTabs = new Fusion8.Cropper.Core.TablessTabControl();
             this.appearanceTab = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.heightInput = new System.Windows.Forms.TextBox();
+            this.widthInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRemoveSize = new System.Windows.Forms.Button();
             this.buttonAddSize = new System.Windows.Forms.Button();
             this.predefinedSizeList = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.visibilityDescription = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.hideDuringCapture = new System.Windows.Forms.CheckBox();
             this.hideAfterCapture = new System.Windows.Forms.CheckBox();
             this.opaityGroup = new System.Windows.Forms.GroupBox();
             this.opacityValue = new System.Windows.Forms.Label();
@@ -445,7 +417,29 @@ namespace Fusion8.Cropper
             this.opacityDescription = new System.Windows.Forms.Label();
             this.perPixelAlphaBlend = new System.Windows.Forms.CheckBox();
             this.outputTab = new System.Windows.Forms.TabPage();
+            this.outputFolderGroup = new System.Windows.Forms.GroupBox();
+            this.folderChooser = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.outputFolderDescription = new System.Windows.Forms.Label();
+            this.labelOutputFolder = new System.Windows.Forms.Label();
+            this.outputTemplateGroup = new System.Windows.Forms.GroupBox();
+            this.fullImageMenuButton = new Fusion8.Cropper.Core.DropDownButton();
+            this.thumbImageMenuButton = new Fusion8.Cropper.Core.DropDownButton();
+            this.outputTemplatesDescription = new System.Windows.Forms.Label();
+            this.fullImageTemplate = new System.Windows.Forms.TextBox();
+            this.thumbImageTemplate = new System.Windows.Forms.TextBox();
+            this.labelFullImageTemplate = new System.Windows.Forms.Label();
+            this.labelThumbImageTemplate = new System.Windows.Forms.Label();
             this.capturesTab = new System.Windows.Forms.TabPage();
+            this.hotKeysGroup = new System.Windows.Forms.GroupBox();
+            this.keepPrntScrnOnClipboard = new System.Windows.Forms.CheckBox();
+            this.hotKeysDescription = new System.Windows.Forms.Label();
+            this.trapPrintScreen = new System.Windows.Forms.CheckBox();
+            this.nonRectangularCapturesGroup = new System.Windows.Forms.GroupBox();
+            this.colorChooserButton = new System.Windows.Forms.Button();
+            this.nonRectWindowsDescription = new System.Windows.Forms.Label();
+            this.colorNonFormAreaCheck = new System.Windows.Forms.CheckBox();
+            this.backgroundColor = new System.Windows.Forms.Panel();
             this.otherOptionsDescription = new System.Windows.Forms.GroupBox();
             this.includeMouseCursorInCapture = new System.Windows.Forms.CheckBox();
             this.allowMultipleCropperInstances = new System.Windows.Forms.CheckBox();
@@ -455,39 +449,31 @@ namespace Fusion8.Cropper
             this.pluginsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.optionsNavigator = new System.Windows.Forms.TreeView();
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).BeginInit();
-            this.outputFolderGroup.SuspendLayout();
-            this.nonRectangularCapturesGroup.SuspendLayout();
-            this.outputTemplateGroup.SuspendLayout();
-            this.hotKeysGroup.SuspendLayout();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.optionsTabs.SuspendLayout();
             this.appearanceTab.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.opaityGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.opacitySlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.outputTab.SuspendLayout();
+            this.outputFolderGroup.SuspendLayout();
+            this.outputTemplateGroup.SuspendLayout();
             this.capturesTab.SuspendLayout();
+            this.hotKeysGroup.SuspendLayout();
+            this.nonRectangularCapturesGroup.SuspendLayout();
             this.otherOptionsDescription.SuspendLayout();
             this.keyboardTab.SuspendLayout();
             this.keyboardShortcutsGroup.SuspendLayout();
             this.pluginsTab.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // labelOutputFolder
-            // 
-            this.labelOutputFolder.Location = new System.Drawing.Point(6, 79);
-            this.labelOutputFolder.Name = "labelOutputFolder";
-            this.labelOutputFolder.Size = new System.Drawing.Size(289, 15);
-            this.labelOutputFolder.TabIndex = 1;
-            this.labelOutputFolder.Text = "&Save screenshots to this folder.";
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(330, 485);
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Location = new System.Drawing.Point(326, 484);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 25);
             this.okButton.TabIndex = 1;
@@ -496,79 +482,31 @@ namespace Fusion8.Cropper
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(414, 485);
+            this.cancelButton.Location = new System.Drawing.Point(410, 484);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 25);
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             // 
-            // labelFullImageTemplate
-            // 
-            this.labelFullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                                                                                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelFullImageTemplate.Location = new System.Drawing.Point(3, 88);
-            this.labelFullImageTemplate.Name = "labelFullImageTemplate";
-            this.labelFullImageTemplate.Size = new System.Drawing.Size(180, 17);
-            this.labelFullImageTemplate.TabIndex = 1;
-            this.labelFullImageTemplate.Text = "&Full image file name template.";
-            // 
-            // fullImageTemplate
-            // 
-            this.fullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                                                                                   | System.Windows.Forms.AnchorStyles.Right)));
-            this.fullImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.fullImageTemplate.HideSelection = false;
-            this.errorProvider.SetIconPadding(this.fullImageTemplate, 24);
-            this.fullImageTemplate.Location = new System.Drawing.Point(6, 108);
-            this.fullImageTemplate.Name = "fullImageTemplate";
-            this.fullImageTemplate.Size = new System.Drawing.Size(283, 20);
-            this.fullImageTemplate.TabIndex = 2;
-            this.fullImageTemplate.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
-            // 
-            // thumbImageTemplate
-            // 
-            this.thumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                                                                                    | System.Windows.Forms.AnchorStyles.Right)));
-            this.thumbImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.thumbImageTemplate.HideSelection = false;
-            this.errorProvider.SetIconPadding(this.thumbImageTemplate, 24);
-            this.thumbImageTemplate.Location = new System.Drawing.Point(6, 160);
-            this.thumbImageTemplate.Name = "thumbImageTemplate";
-            this.thumbImageTemplate.Size = new System.Drawing.Size(283, 20);
-            this.thumbImageTemplate.TabIndex = 5;
-            this.thumbImageTemplate.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
-            // 
-            // labelThumbImageTemplate
-            // 
-            this.labelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                                                                                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelThumbImageTemplate.Location = new System.Drawing.Point(6, 140);
-            this.labelThumbImageTemplate.Name = "labelThumbImageTemplate";
-            this.labelThumbImageTemplate.Size = new System.Drawing.Size(202, 17);
-            this.labelThumbImageTemplate.TabIndex = 4;
-            this.labelThumbImageTemplate.Text = "&Thumbnail image file name template.";
-            // 
             // templateMenu
             // 
-            this.templateMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
-            {
-                this.templateIncrement,
-                this.templateDate,
-                this.templateTime,
-                this.templateTimestamp,
-                this.templateExtension,
-                this.seperator1,
-                this.templateUser,
-                this.templateDomain,
-                this.templateMachine,
-                this.seperator2,
-                this.templatePrompt,
-                this.menuItem1,
-                this.menuItem2,
-                this.menuItem3
-            });
+            this.templateMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.templateIncrement,
+            this.templateDate,
+            this.templateTime,
+            this.templateTimestamp,
+            this.templateExtension,
+            this.seperator1,
+            this.templateUser,
+            this.templateDomain,
+            this.templateMachine,
+            this.seperator2,
+            this.templatePrompt,
+            this.menuItem1,
+            this.menuItem2,
+            this.menuItem3});
             // 
             // templateIncrement
             // 
@@ -657,29 +595,75 @@ namespace Fusion8.Cropper
             this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider.ContainerControl = this;
             // 
-            // folderChooser
+            // colorDialog
             // 
-            this.errorProvider.SetIconPadding(this.folderChooser, 26);
-            this.folderChooser.Location = new System.Drawing.Point(6, 99);
-            this.folderChooser.Name = "folderChooser";
-            this.folderChooser.Size = new System.Drawing.Size(275, 20);
-            this.folderChooser.TabIndex = 4;
-            this.toolTip.SetToolTip(this.folderChooser, "Environment variables in the path are supported, i.e. %userprofile%\\Desktop.");
-            this.folderChooser.TextChanged += new System.EventHandler(this.HandleDirectoryTextChanged);
+            this.colorDialog.AnyColor = true;
             // 
-            // widthInput
+            // optionsNavigator
             // 
-            this.errorProvider.SetIconPadding(this.widthInput, 142);
-            this.widthInput.Location = new System.Drawing.Point(9, 47);
-            this.widthInput.MaxLength = 4;
-            this.widthInput.Name = "widthInput";
-            this.widthInput.Size = new System.Drawing.Size(39, 20);
-            this.widthInput.TabIndex = 0;
-            this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
-            this.widthInput.WordWrap = false;
-            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
-            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
-            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            this.optionsNavigator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.optionsNavigator.Indent = 12;
+            this.optionsNavigator.Location = new System.Drawing.Point(6, 6);
+            this.optionsNavigator.Name = "optionsNavigator";
+            this.optionsNavigator.ShowLines = false;
+            this.optionsNavigator.Size = new System.Drawing.Size(133, 470);
+            this.optionsNavigator.TabIndex = 3;
+            this.optionsNavigator.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleOptionsNavigatorAfterSelect);
+            // 
+            // optionsTabs
+            // 
+            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsTabs.Controls.Add(this.appearanceTab);
+            this.optionsTabs.Controls.Add(this.outputTab);
+            this.optionsTabs.Controls.Add(this.capturesTab);
+            this.optionsTabs.Controls.Add(this.keyboardTab);
+            this.optionsTabs.Controls.Add(this.pluginsTab);
+            this.optionsTabs.Location = new System.Drawing.Point(145, 6);
+            this.optionsTabs.Multiline = true;
+            this.optionsTabs.Name = "optionsTabs";
+            this.optionsTabs.SelectedIndex = 0;
+            this.optionsTabs.Size = new System.Drawing.Size(351, 476);
+            this.optionsTabs.TabIndex = 0;
+            // 
+            // appearanceTab
+            // 
+            this.appearanceTab.Controls.Add(this.groupBox2);
+            this.appearanceTab.Controls.Add(this.groupBox1);
+            this.appearanceTab.Controls.Add(this.opaityGroup);
+            this.appearanceTab.Location = new System.Drawing.Point(4, 22);
+            this.appearanceTab.Name = "appearanceTab";
+            this.appearanceTab.Size = new System.Drawing.Size(343, 450);
+            this.appearanceTab.TabIndex = 2;
+            this.appearanceTab.Text = "Appearance";
+            this.appearanceTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.heightInput);
+            this.groupBox2.Controls.Add(this.widthInput);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.buttonRemoveSize);
+            this.groupBox2.Controls.Add(this.buttonAddSize);
+            this.groupBox2.Controls.Add(this.predefinedSizeList);
+            this.groupBox2.Location = new System.Drawing.Point(8, 244);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(323, 200);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Saved Si&zes";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(6, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(304, 18);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Use Ctrl + <number> to quickly access your saved sizes.";
             // 
             // heightInput
             // 
@@ -695,234 +679,19 @@ namespace Fusion8.Cropper
             this.heightInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
             this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             // 
-            // fullImageMenuButton
+            // widthInput
             // 
-            this.fullImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.fullImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
-            this.fullImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.fullImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.fullImageMenuButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.fullImageMenuButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.fullImageMenuButton.Location = new System.Drawing.Point(287, 108);
-            this.fullImageMenuButton.Name = "fullImageMenuButton";
-            this.fullImageMenuButton.Size = new System.Drawing.Size(23, 20);
-            this.fullImageMenuButton.TabIndex = 3;
-            this.fullImageMenuButton.TabStop = false;
-            this.fullImageMenuButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.toolTip.SetToolTip(this.fullImageMenuButton, "Insert template text.");
-            this.fullImageMenuButton.UseVisualStyleBackColor = false;
-            this.fullImageMenuButton.Click += new System.EventHandler(this.HandleFullImageMenuButtonClick);
-            // 
-            // thumbImageMenuButton
-            // 
-            this.thumbImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.thumbImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
-            this.thumbImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumbImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.thumbImageMenuButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.thumbImageMenuButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.thumbImageMenuButton.Location = new System.Drawing.Point(287, 160);
-            this.thumbImageMenuButton.Name = "thumbImageMenuButton";
-            this.thumbImageMenuButton.Size = new System.Drawing.Size(23, 20);
-            this.thumbImageMenuButton.TabIndex = 6;
-            this.thumbImageMenuButton.TabStop = false;
-            this.thumbImageMenuButton.Text = "6";
-            this.toolTip.SetToolTip(this.thumbImageMenuButton, "Insert template text.");
-            this.thumbImageMenuButton.UseVisualStyleBackColor = false;
-            this.thumbImageMenuButton.Click += new System.EventHandler(this.HandleThumbImageMenuButtonClick);
-            // 
-            // outputFolderGroup
-            // 
-            this.outputFolderGroup.Controls.Add(this.folderChooser);
-            this.outputFolderGroup.Controls.Add(this.button1);
-            this.outputFolderGroup.Controls.Add(this.outputFolderDescription);
-            this.outputFolderGroup.Controls.Add(this.labelOutputFolder);
-            this.outputFolderGroup.Location = new System.Drawing.Point(8, 8);
-            this.outputFolderGroup.Name = "outputFolderGroup";
-            this.outputFolderGroup.Size = new System.Drawing.Size(316, 135);
-            this.outputFolderGroup.TabIndex = 0;
-            this.outputFolderGroup.TabStop = false;
-            this.outputFolderGroup.Text = "Output &Location";
-            this.toolTip.SetToolTip(this.outputFolderGroup, "Environment variables in the path, i.e. %userprofile%\\Desktop");
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(285, 97);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(25, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.HandleFolderChooserButtonClick);
-            // 
-            // outputFolderDescription
-            // 
-            this.outputFolderDescription.Location = new System.Drawing.Point(6, 20);
-            this.outputFolderDescription.Name = "outputFolderDescription";
-            this.outputFolderDescription.Size = new System.Drawing.Size(304, 59);
-            this.outputFolderDescription.TabIndex = 0;
-            this.outputFolderDescription.Text = "This is the root folder for all file based screenshots. Environment variables in " +
-                                                "the path are supported, i.e. %userprofile%\\Desktop.";
-            // 
-            // colorChooserButton
-            // 
-            this.colorChooserButton.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.colorChooserButton.Location = new System.Drawing.Point(209, 131);
-            this.colorChooserButton.Name = "colorChooserButton";
-            this.colorChooserButton.Size = new System.Drawing.Size(101, 30);
-            this.colorChooserButton.TabIndex = 2;
-            this.colorChooserButton.Text = "C&hoose Color";
-            this.colorChooserButton.Click += new System.EventHandler(this.HandleColorChooserButtonClick);
-            // 
-            // backgroundColor
-            // 
-            this.backgroundColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.backgroundColor.Location = new System.Drawing.Point(9, 131);
-            this.backgroundColor.Name = "backgroundColor";
-            this.backgroundColor.Size = new System.Drawing.Size(194, 30);
-            this.backgroundColor.TabIndex = 3;
-            // 
-            // nonRectangularCapturesGroup
-            // 
-            this.nonRectangularCapturesGroup.Controls.Add(this.colorChooserButton);
-            this.nonRectangularCapturesGroup.Controls.Add(this.nonRectWindowsDescription);
-            this.nonRectangularCapturesGroup.Controls.Add(this.colorNonFormAreaCheck);
-            this.nonRectangularCapturesGroup.Controls.Add(this.backgroundColor);
-            this.nonRectangularCapturesGroup.Location = new System.Drawing.Point(8, 148);
-            this.nonRectangularCapturesGroup.Name = "nonRectangularCapturesGroup";
-            this.nonRectangularCapturesGroup.Size = new System.Drawing.Size(316, 174);
-            this.nonRectangularCapturesGroup.TabIndex = 1;
-            this.nonRectangularCapturesGroup.TabStop = false;
-            this.nonRectangularCapturesGroup.Text = "Non-&Rectangular Windows";
-            // 
-            // nonRectWindowsDescription
-            // 
-            this.nonRectWindowsDescription.Location = new System.Drawing.Point(6, 21);
-            this.nonRectWindowsDescription.Name = "nonRectWindowsDescription";
-            this.nonRectWindowsDescription.Size = new System.Drawing.Size(284, 64);
-            this.nonRectWindowsDescription.TabIndex = 0;
-            this.nonRectWindowsDescription.Text = "{Resourced}";
-            // 
-            // colorNonFormAreaCheck
-            // 
-            this.colorNonFormAreaCheck.Location = new System.Drawing.Point(9, 101);
-            this.colorNonFormAreaCheck.Name = "colorNonFormAreaCheck";
-            this.colorNonFormAreaCheck.Size = new System.Drawing.Size(290, 24);
-            this.colorNonFormAreaCheck.TabIndex = 1;
-            this.colorNonFormAreaCheck.Text = "&Crop and fill invisible form area with this color...";
-            // 
-            // outputTemplateGroup
-            // 
-            this.outputTemplateGroup.Controls.Add(this.fullImageMenuButton);
-            this.outputTemplateGroup.Controls.Add(this.thumbImageMenuButton);
-            this.outputTemplateGroup.Controls.Add(this.outputTemplatesDescription);
-            this.outputTemplateGroup.Controls.Add(this.fullImageTemplate);
-            this.outputTemplateGroup.Controls.Add(this.thumbImageTemplate);
-            this.outputTemplateGroup.Controls.Add(this.labelFullImageTemplate);
-            this.outputTemplateGroup.Controls.Add(this.labelThumbImageTemplate);
-            this.outputTemplateGroup.Location = new System.Drawing.Point(8, 149);
-            this.outputTemplateGroup.Name = "outputTemplateGroup";
-            this.outputTemplateGroup.Size = new System.Drawing.Size(316, 200);
-            this.outputTemplateGroup.TabIndex = 1;
-            this.outputTemplateGroup.TabStop = false;
-            this.outputTemplateGroup.Text = "&Output Templates";
-            // 
-            // outputTemplatesDescription
-            // 
-            this.outputTemplatesDescription.Location = new System.Drawing.Point(6, 20);
-            this.outputTemplatesDescription.Name = "outputTemplatesDescription";
-            this.outputTemplatesDescription.Size = new System.Drawing.Size(304, 64);
-            this.outputTemplatesDescription.TabIndex = 0;
-            this.outputTemplatesDescription.Text = "{Resourced}";
-            // 
-            // hotKeysGroup
-            // 
-            this.hotKeysGroup.Controls.Add(this.keepPrntScrnOnClipboard);
-            this.hotKeysGroup.Controls.Add(this.hotKeysDescription);
-            this.hotKeysGroup.Controls.Add(this.trapPrintScreen);
-            this.hotKeysGroup.Location = new System.Drawing.Point(8, 8);
-            this.hotKeysGroup.Name = "hotKeysGroup";
-            this.hotKeysGroup.Size = new System.Drawing.Size(316, 132);
-            this.hotKeysGroup.TabIndex = 0;
-            this.hotKeysGroup.TabStop = false;
-            this.hotKeysGroup.Text = "Print &Screen";
-            // 
-            // keepPrntScrnOnClipboard
-            // 
-            this.keepPrntScrnOnClipboard.Location = new System.Drawing.Point(24, 102);
-            this.keepPrntScrnOnClipboard.Name = "keepPrntScrnOnClipboard";
-            this.keepPrntScrnOnClipboard.Size = new System.Drawing.Size(289, 18);
-            this.keepPrntScrnOnClipboard.TabIndex = 2;
-            this.keepPrntScrnOnClipboard.Text = "&Keep Print Screen image on clipboard after processing.";
-            // 
-            // hotKeysDescription
-            // 
-            this.hotKeysDescription.Location = new System.Drawing.Point(6, 21);
-            this.hotKeysDescription.Name = "hotKeysDescription";
-            this.hotKeysDescription.Size = new System.Drawing.Size(284, 60);
-            this.hotKeysDescription.TabIndex = 0;
-            this.hotKeysDescription.Text = "{Resourced}";
-            // 
-            // trapPrintScreen
-            // 
-            this.trapPrintScreen.Location = new System.Drawing.Point(8, 81);
-            this.trapPrintScreen.Name = "trapPrintScreen";
-            this.trapPrintScreen.Size = new System.Drawing.Size(248, 24);
-            this.trapPrintScreen.TabIndex = 1;
-            this.trapPrintScreen.Text = "Use Cropper to process &Print Screen images.";
-            // 
-            // optionsTabs
-            // 
-            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                              | System.Windows.Forms.AnchorStyles.Left)
-                                                                             | System.Windows.Forms.AnchorStyles.Right)));
-            this.optionsTabs.Controls.Add(this.appearanceTab);
-            this.optionsTabs.Controls.Add(this.outputTab);
-            this.optionsTabs.Controls.Add(this.capturesTab);
-            this.optionsTabs.Controls.Add(this.keyboardTab);
-            this.optionsTabs.Controls.Add(this.pluginsTab);
-            this.optionsTabs.Location = new System.Drawing.Point(145, 6);
-            this.optionsTabs.Multiline = true;
-            this.optionsTabs.Name = "optionsTabs";
-            this.optionsTabs.SelectedIndex = 0;
-            this.optionsTabs.Size = new System.Drawing.Size(344, 473);
-            this.optionsTabs.TabIndex = 0;
-            // 
-            // appearanceTab
-            // 
-            this.appearanceTab.Controls.Add(this.groupBox2);
-            this.appearanceTab.Controls.Add(this.groupBox1);
-            this.appearanceTab.Controls.Add(this.opaityGroup);
-            this.appearanceTab.Location = new System.Drawing.Point(4, 22);
-            this.appearanceTab.Name = "appearanceTab";
-            this.appearanceTab.Size = new System.Drawing.Size(336, 447);
-            this.appearanceTab.TabIndex = 2;
-            this.appearanceTab.Text = "Appearance";
-            this.appearanceTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.heightInput);
-            this.groupBox2.Controls.Add(this.widthInput);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.buttonRemoveSize);
-            this.groupBox2.Controls.Add(this.buttonAddSize);
-            this.groupBox2.Controls.Add(this.predefinedSizeList);
-            this.groupBox2.Location = new System.Drawing.Point(8, 268);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(316, 155);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Saved Si&zes";
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(6, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(304, 18);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Use Ctrl + <number> to quickly access your saved sizes.";
+            this.errorProvider.SetIconPadding(this.widthInput, 142);
+            this.widthInput.Location = new System.Drawing.Point(9, 47);
+            this.widthInput.MaxLength = 4;
+            this.widthInput.Name = "widthInput";
+            this.widthInput.Size = new System.Drawing.Size(39, 20);
+            this.widthInput.TabIndex = 0;
+            this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
+            this.widthInput.WordWrap = false;
+            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
+            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             // 
             // label1
             // 
@@ -959,60 +728,23 @@ namespace Fusion8.Cropper
             this.predefinedSizeList.FormattingEnabled = true;
             this.predefinedSizeList.Location = new System.Drawing.Point(9, 74);
             this.predefinedSizeList.Name = "predefinedSizeList";
-            this.predefinedSizeList.Size = new System.Drawing.Size(96, 69);
+            this.predefinedSizeList.Size = new System.Drawing.Size(96, 108);
             this.predefinedSizeList.TabIndex = 4;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.visibilityDescription);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.hideDuringCapture);
-            this.groupBox1.Controls.Add(this.hideAfterCapture);
-            this.groupBox1.Location = new System.Drawing.Point(8, 169);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(316, 93);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "&Visibility / Translucent Captures";
-            // 
-            // visibilityDescription
-            // 
-            this.visibilityDescription.Location = new System.Drawing.Point(6, 25);
-            this.visibilityDescription.Name = "visibilityDescription";
-            this.visibilityDescription.Size = new System.Drawing.Size(284, 39);
-            this.visibilityDescription.TabIndex = 0;
-            this.visibilityDescription.Text = "{Resourced}";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(6, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 16);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Hide crop window";
-            // 
-            // hideDuringCapture
-            // 
-            this.hideDuringCapture.AutoSize = true;
-            this.hideDuringCapture.Location = new System.Drawing.Point(105, 67);
-            this.hideDuringCapture.Name = "hideDuringCapture";
-            this.hideDuringCapture.Size = new System.Drawing.Size(94, 17);
-            this.hideDuringCapture.TabIndex = 1;
-            this.hideDuringCapture.Text = "&during capture";
-            this.hideDuringCapture.UseVisualStyleBackColor = true;
             // 
             // hideAfterCapture
             // 
             this.hideAfterCapture.AutoSize = true;
-            this.hideAfterCapture.Location = new System.Drawing.Point(205, 67);
+            this.hideAfterCapture.Location = new System.Drawing.Point(9, 19);
             this.hideAfterCapture.Name = "hideAfterCapture";
-            this.hideAfterCapture.Size = new System.Drawing.Size(86, 17);
+            this.hideAfterCapture.Size = new System.Drawing.Size(174, 17);
             this.hideAfterCapture.TabIndex = 2;
-            this.hideAfterCapture.Text = "&after capture";
+            this.hideAfterCapture.Text = "Hide crop window &after capture";
             this.hideAfterCapture.UseVisualStyleBackColor = true;
             // 
             // opaityGroup
             // 
+            this.opaityGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.opaityGroup.Controls.Add(this.opacityValue);
             this.opaityGroup.Controls.Add(this.showOpacityMenu);
             this.opaityGroup.Controls.Add(this.opacitySlider);
@@ -1020,7 +752,7 @@ namespace Fusion8.Cropper
             this.opaityGroup.Controls.Add(this.perPixelAlphaBlend);
             this.opaityGroup.Location = new System.Drawing.Point(8, 8);
             this.opaityGroup.Name = "opaityGroup";
-            this.opaityGroup.Size = new System.Drawing.Size(316, 155);
+            this.opaityGroup.Size = new System.Drawing.Size(323, 155);
             this.opaityGroup.TabIndex = 0;
             this.opaityGroup.TabStop = false;
             this.opaityGroup.Text = "&Opacity";
@@ -1076,10 +808,167 @@ namespace Fusion8.Cropper
             this.outputTab.Controls.Add(this.outputTemplateGroup);
             this.outputTab.Location = new System.Drawing.Point(4, 22);
             this.outputTab.Name = "outputTab";
-            this.outputTab.Size = new System.Drawing.Size(336, 447);
+            this.outputTab.Size = new System.Drawing.Size(343, 450);
             this.outputTab.TabIndex = 0;
             this.outputTab.Text = "Output";
             this.outputTab.UseVisualStyleBackColor = true;
+            // 
+            // outputFolderGroup
+            // 
+            this.outputFolderGroup.Controls.Add(this.folderChooser);
+            this.outputFolderGroup.Controls.Add(this.button1);
+            this.outputFolderGroup.Controls.Add(this.outputFolderDescription);
+            this.outputFolderGroup.Controls.Add(this.labelOutputFolder);
+            this.outputFolderGroup.Location = new System.Drawing.Point(8, 8);
+            this.outputFolderGroup.Name = "outputFolderGroup";
+            this.outputFolderGroup.Size = new System.Drawing.Size(316, 135);
+            this.outputFolderGroup.TabIndex = 0;
+            this.outputFolderGroup.TabStop = false;
+            this.outputFolderGroup.Text = "Output &Location";
+            this.toolTip.SetToolTip(this.outputFolderGroup, "Environment variables in the path, i.e. %userprofile%\\Desktop");
+            // 
+            // folderChooser
+            // 
+            this.errorProvider.SetIconPadding(this.folderChooser, 26);
+            this.folderChooser.Location = new System.Drawing.Point(6, 99);
+            this.folderChooser.Name = "folderChooser";
+            this.folderChooser.Size = new System.Drawing.Size(275, 20);
+            this.folderChooser.TabIndex = 4;
+            this.toolTip.SetToolTip(this.folderChooser, "Environment variables in the path are supported, i.e. %userprofile%\\Desktop.");
+            this.folderChooser.TextChanged += new System.EventHandler(this.HandleDirectoryTextChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(285, 97);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(25, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.HandleFolderChooserButtonClick);
+            // 
+            // outputFolderDescription
+            // 
+            this.outputFolderDescription.Location = new System.Drawing.Point(6, 20);
+            this.outputFolderDescription.Name = "outputFolderDescription";
+            this.outputFolderDescription.Size = new System.Drawing.Size(304, 59);
+            this.outputFolderDescription.TabIndex = 0;
+            this.outputFolderDescription.Text = "This is the root folder for all file based screenshots. Environment variables in " +
+    "the path are supported, i.e. %userprofile%\\Desktop.";
+            // 
+            // labelOutputFolder
+            // 
+            this.labelOutputFolder.Location = new System.Drawing.Point(6, 79);
+            this.labelOutputFolder.Name = "labelOutputFolder";
+            this.labelOutputFolder.Size = new System.Drawing.Size(289, 15);
+            this.labelOutputFolder.TabIndex = 1;
+            this.labelOutputFolder.Text = "&Save screenshots to this folder.";
+            // 
+            // outputTemplateGroup
+            // 
+            this.outputTemplateGroup.Controls.Add(this.fullImageMenuButton);
+            this.outputTemplateGroup.Controls.Add(this.thumbImageMenuButton);
+            this.outputTemplateGroup.Controls.Add(this.outputTemplatesDescription);
+            this.outputTemplateGroup.Controls.Add(this.fullImageTemplate);
+            this.outputTemplateGroup.Controls.Add(this.thumbImageTemplate);
+            this.outputTemplateGroup.Controls.Add(this.labelFullImageTemplate);
+            this.outputTemplateGroup.Controls.Add(this.labelThumbImageTemplate);
+            this.outputTemplateGroup.Location = new System.Drawing.Point(8, 149);
+            this.outputTemplateGroup.Name = "outputTemplateGroup";
+            this.outputTemplateGroup.Size = new System.Drawing.Size(316, 200);
+            this.outputTemplateGroup.TabIndex = 1;
+            this.outputTemplateGroup.TabStop = false;
+            this.outputTemplateGroup.Text = "&Output Templates";
+            // 
+            // fullImageMenuButton
+            // 
+            this.fullImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.fullImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
+            this.fullImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fullImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.fullImageMenuButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fullImageMenuButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.fullImageMenuButton.Location = new System.Drawing.Point(287, 108);
+            this.fullImageMenuButton.Name = "fullImageMenuButton";
+            this.fullImageMenuButton.Size = new System.Drawing.Size(23, 20);
+            this.fullImageMenuButton.TabIndex = 3;
+            this.fullImageMenuButton.TabStop = false;
+            this.fullImageMenuButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.toolTip.SetToolTip(this.fullImageMenuButton, "Insert template text.");
+            this.fullImageMenuButton.UseVisualStyleBackColor = false;
+            this.fullImageMenuButton.Click += new System.EventHandler(this.HandleFullImageMenuButtonClick);
+            // 
+            // thumbImageMenuButton
+            // 
+            this.thumbImageMenuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbImageMenuButton.BackColor = System.Drawing.SystemColors.Control;
+            this.thumbImageMenuButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.thumbImageMenuButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.thumbImageMenuButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.thumbImageMenuButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.thumbImageMenuButton.Location = new System.Drawing.Point(287, 160);
+            this.thumbImageMenuButton.Name = "thumbImageMenuButton";
+            this.thumbImageMenuButton.Size = new System.Drawing.Size(23, 20);
+            this.thumbImageMenuButton.TabIndex = 6;
+            this.thumbImageMenuButton.TabStop = false;
+            this.thumbImageMenuButton.Text = "6";
+            this.toolTip.SetToolTip(this.thumbImageMenuButton, "Insert template text.");
+            this.thumbImageMenuButton.UseVisualStyleBackColor = false;
+            this.thumbImageMenuButton.Click += new System.EventHandler(this.HandleThumbImageMenuButtonClick);
+            // 
+            // outputTemplatesDescription
+            // 
+            this.outputTemplatesDescription.Location = new System.Drawing.Point(6, 20);
+            this.outputTemplatesDescription.Name = "outputTemplatesDescription";
+            this.outputTemplatesDescription.Size = new System.Drawing.Size(304, 64);
+            this.outputTemplatesDescription.TabIndex = 0;
+            this.outputTemplatesDescription.Text = "{Resourced}";
+            // 
+            // fullImageTemplate
+            // 
+            this.fullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fullImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fullImageTemplate.HideSelection = false;
+            this.errorProvider.SetIconPadding(this.fullImageTemplate, 24);
+            this.fullImageTemplate.Location = new System.Drawing.Point(6, 108);
+            this.fullImageTemplate.Name = "fullImageTemplate";
+            this.fullImageTemplate.Size = new System.Drawing.Size(283, 20);
+            this.fullImageTemplate.TabIndex = 2;
+            this.fullImageTemplate.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
+            // 
+            // thumbImageTemplate
+            // 
+            this.thumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbImageTemplate.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.thumbImageTemplate.HideSelection = false;
+            this.errorProvider.SetIconPadding(this.thumbImageTemplate, 24);
+            this.thumbImageTemplate.Location = new System.Drawing.Point(6, 160);
+            this.thumbImageTemplate.Name = "thumbImageTemplate";
+            this.thumbImageTemplate.Size = new System.Drawing.Size(283, 20);
+            this.thumbImageTemplate.TabIndex = 5;
+            this.thumbImageTemplate.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
+            // 
+            // labelFullImageTemplate
+            // 
+            this.labelFullImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelFullImageTemplate.Location = new System.Drawing.Point(3, 88);
+            this.labelFullImageTemplate.Name = "labelFullImageTemplate";
+            this.labelFullImageTemplate.Size = new System.Drawing.Size(180, 17);
+            this.labelFullImageTemplate.TabIndex = 1;
+            this.labelFullImageTemplate.Text = "&Full image file name template.";
+            // 
+            // labelThumbImageTemplate
+            // 
+            this.labelThumbImageTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelThumbImageTemplate.Location = new System.Drawing.Point(6, 140);
+            this.labelThumbImageTemplate.Name = "labelThumbImageTemplate";
+            this.labelThumbImageTemplate.Size = new System.Drawing.Size(202, 17);
+            this.labelThumbImageTemplate.TabIndex = 4;
+            this.labelThumbImageTemplate.Text = "&Thumbnail image file name template.";
             // 
             // capturesTab
             // 
@@ -1092,6 +981,89 @@ namespace Fusion8.Cropper
             this.capturesTab.TabIndex = 1;
             this.capturesTab.Text = "Capturing";
             this.capturesTab.UseVisualStyleBackColor = true;
+            // 
+            // hotKeysGroup
+            // 
+            this.hotKeysGroup.Controls.Add(this.keepPrntScrnOnClipboard);
+            this.hotKeysGroup.Controls.Add(this.hotKeysDescription);
+            this.hotKeysGroup.Controls.Add(this.trapPrintScreen);
+            this.hotKeysGroup.Location = new System.Drawing.Point(8, 8);
+            this.hotKeysGroup.Name = "hotKeysGroup";
+            this.hotKeysGroup.Size = new System.Drawing.Size(316, 132);
+            this.hotKeysGroup.TabIndex = 0;
+            this.hotKeysGroup.TabStop = false;
+            this.hotKeysGroup.Text = "Print &Screen";
+            // 
+            // keepPrntScrnOnClipboard
+            // 
+            this.keepPrntScrnOnClipboard.Location = new System.Drawing.Point(24, 102);
+            this.keepPrntScrnOnClipboard.Name = "keepPrntScrnOnClipboard";
+            this.keepPrntScrnOnClipboard.Size = new System.Drawing.Size(289, 18);
+            this.keepPrntScrnOnClipboard.TabIndex = 2;
+            this.keepPrntScrnOnClipboard.Text = "&Keep Print Screen image on clipboard after processing.";
+            // 
+            // hotKeysDescription
+            // 
+            this.hotKeysDescription.Location = new System.Drawing.Point(6, 21);
+            this.hotKeysDescription.Name = "hotKeysDescription";
+            this.hotKeysDescription.Size = new System.Drawing.Size(284, 60);
+            this.hotKeysDescription.TabIndex = 0;
+            this.hotKeysDescription.Text = "{Resourced}";
+            // 
+            // trapPrintScreen
+            // 
+            this.trapPrintScreen.Location = new System.Drawing.Point(8, 81);
+            this.trapPrintScreen.Name = "trapPrintScreen";
+            this.trapPrintScreen.Size = new System.Drawing.Size(248, 24);
+            this.trapPrintScreen.TabIndex = 1;
+            this.trapPrintScreen.Text = "Use Cropper to process &Print Screen images.";
+            // 
+            // nonRectangularCapturesGroup
+            // 
+            this.nonRectangularCapturesGroup.Controls.Add(this.colorChooserButton);
+            this.nonRectangularCapturesGroup.Controls.Add(this.nonRectWindowsDescription);
+            this.nonRectangularCapturesGroup.Controls.Add(this.colorNonFormAreaCheck);
+            this.nonRectangularCapturesGroup.Controls.Add(this.backgroundColor);
+            this.nonRectangularCapturesGroup.Location = new System.Drawing.Point(8, 148);
+            this.nonRectangularCapturesGroup.Name = "nonRectangularCapturesGroup";
+            this.nonRectangularCapturesGroup.Size = new System.Drawing.Size(316, 174);
+            this.nonRectangularCapturesGroup.TabIndex = 1;
+            this.nonRectangularCapturesGroup.TabStop = false;
+            this.nonRectangularCapturesGroup.Text = "Non-&Rectangular Windows";
+            // 
+            // colorChooserButton
+            // 
+            this.colorChooserButton.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.colorChooserButton.Location = new System.Drawing.Point(209, 131);
+            this.colorChooserButton.Name = "colorChooserButton";
+            this.colorChooserButton.Size = new System.Drawing.Size(101, 30);
+            this.colorChooserButton.TabIndex = 2;
+            this.colorChooserButton.Text = "C&hoose Color";
+            this.colorChooserButton.Click += new System.EventHandler(this.HandleColorChooserButtonClick);
+            // 
+            // nonRectWindowsDescription
+            // 
+            this.nonRectWindowsDescription.Location = new System.Drawing.Point(6, 21);
+            this.nonRectWindowsDescription.Name = "nonRectWindowsDescription";
+            this.nonRectWindowsDescription.Size = new System.Drawing.Size(284, 64);
+            this.nonRectWindowsDescription.TabIndex = 0;
+            this.nonRectWindowsDescription.Text = "{Resourced}";
+            // 
+            // colorNonFormAreaCheck
+            // 
+            this.colorNonFormAreaCheck.Location = new System.Drawing.Point(9, 101);
+            this.colorNonFormAreaCheck.Name = "colorNonFormAreaCheck";
+            this.colorNonFormAreaCheck.Size = new System.Drawing.Size(290, 24);
+            this.colorNonFormAreaCheck.TabIndex = 1;
+            this.colorNonFormAreaCheck.Text = "&Crop and fill invisible form area with this color...";
+            // 
+            // backgroundColor
+            // 
+            this.backgroundColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.backgroundColor.Location = new System.Drawing.Point(9, 131);
+            this.backgroundColor.Name = "backgroundColor";
+            this.backgroundColor.Size = new System.Drawing.Size(194, 30);
+            this.backgroundColor.TabIndex = 3;
             // 
             // otherOptionsDescription
             // 
@@ -1126,23 +1098,29 @@ namespace Fusion8.Cropper
             this.keyboardTab.Location = new System.Drawing.Point(4, 22);
             this.keyboardTab.Name = "keyboardTab";
             this.keyboardTab.Padding = new System.Windows.Forms.Padding(3);
-            this.keyboardTab.Size = new System.Drawing.Size(336, 447);
+            this.keyboardTab.Size = new System.Drawing.Size(343, 450);
             this.keyboardTab.TabIndex = 4;
             this.keyboardTab.Text = "Keyboard";
             this.keyboardTab.UseVisualStyleBackColor = true;
             // 
             // keyboardShortcutsGroup
             // 
+            this.keyboardShortcutsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.keyboardShortcutsGroup.Controls.Add(this.hotKeySelection);
             this.keyboardShortcutsGroup.Location = new System.Drawing.Point(7, 7);
             this.keyboardShortcutsGroup.Name = "keyboardShortcutsGroup";
-            this.keyboardShortcutsGroup.Size = new System.Drawing.Size(323, 393);
+            this.keyboardShortcutsGroup.Size = new System.Drawing.Size(323, 424);
             this.keyboardShortcutsGroup.TabIndex = 1;
             this.keyboardShortcutsGroup.TabStop = false;
             this.keyboardShortcutsGroup.Text = "Keyboard Shortcuts";
             // 
             // hotKeySelection
             // 
+            this.hotKeySelection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hotKeySelection.FocusedItem = null;
             this.hotKeySelection.FullRowSelect = true;
             this.hotKeySelection.GridLines = true;
@@ -1156,7 +1134,7 @@ namespace Fusion8.Cropper
             this.hotKeySelection.Scrollable = true;
             this.hotKeySelection.ShowGroups = true;
             this.hotKeySelection.ShowItemToolTips = false;
-            this.hotKeySelection.Size = new System.Drawing.Size(311, 368);
+            this.hotKeySelection.Size = new System.Drawing.Size(311, 399);
             this.hotKeySelection.SmallImageList = null;
             this.hotKeySelection.TabIndex = 0;
             this.hotKeySelection.TopItem = null;
@@ -1167,7 +1145,7 @@ namespace Fusion8.Cropper
             this.pluginsTab.Controls.Add(this.comboBox1);
             this.pluginsTab.Location = new System.Drawing.Point(4, 22);
             this.pluginsTab.Name = "pluginsTab";
-            this.pluginsTab.Size = new System.Drawing.Size(336, 447);
+            this.pluginsTab.Size = new System.Drawing.Size(343, 450);
             this.pluginsTab.TabIndex = 3;
             this.pluginsTab.Text = "Plug-ins";
             this.pluginsTab.UseVisualStyleBackColor = true;
@@ -1189,26 +1167,34 @@ namespace Fusion8.Cropper
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // colorDialog
+            // groupBox1
             // 
-            this.colorDialog.AnyColor = true;
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.hideAfterCapture);
+            this.groupBox1.Location = new System.Drawing.Point(8, 169);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(323, 69);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "After &Capture";
             // 
-            // optionsNavigator
+            // label3
             // 
-            this.optionsNavigator.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                                  | System.Windows.Forms.AnchorStyles.Left)));
-            this.optionsNavigator.Indent = 12;
-            this.optionsNavigator.Location = new System.Drawing.Point(6, 6);
-            this.optionsNavigator.Name = "optionsNavigator";
-            this.optionsNavigator.ShowLines = false;
-            this.optionsNavigator.Size = new System.Drawing.Size(133, 473);
-            this.optionsNavigator.TabIndex = 3;
-            this.optionsNavigator.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleOptionsNavigatorAfterSelect);
+            this.label3.AutoSize = true;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Location = new System.Drawing.Point(151, 474);
+            this.label3.MaximumSize = new System.Drawing.Size(0, 1);
+            this.label3.MinimumSize = new System.Drawing.Size(335, 1);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(335, 1);
+            this.label3.TabIndex = 4;
             // 
             // Options
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(498, 516);
+            this.ClientSize = new System.Drawing.Size(498, 519);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.optionsNavigator);
             this.Controls.Add(this.optionsTabs);
             this.Controls.Add(this.cancelButton);
@@ -1222,29 +1208,31 @@ namespace Fusion8.Cropper
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Cropper Options";
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).EndInit();
-            this.outputFolderGroup.ResumeLayout(false);
-            this.outputFolderGroup.PerformLayout();
-            this.nonRectangularCapturesGroup.ResumeLayout(false);
-            this.outputTemplateGroup.ResumeLayout(false);
-            this.outputTemplateGroup.PerformLayout();
-            this.hotKeysGroup.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.optionsTabs.ResumeLayout(false);
             this.appearanceTab.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.opaityGroup.ResumeLayout(false);
             this.opaityGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.opacitySlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.outputTab.ResumeLayout(false);
+            this.outputFolderGroup.ResumeLayout(false);
+            this.outputFolderGroup.PerformLayout();
+            this.outputTemplateGroup.ResumeLayout(false);
+            this.outputTemplateGroup.PerformLayout();
             this.capturesTab.ResumeLayout(false);
+            this.hotKeysGroup.ResumeLayout(false);
+            this.nonRectangularCapturesGroup.ResumeLayout(false);
             this.otherOptionsDescription.ResumeLayout(false);
             this.keyboardTab.ResumeLayout(false);
             this.keyboardShortcutsGroup.ResumeLayout(false);
             this.pluginsTab.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
@@ -1308,9 +1296,6 @@ namespace Fusion8.Cropper
         private CheckBox keepPrntScrnOnClipboard;
         private Button button1;
         private TextBox folderChooser;
-        private GroupBox groupBox1;
-        private Label visibilityDescription;
-        private CheckBox hideDuringCapture;
         private CheckBox hideAfterCapture;
         private GroupBox groupBox2;
         private Button buttonRemoveSize;
@@ -1323,7 +1308,6 @@ namespace Fusion8.Cropper
 
         private static readonly Regex IsNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
         private Label label2;
-        private Label label3;
         private TabPage keyboardTab;
         private HotKeySelection hotKeySelection;
         private MenuItem templateTimestamp;
@@ -1332,6 +1316,8 @@ namespace Fusion8.Cropper
         private CheckBox includeMouseCursorInCapture;
         private bool addingSize;
         private TreeView optionsNavigator;
+        private GroupBox groupBox1;
+        private Label label3;
         private GroupBox keyboardShortcutsGroup;
 
         #endregion

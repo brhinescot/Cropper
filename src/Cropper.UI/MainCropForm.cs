@@ -67,13 +67,10 @@ namespace Fusion8.Cropper
 
         private void TakeScreenShot(ScreenShotBounds bounds)
         {
-            bool currentlyVisible = Visible;
-            highlight = true;
+            takingScreeshot = true;
             PaintLayeredWindow();
             try
             {
-                if (Configuration.Current.HideFormDuringCapture)
-                    Hide();
                 switch (bounds)
                 {
                     case ScreenShotBounds.ActiveForm:
@@ -103,13 +100,10 @@ namespace Fusion8.Cropper
             }
             finally
             {
-                if (currentlyVisible)
-                    Show();
-
                 if (Visible && Configuration.Current.HideFormAfterCapture)
                     Hide();
 
-                highlight = false;
+                takingScreeshot = false;
                 PaintLayeredWindow();
             }
         }
@@ -191,7 +185,7 @@ namespace Fusion8.Cropper
         private bool showHelp;
         private bool isThumbnailed;
         private bool isDisposed;
-        private bool highlight;
+        private bool takingScreeshot;
         private int colorIndex;
 
         private double maxThumbSize = DefaultMaxThumbnailSize;
@@ -1232,43 +1226,43 @@ namespace Fusion8.Cropper
 
         private void PaintUI(Graphics graphics)
         {
-            if (currentColorTable != null)
+            if (currentColorTable == null) 
+                return;
+            
+            if (takingScreeshot)
             {
-                if (!highlight)
+                outlinePen.Color = Color.FromArgb(areaBrush.Color.A, currentColorTable.LineHighlightColor);
+                outlinePen.Width = TabHeight / 2f;
+
+                graphics.DrawRectangle(outlinePen, Rectangle.Inflate(visibleFormArea, TabHeight / 4 + 1, TabHeight / 4 + 1));
+            }
+            else
+            {
+                outlinePen.Color = currentColorTable.LineColor;
+                outlinePen.Width = 1f;
+
+                PaintMainFormArea(graphics, visibleFormArea);
+                if (showHelp)
                 {
-                    outlinePen.Color = currentColorTable.LineColor;
-                    outlinePen.Width = 1f;
-                    
-                    PaintMainFormArea(graphics, visibleFormArea);
-                    if (showHelp)
-                    {
-                        DrawHelp(graphics);
-                    }
-                    else if (showAbout)
-                    {
-                        DrawAbout(graphics);
-                    }
-                    else
-                    {
-                        PaintThumbnailIndicator(graphics, VisibleWidth, VisibleHeight);
-                        PaintCrosshairs(graphics, VisibleWidth, VisibleHeight);
-                    }
-                    Point grabberCorner = new Point(Width - TransparentMargin, Height - TransparentMargin);
-                    PaintGrabber(graphics, grabberCorner);
-                    PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
+                    DrawHelp(graphics);
+                }
+                else if (showAbout)
+                {
+                    DrawAbout(graphics);
                 }
                 else
                 {
-                    outlinePen.Color = Color.FromArgb(areaBrush.Color.A, currentColorTable.LineHighlightColor);
-                    outlinePen.Width = TabHeight;
-                    
-                    graphics.DrawRectangle(outlinePen, Rectangle.Inflate(visibleFormArea, TabHeight/2 + 1, TabHeight/2 + 1));
+                    PaintThumbnailIndicator(graphics, VisibleWidth, VisibleHeight);
+                    PaintCrosshairs(graphics, VisibleWidth, VisibleHeight);
                 }
-                
-                PaintSizeTabs(graphics, points);
-                PaintWidthString(graphics, VisibleWidth);
-                PaintHeightString(graphics, VisibleHeight);
+                Point grabberCorner = new Point(Width - TransparentMargin, Height - TransparentMargin);
+                PaintGrabber(graphics, grabberCorner);
+                PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
             }
+
+            PaintSizeTabs(graphics, points);
+            PaintWidthString(graphics, VisibleWidth);
+            PaintHeightString(graphics, VisibleHeight);
         }
 
         private void PaintGrabber(Graphics graphics, Point grabberStart)

@@ -465,9 +465,7 @@ namespace Fusion8.Cropper.Core
                 IntPtr windowDC = GetDC(IntPtr.Zero);
 
                 //Get the screencapture
-                int dwRop = SRCCOPY;
-                if (Configuration.Current.HideFormDuringCapture)
-                    dwRop |= CAPTUREBLT;
+                int dwRop = SRCCOPY | CAPTUREBLT;
 
                 BitBlt(destinationGraphicsHandle, 0, 0, width, height, windowDC, x, y, dwRop);
             }
