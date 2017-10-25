@@ -18,9 +18,10 @@ namespace Fusion8.Cropper.Core
                 base.WndProc(ref m);
         }
 
-        protected override void OnControlAdded(ControlEventArgs e)
+        protected override void OnCreateControl()
         {
-            base.OnControlAdded(e);
+            base.OnCreateControl();
+
         }
     }
 }

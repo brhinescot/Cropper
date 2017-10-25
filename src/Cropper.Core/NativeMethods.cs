@@ -5,6 +5,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Text;
+// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBePrivate.Local
 
 #endregion
 
@@ -83,16 +86,7 @@ namespace Fusion8.Cropper.Core
         internal static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
-        internal static extern IntPtr GetDesktopWindow();
-
-        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
-        internal static extern IntPtr GetWindowDC(IntPtr hwnd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
         internal static extern IntPtr GetDC(IntPtr hwnd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
-        internal static extern int ReleaseDC(IntPtr hwnd, IntPtr dc);
 
         [DllImport("gdi32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -116,14 +110,8 @@ namespace Fusion8.Cropper.Core
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        [DllImport("user32.dll")]
-        private static extern int GetSystemMetrics(int smIndex);
-
         [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyExW", ExactSpelling = true)]
         internal static extern uint MapVirtualKeyEx(uint uCode, MapVirtualKeyMapTypes uMapType, IntPtr dwhkl);
@@ -134,8 +122,11 @@ namespace Fusion8.Cropper.Core
         [DllImport("user32.dll")]
         internal static extern IntPtr GetKeyboardLayout(uint idThread);
 
-        [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
-        internal static extern int SendMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
+        [DllImport("gdi32.dll")]
+        internal static extern IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
+
+        [DllImport("gdi32.dll")]
+        internal static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
         /// <summary>
         ///     The GetCursorInfo function retrieves information about the global cursor.
@@ -299,10 +290,10 @@ namespace Fusion8.Cropper.Core
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
+            public readonly int Left;
+            public readonly int Top;
+            public readonly int Right;
+            public readonly int Bottom;
 
             public RECT(int left, int top, int right, int bottom)
             {
@@ -321,8 +312,8 @@ namespace Fusion8.Cropper.Core
         [StructLayout(LayoutKind.Sequential)]
         internal struct POINT
         {
-            public int X;
-            public int Y;
+            public readonly int X;
+            public readonly int Y;
 
             public POINT(int x, int y)
             {
@@ -408,25 +399,7 @@ namespace Fusion8.Cropper.Core
         #endregion
 
         #region Methods
-
-        /// <summary>
-        ///     Gets a segment of the desktop as an image.
-        /// </summary>
-        /// <returns>A <see cref="System.Drawing.Image" /> containg an image of the full desktop.</returns>
-        internal static Image GetDesktopBitmap()
-        {
-            return GetDesktopBitmap(FindWindow(null, "Program Manager"));
-        }
-
-        /// <summary>
-        ///     Gets a segment of the desktop as an image.
-        /// </summary>
-        /// <returns>A <see cref="System.Drawing.Image" /> containg an image of the full desktop.</returns>
-        internal static Image GetDesktopBitmap(IntPtr hWnd)
-        {
-            return GetDesktopBitmap(hWnd, false, Color.Empty);
-        }
-
+        
         /// <summary>
         ///     Gets a segment of the desktop as an image.
         /// </summary>
@@ -492,9 +465,7 @@ namespace Fusion8.Cropper.Core
                 IntPtr windowDC = GetDC(IntPtr.Zero);
 
                 //Get the screencapture
-                int dwRop = SRCCOPY;
-                if (Configuration.Current.HideFormDuringCapture)
-                    dwRop |= CAPTUREBLT;
+                int dwRop = SRCCOPY | CAPTUREBLT;
 
                 BitBlt(destinationGraphicsHandle, 0, 0, width, height, windowDC, x, y, dwRop);
             }
@@ -569,6 +540,28 @@ namespace Fusion8.Cropper.Core
             }
             return finalCapture;
         }
+
+        #endregion
+
+        #region Not Used?
+
+//        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
+//        internal static extern IntPtr GetDesktopWindow();
+//
+//        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
+//        internal static extern IntPtr GetWindowDC(IntPtr hwnd);
+//
+//        [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = false)]
+//        internal static extern int ReleaseDC(IntPtr hwnd, IntPtr dc);
+//
+//        [DllImport("user32.dll")]
+//        private static extern int GetSystemMetrics(int smIndex);
+//
+//        [DllImport("user32.dll")]
+//        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+//
+//        [DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = CharSet.Ansi, SetLastError = false)]
+//        internal static extern int SendMessage(IntPtr hWnd, int msg, int wParam, IntPtr lParam);
 
         #endregion
     }

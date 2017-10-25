@@ -67,13 +67,10 @@ namespace Fusion8.Cropper
 
         private void TakeScreenShot(ScreenShotBounds bounds)
         {
-            bool currentlyVisibile = Visible;
-            highlight = true;
+            takingScreeshot = true;
             PaintLayeredWindow();
             try
             {
-                if (Configuration.Current.HideFormDuringCapture)
-                    Hide();
                 switch (bounds)
                 {
                     case ScreenShotBounds.ActiveForm:
@@ -103,13 +100,10 @@ namespace Fusion8.Cropper
             }
             finally
             {
-                if (currentlyVisibile)
-                    Show();
-
                 if (Visible && Configuration.Current.HideFormAfterCapture)
                     Hide();
 
-                highlight = false;
+                takingScreeshot = false;
                 PaintLayeredWindow();
             }
         }
@@ -160,13 +154,13 @@ namespace Fusion8.Cropper
 
         #region Constants
 
-        private const int ResizeBorderWidth = 15;
-        private const int TransparentMargin = 60;
+        private const int ResizeBorderWidth = 18;
         private const int TabHeight = 15;
-        private const int TabTopWidth = 45;
-        private const int TabBottomWidth = 60;
+        private const int TabTopWidth = TabHeight + 30; // 45
+        private const int TabBottomWidth = TabHeight + TabTopWidth; // 60
+        private const int TransparentMargin = TabBottomWidth;
 
-        // Form measurments and sizes
+        // Form measurements and sizes
         private const int MinimumDialogWidth = 230;
 
         private const int MinimumDialogHeight = 180;
@@ -191,7 +185,7 @@ namespace Fusion8.Cropper
         private bool showHelp;
         private bool isThumbnailed;
         private bool isDisposed;
-        private bool highlight;
+        private bool takingScreeshot;
         private int colorIndex;
 
         private double maxThumbSize = DefaultMaxThumbnailSize;
@@ -1232,10 +1226,22 @@ namespace Fusion8.Cropper
 
         private void PaintUI(Graphics graphics)
         {
-            if (currentColorTable != null)
+            if (currentColorTable == null) 
+                return;
+            
+            if (takingScreeshot)
             {
+                outlinePen.Color = Color.FromArgb(areaBrush.Color.A, currentColorTable.LineHighlightColor);
+                outlinePen.Width = TabHeight / 2f;
+
+                graphics.DrawRectangle(outlinePen, Rectangle.Inflate(visibleFormArea, TabHeight / 4 + 1, TabHeight / 4 + 1));
+            }
+            else
+            {
+                outlinePen.Color = currentColorTable.LineColor;
+                outlinePen.Width = 1f;
+
                 PaintMainFormArea(graphics, visibleFormArea);
-                PaintSizeTabs(graphics, points);
                 if (showHelp)
                 {
                     DrawHelp(graphics);
@@ -1252,9 +1258,11 @@ namespace Fusion8.Cropper
                 Point grabberCorner = new Point(Width - TransparentMargin, Height - TransparentMargin);
                 PaintGrabber(graphics, grabberCorner);
                 PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
-                PaintWidthString(graphics, VisibleWidth);
-                PaintHeightString(graphics, VisibleHeight);
             }
+
+            PaintSizeTabs(graphics, points);
+            PaintWidthString(graphics, VisibleWidth);
+            PaintHeightString(graphics, VisibleHeight);
         }
 
         private void PaintGrabber(Graphics graphics, Point grabberStart)
@@ -1273,10 +1281,6 @@ namespace Fusion8.Cropper
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
         {
-            if (highlight)
-                outlinePen.Color = currentColorTable.LineHighlightColor;
-            else
-                outlinePen.Color = currentColorTable.LineColor;
             graphics.FillRectangle(areaBrush, cropArea);
             graphics.DrawRectangle(outlinePen, cropArea);
         }
