@@ -67,7 +67,7 @@ namespace Fusion8.Cropper
 
         private void TakeScreenShot(ScreenShotBounds bounds)
         {
-            bool currentlyVisibile = Visible;
+            bool currentlyVisible = Visible;
             highlight = true;
             PaintLayeredWindow();
             try
@@ -103,7 +103,7 @@ namespace Fusion8.Cropper
             }
             finally
             {
-                if (currentlyVisibile)
+                if (currentlyVisible)
                     Show();
 
                 if (Visible && Configuration.Current.HideFormAfterCapture)
@@ -160,13 +160,13 @@ namespace Fusion8.Cropper
 
         #region Constants
 
-        private const int ResizeBorderWidth = 15;
-        private const int TransparentMargin = 60;
+        private const int ResizeBorderWidth = 18;
         private const int TabHeight = 15;
-        private const int TabTopWidth = 45;
-        private const int TabBottomWidth = 60;
+        private const int TabTopWidth = TabHeight + 30; // 45
+        private const int TabBottomWidth = TabHeight + TabTopWidth; // 60
+        private const int TransparentMargin = TabBottomWidth;
 
-        // Form measurments and sizes
+        // Form measurements and sizes
         private const int MinimumDialogWidth = 230;
 
         private const int MinimumDialogHeight = 180;
@@ -1234,24 +1234,38 @@ namespace Fusion8.Cropper
         {
             if (currentColorTable != null)
             {
-                PaintMainFormArea(graphics, visibleFormArea);
-                PaintSizeTabs(graphics, points);
-                if (showHelp)
+                if (!highlight)
                 {
-                    DrawHelp(graphics);
-                }
-                else if (showAbout)
-                {
-                    DrawAbout(graphics);
+                    outlinePen.Color = currentColorTable.LineColor;
+                    outlinePen.Width = 1f;
+                    
+                    PaintMainFormArea(graphics, visibleFormArea);
+                    if (showHelp)
+                    {
+                        DrawHelp(graphics);
+                    }
+                    else if (showAbout)
+                    {
+                        DrawAbout(graphics);
+                    }
+                    else
+                    {
+                        PaintThumbnailIndicator(graphics, VisibleWidth, VisibleHeight);
+                        PaintCrosshairs(graphics, VisibleWidth, VisibleHeight);
+                    }
+                    Point grabberCorner = new Point(Width - TransparentMargin, Height - TransparentMargin);
+                    PaintGrabber(graphics, grabberCorner);
+                    PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
                 }
                 else
                 {
-                    PaintThumbnailIndicator(graphics, VisibleWidth, VisibleHeight);
-                    PaintCrosshairs(graphics, VisibleWidth, VisibleHeight);
+                    outlinePen.Color = Color.FromArgb(areaBrush.Color.A, currentColorTable.LineHighlightColor);
+                    outlinePen.Width = TabHeight;
+                    
+                    graphics.DrawRectangle(outlinePen, Rectangle.Inflate(visibleFormArea, TabHeight/2 + 1, TabHeight/2 + 1));
                 }
-                Point grabberCorner = new Point(Width - TransparentMargin, Height - TransparentMargin);
-                PaintGrabber(graphics, grabberCorner);
-                PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
+                
+                PaintSizeTabs(graphics, points);
                 PaintWidthString(graphics, VisibleWidth);
                 PaintHeightString(graphics, VisibleHeight);
             }
@@ -1273,10 +1287,6 @@ namespace Fusion8.Cropper
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
         {
-            if (highlight)
-                outlinePen.Color = currentColorTable.LineHighlightColor;
-            else
-                outlinePen.Color = currentColorTable.LineColor;
             graphics.FillRectangle(areaBrush, cropArea);
             graphics.DrawRectangle(outlinePen, cropArea);
         }
