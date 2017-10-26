@@ -12,4 +12,4 @@ using System.Resources;
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.10.0.0")]
+[assembly: AssemblyVersion("1.11.0.0")]

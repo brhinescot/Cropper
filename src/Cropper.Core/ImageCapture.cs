@@ -17,6 +17,11 @@ namespace Fusion8.Cropper.Core
     public class ImageCapture : Component, IPersistableOutput
     {
         /// <summary>
+        ///     Gets a value indicating if a plugin will continue capturing screeshots.
+        /// </summary>
+        public bool ContinueCapturing { get; private set; }
+        
+        /// <summary>
         ///     Retrieves another cropped image once a capture has been initialized.
         /// </summary>
         /// <param name="imageHandler">
@@ -289,6 +294,7 @@ namespace Fusion8.Cropper.Core
             {
                 ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, maxThumbnailSize);
                 OnImageCaptured(imageCapturedEventArgs);
+                ContinueCapturing = imageCapturedEventArgs.ContinueCapturing;
             }
         }
 

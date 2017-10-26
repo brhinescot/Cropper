@@ -68,7 +68,7 @@ namespace Fusion8.Cropper
         private void TakeScreenShot(ScreenShotBounds bounds)
         {
             bool currentlyVisibile = Visible;
-            highlight = true;
+            takingScreeshot = true;
             PaintLayeredWindow();
             try
             {
@@ -109,7 +109,7 @@ namespace Fusion8.Cropper
                 if (Visible && Configuration.Current.HideFormAfterCapture)
                     Hide();
 
-                highlight = false;
+                takingScreeshot = imageCapture.ContinueCapturing;
                 PaintLayeredWindow();
             }
         }
@@ -191,7 +191,7 @@ namespace Fusion8.Cropper
         private bool showHelp;
         private bool isThumbnailed;
         private bool isDisposed;
-        private bool highlight;
+        private bool takingScreeshot;
         private int colorIndex;
 
         private double maxThumbSize = DefaultMaxThumbnailSize;
@@ -1273,7 +1273,7 @@ namespace Fusion8.Cropper
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
         {
-            if (highlight)
+            if (takingScreeshot)
                 outlinePen.Color = currentColorTable.LineHighlightColor;
             else
                 outlinePen.Color = currentColorTable.LineColor;
