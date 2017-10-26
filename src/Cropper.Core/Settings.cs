@@ -22,12 +22,6 @@ namespace Fusion8.Cropper.Core
         internal static readonly string DefaultOutputPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), OutputFolder);
 
-        internal Settings()
-        {
-            if (Environment.OSVersion.Version.Major >= 6)
-                HideFormDuringCapture = true;
-        }
-
         [XmlIgnore]
         public IWin32Window ActiveCropWindow { get; set; }
 
@@ -176,9 +170,6 @@ namespace Fusion8.Cropper.Core
 
         [XmlElement("LeavePrintScreenOnClipboard", typeof(bool))]
         public bool LeavePrintScreenOnClipboard { get; set; } = true;
-
-        [XmlElement("HideFormDuringCapture", typeof(bool))]
-        public bool HideFormDuringCapture { get; set; }
 
         [XmlElement("HideFormAfterCapture", typeof(bool))]
         public bool HideFormAfterCapture { get; set; }
