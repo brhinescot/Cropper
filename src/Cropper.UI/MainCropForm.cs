@@ -103,7 +103,7 @@ namespace Fusion8.Cropper
                 if (Visible && Configuration.Current.HideFormAfterCapture)
                     Hide();
 
-                takingScreeshot = false;
+                takingScreeshot = imageCapture.ContinueCapturing;
                 PaintLayeredWindow();
             }
         }
