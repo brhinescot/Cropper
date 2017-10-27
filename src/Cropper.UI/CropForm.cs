@@ -33,11 +33,5 @@ namespace Fusion8.Cropper
             if (handler != null && !e.Handled)
                 handler(this, e);
         }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            //			UnregisterHotKeys();
-            base.OnClosed(e);
-        }
     }
 }

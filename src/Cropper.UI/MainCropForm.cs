@@ -40,6 +40,66 @@ namespace Fusion8.Cropper
     /// </summary>
     public class MainCropForm : CropForm
     {
+        #region Fields
+
+        private bool showAbout;
+        private bool showHelp;
+        private bool isThumbnailed;
+        private bool isDisposed;
+        private bool takingScreeshot;
+        private int colorIndex;
+
+        private double maxThumbSize = DefaultMaxThumbnailSize;
+
+        // String displayed on form describing the current output format. 
+        private string outputDescription;
+
+        private Point middle;
+        private Point offset;
+        private Point mouseDownPoint;
+        
+        private Rectangle mouseDownRect;
+        private Rectangle dialogCloseRectangle;
+        private Rectangle thumbnailRectangle;
+        private Rectangle visibleFormArea;
+        private Size userFormSize;
+
+        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize,
+            DefaultMaxThumbnailSize);
+
+        private readonly Font feedbackFont = new Font("Verdana", 8f);
+
+        // Brushes
+        // TODO: [Performance] Use one brush and set colors as needed.
+        // Brush for the tab background.
+        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
+
+        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
+
+        // Brush for the visible form background.
+        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
+
+        // Brush for the visible form background.
+        private readonly Pen outlinePen = new Pen(Color.Black);
+
+        // Brush for the drawn text and lines.
+        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
+
+        private readonly ArrayList colorTables = new ArrayList();
+        private CropFormColorTable currentColorTable;
+        private readonly ContextMenu menu = new ContextMenu();
+        private MenuItem outputMenuItem;
+        private MenuItem opacityMenuItem;
+        private MenuItem showHideMenu;
+        private MenuItem toggleThumbnailMenu;
+        private NotifyIcon notifyIcon;
+
+        private ResizeRegion resizeRegion = ResizeRegion.None;
+        private ResizeRegion thumbResizeRegion;
+        private readonly ImageCapture imageCapture;
+
+        #endregion
+        
         #region Property Accessors
 
         /// <summary>
@@ -176,83 +236,6 @@ namespace Fusion8.Cropper
         private const int DefaultPositionLeft = 100;
         private const int DefaultPositionTop = 100;
         private const double DefaultLayerOpacity = 0.4;
-
-        #endregion
-
-        #region Member Variables
-
-        private bool showAbout;
-        private bool showHelp;
-        private bool isThumbnailed;
-        private bool isDisposed;
-        private bool takingScreeshot;
-        private int colorIndex;
-
-        private double maxThumbSize = DefaultMaxThumbnailSize;
-
-        // String displayed on form describing the current output format. 
-        private string outputDescription;
-
-        private Point middle;
-        private Point offset;
-        private Point mouseDownPoint;
-
-        // Point locations for drawing the tabs.
-        private readonly Point[] points =
-        {
-            new Point(TransparentMargin - TabHeight,
-                TransparentMargin - TabHeight),
-            new Point(TransparentMargin + TabTopWidth,
-                TransparentMargin - TabHeight),
-            new Point(TransparentMargin + TabBottomWidth,
-                TransparentMargin),
-            new Point(TransparentMargin,
-                TransparentMargin),
-            new Point(TransparentMargin,
-                TransparentMargin + TabBottomWidth),
-            new Point(TransparentMargin - TabHeight,
-                TransparentMargin + TabTopWidth)
-        };
-
-        private Rectangle mouseDownRect;
-        private Rectangle dialogCloseRectangle;
-        private Rectangle thumbnailRectangle;
-        private Rectangle visibleFormArea;
-        private Size userFormSize;
-
-        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize,
-            DefaultMaxThumbnailSize);
-
-        private readonly Font feedbackFont = new Font("Verdana", 8f);
-
-        // Brushes
-        // TODO: [Performance] Use one brush and set colors as needed.
-        // Brush for the tab background.
-        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
-
-        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
-
-        // Brush for the visible form background.
-        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
-
-        // Brush for the visible form background.
-        private readonly Pen outlinePen = new Pen(Color.Black);
-
-        // Brush for the drawn text and lines.
-        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
-
-        private readonly ArrayList colorTables = new ArrayList();
-        private CropFormColorTable currentColorTable;
-        private readonly ContextMenu menu = new ContextMenu();
-        private MenuItem outputMenuItem;
-        private MenuItem opacityMenuItem;
-        private MenuItem showHideMenu;
-        private MenuItem toggleThumbnailMenu;
-        private NotifyIcon notifyIcon;
-
-        private ResizeRegion resizeRegion = ResizeRegion.None;
-        private ResizeRegion thumbResizeRegion;
-        private readonly ImageCapture imageCapture;
 
         #endregion
 
@@ -856,7 +839,11 @@ namespace Fusion8.Cropper
 
         protected override void OnPaintLayer(PaintLayerEventArgs e)
         {
-            PaintUI(e.Graphics);
+            Graphics graphics = e.Graphics;
+            
+           
+            
+            PaintUI(graphics);
             base.OnPaintLayer(e);
         }
 
@@ -1193,6 +1180,7 @@ namespace Fusion8.Cropper
 
         private void SetUpForm()
         {
+
             ResourceManager resources = new ResourceManager(typeof(MainCropForm));
 
             notifyIcon = new NotifyIcon();
@@ -1260,9 +1248,7 @@ namespace Fusion8.Cropper
                 PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
             }
 
-            PaintSizeTabs(graphics, points);
-            PaintWidthString(graphics, VisibleWidth);
-            PaintHeightString(graphics, VisibleHeight);
+            PaintSizeTabs(graphics);
         }
 
         private void PaintGrabber(Graphics graphics, Point grabberStart)
@@ -1274,9 +1260,51 @@ namespace Fusion8.Cropper
             graphics.DrawLine(outlinePen, grabberStart.X - 15, yOffset, xOffset, grabberStart.Y - 15);
         }
 
-        private void PaintSizeTabs(Graphics graphics, Point[] tabPoints)
+        private void PaintSizeTabs(Graphics graphics)
         {
+            float xScale = graphics.DpiX / 96.0f;
+            float yScale = graphics.DpiY / 96.0f;
+
+            PointF[] tabPoints =
+            {
+                new PointF(TransparentMargin - TabHeight * xScale,
+                    TransparentMargin - TabHeight * yScale),
+                new PointF(TransparentMargin + TabTopWidth * xScale,
+                    TransparentMargin - TabHeight * yScale),
+                new PointF(TransparentMargin + TabBottomWidth * xScale,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin + TabBottomWidth * yScale),
+                new PointF(TransparentMargin - TabHeight * xScale,
+                    TransparentMargin + TabTopWidth * yScale)
+            };
+
             graphics.FillPolygon(tabBrush, tabPoints);
+            PaintWidthString(graphics, xScale);
+            PaintHeightString(graphics);
+        }
+
+        private void PaintHeightString(Graphics graphics)
+        {
+            graphics.RotateTransform(90);
+            graphics.DrawString(
+                VisibleHeight + " px",
+                feedbackFont,
+                tabTextBrush,
+                TransparentMargin,
+                -TransparentMargin);
+        }
+
+        private void PaintWidthString(Graphics graphics, float scale)
+        {
+            graphics.DrawString(
+                VisibleWidth + " px",
+                feedbackFont,
+                tabTextBrush,
+                TransparentMargin,
+                TransparentMargin - 15 * scale);
         }
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
@@ -1334,27 +1362,6 @@ namespace Fusion8.Cropper
                     }
                 }
             }
-        }
-
-        private void PaintHeightString(Graphics graphics, int paintHeight)
-        {
-            graphics.RotateTransform(90);
-            graphics.DrawString(
-                paintHeight + " px",
-                feedbackFont,
-                tabTextBrush,
-                TransparentMargin,
-                -TransparentMargin);
-        }
-
-        private void PaintWidthString(Graphics graphics, int paintWidth)
-        {
-            graphics.DrawString(
-                paintWidth + " px",
-                feedbackFont,
-                tabTextBrush,
-                TransparentMargin,
-                TransparentMargin - 15);
         }
 
         private void PaintOutputFormat(Graphics graphics, int paintWidth, int paintHeight)

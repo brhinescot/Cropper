@@ -39,6 +39,9 @@ namespace Fusion8.Cropper
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         internal static extern ushort GlobalDeleteAtom(ushort nAtom);
 
+//        [DllImport("user32.dll", EntryPoint = "BeginPaint", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
+//        public static extern IntPtr BeginPaint(IntPtr hWnd, PAINTSTRUCT* lpPaint);
+        
         [DllImport("gdi32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         internal static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
