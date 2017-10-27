@@ -64,10 +64,10 @@ namespace Fusion8.Cropper
         private Rectangle visibleFormArea;
         private Size userFormSize;
 
-        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize,
-            DefaultMaxThumbnailSize);
+        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize, DefaultMaxThumbnailSize);
 
-        private readonly Font feedbackFont = new Font("Verdana", 8f);
+        private Font feedbackFont;
+        private PointF[] tabPoints;
 
         // Brushes
         // TODO: [Performance] Use one brush and set colors as needed.
@@ -97,6 +97,7 @@ namespace Fusion8.Cropper
         private ResizeRegion resizeRegion = ResizeRegion.None;
         private ResizeRegion thumbResizeRegion;
         private readonly ImageCapture imageCapture;
+        private float dpiScale;
 
         #endregion
         
@@ -106,7 +107,7 @@ namespace Fusion8.Cropper
         ///     Gets the visible client rectangle.
         /// </summary>
         /// <value></value>
-        public Rectangle VisibleClientRectangle
+        protected Rectangle VisibleClientRectangle
         {
             get
             {
@@ -192,20 +193,13 @@ namespace Fusion8.Cropper
             isDisposed = true;
             if (disposing)
             {
-                if (null != feedbackFont)
-                    feedbackFont.Dispose();
-                if (null != menu)
-                    menu.Dispose();
-                if (null != tabBrush)
-                    tabBrush.Dispose();
-                if (null != areaBrush)
-                    areaBrush.Dispose();
-                if (null != formTextBrush)
-                    formTextBrush.Dispose();
-                if (null != notifyIcon)
-                    notifyIcon.Dispose();
-                if (null != outlinePen)
-                    outlinePen.Dispose();
+                feedbackFont?.Dispose();
+                menu?.Dispose();
+                tabBrush?.Dispose();
+                areaBrush?.Dispose();
+                formTextBrush?.Dispose();
+                notifyIcon?.Dispose();
+                outlinePen?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -281,6 +275,26 @@ namespace Fusion8.Cropper
 
         public MainCropForm()
         {
+            dpiScale = DeviceDpi / 96.0f;
+
+            feedbackFont = new Font("Verdana", 8f * dpiScale);
+
+            tabPoints = new[]
+            {
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabTopWidth * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabBottomWidth * dpiScale,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin + TabBottomWidth * dpiScale),
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin + TabTopWidth * dpiScale)
+            };
+
             Configuration.Current.ActiveCropWindow = this;
             imageCapture = new ImageCapture();
             RegisterHotKeys();
@@ -460,9 +474,7 @@ namespace Fusion8.Cropper
         {
             for (int i = 10; i <= 90; i += 10)
             {
-                MenuItem subMenu;
-                subMenu = new MenuItem(i + "%");
-                subMenu.RadioCheck = true;
+                MenuItem subMenu = new MenuItem(i + "%") {RadioCheck = true};
                 subMenu.Click += HandleMenuOpacityClick;
                 opacityMenuItem.MenuItems.Add(subMenu);
                 if (i == Convert.ToInt32(Configuration.Current.UserOpacity * 100))
@@ -585,8 +597,7 @@ namespace Fusion8.Cropper
 
         private void HandleMenuSizeClick(object sender, EventArgs e)
         {
-            MenuItem item = sender as MenuItem;
-            if (item == null)
+            if (!(sender is MenuItem item))
                 return;
 
             if (!(item.Tag is CropSize))
@@ -619,13 +630,15 @@ namespace Fusion8.Cropper
 
         private void ShowOptionsDialog()
         {
-            Options options = new Options {Visible = false};
-            if (options.ShowDialog(this) != DialogResult.OK)
-                return;
-
-            SetColors();
-            RefreshMenuItems();
-            SaveConfiguration();
+            SettingsDialog settingsDialog = new SettingsDialog();
+            settingsDialog.ShowDialog();
+//            Options options = new Options {Visible = false};
+//            if (options.ShowDialog(this) != DialogResult.OK)
+//                return;
+//
+//            SetColors();
+//            RefreshMenuItems();
+//            SaveConfiguration();
         }
 
         private void HandleMenuBrowseClick(object sender, EventArgs e)
@@ -645,11 +658,13 @@ namespace Fusion8.Cropper
             {
                 // Browse to folder and select last image
                 // Thanks to Jon Galloway
-                ProcessStartInfo processStartInfo = new ProcessStartInfo();
-                processStartInfo.FileName = "explorer";
-                processStartInfo.UseShellExecute = true;
-                processStartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                processStartInfo.Arguments = "/e,/select,\"" + imageCapture.LastImageCaptured + "\"";
+                ProcessStartInfo processStartInfo = new ProcessStartInfo
+                {
+                    FileName = "explorer",
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Normal,
+                    Arguments = "/e,/select,\"" + imageCapture.LastImageCaptured + "\""
+                };
                 Process.Start(processStartInfo);
             }
         }
@@ -841,8 +856,6 @@ namespace Fusion8.Cropper
         {
             Graphics graphics = e.Graphics;
             
-           
-            
             PaintUI(graphics);
             base.OnPaintLayer(e);
         }
@@ -986,7 +999,7 @@ namespace Fusion8.Cropper
         private void CenterSize(int interval)
         {
             if (interval < -AlternateSizingInterval || interval > AlternateSizingInterval)
-                throw new ArgumentOutOfRangeException("interval", interval, SR.ExceptionCenterSizeOutOfRange);
+                throw new ArgumentOutOfRangeException(nameof(interval), interval, SR.ExceptionCenterSizeOutOfRange);
 
             if ((VisibleWidth > interval) & (VisibleHeight > interval))
             {
@@ -1144,17 +1157,17 @@ namespace Fusion8.Cropper
 
         private void ApplyConfiguration()
         {
-            Settings settings = Configuration.Current;
-            userFormSize = settings.UserSize;
+            Settings settingsDialog = Configuration.Current;
+            userFormSize = settingsDialog.UserSize;
             VisibleClientSize = userFormSize;
-            colorIndex = settings.ColorIndex;
-            isThumbnailed = settings.IsThumbnailed;
-            maxThumbSize = settings.MaxThumbnailSize;
-            Location = settings.Location;
-            TopMost = settings.AlwaysOnTop;
+            colorIndex = settingsDialog.ColorIndex;
+            isThumbnailed = settingsDialog.IsThumbnailed;
+            maxThumbSize = settingsDialog.MaxThumbnailSize;
+            Location = settingsDialog.Location;
+            TopMost = settingsDialog.AlwaysOnTop;
 
-            if (settings.HotKeySettings != null)
-                foreach (HotKeySetting hk in settings.HotKeySettings)
+            if (settingsDialog.HotKeySettings != null)
+                foreach (HotKeySetting hk in settingsDialog.HotKeySettings)
                 {
                     if (string.IsNullOrEmpty(hk.Id))
                         continue;
@@ -1162,14 +1175,14 @@ namespace Fusion8.Cropper
                     HotKeys.UpdateHotKey(hk.Id, (Keys) hk.KeyCode);
                 }
 
-            if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
-                settings.UserOpacity = 0.4;
+            if (settingsDialog.UserOpacity < 0.1 || settingsDialog.UserOpacity > 0.9)
+                settingsDialog.UserOpacity = 0.4;
 
-            LayerOpacity = !settings.UsePerPixelAlpha ? settings.UserOpacity : 1.0;
+            LayerOpacity = !settingsDialog.UsePerPixelAlpha ? settingsDialog.UserOpacity : 1.0;
 
-            if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
+            if (ImageCapture.ImageOutputs[settingsDialog.ImageFormat] != null)
             {
-                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settings.ImageFormat];
+                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settingsDialog.ImageFormat];
                 outputDescription = imageCapture.ImageFormat.Description;
             }
             else
@@ -1183,9 +1196,11 @@ namespace Fusion8.Cropper
 
             ResourceManager resources = new ResourceManager(typeof(MainCropForm));
 
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = (Icon) resources.GetObject("NotifyIcon");
-            notifyIcon.Visible = true;
+            notifyIcon = new NotifyIcon
+            {
+                Icon = (Icon) resources.GetObject("NotifyIcon"),
+                Visible = true
+            };
             notifyIcon.MouseUp += HandleNotifyIconMouseUp;
             notifyIcon.Text = "Cropper\nOutput: " + outputDescription;
 
@@ -1211,6 +1226,33 @@ namespace Fusion8.Cropper
         #endregion
 
         #region Painting
+
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+
+            dpiScale = DeviceDpi / 96.0f;
+
+            feedbackFont = new Font("Verdana", 8f * dpiScale);
+            
+            tabPoints = new []
+            {
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabTopWidth * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabBottomWidth * dpiScale,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin + TabBottomWidth * dpiScale),
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin + TabTopWidth * dpiScale)
+            };
+            
+            PaintLayeredWindow();
+        }
 
         private void PaintUI(Graphics graphics)
         {
@@ -1262,27 +1304,9 @@ namespace Fusion8.Cropper
 
         private void PaintSizeTabs(Graphics graphics)
         {
-            float xScale = graphics.DpiX / 96.0f;
-            float yScale = graphics.DpiY / 96.0f;
-
-            PointF[] tabPoints =
-            {
-                new PointF(TransparentMargin - TabHeight * xScale,
-                    TransparentMargin - TabHeight * yScale),
-                new PointF(TransparentMargin + TabTopWidth * xScale,
-                    TransparentMargin - TabHeight * yScale),
-                new PointF(TransparentMargin + TabBottomWidth * xScale,
-                    TransparentMargin),
-                new PointF(TransparentMargin,
-                    TransparentMargin),
-                new PointF(TransparentMargin,
-                    TransparentMargin + TabBottomWidth * yScale),
-                new PointF(TransparentMargin - TabHeight * xScale,
-                    TransparentMargin + TabTopWidth * yScale)
-            };
-
             graphics.FillPolygon(tabBrush, tabPoints);
-            PaintWidthString(graphics, xScale);
+            
+            PaintWidthString(graphics);
             PaintHeightString(graphics);
         }
 
@@ -1297,14 +1321,14 @@ namespace Fusion8.Cropper
                 -TransparentMargin);
         }
 
-        private void PaintWidthString(Graphics graphics, float scale)
+        private void PaintWidthString(Graphics graphics)
         {
             graphics.DrawString(
                 VisibleWidth + " px",
                 feedbackFont,
                 tabTextBrush,
                 TransparentMargin,
-                TransparentMargin - 15 * scale);
+                TransparentMargin - 15 * dpiScale);
         }
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
@@ -1409,9 +1433,11 @@ namespace Fusion8.Cropper
 
         private void DrawDialog(Graphics g, string title, string text)
         {
-            StringFormat format = new StringFormat(StringFormatFlags.NoClip);
-            format.Alignment = StringAlignment.Near;
-            format.LineAlignment = StringAlignment.Center;
+            StringFormat format = new StringFormat(StringFormatFlags.NoClip)
+            {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Center
+            };
 
             Rectangle aboutRectangle = new Rectangle(Width / 2 - 90, Height / 2 - 60, MinimumDialogHeight, 120);
 

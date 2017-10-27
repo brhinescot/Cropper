@@ -1,6 +1,7 @@
 #region Using Directives
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -8,6 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace Fusion8.Cropper
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class NativeMethods
     {
         internal const int WM_SETICON = 0x80;
@@ -24,6 +26,9 @@ namespace Fusion8.Cropper
 
         internal const byte AC_SRC_OVER = 0x00;
         internal const byte AC_SRC_ALPHA = 0x01;
+
+        internal const int DESKTOPVERTRES = 117;
+        internal const int DESKTOPHORZRES = 118;
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -50,6 +55,9 @@ namespace Fusion8.Cropper
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hdc);
+        
+        [DllImport("gdi32.dll")]
+        internal static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

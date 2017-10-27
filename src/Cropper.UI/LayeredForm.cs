@@ -18,6 +18,7 @@ namespace Fusion8.Cropper
         {
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.Manual;
+            
         }
 
         #endregion
@@ -119,17 +120,19 @@ namespace Fusion8.Cropper
 
         protected void PaintLayeredWindow()
         {
-            if (Bounds.Size != Size.Empty || ClientRectangle.Width == 0 && ClientRectangle.Height == 0)
-                using (Bitmap surface = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, PixelFormat.Format32bppArgb))
-                {
-                    PaintLayeredWindow(surface, layerOpacity);
-                }
+            if (Bounds.Size == Size.Empty && (ClientRectangle.Width != 0 || ClientRectangle.Height != 0)) 
+                return;
+            
+            using (Bitmap surface = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, PixelFormat.Format32bppArgb))
+            {
+                PaintLayeredWindow(surface, layerOpacity);
+            }
         }
 
         private void PaintLayeredWindow(Bitmap bitmap, double opacity)
         {
             if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
-                throw new ArgumentException("The bitmap must be 32bpp with an alpha-channel.", "bitmap");
+                throw new ArgumentException("The bitmap must be 32bpp with an alpha-channel.", nameof(bitmap));
 
             layerOpacity = opacity;
 
