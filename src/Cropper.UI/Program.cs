@@ -32,7 +32,7 @@ namespace Fusion8.Cropper
                 MainCropForm mainCropForm = new MainCropForm();
 
                 mainCropForm.Closed += HandleMainCropFormClosed;
-                Application.Run();
+                Application.Run(mainCropForm);
                 GC.KeepAlive(mutex);
             }
         }

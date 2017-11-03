@@ -25,9 +25,6 @@ namespace Fusion8.Cropper
 
         public Options()
         {
-            AutoScaleMode = AutoScaleMode.Font;
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            
             InitializeComponent();
             
             foreach (TabPage page in optionsTabs.TabPages)
@@ -83,12 +80,74 @@ namespace Fusion8.Cropper
             }
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
-            base.OnLoad(e);
+            ScaleControls(e.DeviceDpiNew, e.DeviceDpiOld);
+            base.OnDpiChanged(e);
+        }
 
-            this.Width = (int)(Width * (DeviceDpi / 96.0f));
-            this.Height = (int)(Height * (DeviceDpi / 96.0f));
+        private void ScaleControls(int deviceDpiNew, int deviceDpiOld)
+        {
+            float dpiScale = deviceDpiNew / 96.0f;
+            Font prototype = new Font(DefaultFont.FontFamily, DefaultFont.Size * dpiScale);
+            foreach (Control control in GetControlHierarchy(this))
+            {
+                switch (control)
+                {
+                    case TextBox _:
+                    case ShortcutTextBox _:
+                    case TreeView _:
+                        control.Font = new Font(prototype, control.Font.Style);
+                        break;
+                    case ListView listView:
+                        listView.Font = new Font(prototype, listView.Font.Style);
+                        float headerScale = deviceDpiNew / (float) deviceDpiOld;
+                        foreach (ColumnHeader column in listView.Columns)
+                            column.Width = (int) (column.Width * headerScale);
+                        break;
+                }
+            }
+        }
+
+        private IEnumerable<Control> GetControlHierarchy(Control root)
+        {
+            var queue = new Queue<Control>();
+
+            queue.Enqueue(root);
+
+            do
+            {
+                var control = queue.Dequeue();
+
+                yield return control;
+
+                foreach (var child in control.Controls.OfType<Control>())
+                    queue.Enqueue(child);
+
+            } while (queue.Count > 0);
+
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            MoveAround();
+            base.OnShown(e);
+        }
+
+        private void MoveAround()
+        {
+            Point targetLocation = Location;
+
+            Screen currentScreen = Screen.FromControl(this);
+            if (!currentScreen.Primary)
+            {
+                Location = Screen.PrimaryScreen.Bounds.Location;
+//                Invalidate();
+            }
+            
+            Location = targetLocation;
+            if (DeviceDpi > 96)
+                Location = new Point(Location.X - 120, Location.Y - 120);
         }
 
         private void HotKeySelectionOnHotKeyRegister(object sender, HotKeyRegistrationEventArgs e)
@@ -401,8 +460,8 @@ namespace Fusion8.Cropper
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.heightInput = new System.Windows.Forms.TextBox();
-            this.widthInput = new System.Windows.Forms.TextBox();
+            this.widthInput = new Fusion8.Cropper.DpiAwareTextBox();
+            this.heightInput = new Fusion8.Cropper.DpiAwareTextBox();
             this.folderChooser = new System.Windows.Forms.TextBox();
             this.fullImageTemplate = new System.Windows.Forms.TextBox();
             this.thumbImageTemplate = new System.Windows.Forms.TextBox();
@@ -415,21 +474,23 @@ namespace Fusion8.Cropper
             this.thumbImageMenuButton = new Fusion8.Cropper.Core.DropDownButton();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.optionsNavigator = new System.Windows.Forms.TreeView();
+            this.line = new System.Windows.Forms.Label();
             this.optionsTabs = new Fusion8.Cropper.Core.TablessTabControl();
             this.appearanceTab = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.buttonRemoveSize = new System.Windows.Forms.Button();
-            this.buttonAddSize = new System.Windows.Forms.Button();
-            this.predefinedSizeList = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.hideAfterCapture = new System.Windows.Forms.CheckBox();
-            this.opaityGroup = new System.Windows.Forms.GroupBox();
-            this.opacityValue = new System.Windows.Forms.Label();
-            this.showOpacityMenu = new System.Windows.Forms.CheckBox();
-            this.opacitySlider = new System.Windows.Forms.TrackBar();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.opacityDescription = new System.Windows.Forms.Label();
+            this.opacityValue = new System.Windows.Forms.Label();
+            this.opacitySlider = new System.Windows.Forms.TrackBar();
+            this.hideAfterCapture = new System.Windows.Forms.CheckBox();
+            this.showOpacityMenu = new System.Windows.Forms.CheckBox();
+            this.behaviorTab = new System.Windows.Forms.TabPage();
+            this.rememberPosition = new System.Windows.Forms.CheckBox();
+            this.buttonRemoveSize = new System.Windows.Forms.Button();
+            this.allowMultipleCropperInstances = new System.Windows.Forms.CheckBox();
+            this.predefinedSizeList = new System.Windows.Forms.ListBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonAddSize = new System.Windows.Forms.Button();
             this.outputTab = new System.Windows.Forms.TabPage();
             this.outputTemplateGroup = new System.Windows.Forms.GroupBox();
             this.outputTemplatesDescription = new System.Windows.Forms.Label();
@@ -447,22 +508,20 @@ namespace Fusion8.Cropper
             this.backgroundColor = new System.Windows.Forms.Panel();
             this.otherOptionsDescription = new System.Windows.Forms.GroupBox();
             this.includeMouseCursorInCapture = new System.Windows.Forms.CheckBox();
-            this.allowMultipleCropperInstances = new System.Windows.Forms.CheckBox();
             this.keyboardTab = new System.Windows.Forms.TabPage();
             this.keyboardShortcutsGroup = new System.Windows.Forms.GroupBox();
             this.hotKeySelection = new Fusion8.Cropper.Core.HotKeySelection();
             this.pluginsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.line = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.outputFolderGroup.SuspendLayout();
             this.optionsTabs.SuspendLayout();
             this.appearanceTab.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.opaityGroup.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
+            this.behaviorTab.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.outputTab.SuspendLayout();
             this.outputTemplateGroup.SuspendLayout();
             this.capturesTab.SuspendLayout();
@@ -477,7 +536,7 @@ namespace Fusion8.Cropper
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(322, 516);
+            this.okButton.Location = new System.Drawing.Point(325, 405);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 25);
             this.okButton.TabIndex = 1;
@@ -488,7 +547,7 @@ namespace Fusion8.Cropper
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(407, 516);
+            this.cancelButton.Location = new System.Drawing.Point(410, 405);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 25);
             this.cancelButton.TabIndex = 2;
@@ -599,38 +658,40 @@ namespace Fusion8.Cropper
             this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider.ContainerControl = this;
             // 
+            // widthInput
+            // 
+            this.errorProvider.SetIconPadding(this.widthInput, 142);
+            this.widthInput.Location = new System.Drawing.Point(3, 3);
+            this.widthInput.MaxLength = 4;
+            this.widthInput.Name = "widthInput";
+            this.widthInput.Size = new System.Drawing.Size(39, 20);
+            this.widthInput.TabIndex = 0;
+            this.widthInput.Text = "200";
+            this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
+            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
+            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            // 
             // heightInput
             // 
+            this.heightInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.errorProvider.SetIconPadding(this.heightInput, 85);
-            this.heightInput.Location = new System.Drawing.Point(66, 59);
+            this.heightInput.Location = new System.Drawing.Point(66, 3);
             this.heightInput.MaxLength = 4;
             this.heightInput.Name = "heightInput";
-            this.heightInput.Size = new System.Drawing.Size(39, 20);
+            this.heightInput.Size = new System.Drawing.Size(39, 21);
             this.heightInput.TabIndex = 2;
+            this.heightInput.Text = "300";
             this.toolTip.SetToolTip(this.heightInput, "The height of the crop form.");
             this.heightInput.WordWrap = false;
             this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             this.heightInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
             this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
             // 
-            // widthInput
-            // 
-            this.errorProvider.SetIconPadding(this.widthInput, 142);
-            this.widthInput.Location = new System.Drawing.Point(9, 59);
-            this.widthInput.MaxLength = 4;
-            this.widthInput.Name = "widthInput";
-            this.widthInput.Size = new System.Drawing.Size(39, 20);
-            this.widthInput.TabIndex = 0;
-            this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
-            this.widthInput.WordWrap = false;
-            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
-            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
-            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
-            // 
             // folderChooser
             // 
             this.errorProvider.SetIconPadding(this.folderChooser, 26);
-            this.folderChooser.Location = new System.Drawing.Point(6, 99);
+            this.folderChooser.Location = new System.Drawing.Point(9, 98);
             this.folderChooser.Name = "folderChooser";
             this.folderChooser.Size = new System.Drawing.Size(275, 20);
             this.folderChooser.TabIndex = 4;
@@ -746,21 +807,29 @@ namespace Fusion8.Cropper
             // 
             // optionsNavigator
             // 
-            this.optionsNavigator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.optionsNavigator.Indent = 12;
             this.optionsNavigator.Location = new System.Drawing.Point(6, 6);
             this.optionsNavigator.Name = "optionsNavigator";
             this.optionsNavigator.ShowLines = false;
-            this.optionsNavigator.Size = new System.Drawing.Size(133, 502);
+            this.optionsNavigator.Size = new System.Drawing.Size(133, 392);
             this.optionsNavigator.TabIndex = 3;
             this.optionsNavigator.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleOptionsNavigatorAfterSelect);
             // 
+            // line
+            // 
+            this.line.AutoSize = true;
+            this.line.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.line.Location = new System.Drawing.Point(151, 397);
+            this.line.MaximumSize = new System.Drawing.Size(0, 1);
+            this.line.MinimumSize = new System.Drawing.Size(335, 1);
+            this.line.Name = "line";
+            this.line.Size = new System.Drawing.Size(335, 1);
+            this.line.TabIndex = 4;
+            // 
             // optionsTabs
             // 
-            this.optionsTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsTabs.Controls.Add(this.appearanceTab);
+            this.optionsTabs.Controls.Add(this.behaviorTab);
             this.optionsTabs.Controls.Add(this.outputTab);
             this.optionsTabs.Controls.Add(this.capturesTab);
             this.optionsTabs.Controls.Add(this.keyboardTab);
@@ -769,159 +838,179 @@ namespace Fusion8.Cropper
             this.optionsTabs.Multiline = true;
             this.optionsTabs.Name = "optionsTabs";
             this.optionsTabs.SelectedIndex = 0;
-            this.optionsTabs.Size = new System.Drawing.Size(347, 476);
+            this.optionsTabs.Size = new System.Drawing.Size(347, 392);
             this.optionsTabs.TabIndex = 0;
             // 
             // appearanceTab
             // 
-            this.appearanceTab.Controls.Add(this.groupBox2);
-            this.appearanceTab.Controls.Add(this.groupBox1);
-            this.appearanceTab.Controls.Add(this.opaityGroup);
+            this.appearanceTab.Controls.Add(this.tableLayoutPanel1);
             this.appearanceTab.Location = new System.Drawing.Point(4, 22);
             this.appearanceTab.Name = "appearanceTab";
-            this.appearanceTab.Size = new System.Drawing.Size(339, 450);
+            this.appearanceTab.Size = new System.Drawing.Size(339, 366);
             this.appearanceTab.TabIndex = 2;
             this.appearanceTab.Text = "Appearance";
             this.appearanceTab.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // tableLayoutPanel1
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.heightInput);
-            this.groupBox2.Controls.Add(this.widthInput);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.buttonRemoveSize);
-            this.groupBox2.Controls.Add(this.buttonAddSize);
-            this.groupBox2.Controls.Add(this.predefinedSizeList);
-            this.groupBox2.Location = new System.Drawing.Point(8, 244);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(325, 200);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Saved Si&zes";
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.opacityDescription, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.opacityValue, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.opacitySlider, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.hideAfterCapture, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.showOpacityMenu, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 13);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.79105F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.20895F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(314, 185);
+            this.tableLayoutPanel1.TabIndex = 7;
             // 
-            // label2
+            // opacityDescription
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(272, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Use Ctrl + <number> to quickly access your saved sizes.";
+            this.opacityDescription.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.opacityDescription, 2);
+            this.opacityDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.opacityDescription.Location = new System.Drawing.Point(3, 0);
+            this.opacityDescription.Name = "opacityDescription";
+            this.opacityDescription.Size = new System.Drawing.Size(288, 22);
+            this.opacityDescription.TabIndex = 0;
+            this.opacityDescription.Text = "A&djust the crop form\'s opacity level.";
             // 
-            // label1
+            // opacityValue
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(52, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(12, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "x";
+            this.opacityValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.opacityValue.Location = new System.Drawing.Point(3, 22);
+            this.opacityValue.Name = "opacityValue";
+            this.opacityValue.Size = new System.Drawing.Size(35, 31);
+            this.opacityValue.TabIndex = 1;
+            this.opacityValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.opacityValue.Click += new System.EventHandler(this.opacityValue_Click);
             // 
-            // buttonRemoveSize
+            // opacitySlider
             // 
-            this.buttonRemoveSize.Location = new System.Drawing.Point(115, 86);
-            this.buttonRemoveSize.Name = "buttonRemoveSize";
-            this.buttonRemoveSize.Size = new System.Drawing.Size(75, 23);
-            this.buttonRemoveSize.TabIndex = 5;
-            this.buttonRemoveSize.Text = "&Remove";
-            this.buttonRemoveSize.UseVisualStyleBackColor = true;
-            this.buttonRemoveSize.Click += new System.EventHandler(this.HandleRemoveSizeClick);
-            // 
-            // buttonAddSize
-            // 
-            this.buttonAddSize.Location = new System.Drawing.Point(115, 58);
-            this.buttonAddSize.Name = "buttonAddSize";
-            this.buttonAddSize.Size = new System.Drawing.Size(75, 23);
-            this.buttonAddSize.TabIndex = 3;
-            this.buttonAddSize.Text = "&Add";
-            this.buttonAddSize.UseVisualStyleBackColor = true;
-            this.buttonAddSize.Click += new System.EventHandler(this.HandleAddSizeClick);
-            // 
-            // predefinedSizeList
-            // 
-            this.predefinedSizeList.FormattingEnabled = true;
-            this.predefinedSizeList.Location = new System.Drawing.Point(9, 86);
-            this.predefinedSizeList.Name = "predefinedSizeList";
-            this.predefinedSizeList.Size = new System.Drawing.Size(96, 82);
-            this.predefinedSizeList.TabIndex = 4;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.hideAfterCapture);
-            this.groupBox1.Location = new System.Drawing.Point(8, 169);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 69);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "After &Capture";
+            this.opacitySlider.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.opacitySlider.LargeChange = 1;
+            this.opacitySlider.Location = new System.Drawing.Point(44, 25);
+            this.opacitySlider.Maximum = 9;
+            this.opacitySlider.Minimum = 1;
+            this.opacitySlider.Name = "opacitySlider";
+            this.opacitySlider.Size = new System.Drawing.Size(247, 25);
+            this.opacitySlider.TabIndex = 2;
+            this.opacitySlider.Value = 5;
+            this.opacitySlider.ValueChanged += new System.EventHandler(this.HandleOpacitySliderValueChanged);
             // 
             // hideAfterCapture
             // 
             this.hideAfterCapture.AutoSize = true;
-            this.hideAfterCapture.Location = new System.Drawing.Point(9, 24);
+            this.tableLayoutPanel1.SetColumnSpan(this.hideAfterCapture, 2);
+            this.hideAfterCapture.Location = new System.Drawing.Point(3, 104);
             this.hideAfterCapture.Name = "hideAfterCapture";
             this.hideAfterCapture.Size = new System.Drawing.Size(174, 17);
             this.hideAfterCapture.TabIndex = 2;
             this.hideAfterCapture.Text = "Hide crop window &after capture";
             this.hideAfterCapture.UseVisualStyleBackColor = true;
             // 
-            // opaityGroup
-            // 
-            this.opaityGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.opaityGroup.Controls.Add(this.opacityValue);
-            this.opaityGroup.Controls.Add(this.showOpacityMenu);
-            this.opaityGroup.Controls.Add(this.opacitySlider);
-            this.opaityGroup.Controls.Add(this.opacityDescription);
-            this.opaityGroup.Location = new System.Drawing.Point(8, 8);
-            this.opaityGroup.Name = "opaityGroup";
-            this.opaityGroup.Size = new System.Drawing.Size(325, 155);
-            this.opaityGroup.TabIndex = 0;
-            this.opaityGroup.TabStop = false;
-            this.opaityGroup.Text = "&Opacity";
-            // 
-            // opacityValue
-            // 
-            this.opacityValue.Location = new System.Drawing.Point(6, 44);
-            this.opacityValue.Name = "opacityValue";
-            this.opacityValue.Size = new System.Drawing.Size(36, 24);
-            this.opacityValue.TabIndex = 1;
-            this.opacityValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // showOpacityMenu
             // 
             this.showOpacityMenu.AutoSize = true;
-            this.showOpacityMenu.Location = new System.Drawing.Point(9, 100);
+            this.tableLayoutPanel1.SetColumnSpan(this.showOpacityMenu, 2);
+            this.showOpacityMenu.Location = new System.Drawing.Point(3, 79);
             this.showOpacityMenu.Name = "showOpacityMenu";
             this.showOpacityMenu.Size = new System.Drawing.Size(144, 17);
             this.showOpacityMenu.TabIndex = 3;
             this.showOpacityMenu.Text = "&Show opacity menu item.";
             // 
-            // opacitySlider
+            // behaviorTab
             // 
-            this.opacitySlider.LargeChange = 1;
-            this.opacitySlider.Location = new System.Drawing.Point(48, 44);
-            this.opacitySlider.Maximum = 9;
-            this.opacitySlider.Minimum = 1;
-            this.opacitySlider.Name = "opacitySlider";
-            this.opacitySlider.Size = new System.Drawing.Size(262, 45);
-            this.opacitySlider.TabIndex = 2;
-            this.opacitySlider.Value = 5;
-            this.opacitySlider.ValueChanged += new System.EventHandler(this.HandleOpacitySliderValueChanged);
+            this.behaviorTab.Controls.Add(this.rememberPosition);
+            this.behaviorTab.Controls.Add(this.buttonRemoveSize);
+            this.behaviorTab.Controls.Add(this.allowMultipleCropperInstances);
+            this.behaviorTab.Controls.Add(this.predefinedSizeList);
+            this.behaviorTab.Controls.Add(this.flowLayoutPanel1);
+            this.behaviorTab.Controls.Add(this.buttonAddSize);
+            this.behaviorTab.Location = new System.Drawing.Point(4, 22);
+            this.behaviorTab.Name = "behaviorTab";
+            this.behaviorTab.Padding = new System.Windows.Forms.Padding(3);
+            this.behaviorTab.Size = new System.Drawing.Size(339, 366);
+            this.behaviorTab.TabIndex = 5;
+            this.behaviorTab.Text = "Behavior";
+            this.behaviorTab.UseVisualStyleBackColor = true;
             // 
-            // opacityDescription
+            // rememberPosition
             // 
-            this.opacityDescription.AutoSize = true;
-            this.opacityDescription.Location = new System.Drawing.Point(6, 20);
-            this.opacityDescription.Name = "opacityDescription";
-            this.opacityDescription.Size = new System.Drawing.Size(173, 13);
-            this.opacityDescription.TabIndex = 0;
-            this.opacityDescription.Text = "A&djust the crop form\'s opacity level.";
+            this.rememberPosition.Location = new System.Drawing.Point(22, 250);
+            this.rememberPosition.Name = "rememberPosition";
+            this.rememberPosition.Size = new System.Drawing.Size(291, 24);
+            this.rememberPosition.TabIndex = 6;
+            this.rememberPosition.Text = "Remember &location";
+            // 
+            // buttonRemoveSize
+            // 
+            this.buttonRemoveSize.AutoSize = true;
+            this.buttonRemoveSize.Location = new System.Drawing.Point(161, 126);
+            this.buttonRemoveSize.Name = "buttonRemoveSize";
+            this.buttonRemoveSize.Size = new System.Drawing.Size(57, 23);
+            this.buttonRemoveSize.TabIndex = 5;
+            this.buttonRemoveSize.Text = "&Remove";
+            this.buttonRemoveSize.UseVisualStyleBackColor = true;
+            this.buttonRemoveSize.Click += new System.EventHandler(this.HandleRemoveSizeClick);
+            // 
+            // allowMultipleCropperInstances
+            // 
+            this.allowMultipleCropperInstances.Location = new System.Drawing.Point(22, 220);
+            this.allowMultipleCropperInstances.Name = "allowMultipleCropperInstances";
+            this.allowMultipleCropperInstances.Size = new System.Drawing.Size(291, 24);
+            this.allowMultipleCropperInstances.TabIndex = 3;
+            this.allowMultipleCropperInstances.Text = "Allow multiple &instances.";
+            // 
+            // predefinedSizeList
+            // 
+            this.predefinedSizeList.FormattingEnabled = true;
+            this.predefinedSizeList.Location = new System.Drawing.Point(32, 86);
+            this.predefinedSizeList.Name = "predefinedSizeList";
+            this.predefinedSizeList.Size = new System.Drawing.Size(103, 108);
+            this.predefinedSizeList.TabIndex = 4;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.widthInput);
+            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.Controls.Add(this.heightInput);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(49, 30);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(108, 29);
+            this.flowLayoutPanel1.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 3);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(12, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "x";
+            // 
+            // buttonAddSize
+            // 
+            this.buttonAddSize.AutoSize = true;
+            this.buttonAddSize.Location = new System.Drawing.Point(152, 86);
+            this.buttonAddSize.Name = "buttonAddSize";
+            this.buttonAddSize.Size = new System.Drawing.Size(57, 23);
+            this.buttonAddSize.TabIndex = 3;
+            this.buttonAddSize.Text = "&Add";
+            this.buttonAddSize.UseVisualStyleBackColor = true;
+            this.buttonAddSize.Click += new System.EventHandler(this.HandleAddSizeClick);
             // 
             // outputTab
             // 
@@ -929,7 +1018,7 @@ namespace Fusion8.Cropper
             this.outputTab.Controls.Add(this.outputTemplateGroup);
             this.outputTab.Location = new System.Drawing.Point(4, 22);
             this.outputTab.Name = "outputTab";
-            this.outputTab.Size = new System.Drawing.Size(339, 450);
+            this.outputTab.Size = new System.Drawing.Size(339, 366);
             this.outputTab.TabIndex = 0;
             this.outputTab.Text = "Output";
             this.outputTab.UseVisualStyleBackColor = true;
@@ -985,7 +1074,7 @@ namespace Fusion8.Cropper
             this.capturesTab.Controls.Add(this.otherOptionsDescription);
             this.capturesTab.Location = new System.Drawing.Point(4, 22);
             this.capturesTab.Name = "capturesTab";
-            this.capturesTab.Size = new System.Drawing.Size(339, 450);
+            this.capturesTab.Size = new System.Drawing.Size(339, 366);
             this.capturesTab.TabIndex = 1;
             this.capturesTab.Text = "Capturing";
             this.capturesTab.UseVisualStyleBackColor = true;
@@ -1034,7 +1123,7 @@ namespace Fusion8.Cropper
             this.nonRectangularCapturesGroup.Controls.Add(this.backgroundColor);
             this.nonRectangularCapturesGroup.Location = new System.Drawing.Point(8, 148);
             this.nonRectangularCapturesGroup.Name = "nonRectangularCapturesGroup";
-            this.nonRectangularCapturesGroup.Size = new System.Drawing.Size(316, 174);
+            this.nonRectangularCapturesGroup.Size = new System.Drawing.Size(316, 154);
             this.nonRectangularCapturesGroup.TabIndex = 1;
             this.nonRectangularCapturesGroup.TabStop = false;
             this.nonRectangularCapturesGroup.Text = "Non-&Rectangular Windows";
@@ -1042,7 +1131,7 @@ namespace Fusion8.Cropper
             // colorChooserButton
             // 
             this.colorChooserButton.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.colorChooserButton.Location = new System.Drawing.Point(209, 131);
+            this.colorChooserButton.Location = new System.Drawing.Point(209, 113);
             this.colorChooserButton.Name = "colorChooserButton";
             this.colorChooserButton.Size = new System.Drawing.Size(101, 30);
             this.colorChooserButton.TabIndex = 2;
@@ -1059,7 +1148,7 @@ namespace Fusion8.Cropper
             // 
             // colorNonFormAreaCheck
             // 
-            this.colorNonFormAreaCheck.Location = new System.Drawing.Point(9, 101);
+            this.colorNonFormAreaCheck.Location = new System.Drawing.Point(9, 83);
             this.colorNonFormAreaCheck.Name = "colorNonFormAreaCheck";
             this.colorNonFormAreaCheck.Size = new System.Drawing.Size(290, 24);
             this.colorNonFormAreaCheck.TabIndex = 1;
@@ -1068,7 +1157,7 @@ namespace Fusion8.Cropper
             // backgroundColor
             // 
             this.backgroundColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.backgroundColor.Location = new System.Drawing.Point(9, 131);
+            this.backgroundColor.Location = new System.Drawing.Point(9, 113);
             this.backgroundColor.Name = "backgroundColor";
             this.backgroundColor.Size = new System.Drawing.Size(194, 30);
             this.backgroundColor.TabIndex = 3;
@@ -1076,29 +1165,20 @@ namespace Fusion8.Cropper
             // otherOptionsDescription
             // 
             this.otherOptionsDescription.Controls.Add(this.includeMouseCursorInCapture);
-            this.otherOptionsDescription.Controls.Add(this.allowMultipleCropperInstances);
-            this.otherOptionsDescription.Location = new System.Drawing.Point(8, 328);
+            this.otherOptionsDescription.Location = new System.Drawing.Point(8, 308);
             this.otherOptionsDescription.Name = "otherOptionsDescription";
-            this.otherOptionsDescription.Size = new System.Drawing.Size(316, 81);
+            this.otherOptionsDescription.Size = new System.Drawing.Size(316, 51);
             this.otherOptionsDescription.TabIndex = 4;
             this.otherOptionsDescription.TabStop = false;
             this.otherOptionsDescription.Text = "Other &Options";
             // 
             // includeMouseCursorInCapture
             // 
-            this.includeMouseCursorInCapture.Location = new System.Drawing.Point(9, 44);
+            this.includeMouseCursorInCapture.Location = new System.Drawing.Point(9, 21);
             this.includeMouseCursorInCapture.Name = "includeMouseCursorInCapture";
             this.includeMouseCursorInCapture.Size = new System.Drawing.Size(291, 20);
             this.includeMouseCursorInCapture.TabIndex = 4;
             this.includeMouseCursorInCapture.Text = "Include &mouse cursor in capture.";
-            // 
-            // allowMultipleCropperInstances
-            // 
-            this.allowMultipleCropperInstances.Location = new System.Drawing.Point(9, 19);
-            this.allowMultipleCropperInstances.Name = "allowMultipleCropperInstances";
-            this.allowMultipleCropperInstances.Size = new System.Drawing.Size(291, 24);
-            this.allowMultipleCropperInstances.TabIndex = 3;
-            this.allowMultipleCropperInstances.Text = "Allow multiple &instances.";
             // 
             // keyboardTab
             // 
@@ -1106,7 +1186,7 @@ namespace Fusion8.Cropper
             this.keyboardTab.Location = new System.Drawing.Point(4, 22);
             this.keyboardTab.Name = "keyboardTab";
             this.keyboardTab.Padding = new System.Windows.Forms.Padding(3);
-            this.keyboardTab.Size = new System.Drawing.Size(339, 450);
+            this.keyboardTab.Size = new System.Drawing.Size(339, 366);
             this.keyboardTab.TabIndex = 4;
             this.keyboardTab.Text = "Keyboard";
             this.keyboardTab.UseVisualStyleBackColor = true;
@@ -1119,7 +1199,7 @@ namespace Fusion8.Cropper
             this.keyboardShortcutsGroup.Controls.Add(this.hotKeySelection);
             this.keyboardShortcutsGroup.Location = new System.Drawing.Point(7, 7);
             this.keyboardShortcutsGroup.Name = "keyboardShortcutsGroup";
-            this.keyboardShortcutsGroup.Size = new System.Drawing.Size(320, 440);
+            this.keyboardShortcutsGroup.Size = new System.Drawing.Size(320, 356);
             this.keyboardShortcutsGroup.TabIndex = 1;
             this.keyboardShortcutsGroup.TabStop = false;
             this.keyboardShortcutsGroup.Text = "Keyboard Shortcuts";
@@ -1143,7 +1223,7 @@ namespace Fusion8.Cropper
             this.hotKeySelection.Scrollable = true;
             this.hotKeySelection.ShowGroups = true;
             this.hotKeySelection.ShowItemToolTips = false;
-            this.hotKeySelection.Size = new System.Drawing.Size(307, 415);
+            this.hotKeySelection.Size = new System.Drawing.Size(307, 331);
             this.hotKeySelection.SmallImageList = null;
             this.hotKeySelection.TabIndex = 0;
             this.hotKeySelection.TopItem = null;
@@ -1154,7 +1234,7 @@ namespace Fusion8.Cropper
             this.pluginsTab.Controls.Add(this.comboBox1);
             this.pluginsTab.Location = new System.Drawing.Point(4, 22);
             this.pluginsTab.Name = "pluginsTab";
-            this.pluginsTab.Size = new System.Drawing.Size(339, 450);
+            this.pluginsTab.Size = new System.Drawing.Size(339, 366);
             this.pluginsTab.TabIndex = 3;
             this.pluginsTab.Text = "Plug-ins";
             this.pluginsTab.UseVisualStyleBackColor = true;
@@ -1176,22 +1256,11 @@ namespace Fusion8.Cropper
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // line
-            // 
-            this.line.AutoSize = true;
-            this.line.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.line.Location = new System.Drawing.Point(151, 506);
-            this.line.MaximumSize = new System.Drawing.Size(0, 1);
-            this.line.MinimumSize = new System.Drawing.Size(335, 1);
-            this.line.Name = "line";
-            this.line.Size = new System.Drawing.Size(335, 1);
-            this.line.TabIndex = 4;
-            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 552);
+            this.ClientSize = new System.Drawing.Size(498, 441);
             this.Controls.Add(this.line);
             this.Controls.Add(this.optionsNavigator);
             this.Controls.Add(this.optionsTabs);
@@ -1211,13 +1280,13 @@ namespace Fusion8.Cropper
             this.outputFolderGroup.PerformLayout();
             this.optionsTabs.ResumeLayout(false);
             this.appearanceTab.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.opaityGroup.ResumeLayout(false);
-            this.opaityGroup.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
+            this.behaviorTab.ResumeLayout(false);
+            this.behaviorTab.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.outputTab.ResumeLayout(false);
             this.outputTemplateGroup.ResumeLayout(false);
             this.outputTemplateGroup.PerformLayout();
@@ -1278,7 +1347,6 @@ namespace Fusion8.Cropper
         private Label outputTemplatesDescription;
         private Label outputFolderDescription;
         private Label hotKeysDescription;
-        private Label opacityDescription;
         private Panel backgroundColor;
         private GroupBox nonRectangularCapturesGroup;
         private GroupBox outputFolderGroup;
@@ -1286,7 +1354,6 @@ namespace Fusion8.Cropper
         private TabPage outputTab;
         private TabPage capturesTab;
         private TabPage appearanceTab;
-        private GroupBox opaityGroup;
         private TabPage pluginsTab;
         private ComboBox comboBox1;
         private Panel panel1;
@@ -1294,17 +1361,15 @@ namespace Fusion8.Cropper
         private Button button1;
         private TextBox folderChooser;
         private CheckBox hideAfterCapture;
-        private GroupBox groupBox2;
         private Button buttonRemoveSize;
         private Button buttonAddSize;
         private ListBox predefinedSizeList;
         private Label label1;
-        private TextBox heightInput;
-        private TextBox widthInput;
+        private DpiAwareTextBox heightInput;
+        private DpiAwareTextBox widthInput;
         private IContainer components;
 
         private static readonly Regex IsNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);
-        private Label label2;
         private TabPage keyboardTab;
         private HotKeySelection hotKeySelection;
         private MenuItem templateTimestamp;
@@ -1313,10 +1378,32 @@ namespace Fusion8.Cropper
         private CheckBox includeMouseCursorInCapture;
         private bool addingSize;
         private TreeView optionsNavigator;
-        private GroupBox groupBox1;
         private Label line;
+        private Label opacityDescription;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TabPage behaviorTab;
+        private CheckBox rememberPosition;
         private GroupBox keyboardShortcutsGroup;
 
         #endregion
+
+        private void opacityValue_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+    public class DpiAwareTextBox : TextBox
+    {
+        protected override void OnDpiChangedBeforeParent(EventArgs e)
+        {
+            base.OnDpiChangedBeforeParent(e);
+        }
+
+        protected override void OnDpiChangedAfterParent(EventArgs e)
+        {
+            base.OnDpiChangedAfterParent(e);
+        }
     }
 }

@@ -12,13 +12,23 @@ namespace Fusion8.Cropper
 {
     public class LayeredForm : Form
     {
+        #region Member Fields
+
+        private bool freezePainting;
+        private double layerOpacity = 1.0;
+
+        #endregion
+        
+        [Category("Appearance")]
+        [Description("Occurs when the layered form needs repainting.")]
+        protected event EventHandler<PaintLayerEventArgs> PaintLayer;
+
         #region .ctor
 
         protected LayeredForm()
         {
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.Manual;
-            
         }
 
         #endregion
@@ -42,10 +52,6 @@ namespace Fusion8.Cropper
 
         #endregion
 
-        [Category("Appearance")]
-        [Description("Occurs when the layered form needs repainting.")]
-        protected event EventHandler<PaintLayerEventArgs> PaintLayer;
-
         #region Method Overrides
 
         protected override void OnResize(EventArgs e)
@@ -64,13 +70,6 @@ namespace Fusion8.Cropper
 
             // Eat event to prevent rendering error when WM_PAINT message is sent.
         }
-
-        #region Member Fields
-
-        private bool freezePainting;
-        private double layerOpacity = 1.0;
-
-        #endregion
 
         #region Property Accessors
 

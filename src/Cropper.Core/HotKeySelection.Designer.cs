@@ -36,16 +36,15 @@ namespace Fusion8.Cropper.Core
             this.shortcut = new Fusion8.Cropper.Core.ShortcutTextBox();
             this.topPanel = new System.Windows.Forms.Panel();
             this.bottomPanel = new System.Windows.Forms.Panel();
-            this.bottomRightPanel = new System.Windows.Forms.Panel();
-            this.bottomLeftPanel = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.topPanel.SuspendLayout();
             this.bottomPanel.SuspendLayout();
-            this.bottomRightPanel.SuspendLayout();
-            this.bottomLeftPanel.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // shortcutList
             // 
+            this.shortcutList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.shortcutList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.actionHeader,
             this.shortcutHeader});
@@ -75,9 +74,11 @@ namespace Fusion8.Cropper.Core
             // 
             // shortcutAssign
             // 
-            this.shortcutAssign.Location = new System.Drawing.Point(6, 6);
+            this.shortcutAssign.AutoSize = true;
+            this.shortcutAssign.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.shortcutAssign.Location = new System.Drawing.Point(217, 3);
             this.shortcutAssign.Name = "shortcutAssign";
-            this.shortcutAssign.Size = new System.Drawing.Size(75, 26);
+            this.shortcutAssign.Size = new System.Drawing.Size(72, 22);
             this.shortcutAssign.TabIndex = 5;
             this.shortcutAssign.Text = "&Assign";
             this.shortcutAssign.Click += new System.EventHandler(this.HandleShortcutAssignClick);
@@ -85,26 +86,28 @@ namespace Fusion8.Cropper.Core
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 12);
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label2.Size = new System.Drawing.Size(73, 28);
             this.label2.TabIndex = 2;
             this.label2.Text = "Press &Key(s):";
             // 
             // shortcut
             // 
             this.shortcut.Alt = false;
-            this.shortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.shortcut.Control = false;
+            this.shortcut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.shortcut.KeyCode = System.Windows.Forms.Keys.None;
             this.shortcut.KeyData = System.Windows.Forms.Keys.None;
-            this.shortcut.Location = new System.Drawing.Point(77, 9);
+            this.shortcut.Location = new System.Drawing.Point(76, 3);
             this.shortcut.Mode = Fusion8.Cropper.Core.ShortcutMode.Global;
             this.shortcut.Modifiers = System.Windows.Forms.Keys.None;
             this.shortcut.Name = "shortcut";
             this.shortcut.Shift = false;
-            this.shortcut.Size = new System.Drawing.Size(669, 20);
+            this.shortcut.Size = new System.Drawing.Size(135, 22);
             this.shortcut.TabIndex = 4;
             this.shortcut.Text = "None";
             this.shortcut.Enter += new System.EventHandler(this.HandleShortcutEnter);
@@ -123,46 +126,40 @@ namespace Fusion8.Cropper.Core
             // 
             // bottomPanel
             // 
-            this.bottomPanel.Controls.Add(this.bottomLeftPanel);
-            this.bottomPanel.Controls.Add(this.bottomRightPanel);
+            this.bottomPanel.Controls.Add(this.tableLayoutPanel1);
             this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.bottomPanel.Location = new System.Drawing.Point(0, 512);
             this.bottomPanel.Name = "bottomPanel";
             this.bottomPanel.Size = new System.Drawing.Size(841, 48);
             this.bottomPanel.TabIndex = 7;
             // 
-            // bottomRightPanel
+            // tableLayoutPanel1
             // 
-            this.bottomRightPanel.Controls.Add(this.shortcutAssign);
-            this.bottomRightPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.bottomRightPanel.Location = new System.Drawing.Point(752, 0);
-            this.bottomRightPanel.Name = "bottomRightPanel";
-            this.bottomRightPanel.Size = new System.Drawing.Size(89, 48);
-            this.bottomRightPanel.TabIndex = 6;
-            // 
-            // bottomLeftPanel
-            // 
-            this.bottomLeftPanel.Controls.Add(this.shortcut);
-            this.bottomLeftPanel.Controls.Add(this.label2);
-            this.bottomLeftPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomLeftPanel.Location = new System.Drawing.Point(0, 0);
-            this.bottomLeftPanel.Name = "bottomLeftPanel";
-            this.bottomLeftPanel.Size = new System.Drawing.Size(752, 48);
-            this.bottomLeftPanel.TabIndex = 7;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.11215F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.88785F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel1.Controls.Add(this.shortcutAssign, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.shortcut, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 4);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(292, 28);
+            this.tableLayoutPanel1.TabIndex = 10;
             // 
             // HotKeySelection
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.bottomPanel);
             this.Name = "HotKeySelection";
             this.Size = new System.Drawing.Size(841, 560);
             this.topPanel.ResumeLayout(false);
             this.bottomPanel.ResumeLayout(false);
-            this.bottomRightPanel.ResumeLayout(false);
-            this.bottomLeftPanel.ResumeLayout(false);
-            this.bottomLeftPanel.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,7 +175,6 @@ namespace Fusion8.Cropper.Core
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.Panel bottomPanel;
-        private System.Windows.Forms.Panel bottomLeftPanel;
-        private System.Windows.Forms.Panel bottomRightPanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

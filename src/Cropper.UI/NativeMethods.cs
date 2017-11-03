@@ -12,6 +12,48 @@ namespace Fusion8.Cropper
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class NativeMethods
     {
+        internal enum DpiType
+        {
+            Effective = 0,
+            Angular = 1,
+            Raw = 2,
+            Default = Effective,
+        }
+        
+        internal enum MonitorOptions
+        {
+            Null = 0,
+            Primary = 1,
+            Nearest = 2,
+        }
+        
+        internal enum ProcessDpiAwareness
+        {
+            Unaware = 0,
+            SystemDpiAware = 1,
+            PerMonitorDpiAware = 2,
+        }
+
+        [Flags]
+        internal enum SetWindowPosFlags : uint
+        {
+            AsynchronousWindowPosition = 0x4000,
+            DeferErase = 0x2000,
+            DrawFrame = 0x0020,
+            FrameChanged = 0x0020,
+            HideWindow = 0x0080,
+            DoNotActivate = 0x0010,
+            DoNotCopyBits = 0x0100,
+            IgnoreMove = 0x0002,
+            DoNotChangeOwnerZOrder = 0x0200,
+            DoNotRedraw = 0x0008,
+            DoNotReposition = 0x0200,
+            DoNotSendChangingEvent = 0x0400,
+            IgnoreResize = 0x0001,
+            IgnoreZOrder = 0x0004,
+            ShowWindow = 0x0040,
+        }
+
         internal const int WM_SETICON = 0x80;
         internal const int WM_SETTEXT = 0x000c;
         internal const int GW_OWNER = 4;
@@ -59,6 +101,21 @@ namespace Fusion8.Cropper
         [DllImport("gdi32.dll")]
         internal static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
 
+        [DllImport("Shcore.dll", SetLastError = true)]
+        public static extern int SetProcessDpiAwareness(ProcessDpiAwareness processDpiAwareness);
+
+        [DllImport("Shcore.dll", SetLastError = true)]
+        public static extern int GetProcessDpiAwareness(IntPtr processHandle, out ProcessDpiAwareness processDpiAwareness);
+
+        [DllImport("User32.dll", SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow(IntPtr windowHandle, MonitorOptions monitorOptions);
+
+        [DllImport("Shcore.dll", SetLastError = true)]
+        public static extern int GetDpiForMonitor(IntPtr monitorHandle, DpiType dpiType, out uint dpiX, out uint dpiY);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags uFlags);
+        
         [DllImport("user32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref POINT pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pprSrc, int crKey, ref BLENDFUNCTION pblend, int dwFlags);
