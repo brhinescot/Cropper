@@ -97,6 +97,7 @@ namespace Fusion8.Cropper
                     case TextBox _:
                     case ShortcutTextBox _:
                     case TreeView _:
+                    case ComboBox _:
                         control.Font = new Font(prototype, control.Font.Style);
                         break;
                     case ListView listView:
@@ -107,6 +108,29 @@ namespace Fusion8.Cropper
                         break;
                 }
             }
+
+            if(configForm == null)
+                return;
+            
+            foreach (Control control in GetControlHierarchy(pluginConfigHostPanel))
+            {
+                switch (control)
+                {
+                    case TextBox _:
+                    case ShortcutTextBox _:
+                    case TreeView _:
+                    case ComboBox _:
+                        control.Font = new Font(prototype, control.Font.Style);
+                        break;
+                    case ListView listView:
+                        listView.Font = new Font(prototype, listView.Font.Style);
+                        float headerScale = deviceDpiNew / (float)deviceDpiOld;
+                        foreach (ColumnHeader column in listView.Columns)
+                            column.Width = (int)(column.Width * headerScale);
+                        break;
+                }
+            }
+            configForm.PerformAutoScale();
         }
 
         private IEnumerable<Control> GetControlHierarchy(Control root)
@@ -140,11 +164,8 @@ namespace Fusion8.Cropper
 
             Screen currentScreen = Screen.FromControl(this);
             if (!currentScreen.Primary)
-            {
                 Location = Screen.PrimaryScreen.Bounds.Location;
-//                Invalidate();
-            }
-            
+
             Location = targetLocation;
             if (DeviceDpi > 96)
                 Location = new Point(Location.X - 120, Location.Y - 120);
@@ -317,7 +338,7 @@ namespace Fusion8.Cropper
             if (configForm != null)
             {
                 configForm.Hide();
-                panel1.Controls.Remove(configForm);
+                pluginConfigHostPanel.Controls.Remove(configForm);
                 configForm = null;
             }
 
@@ -325,6 +346,7 @@ namespace Fusion8.Cropper
             if (plugin?.ConfigurationForm != null)
             {
                 configForm = plugin.ConfigurationForm;
+//                configForm.PerformAutoScale();
 
                 if (plugin.HostInOptions)
                     ShowHostedConfiguration();
@@ -338,7 +360,7 @@ namespace Fusion8.Cropper
             configForm.TopLevel = false;
             configForm.FormBorderStyle = FormBorderStyle.None;
             configForm.Dock = DockStyle.Fill;
-            panel1.Controls.Add(configForm);
+            pluginConfigHostPanel.Controls.Add(configForm);
             configForm.Show();
         }
 
@@ -484,7 +506,7 @@ namespace Fusion8.Cropper
             this.hideAfterCapture = new System.Windows.Forms.CheckBox();
             this.showOpacityMenu = new System.Windows.Forms.CheckBox();
             this.behaviorTab = new System.Windows.Forms.TabPage();
-            this.rememberPosition = new System.Windows.Forms.CheckBox();
+            this.rememberLocation = new System.Windows.Forms.CheckBox();
             this.buttonRemoveSize = new System.Windows.Forms.Button();
             this.allowMultipleCropperInstances = new System.Windows.Forms.CheckBox();
             this.predefinedSizeList = new System.Windows.Forms.ListBox();
@@ -512,8 +534,12 @@ namespace Fusion8.Cropper
             this.keyboardShortcutsGroup = new System.Windows.Forms.GroupBox();
             this.hotKeySelection = new Fusion8.Cropper.Core.HotKeySelection();
             this.pluginsTab = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pluginConfigHostPanel = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.outputFolderGroup.SuspendLayout();
             this.optionsTabs.SuspendLayout();
@@ -531,6 +557,9 @@ namespace Fusion8.Cropper
             this.keyboardTab.SuspendLayout();
             this.keyboardShortcutsGroup.SuspendLayout();
             this.pluginsTab.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // okButton
@@ -666,7 +695,6 @@ namespace Fusion8.Cropper
             this.widthInput.Name = "widthInput";
             this.widthInput.Size = new System.Drawing.Size(39, 20);
             this.widthInput.TabIndex = 0;
-            this.widthInput.Text = "200";
             this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
             this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
             this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
@@ -674,14 +702,12 @@ namespace Fusion8.Cropper
             // 
             // heightInput
             // 
-            this.heightInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.errorProvider.SetIconPadding(this.heightInput, 85);
             this.heightInput.Location = new System.Drawing.Point(66, 3);
             this.heightInput.MaxLength = 4;
             this.heightInput.Name = "heightInput";
-            this.heightInput.Size = new System.Drawing.Size(39, 21);
+            this.heightInput.Size = new System.Drawing.Size(39, 20);
             this.heightInput.TabIndex = 2;
-            this.heightInput.Text = "300";
             this.toolTip.SetToolTip(this.heightInput, "The height of the crop form.");
             this.heightInput.WordWrap = false;
             this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
@@ -930,12 +956,8 @@ namespace Fusion8.Cropper
             // 
             // behaviorTab
             // 
-            this.behaviorTab.Controls.Add(this.rememberPosition);
-            this.behaviorTab.Controls.Add(this.buttonRemoveSize);
-            this.behaviorTab.Controls.Add(this.allowMultipleCropperInstances);
-            this.behaviorTab.Controls.Add(this.predefinedSizeList);
-            this.behaviorTab.Controls.Add(this.flowLayoutPanel1);
-            this.behaviorTab.Controls.Add(this.buttonAddSize);
+            this.behaviorTab.Controls.Add(this.groupBox2);
+            this.behaviorTab.Controls.Add(this.groupBox1);
             this.behaviorTab.Location = new System.Drawing.Point(4, 22);
             this.behaviorTab.Name = "behaviorTab";
             this.behaviorTab.Padding = new System.Windows.Forms.Padding(3);
@@ -944,18 +966,18 @@ namespace Fusion8.Cropper
             this.behaviorTab.Text = "Behavior";
             this.behaviorTab.UseVisualStyleBackColor = true;
             // 
-            // rememberPosition
+            // rememberLocation
             // 
-            this.rememberPosition.Location = new System.Drawing.Point(22, 250);
-            this.rememberPosition.Name = "rememberPosition";
-            this.rememberPosition.Size = new System.Drawing.Size(291, 24);
-            this.rememberPosition.TabIndex = 6;
-            this.rememberPosition.Text = "Remember &location";
+            this.rememberLocation.Location = new System.Drawing.Point(6, 38);
+            this.rememberLocation.Name = "rememberLocation";
+            this.rememberLocation.Size = new System.Drawing.Size(291, 24);
+            this.rememberLocation.TabIndex = 6;
+            this.rememberLocation.Text = "Remember Cropper &location";
             // 
             // buttonRemoveSize
             // 
             this.buttonRemoveSize.AutoSize = true;
-            this.buttonRemoveSize.Location = new System.Drawing.Point(161, 126);
+            this.buttonRemoveSize.Location = new System.Drawing.Point(113, 74);
             this.buttonRemoveSize.Name = "buttonRemoveSize";
             this.buttonRemoveSize.Size = new System.Drawing.Size(57, 23);
             this.buttonRemoveSize.TabIndex = 5;
@@ -965,7 +987,7 @@ namespace Fusion8.Cropper
             // 
             // allowMultipleCropperInstances
             // 
-            this.allowMultipleCropperInstances.Location = new System.Drawing.Point(22, 220);
+            this.allowMultipleCropperInstances.Location = new System.Drawing.Point(6, 19);
             this.allowMultipleCropperInstances.Name = "allowMultipleCropperInstances";
             this.allowMultipleCropperInstances.Size = new System.Drawing.Size(291, 24);
             this.allowMultipleCropperInstances.TabIndex = 3;
@@ -973,10 +995,11 @@ namespace Fusion8.Cropper
             // 
             // predefinedSizeList
             // 
+            this.predefinedSizeList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.predefinedSizeList.FormattingEnabled = true;
-            this.predefinedSizeList.Location = new System.Drawing.Point(32, 86);
+            this.predefinedSizeList.Location = new System.Drawing.Point(3, 74);
             this.predefinedSizeList.Name = "predefinedSizeList";
-            this.predefinedSizeList.Size = new System.Drawing.Size(103, 108);
+            this.predefinedSizeList.Size = new System.Drawing.Size(104, 78);
             this.predefinedSizeList.TabIndex = 4;
             // 
             // flowLayoutPanel1
@@ -985,7 +1008,8 @@ namespace Fusion8.Cropper
             this.flowLayoutPanel1.Controls.Add(this.widthInput);
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.Controls.Add(this.heightInput);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(49, 30);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 41);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(108, 29);
@@ -996,15 +1020,16 @@ namespace Fusion8.Cropper
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(48, 3);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label1.MinimumSize = new System.Drawing.Size(0, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(12, 13);
+            this.label1.Size = new System.Drawing.Size(12, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "x";
             // 
             // buttonAddSize
             // 
             this.buttonAddSize.AutoSize = true;
-            this.buttonAddSize.Location = new System.Drawing.Point(152, 86);
+            this.buttonAddSize.Location = new System.Drawing.Point(113, 43);
             this.buttonAddSize.Name = "buttonAddSize";
             this.buttonAddSize.Size = new System.Drawing.Size(57, 23);
             this.buttonAddSize.TabIndex = 3;
@@ -1230,7 +1255,7 @@ namespace Fusion8.Cropper
             // 
             // pluginsTab
             // 
-            this.pluginsTab.Controls.Add(this.panel1);
+            this.pluginsTab.Controls.Add(this.pluginConfigHostPanel);
             this.pluginsTab.Controls.Add(this.comboBox1);
             this.pluginsTab.Location = new System.Drawing.Point(4, 22);
             this.pluginsTab.Name = "pluginsTab";
@@ -1241,11 +1266,11 @@ namespace Fusion8.Cropper
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Location = new System.Drawing.Point(3, 30);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 362);
-            this.panel1.TabIndex = 1;
+            this.pluginConfigHostPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.pluginConfigHostPanel.Location = new System.Drawing.Point(3, 30);
+            this.pluginConfigHostPanel.Name = "pluginConfigHostPanel";
+            this.pluginConfigHostPanel.Size = new System.Drawing.Size(327, 362);
+            this.pluginConfigHostPanel.TabIndex = 1;
             // 
             // comboBox1
             // 
@@ -1255,6 +1280,58 @@ namespace Fusion8.Cropper
             this.comboBox1.Size = new System.Drawing.Size(327, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.tableLayoutPanel2);
+            this.groupBox1.Location = new System.Drawing.Point(6, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(327, 193);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Predefined &Sizes";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.82609F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.17391F));
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.predefinedSizeList, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.buttonAddSize, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.buttonRemoveSize, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 19);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.33803F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.66197F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(230, 155);
+            this.tableLayoutPanel2.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(224, 40);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Add a width and height to quickly cycle through commonly used crop sizes.";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rememberLocation);
+            this.groupBox2.Controls.Add(this.allowMultipleCropperInstances);
+            this.groupBox2.Location = new System.Drawing.Point(6, 208);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(327, 71);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Other";
             // 
             // Options
             // 
@@ -1297,6 +1374,10 @@ namespace Fusion8.Cropper
             this.keyboardTab.ResumeLayout(false);
             this.keyboardShortcutsGroup.ResumeLayout(false);
             this.pluginsTab.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1356,7 +1437,7 @@ namespace Fusion8.Cropper
         private TabPage appearanceTab;
         private TabPage pluginsTab;
         private ComboBox comboBox1;
-        private Panel panel1;
+        private Panel pluginConfigHostPanel;
         private CheckBox keepPrntScrnOnClipboard;
         private Button button1;
         private TextBox folderChooser;
@@ -1383,7 +1464,11 @@ namespace Fusion8.Cropper
         private FlowLayoutPanel flowLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel1;
         private TabPage behaviorTab;
-        private CheckBox rememberPosition;
+        private CheckBox rememberLocation;
+        private GroupBox groupBox1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Label label2;
+        private GroupBox groupBox2;
         private GroupBox keyboardShortcutsGroup;
 
         #endregion
