@@ -1475,7 +1475,7 @@ namespace Fusion8.Cropper
 
         private void opacityValue_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 
@@ -1488,6 +1488,7 @@ namespace Fusion8.Cropper
 
         protected override void OnDpiChangedAfterParent(EventArgs e)
         {
+            
             base.OnDpiChangedAfterParent(e);
         }
     }

@@ -28,50 +28,71 @@ namespace Fusion8.Cropper
         /// </summary>
         private void InitializeComponent()
         {
-            this.extension = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioJpeg = new System.Windows.Forms.RadioButton();
+            this.radioJpg = new System.Windows.Forms.RadioButton();
             this.themedTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // FirstTabPage
+            // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.extension);
+            this.tabPage1.Controls.Add(this.groupBox1);
             // 
-            // extension
+            // groupBox1
             // 
-            this.extension.Location = new System.Drawing.Point(21, 38);
-            this.extension.Name = "extension";
-            this.extension.Size = new System.Drawing.Size(100, 20);
-            this.extension.TabIndex = 0;
+            this.groupBox1.Controls.Add(this.radioJpg);
+            this.groupBox1.Controls.Add(this.radioJpeg);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(286, 100);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Extension";
             // 
-            // label1
+            // radioJpeg
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Extension";
+            this.radioJpeg.AutoSize = true;
+            this.radioJpeg.Checked = true;
+            this.radioJpeg.Location = new System.Drawing.Point(7, 20);
+            this.radioJpeg.Name = "radioJpeg";
+            this.radioJpeg.Size = new System.Drawing.Size(45, 17);
+            this.radioJpeg.TabIndex = 0;
+            this.radioJpeg.TabStop = true;
+            this.radioJpeg.Text = "jpeg";
+            this.radioJpeg.UseVisualStyleBackColor = true;
             // 
-            // Options
+            // radioJpg
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.radioJpg.AutoSize = true;
+            this.radioJpg.Location = new System.Drawing.Point(58, 20);
+            this.radioJpg.Name = "radioJpg";
+            this.radioJpg.Size = new System.Drawing.Size(39, 17);
+            this.radioJpg.TabIndex = 1;
+            this.radioJpg.TabStop = true;
+            this.radioJpg.Text = "jpg";
+            this.radioJpg.UseVisualStyleBackColor = true;
+            // 
+            // JpegOptions
+            // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(300, 276);
-            this.Name = "Options";
+            this.Name = "JpegOptions";
             this.Text = "Options";
             this.themedTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox extension;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioJpg;
+        private System.Windows.Forms.RadioButton radioJpeg;
     }
 }

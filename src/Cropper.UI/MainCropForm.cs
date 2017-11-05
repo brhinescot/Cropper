@@ -884,7 +884,6 @@ namespace Fusion8.Cropper
             mouseDownPoint.Y = MousePosition.Y;
 
             ResizeThumbnail(diffX + diffY);
-//            PaintLayeredWindow();
         }
 
         private void CenterSize(int interval)
@@ -909,6 +908,7 @@ namespace Fusion8.Cropper
             else
                 colorIndex++;
             SetColors();
+            PaintLayeredWindow();
         }
 
         private void CycleSizes()
@@ -1357,17 +1357,20 @@ namespace Fusion8.Cropper
         {
             base.OnDpiChanged(e);
             
-            ScaleUI();
+            ScaleUI(e.DeviceDpiOld);
             PaintLayeredWindow();
         }
 
 
-        private void ScaleUI()
+        private void ScaleUI(float baseDpi = 96.0f)
         {
             dpiScale = DeviceDpi / 96.0f;
 
             feedbackFont = new Font("Verdana", 8f * dpiScale);
 
+            float dpiScale2 = DeviceDpi / baseDpi;
+            maxThumbSize = (int)(maxThumbSize * dpiScale2);
+            
             tabPoints = new[]
             {
                 new PointF(TransparentMargin - TabHeight * dpiScale,
