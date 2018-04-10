@@ -50,6 +50,8 @@ namespace Fusion8.Cropper
 
         public static string MenuSize => Keys.GetString(Keys.MenuSize);
 
+        public static string MenuThumbSize => Keys.GetString(Keys.MenuThumbSize);
+
         public static string MenuThumbnail => Keys.GetString(Keys.MenuThumbnail);
 
         public static string MenuUnknownCaption => Keys.GetString(Keys.MenuUnknownCaption);
@@ -127,6 +129,8 @@ namespace Fusion8.Cropper
             public const string MenuShow = "MenuShow";
 
             public const string MenuSize = "MenuSize";
+
+            public const string MenuThumbSize = "MenuThumbSize";
 
             public const string MenuThumbnail = "MenuThumbnail";
 

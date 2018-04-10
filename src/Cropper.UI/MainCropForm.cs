@@ -397,6 +397,7 @@ namespace Fusion8.Cropper
 
             HotKeys.RegisterLocal(prefix + ".nextcolor", Keys.Tab, "Next Color", CycleColors, true);
             HotKeys.RegisterLocal(prefix + ".nextsize", Keys.Tab | Keys.Shift, "Next Size", CycleSizes, true);
+            HotKeys.RegisterLocal(prefix + ".nextthumbsize", Keys.Tab | Keys.Control, "Next Thumb Size", CycleThumbSizes, true);
 
             HotKeys.RegisterLocal(prefix + ".hide", Keys.Escape, "Hide Cropper", () => CycleFormVisibility(true), true, "General");
             HotKeys.RegisterLocal(prefix + ".screenshot", Keys.Enter, "Take Screenshot", () => TakeScreenShot(ScreenShotBounds.Rectangle), true, "General");
@@ -456,6 +457,20 @@ namespace Fusion8.Cropper
             }
             AddSubMenuItem(predefinedSizes, SR.MenuSeperator, null);
             AddSubMenuItem(predefinedSizes, "Add Current", HandleMenuSizeCurrentClick);
+
+            MenuItem predefinedThumbSizes = AddTopLevelMenuItem(SR.MenuThumbSize, null);
+            if (Configuration.Current.PredefinedThumbSizes.Length == 0)
+            {
+                MenuItem nextSize = AddSubMenuItem(predefinedThumbSizes, "None Defined", null);
+                nextSize.Enabled = false;
+            }
+            foreach (double size in Configuration.Current.PredefinedThumbSizes)
+            {
+                MenuItem nextSize = AddSubMenuItem(predefinedThumbSizes, size.ToString(), HandleMenuThumbSizeClick);
+                nextSize.Tag = size;
+            }
+            AddSubMenuItem(predefinedThumbSizes, SR.MenuSeperator, null);
+            AddSubMenuItem(predefinedThumbSizes, "Add Current", HandleMenuThumbSizeCurrentClick);
 
             if (Configuration.Current.ShowOpacityMenu)
                 opacityMenuItem = AddTopLevelMenuItem(SR.MenuOpacity, null);
@@ -613,6 +628,21 @@ namespace Fusion8.Cropper
             VisibleClientSize = new Size(size.Width, size.Height);
         }
 
+        private void HandleMenuThumbSizeClick(object sender, EventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
+            if (item == null)
+                return;
+
+            if (!(item.Tag is double))
+                return;
+
+            double size = (double)item.Tag;
+
+            maxThumbSize = size;
+            PaintLayeredWindow();
+        }
+
         private void HandleMenuSizeCurrentClick(object sender, EventArgs e)
         {
             CropSize size = new CropSize(VisibleClientSize.Width, VisibleClientSize.Height);
@@ -628,6 +658,23 @@ namespace Fusion8.Cropper
             Configuration.Current.PredefinedSizes = cropSizes;
             RefreshMenuItems();
         }
+
+        private void HandleMenuThumbSizeCurrentClick(object sender, EventArgs e)
+        {
+            double size = maxThumbSize;
+            List<double> list = new List<double>(Configuration.Current.PredefinedThumbSizes);
+            if (list.Contains(size))
+                return;
+
+            list.Add(size);
+            double[] cropSizes = list.ToArray();
+
+            //Array.Sort(cropSizes);
+
+            Configuration.Current.PredefinedThumbSizes = cropSizes;
+            RefreshMenuItems();
+        }
+        //
 
         private void HandleMenuOptionsClick(object sender, EventArgs e)
         {
@@ -1055,6 +1102,14 @@ namespace Fusion8.Cropper
             Size size = Configuration.Current.NextFormSize();
             if (size != Size.Empty)
                 VisibleClientSize = size;
+        }
+
+        private void CycleThumbSizes()
+        {
+            double size = Configuration.Current.NextFormThumbSize();
+            if (size != 0.0)
+                maxThumbSize = size;
+            PaintLayeredWindow();
         }
 
         private void SetColors()

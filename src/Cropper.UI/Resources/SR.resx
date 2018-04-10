@@ -129,6 +129,9 @@ Copyright 2004, Jeff Key</value>
   <data name="MenuSize" xml:space="preserve">
     <value>Predefined Size</value>
   </data>
+  <data name="MenuThumbSize" xml:space="preserve">
+    <value>Predefined Thumb Size</value>
+  </data>
   <data name="MenuHelp" xml:space="preserve">
     <value>Help</value>
   </data>

@@ -39,6 +39,7 @@ MenuOutput = Output
 MenuThumbnail = Thumbnail
 MenuInvert = Next Color
 MenuSize = Predefined Size
+MenuThumbSize = Predefined Thumb Size
 MenuHelp = Help
 MenuHelpHowTo = How To
 MenuHelpWeb = Home Page
