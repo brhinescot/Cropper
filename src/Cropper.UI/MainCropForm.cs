@@ -912,7 +912,11 @@ namespace Fusion8.Cropper
             bool mouseIsInResizeArea = resizeRegion != ResizeRegion.None;
             bool mouseIsInThumbResizeArea = thumbResizeRegion != ResizeRegion.None;
 
-            if (mouseIsInResizeArea)
+            if (mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            {
+                HandleSquarePropResize();
+            }
+            else if (mouseIsInResizeArea)
             {
                 HandleResize();
             }
@@ -979,6 +983,32 @@ namespace Fusion8.Cropper
                 case ResizeRegion.SE:
                     Width = mouseDownRect.Width + diffX;
                     Height = mouseDownRect.Height + diffY;
+                    break;
+            }
+            FreezePainting = false;
+        }
+        /// <summary>
+        /// Shift+LMB - 1:1 aspect ratio resizing
+        /// </summary>
+        private void HandleSquarePropResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Width = mouseDownRect.Width + diffX;
+                    Height = Width;
+                    break;
+                case ResizeRegion.S:
+                    Height = mouseDownRect.Height + diffY;
+                    Width = Height;
+                    break;
+                case ResizeRegion.SE:
+                    Width = mouseDownRect.Width + diffX;
+                    Height = Width;
                     break;
             }
             FreezePainting = false;
