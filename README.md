@@ -12,7 +12,9 @@ Cropper is a screen capture utility written in C#. It makes it fast and easy to 
 * Right Click: Context menu on the main form.
 * Double Click or Enter or S: Take a screen shot of the area under the Cropper window or start/stop a recording plug-in.
 * Tab: Cycle form colors.
+* Shift + LMB: Resize the main form with 1:1 aspect ratio.
 * Shift + Tab: Cycle form sizes.
+* Ctrl + Tab: Cycle thumbnail form sizes.
 * Esc: Hide the main form.
 * Ctrl + F8: Show the main form.
 
