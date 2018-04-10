@@ -37,6 +37,7 @@ MenuShow = Show
 MenuOpacity = Opacity
 MenuOutput = Output
 MenuThumbnail = Thumbnail
+MenuSaveFullImage = Save Full Image
 MenuInvert = Next Color
 MenuSize = Predefined Size
 MenuThumbSize = Predefined Thumb Size

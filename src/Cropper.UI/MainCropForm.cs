@@ -84,7 +84,7 @@ namespace Fusion8.Cropper
                         break;
                     case ScreenShotBounds.Rectangle:
                         if (isThumbnailed)
-                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize);
+                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize, SaveFullImage);
                         else
                             imageCapture.Capture(VisibleClientRectangle);
                         break;
@@ -187,6 +187,10 @@ namespace Fusion8.Cropper
         private bool isDisposed;
         private bool takingScreeshot;
         private int colorIndex;
+        /// <summary>
+        /// Toggle to save the 'Full Sized Image' or not
+        /// </summary>
+        private bool SaveFullImage;
 
         private double maxThumbSize = DefaultMaxThumbnailSize;
 
@@ -248,6 +252,7 @@ namespace Fusion8.Cropper
         private MenuItem opacityMenuItem;
         private MenuItem showHideMenu;
         private MenuItem toggleThumbnailMenu;
+        private MenuItem toggleSaveFullImage;
         private NotifyIcon notifyIcon;
 
         private ResizeRegion resizeRegion = ResizeRegion.None;
@@ -431,6 +436,7 @@ namespace Fusion8.Cropper
             if (Configuration.Current.ShowOpacityMenu)
                 AddOpacitySubMenu();
             AddOutputSubMenus();
+            CheckThumbnailToggleState();
         }
 
         private void AddTopLevelMenuItems()
@@ -438,6 +444,8 @@ namespace Fusion8.Cropper
             outputMenuItem = AddTopLevelMenuItem(SR.MenuOutput, null);
             toggleThumbnailMenu = AddTopLevelMenuItem(SR.MenuThumbnail, HandleMenuThumbnailClick);
             toggleThumbnailMenu.Checked = isThumbnailed;
+            toggleSaveFullImage = AddTopLevelMenuItem(SR.MenuSaveFullImage, HandleMenuSaveFullImageClick);
+            toggleSaveFullImage.Checked = SaveFullImage;
             AddTopLevelMenuItem(SR.MenuOptions, HandleMenuOptionsClick);
             AddTopLevelMenuItem(SR.MenuBrowse, HandleMenuBrowseClick);
             AddTopLevelMenuItem(SR.MenuSeperator, null);
@@ -608,6 +616,11 @@ namespace Fusion8.Cropper
         private void HandleMenuThumbnailClick(object sender, EventArgs e)
         {
             ToggleThumbnail((MenuItem) sender);
+        }
+
+        private void HandleMenuSaveFullImageClick(object sender, EventArgs e)
+        {
+            ToggleSaveFullImage((MenuItem)sender);
         }
 
         private void HandleMenuInvertClick(object sender, EventArgs e)
@@ -858,6 +871,7 @@ namespace Fusion8.Cropper
 
             Configuration.Current.ImageFormat = description;
             Configuration.Current.MaxThumbnailSize = maxThumbSize;
+            Configuration.Current.SaveFullImage = SaveFullImage;
             Configuration.Current.IsThumbnailed = isThumbnailed;
             Configuration.Current.Location = Location;
             Configuration.Current.UserSize = VisibleClientSize;
@@ -1163,7 +1177,29 @@ namespace Fusion8.Cropper
         private void ToggleThumbnail(MenuItem mi)
         {
             isThumbnailed = mi.Checked = !mi.Checked;
+            CheckThumbnailToggleState();
             PaintLayeredWindow();
+        }
+
+        private void ToggleSaveFullImage(MenuItem mi)
+        {
+            SaveFullImage = mi.Checked = !mi.Checked;
+            PaintLayeredWindow();
+        }
+
+        private void CheckThumbnailToggleState()
+        {
+            if (!toggleThumbnailMenu.Checked)
+            {
+                toggleSaveFullImage.Checked = true;
+                SaveFullImage = true;
+                toggleSaveFullImage.Enabled = false;
+            }
+            else
+            {
+                toggleSaveFullImage.Checked = SaveFullImage;
+                toggleSaveFullImage.Enabled = true;
+            }
         }
 
         private void SetResizeCursor(ResizeRegion region)
@@ -1248,6 +1284,7 @@ namespace Fusion8.Cropper
             colorIndex = settings.ColorIndex;
             isThumbnailed = settings.IsThumbnailed;
             maxThumbSize = settings.MaxThumbnailSize;
+            SaveFullImage = settings.SaveFullImage;
             Location = settings.Location;
             TopMost = settings.AlwaysOnTop;
 

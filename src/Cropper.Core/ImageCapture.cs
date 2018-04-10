@@ -251,9 +251,9 @@ namespace Fusion8.Cropper.Core
         ///     Thrown when the <see cref="ImageFormat" />
         ///     has not been properly set.
         /// </exception>
-        public void Capture(Rectangle captureArea, double maxThumbnailSize)
+        public void Capture(Rectangle captureArea, double maxThumbnailSize, bool saveFullImage)
         {
-            Capture(captureArea.X, captureArea.Y, captureArea.Width, captureArea.Height, maxThumbnailSize);
+            Capture(captureArea.X, captureArea.Y, captureArea.Width, captureArea.Height, maxThumbnailSize, saveFullImage);
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Fusion8.Cropper.Core
         ///     Thrown when the <see cref="ImageFormat" />
         ///     has not been properly set.
         /// </exception>
-        public void Capture(int x, int y, int width, int height, double maxThumbnailSize)
+        public void Capture(int x, int y, int width, int height, double maxThumbnailSize, bool saveFullImage = true)
         {
             if (ImageFormat == null)
                 throw new InvalidOperationException(SR.ExceptionImageFormatNull);
@@ -292,7 +292,7 @@ namespace Fusion8.Cropper.Core
             OnImageCapturing(new ImageCapturingEventArgs());
             using (Image image = NativeMethods.GetDesktopBitmap(x, y, width, height))
             {
-                ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, maxThumbnailSize);
+                ImageCapturedEventArgs imageCapturedEventArgs = ProcessCapturedImage(image, maxThumbnailSize, saveFullImage);
                 OnImageCaptured(imageCapturedEventArgs);
                 ContinueCapturing = imageCapturedEventArgs.ContinueCapturing;
             }
@@ -353,13 +353,15 @@ namespace Fusion8.Cropper.Core
             }
         }
 
-        private ImageCapturedEventArgs ProcessCapturedImage(Image image, double maxThumbnailSize)
+        private ImageCapturedEventArgs ProcessCapturedImage(Image image, double maxThumbnailSize, bool saveFullImage = true)
         {
             ImageCapturedEventArgs imageCapturedEventArgs = new ImageCapturedEventArgs
             {
                 ImageNames = template.Parse(ImageFormat.Extension),
                 FullSizeImage = image,
-                IsThumbnailed = maxThumbnailSize > 0.0
+                IsThumbnailed = maxThumbnailSize > 0.0,
+                SaveFullImage = saveFullImage
+                
             };
             if (imageCapturedEventArgs.IsThumbnailed)
                 imageCapturedEventArgs.ThumbnailImage = CreateThumbnailImage(image, maxThumbnailSize);

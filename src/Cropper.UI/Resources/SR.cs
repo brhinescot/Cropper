@@ -54,6 +54,8 @@ namespace Fusion8.Cropper
 
         public static string MenuThumbnail => Keys.GetString(Keys.MenuThumbnail);
 
+        public static string MenuSaveFullImage => Keys.GetString(Keys.MenuSaveFullImage);
+
         public static string MenuUnknownCaption => Keys.GetString(Keys.MenuUnknownCaption);
 
         public static string MenuUnknownText => Keys.GetString(Keys.MenuUnknownText);
@@ -133,6 +135,8 @@ namespace Fusion8.Cropper
             public const string MenuThumbSize = "MenuThumbSize";
 
             public const string MenuThumbnail = "MenuThumbnail";
+
+            public const string MenuSaveFullImage = "MenuSaveFullImage";
 
             public const string MenuUnknownCaption = "MenuUnknownCaption";
 

@@ -179,6 +179,9 @@ namespace Fusion8.Cropper.Core
         [XmlElement("IsThumbnailed", typeof(bool))]
         public bool IsThumbnailed { get; set; }
 
+        [XmlElement("SaveFullImage", typeof(bool))]
+        public bool SaveFullImage { get; set; } = true;
+
         [XmlElement("TrapPrintScreen", typeof(bool))]
         public bool TrapPrintScreen { get; set; } = true;
 

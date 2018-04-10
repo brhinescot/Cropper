@@ -11,7 +11,8 @@ namespace Fusion8.Cropper.Extensibility
     {
         protected override void ImageCaptured(object sender, ImageCapturedEventArgs e)
         {
-            output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
+            if (e.SaveFullImage)
+                output.FetchOutputStream(SaveImage, e.ImageNames.FullSize, e.FullSizeImage);
 
             if (e.IsThumbnailed)
                 output.FetchOutputStream(SaveImage, e.ImageNames.Thumbnail, e.ThumbnailImage);
