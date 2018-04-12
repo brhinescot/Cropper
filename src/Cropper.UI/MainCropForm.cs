@@ -200,6 +200,7 @@ namespace Fusion8.Cropper
         private Point middle;
         private Point offset;
         private Point mouseDownPoint;
+        private Point mouseDownLocation;
 
         // Point locations for drawing the tabs.
         private readonly Point[] points =
@@ -402,6 +403,7 @@ namespace Fusion8.Cropper
 
             HotKeys.RegisterLocal(prefix + ".nextcolor", Keys.Tab, "Next Color", CycleColors, true);
             HotKeys.RegisterLocal(prefix + ".nextsize", Keys.Tab | Keys.Shift, "Next Size", CycleSizes, true);
+            HotKeys.RegisterLocal(prefix + ".nextcenteredsize", Keys.Tab | Keys.Shift | Keys.Control, "Next Centered Size", CycleSizesCentered, true);
             HotKeys.RegisterLocal(prefix + ".nextthumbsize", Keys.Tab | Keys.Control, "Next Thumb Size", CycleThumbSizes, true);
 
             HotKeys.RegisterLocal(prefix + ".hide", Keys.Escape, "Hide Cropper", () => CycleFormVisibility(true), true, "General");
@@ -953,6 +955,7 @@ namespace Fusion8.Cropper
             offset = new Point(e.X, e.Y);
             mouseDownRect = ClientRectangle;
             mouseDownPoint = MousePosition;
+            mouseDownLocation = Location;
 
             if (IsInResizeArea())
                 resizeRegion = GetResizeRegion();
@@ -973,7 +976,15 @@ namespace Fusion8.Cropper
             bool mouseIsInResizeArea = resizeRegion != ResizeRegion.None;
             bool mouseIsInThumbResizeArea = thumbResizeRegion != ResizeRegion.None;
 
-            if (mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            if (mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift && (ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                HandleSquarePropCenterResize();
+            }
+            else if(mouseIsInResizeArea && (ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                HandleCenterResize();
+            }
+            else if(mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift)
             {
                 HandleSquarePropResize();
             }
@@ -1049,7 +1060,7 @@ namespace Fusion8.Cropper
             FreezePainting = false;
         }
         /// <summary>
-        /// Shift+LMB - 1:1 aspect ratio resizing
+        /// 1:1 aspect ratio resizing (Shift+LMB)
         /// </summary>
         private void HandleSquarePropResize()
         {
@@ -1070,6 +1081,69 @@ namespace Fusion8.Cropper
                 case ResizeRegion.SE:
                     Width = mouseDownRect.Width + diffX;
                     Height = Width;
+                    break;
+            }
+            FreezePainting = false;
+        }
+        /// <summary>
+        /// Resizing relative to the center (Ctrl+LMB)
+        /// </summary>
+        private void HandleCenterResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    break;
+                case ResizeRegion.S:
+                    Left = mouseDownLocation.X;
+                    Top = mouseDownLocation.Y - diffY;
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    break;
+                case ResizeRegion.SE:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffY;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    break;
+            }
+            FreezePainting = false;
+        }
+        /// <summary>
+        /// Resizing relative to the center with 1:1 aspect ratio (Ctrl+Shift+LMB)
+        /// </summary>
+        private void HandleSquarePropCenterResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffX;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = Width;
+                    break;
+                case ResizeRegion.S:
+                    Left = mouseDownLocation.X - diffY;
+                    Top = mouseDownLocation.Y - diffY;
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    Width = Height;
+                    break;
+                case ResizeRegion.SE:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffX;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = Width;
+
                     break;
             }
             FreezePainting = false;
@@ -1116,6 +1190,17 @@ namespace Fusion8.Cropper
             Size size = Configuration.Current.NextFormSize();
             if (size != Size.Empty)
                 VisibleClientSize = size;
+        }
+
+        private void CycleSizesCentered()
+        {
+            Size size = Configuration.Current.NextFormSize();
+            if (size != Size.Empty)
+            {
+                Left = Left - (size.Width - VisibleWidth) / 2;
+                Top = Top - (size.Height - VisibleHeight) / 2;
+                VisibleClientSize = size;
+            }
         }
 
         private void CycleThumbSizes()
