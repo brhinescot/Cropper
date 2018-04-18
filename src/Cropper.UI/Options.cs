@@ -52,6 +52,9 @@ namespace Fusion8.Cropper
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
                 predefinedSizeList.Items.Add(size);
 
+            foreach (double size in Configuration.Current.PredefinedThumbSizes)
+                predefinedThumbSizeList.Items.Add(size);
+
             SetStrings();
 
             comboBox1.Items.Clear();
@@ -142,6 +145,7 @@ namespace Fusion8.Cropper
             Configuration.Current.AllowMultipleInstances = allowMultipleCropperInstances.Checked;
             Configuration.Current.IncludeMouseCursorInCapture = includeMouseCursorInCapture.Checked;
             Configuration.Current.PredefinedSizes = predefinedSizeList.Items.Cast<CropSize>().ToArray();
+            Configuration.Current.PredefinedThumbSizes = predefinedThumbSizeList.Items.Cast<double>().ToArray();
             Configuration.Current.HotKeySettings = HotKeys.GetRegisteredHotKeys(true).Select(hk => new HotKeySetting {Id = hk.Id, KeyCode = (int) hk.KeyData}).ToArray();
 
             List<object> pluginSettings = new List<object>();
@@ -357,6 +361,72 @@ namespace Fusion8.Cropper
             errorProvider.SetError(box, !IsNumeric.Match(box.Text).Success ? "Only numeric values are valid." : null);
         }
 
+        private void HandleAddThumbSizeClick(object sender, EventArgs e)
+        {
+            AddThumbSize();
+        }
+
+        private void AddThumbSize()
+        {
+            if (!IsNumeric.Match(thumbMaxInput.Text).Success) return;
+            double size = Convert.ToDouble(thumbMaxInput.Text);
+
+            if (!predefinedThumbSizeList.Items.Contains(size))
+            {
+                predefinedThumbSizeList.Items.Add(size);
+
+                List<double> cropSize = new List<double>();
+                foreach (double item in predefinedThumbSizeList.Items)
+                    cropSize.Add(item);
+
+                predefinedThumbSizeList.Items.Clear();
+                double[] sizes = cropSize.ToArray();
+                Array.Sort(sizes);
+                foreach (double item in sizes)
+                    predefinedThumbSizeList.Items.Add(item);
+            }
+
+            thumbMaxInput.Focus();
+        }
+
+        private void HandleRemoveThumbSizeClick(object sender, EventArgs e)
+        {
+            int index = predefinedThumbSizeList.SelectedIndex;
+
+            predefinedThumbSizeList.Items.Remove(predefinedThumbSizeList.SelectedItem);
+            predefinedThumbSizeList.Focus();
+            if (predefinedThumbSizeList.Items.Count > 0)
+                predefinedThumbSizeList.SelectedIndex = index > predefinedThumbSizeList.Items.Count - 1 ? predefinedThumbSizeList.Items.Count - 1 : index;
+        }
+
+        private void HandleThumbSizeInputEnter(object sender, EventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box == null)
+                return;
+
+            box.SelectionStart = 0;
+            box.SelectionLength = box.Text.Length;
+        }
+
+        private void HandleThumbSizeInputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            addingSize = true;
+            AddThumbSize();
+        }
+
+        private void ThumbSizeInputTextChanged(object sender, EventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box == null)
+                return;
+
+            errorProvider.SetError(box, !IsNumeric.Match(box.Text).Success ? "Only numeric values are valid." : null);
+        }
+
         private void HandleOptionsNavigatorAfterSelect(object sender, TreeViewEventArgs e)
         {
             TabPage page = (TabPage) e.Node.Tag;
@@ -419,11 +489,16 @@ namespace Fusion8.Cropper
             this.appearanceTab = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.heightInput = new System.Windows.Forms.TextBox();
+            this.widthInput = new System.Windows.Forms.TextBox();
+            this.thumbMaxInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRemoveSize = new System.Windows.Forms.Button();
             this.buttonAddSize = new System.Windows.Forms.Button();
+            this.buttonRemoveThumbSize = new System.Windows.Forms.Button();
+            this.buttonAddThumbSize = new System.Windows.Forms.Button();
             this.predefinedSizeList = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.predefinedThumbSizeList = new System.Windows.Forms.ListBox();
             this.hideAfterCapture = new System.Windows.Forms.CheckBox();
             this.opaityGroup = new System.Windows.Forms.GroupBox();
             this.opacityValue = new System.Windows.Forms.Label();
@@ -454,6 +529,7 @@ namespace Fusion8.Cropper
             this.pluginsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.line = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.outputFolderGroup.SuspendLayout();
@@ -791,10 +867,14 @@ namespace Fusion8.Cropper
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.heightInput);
             this.groupBox2.Controls.Add(this.widthInput);
+            this.groupBox2.Controls.Add(this.thumbMaxInput);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.buttonRemoveSize);
             this.groupBox2.Controls.Add(this.buttonAddSize);
+            this.groupBox2.Controls.Add(this.buttonRemoveThumbSize);
+            this.groupBox2.Controls.Add(this.buttonAddThumbSize);
             this.groupBox2.Controls.Add(this.predefinedSizeList);
+            this.groupBox2.Controls.Add(this.predefinedThumbSizeList);
             this.groupBox2.Location = new System.Drawing.Point(8, 244);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(325, 200);
@@ -811,6 +891,48 @@ namespace Fusion8.Cropper
             this.label2.TabIndex = 6;
             this.label2.Text = "Use Ctrl + <number> to quickly access your saved sizes.";
             // 
+            // heightInput
+            // 
+            this.errorProvider.SetIconPadding(this.heightInput, 85);
+            this.heightInput.Location = new System.Drawing.Point(66, 47);
+            this.heightInput.MaxLength = 4;
+            this.heightInput.Name = "heightInput";
+            this.heightInput.Size = new System.Drawing.Size(39, 20);
+            this.heightInput.TabIndex = 2;
+            this.toolTip.SetToolTip(this.heightInput, "The height of the crop form.");
+            this.heightInput.WordWrap = false;
+            this.heightInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
+            this.heightInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.heightInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            // 
+            // widthInput
+            // 
+            this.errorProvider.SetIconPadding(this.widthInput, 142);
+            this.widthInput.Location = new System.Drawing.Point(9, 47);
+            this.widthInput.MaxLength = 4;
+            this.widthInput.Name = "widthInput";
+            this.widthInput.Size = new System.Drawing.Size(39, 20);
+            this.widthInput.TabIndex = 0;
+            this.toolTip.SetToolTip(this.widthInput, "The width of the crop form.");
+            this.widthInput.WordWrap = false;
+            this.widthInput.TextChanged += new System.EventHandler(this.SizeInputTextChanged);
+            this.widthInput.Enter += new System.EventHandler(this.HandleSizeInputEnter);
+            this.widthInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleSizeInputPreviewKeyDown);
+            // 
+            // thumbMaxInput
+            // 
+            this.errorProvider.SetIconPadding(this.thumbMaxInput, 142);
+            this.thumbMaxInput.Location = new System.Drawing.Point(213, 47);
+            this.thumbMaxInput.MaxLength = 4;
+            this.thumbMaxInput.Name = "thumbMaxInput";
+            this.thumbMaxInput.Size = new System.Drawing.Size(39, 20);
+            this.thumbMaxInput.TabIndex = 0;
+            this.toolTip.SetToolTip(this.thumbMaxInput, "The max side of the thumbnail form.");
+            this.thumbMaxInput.WordWrap = false;
+            this.thumbMaxInput.TextChanged += new System.EventHandler(this.ThumbSizeInputTextChanged);
+            this.thumbMaxInput.Enter += new System.EventHandler(this.HandleThumbSizeInputEnter);
+            this.thumbMaxInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HandleThumbSizeInputPreviewKeyDown);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -822,9 +944,9 @@ namespace Fusion8.Cropper
             // 
             // buttonRemoveSize
             // 
-            this.buttonRemoveSize.Location = new System.Drawing.Point(115, 86);
+            this.buttonRemoveSize.Location = new System.Drawing.Point(111, 74);
             this.buttonRemoveSize.Name = "buttonRemoveSize";
-            this.buttonRemoveSize.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemoveSize.Size = new System.Drawing.Size(55, 23);
             this.buttonRemoveSize.TabIndex = 5;
             this.buttonRemoveSize.Text = "&Remove";
             this.buttonRemoveSize.UseVisualStyleBackColor = true;
@@ -832,13 +954,35 @@ namespace Fusion8.Cropper
             // 
             // buttonAddSize
             // 
-            this.buttonAddSize.Location = new System.Drawing.Point(115, 58);
+            this.buttonAddSize.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.buttonAddSize.Location = new System.Drawing.Point(111, 45);
             this.buttonAddSize.Name = "buttonAddSize";
-            this.buttonAddSize.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddSize.Size = new System.Drawing.Size(55, 23);
             this.buttonAddSize.TabIndex = 3;
             this.buttonAddSize.Text = "&Add";
             this.buttonAddSize.UseVisualStyleBackColor = true;
             this.buttonAddSize.Click += new System.EventHandler(this.HandleAddSizeClick);
+            // 
+            // buttonRemoveThumbSize
+            // 
+            this.buttonRemoveThumbSize.Location = new System.Drawing.Point(258, 74);
+            this.buttonRemoveThumbSize.Name = "buttonRemoveThumbSize";
+            this.buttonRemoveThumbSize.Size = new System.Drawing.Size(55, 23);
+            this.buttonRemoveThumbSize.TabIndex = 5;
+            this.buttonRemoveThumbSize.Text = "&Remove";
+            this.buttonRemoveThumbSize.UseVisualStyleBackColor = true;
+            this.buttonRemoveThumbSize.Click += new System.EventHandler(this.HandleRemoveThumbSizeClick);
+            // 
+            // buttonAddThumbSize
+            // 
+            this.buttonAddThumbSize.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.buttonAddThumbSize.Location = new System.Drawing.Point(258, 45);
+            this.buttonAddThumbSize.Name = "buttonAddThumbSize";
+            this.buttonAddThumbSize.Size = new System.Drawing.Size(55, 23);
+            this.buttonAddThumbSize.TabIndex = 3;
+            this.buttonAddThumbSize.Text = "&Add";
+            this.buttonAddThumbSize.UseVisualStyleBackColor = true;
+            this.buttonAddThumbSize.Click += new System.EventHandler(this.HandleAddThumbSizeClick);
             // 
             // predefinedSizeList
             // 
@@ -848,18 +992,13 @@ namespace Fusion8.Cropper
             this.predefinedSizeList.Size = new System.Drawing.Size(96, 82);
             this.predefinedSizeList.TabIndex = 4;
             // 
-            // groupBox1
+            // predefinedThumbSizeList
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.hideAfterCapture);
-            this.groupBox1.Location = new System.Drawing.Point(8, 169);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 69);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "After &Capture";
-            // 
+            this.predefinedThumbSizeList.FormattingEnabled = true;
+            this.predefinedThumbSizeList.Location = new System.Drawing.Point(213, 74);
+            this.predefinedThumbSizeList.Name = "predefinedThumbSizeList";
+            this.predefinedThumbSizeList.Size = new System.Drawing.Size(39, 108);
+            this.predefinedThumbSizeList.TabIndex = 4;
             // hideAfterCapture
             // 
             this.hideAfterCapture.AutoSize = true;
@@ -1176,6 +1315,18 @@ namespace Fusion8.Cropper
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                                                                          | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.hideAfterCapture);
+            this.groupBox1.Location = new System.Drawing.Point(8, 169);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(323, 69);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "After &Capture";
+            // 
             // line
             // 
             this.line.AutoSize = true;
@@ -1297,10 +1448,14 @@ namespace Fusion8.Cropper
         private GroupBox groupBox2;
         private Button buttonRemoveSize;
         private Button buttonAddSize;
+        private Button buttonRemoveThumbSize;
+        private Button buttonAddThumbSize;
         private ListBox predefinedSizeList;
+        private ListBox predefinedThumbSizeList;
         private Label label1;
         private TextBox heightInput;
         private TextBox widthInput;
+        private TextBox thumbMaxInput;
         private IContainer components;
 
         private static readonly Regex IsNumeric = new Regex(@"^\d+$", RegexOptions.Compiled);

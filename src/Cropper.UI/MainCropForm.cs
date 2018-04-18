@@ -40,67 +40,7 @@ namespace Fusion8.Cropper
     /// </summary>
     public class MainCropForm : CropForm
     {
-        #region Fields
-
-        private bool showAbout;
-        private bool showHelp;
-        private bool isThumbnailed;
-        private bool isDisposed;
-        private bool takingScreeshot;
-        private int colorIndex;
-
-        private double maxThumbSize = DefaultMaxThumbnailSize;
-
-        // String displayed on form describing the current output format. 
-        private string outputDescription;
-
-        private Point middle;
-        private Point offset;
-        private Point mouseDownPoint;
-        
-        private Rectangle mouseDownRect;
-        private Rectangle dialogCloseRectangle;
-        private Rectangle thumbnailRectangle;
-        private Rectangle visibleFormArea;
-        private Size userFormSize;
-
-        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize, DefaultMaxThumbnailSize);
-
-        private Font feedbackFont;
-        private PointF[] tabPoints;
-
-        // Brushes
-        // TODO: [Performance] Use one brush and set colors as needed.
-        // Brush for the tab background.
-        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
-
-        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
-
-        // Brush for the visible form background.
-        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
-
-        // Brush for the visible form background.
-        private readonly Pen outlinePen = new Pen(Color.Black);
-
-        // Brush for the drawn text and lines.
-        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
-
-        private readonly ArrayList colorTables = new ArrayList();
-        private CropFormColorTable currentColorTable;
-        private readonly ContextMenu menu = new ContextMenu();
-        private MenuItem outputMenuItem;
-        private MenuItem opacityMenuItem;
-        private MenuItem showHideMenu;
-        private MenuItem toggleThumbnailMenu;
-        private NotifyIcon notifyIcon;
-
-        private ResizeRegion resizeRegion = ResizeRegion.None;
-        private ResizeRegion thumbResizeRegion;
-        private readonly ImageCapture imageCapture;
-        private float dpiScale;
-
-        #endregion
-        
+       
         #region Property Accessors
 
         /// <summary>
@@ -145,7 +85,7 @@ namespace Fusion8.Cropper
                         break;
                     case ScreenShotBounds.Rectangle:
                         if (isThumbnailed)
-                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize);
+                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize, saveFullImage);
                         else
                             imageCapture.Capture(VisibleClientRectangle);
                         break;
@@ -164,7 +104,7 @@ namespace Fusion8.Cropper
                 if (Visible && Configuration.Current.HideFormAfterCapture)
                     Hide();
 
-                takingScreeshot = false;
+                takingScreeshot = imageCapture.ContinueCapturing;
                 PaintLayeredWindow();
             }
         }
@@ -230,6 +170,73 @@ namespace Fusion8.Cropper
         private const int DefaultPositionLeft = 100;
         private const int DefaultPositionTop = 100;
         private const double DefaultLayerOpacity = 0.4;
+
+        #endregion
+
+        #region Member Variables
+
+        private PointF[] tabPoints;
+        private float dpiScale;
+
+        private bool showAbout;
+        private bool showHelp;
+        private bool isThumbnailed;
+        private bool isDisposed;
+        private bool takingScreeshot;
+        private int colorIndex;
+        /// <summary>
+        /// Toggle to save the 'Full Sized Image' or not
+        /// </summary>
+        private bool saveFullImage;
+
+        private double maxThumbSize = DefaultMaxThumbnailSize;
+
+        // String displayed on form describing the current output format. 
+        private string outputDescription;
+
+        private Point middle;
+        private Point offset;
+        private Point mouseDownPoint;
+        private Point mouseDownLocation;
+        private Rectangle mouseDownRect;
+        private Rectangle dialogCloseRectangle;
+        private Rectangle thumbnailRectangle;
+        private Rectangle visibleFormArea;
+        private Size userFormSize;
+
+        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize, DefaultMaxThumbnailSize);
+
+        private Font feedbackFont;
+
+        // Brushes
+        // TODO: [Performance] Use one brush and set colors as needed.
+        // Brush for the tab background.
+        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
+
+        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
+
+        // Brush for the visible form background.
+        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
+
+        // Brush for the visible form background.
+        private readonly Pen outlinePen = new Pen(Color.Black);
+
+        // Brush for the drawn text and lines.
+        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
+
+        private readonly ArrayList colorTables = new ArrayList();
+        private CropFormColorTable currentColorTable;
+        private readonly ContextMenu menu = new ContextMenu();
+        private MenuItem outputMenuItem;
+        private MenuItem opacityMenuItem;
+        private MenuItem showHideMenu;
+        private MenuItem toggleThumbnailMenu;
+        private MenuItem toggleSaveFullImage;
+        private NotifyIcon notifyIcon;
+
+        private ResizeRegion resizeRegion = ResizeRegion.None;
+        private ResizeRegion thumbResizeRegion;
+        private readonly ImageCapture imageCapture;
 
         #endregion
 
@@ -394,6 +401,8 @@ namespace Fusion8.Cropper
 
             HotKeys.RegisterLocal(prefix + ".nextcolor", Keys.Tab, "Next Color", CycleColors, true);
             HotKeys.RegisterLocal(prefix + ".nextsize", Keys.Tab | Keys.Shift, "Next Size", CycleSizes, true);
+            HotKeys.RegisterLocal(prefix + ".nextcenteredsize", Keys.Tab | Keys.Shift | Keys.Control, "Next Centered Size", CycleSizesCentered, true);
+            HotKeys.RegisterLocal(prefix + ".nextthumbsize", Keys.Tab | Keys.Control, "Next Thumb Size", CycleThumbSizes, true);
 
             HotKeys.RegisterLocal(prefix + ".hide", Keys.Escape, "Hide Cropper", () => CycleFormVisibility(true), true, "General");
             HotKeys.RegisterLocal(prefix + ".screenshot", Keys.Enter, "Take Screenshot", () => TakeScreenShot(ScreenShotBounds.Rectangle), true, "General");
@@ -427,6 +436,7 @@ namespace Fusion8.Cropper
             if (Configuration.Current.ShowOpacityMenu)
                 AddOpacitySubMenu();
             AddOutputSubMenus();
+            CheckThumbnailToggleState();
         }
 
         private void AddTopLevelMenuItems()
@@ -434,6 +444,8 @@ namespace Fusion8.Cropper
             outputMenuItem = AddTopLevelMenuItem(SR.MenuOutput, null);
             toggleThumbnailMenu = AddTopLevelMenuItem(SR.MenuThumbnail, HandleMenuThumbnailClick);
             toggleThumbnailMenu.Checked = isThumbnailed;
+            toggleSaveFullImage = AddTopLevelMenuItem(SR.MenuSaveFullImage, HandleMenuSaveFullImageClick);
+            toggleSaveFullImage.Checked = saveFullImage;
             AddTopLevelMenuItem(SR.MenuOptions, HandleMenuOptionsClick);
             AddTopLevelMenuItem(SR.MenuBrowse, HandleMenuBrowseClick);
             AddTopLevelMenuItem(SR.MenuSeperator, null);
@@ -453,6 +465,20 @@ namespace Fusion8.Cropper
             }
             AddSubMenuItem(predefinedSizes, SR.MenuSeperator, null);
             AddSubMenuItem(predefinedSizes, "Add Current", HandleMenuSizeCurrentClick);
+
+            MenuItem predefinedThumbSizes = AddTopLevelMenuItem(SR.MenuThumbSize, null);
+            if (Configuration.Current.PredefinedThumbSizes.Length == 0)
+            {
+                MenuItem nextSize = AddSubMenuItem(predefinedThumbSizes, "None Defined", null);
+                nextSize.Enabled = false;
+            }
+            foreach (double size in Configuration.Current.PredefinedThumbSizes)
+            {
+                MenuItem nextSize = AddSubMenuItem(predefinedThumbSizes, size.ToString(), HandleMenuThumbSizeClick);
+                nextSize.Tag = size;
+            }
+            AddSubMenuItem(predefinedThumbSizes, SR.MenuSeperator, null);
+            AddSubMenuItem(predefinedThumbSizes, "Add Current", HandleMenuThumbSizeCurrentClick);
 
             if (Configuration.Current.ShowOpacityMenu)
                 opacityMenuItem = AddTopLevelMenuItem(SR.MenuOpacity, null);
@@ -590,6 +616,11 @@ namespace Fusion8.Cropper
             ToggleThumbnail((MenuItem) sender);
         }
 
+        private void HandleMenuSaveFullImageClick(object sender, EventArgs e)
+        {
+            ToggleSaveFullImage((MenuItem)sender);
+        }
+
         private void HandleMenuInvertClick(object sender, EventArgs e)
         {
             CycleColors();
@@ -605,6 +636,21 @@ namespace Fusion8.Cropper
 
             CropSize size = (CropSize) item.Tag;
             VisibleClientSize = new Size(size.Width, size.Height);
+        }
+
+        private void HandleMenuThumbSizeClick(object sender, EventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
+            if (item == null)
+                return;
+
+            if (!(item.Tag is double))
+                return;
+
+            double size = (double)item.Tag;
+
+            maxThumbSize = size;
+            PaintLayeredWindow();
         }
 
         private void HandleMenuSizeCurrentClick(object sender, EventArgs e)
@@ -623,6 +669,23 @@ namespace Fusion8.Cropper
             RefreshMenuItems();
         }
 
+        private void HandleMenuThumbSizeCurrentClick(object sender, EventArgs e)
+        {
+            double size = maxThumbSize;
+            List<double> list = new List<double>(Configuration.Current.PredefinedThumbSizes);
+            if (list.Contains(size))
+                return;
+
+            list.Add(size);
+            double[] cropSizes = list.ToArray();
+
+            //Array.Sort(cropSizes);
+
+            Configuration.Current.PredefinedThumbSizes = cropSizes;
+            RefreshMenuItems();
+        }
+        //
+
         private void HandleMenuOptionsClick(object sender, EventArgs e)
         {
             ShowOptionsDialog();
@@ -630,15 +693,13 @@ namespace Fusion8.Cropper
 
         private void ShowOptionsDialog()
         {
-            SettingsDialog settingsDialog = new SettingsDialog();
-            settingsDialog.ShowDialog();
-//            Options options = new Options {Visible = false};
-//            if (options.ShowDialog(this) != DialogResult.OK)
-//                return;
-//
-//            SetColors();
-//            RefreshMenuItems();
-//            SaveConfiguration();
+            Options options = new Options {Visible = false};
+            if (options.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            SetColors();
+            RefreshMenuItems();
+            SaveConfiguration();
         }
 
         private void HandleMenuBrowseClick(object sender, EventArgs e)
@@ -809,6 +870,7 @@ namespace Fusion8.Cropper
 
             Configuration.Current.ImageFormat = description;
             Configuration.Current.MaxThumbnailSize = maxThumbSize;
+            Configuration.Current.SaveFullImage = saveFullImage;
             Configuration.Current.IsThumbnailed = isThumbnailed;
             Configuration.Current.Location = Location;
             Configuration.Current.UserSize = VisibleClientSize;
@@ -892,6 +954,7 @@ namespace Fusion8.Cropper
             offset = new Point(e.X, e.Y);
             mouseDownRect = ClientRectangle;
             mouseDownPoint = MousePosition;
+            mouseDownLocation = Location;
 
             if (IsInResizeArea())
                 resizeRegion = GetResizeRegion();
@@ -912,7 +975,19 @@ namespace Fusion8.Cropper
             bool mouseIsInResizeArea = resizeRegion != ResizeRegion.None;
             bool mouseIsInThumbResizeArea = thumbResizeRegion != ResizeRegion.None;
 
-            if (mouseIsInResizeArea)
+            if (mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift && (ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                HandleSquarePropCenterResize();
+            }
+            else if(mouseIsInResizeArea && (ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                HandleCenterResize();
+            }
+            else if(mouseIsInResizeArea && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            {
+                HandleSquarePropResize();
+            }
+            else if (mouseIsInResizeArea)
             {
                 HandleResize();
             }
@@ -983,6 +1058,95 @@ namespace Fusion8.Cropper
             }
             FreezePainting = false;
         }
+        /// <summary>
+        /// 1:1 aspect ratio resizing (Shift+LMB)
+        /// </summary>
+        private void HandleSquarePropResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Width = mouseDownRect.Width + diffX;
+                    Height = Width;
+                    break;
+                case ResizeRegion.S:
+                    Height = mouseDownRect.Height + diffY;
+                    Width = Height;
+                    break;
+                case ResizeRegion.SE:
+                    Width = mouseDownRect.Width + diffX;
+                    Height = Width;
+                    break;
+            }
+            FreezePainting = false;
+        }
+        /// <summary>
+        /// Resizing relative to the center (Ctrl+LMB)
+        /// </summary>
+        private void HandleCenterResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    break;
+                case ResizeRegion.S:
+                    Left = mouseDownLocation.X;
+                    Top = mouseDownLocation.Y - diffY;
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    break;
+                case ResizeRegion.SE:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffY;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    break;
+            }
+            FreezePainting = false;
+        }
+        /// <summary>
+        /// Resizing relative to the center with 1:1 aspect ratio (Ctrl+Shift+LMB)
+        /// </summary>
+        private void HandleSquarePropCenterResize()
+        {
+            int diffX = MousePosition.X - mouseDownPoint.X;
+            int diffY = MousePosition.Y - mouseDownPoint.Y;
+
+            FreezePainting = true;
+            switch (resizeRegion)
+            {
+                case ResizeRegion.E:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffX;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = Width;
+                    break;
+                case ResizeRegion.S:
+                    Left = mouseDownLocation.X - diffY;
+                    Top = mouseDownLocation.Y - diffY;
+                    Height = mouseDownRect.Height + (2 * diffY);
+                    Width = Height;
+                    break;
+                case ResizeRegion.SE:
+                    Left = mouseDownLocation.X - diffX;
+                    Top = mouseDownLocation.Y - diffX;
+                    Width = mouseDownRect.Width + (2 * diffX);
+                    Height = Width;
+
+                    break;
+            }
+            FreezePainting = false;
+        }
 
         private void HandleThumbResize()
         {
@@ -1025,6 +1189,25 @@ namespace Fusion8.Cropper
             Size size = Configuration.Current.NextFormSize();
             if (size != Size.Empty)
                 VisibleClientSize = size;
+        }
+
+        private void CycleSizesCentered()
+        {
+            Size size = Configuration.Current.NextFormSize();
+            if (size != Size.Empty)
+            {
+                Left = Left - (size.Width - VisibleWidth) / 2;
+                Top = Top - (size.Height - VisibleHeight) / 2;
+                VisibleClientSize = size;
+            }
+        }
+
+        private void CycleThumbSizes()
+        {
+            double size = Configuration.Current.NextFormThumbSize();
+            if (size != 0.0)
+                maxThumbSize = size;
+            PaintLayeredWindow();
         }
 
         private void SetColors()
@@ -1078,7 +1261,29 @@ namespace Fusion8.Cropper
         private void ToggleThumbnail(MenuItem mi)
         {
             isThumbnailed = mi.Checked = !mi.Checked;
+            CheckThumbnailToggleState();
             PaintLayeredWindow();
+        }
+
+        private void ToggleSaveFullImage(MenuItem mi)
+        {
+            saveFullImage = mi.Checked = !mi.Checked;
+            PaintLayeredWindow();
+        }
+
+        private void CheckThumbnailToggleState()
+        {
+            if (!toggleThumbnailMenu.Checked)
+            {
+                toggleSaveFullImage.Checked = true;
+                saveFullImage = true;
+                toggleSaveFullImage.Enabled = false;
+            }
+            else
+            {
+                toggleSaveFullImage.Checked = saveFullImage;
+                toggleSaveFullImage.Enabled = true;
+            }
         }
 
         private void SetResizeCursor(ResizeRegion region)
@@ -1157,17 +1362,18 @@ namespace Fusion8.Cropper
 
         private void ApplyConfiguration()
         {
-            Settings settingsDialog = Configuration.Current;
-            userFormSize = settingsDialog.UserSize;
+            Settings settings = Configuration.Current;
+            userFormSize = settings.UserSize;
             VisibleClientSize = userFormSize;
-            colorIndex = settingsDialog.ColorIndex;
-            isThumbnailed = settingsDialog.IsThumbnailed;
-            maxThumbSize = settingsDialog.MaxThumbnailSize;
-            Location = settingsDialog.Location;
-            TopMost = settingsDialog.AlwaysOnTop;
+            colorIndex = settings.ColorIndex;
+            isThumbnailed = settings.IsThumbnailed;
+            maxThumbSize = settings.MaxThumbnailSize;
+            saveFullImage = settings.SaveFullImage;
+            Location = settings.Location;
+            TopMost = settings.AlwaysOnTop;
 
-            if (settingsDialog.HotKeySettings != null)
-                foreach (HotKeySetting hk in settingsDialog.HotKeySettings)
+            if (settings.HotKeySettings != null)
+                foreach (HotKeySetting hk in settings.HotKeySettings)
                 {
                     if (string.IsNullOrEmpty(hk.Id))
                         continue;
@@ -1175,14 +1381,14 @@ namespace Fusion8.Cropper
                     HotKeys.UpdateHotKey(hk.Id, (Keys) hk.KeyCode);
                 }
 
-            if (settingsDialog.UserOpacity < 0.1 || settingsDialog.UserOpacity > 0.9)
-                settingsDialog.UserOpacity = 0.4;
+            if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
+                settings.UserOpacity = 0.4;
 
-            LayerOpacity = !settingsDialog.UsePerPixelAlpha ? settingsDialog.UserOpacity : 1.0;
+            LayerOpacity = !settings.UsePerPixelAlpha ? settings.UserOpacity : 1.0;
 
-            if (ImageCapture.ImageOutputs[settingsDialog.ImageFormat] != null)
+            if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
             {
-                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settingsDialog.ImageFormat];
+                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settings.ImageFormat];
                 outputDescription = imageCapture.ImageFormat.Description;
             }
             else

@@ -37,6 +37,18 @@ namespace Fusion8.Cropper.Core
             return new Size(size.Width, size.Height);
         }
 
+        public double NextFormThumbSize()
+        {
+            if (cropSizeThumbQueue == null)
+                return 0.0;
+
+            if (cropSizeThumbQueue.Count == 0)
+                return 0.0;
+
+            double size = cropSizeThumbQueue.Next();
+            return size;
+        }
+
         internal object RetrieveSettingsForPlugin(Type settingsType)
         {
             if (PluginSettings == null)
@@ -71,6 +83,8 @@ namespace Fusion8.Cropper.Core
         private string outputPath = DefaultOutputPath;
 
         private CircularQueue<CropSize> cropSizeQueue;
+
+        private CircularQueue<double> cropSizeThumbQueue;
 
         #endregion
 
@@ -165,6 +179,9 @@ namespace Fusion8.Cropper.Core
         [XmlElement("IsThumbnailed", typeof(bool))]
         public bool IsThumbnailed { get; set; }
 
+        [XmlElement("SaveFullImage", typeof(bool))]
+        public bool SaveFullImage { get; set; } = true;
+
         [XmlElement("TrapPrintScreen", typeof(bool))]
         public bool TrapPrintScreen { get; set; } = true;
 
@@ -196,6 +213,25 @@ namespace Fusion8.Cropper.Core
                 cropSizeQueue = new CircularQueue<CropSize>();
                 foreach (CropSize size in value)
                     cropSizeQueue.Enqueue(size);
+            }
+        }
+
+        [XmlArray("PredefinedThumbSizes", IsNullable = true)]
+        [XmlArrayItem("Size", typeof(double))]
+        public double[] PredefinedThumbSizes
+        {
+            get
+            {
+                if (cropSizeThumbQueue == null)
+                    cropSizeThumbQueue = new CircularQueue<double>();
+
+                return cropSizeThumbQueue.ToArray();
+            }
+            set
+            {
+                cropSizeThumbQueue = new CircularQueue<double>();
+                foreach (double size in value)
+                    cropSizeThumbQueue.Enqueue(size);
             }
         }
 

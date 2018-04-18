@@ -123,11 +123,17 @@ Copyright 2004, Jeff Key</value>
   <data name="MenuThumbnail" xml:space="preserve">
     <value>Thumbnail</value>
   </data>
+  <data name="MenuSaveFullImage" xml:space="preserve">
+    <value>Save Full Image</value>
+  </data>
   <data name="MenuInvert" xml:space="preserve">
     <value>Next Color</value>
   </data>
   <data name="MenuSize" xml:space="preserve">
     <value>Predefined Size</value>
+  </data>
+  <data name="MenuThumbSize" xml:space="preserve">
+    <value>Predefined Thumb Size</value>
   </data>
   <data name="MenuHelp" xml:space="preserve">
     <value>Help</value>
