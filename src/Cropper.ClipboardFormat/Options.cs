@@ -1,6 +1,7 @@
 #region Using Directives
 
 using System;
+using System.Windows.Forms;
 using Fusion8.Cropper.Extensibility;
 
 #endregion
@@ -55,6 +56,16 @@ namespace Fusion8.Cropper
         private void HandleQualitySliderValueChanged(object sender, EventArgs e)
         {
             imageQuality.Text = SR.ImageQuality(ImageQuality);
+        }
+
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+        }
+
+        protected override void OnDpiChangedBeforeParent(EventArgs e)
+        {
+            base.OnDpiChangedBeforeParent(e);
         }
     }
 }

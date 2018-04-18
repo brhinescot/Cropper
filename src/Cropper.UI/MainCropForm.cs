@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Resources;
 using System.Security.Principal;
 using System.Windows.Forms;
@@ -1203,8 +1204,12 @@ namespace Fusion8.Cropper
                     thumbRatio = paintHeight / maxThumbSize;
                 else
                     thumbRatio = paintWidth / maxThumbSize;
+                
                 thumbnailSize.Width = Convert.ToInt32(paintWidth / thumbRatio);
                 thumbnailSize.Height = Convert.ToInt32(paintHeight / thumbRatio);
+
+//                thumbnailSize.Width = (int)Math.Round(Convert.ToInt32(paintWidth / thumbRatio) * dpiScale, MidpointRounding.ToEven);
+//                thumbnailSize.Height = (int)Math.Round(Convert.ToInt32(paintHeight / thumbRatio) * dpiScale, MidpointRounding.ToEven);
 
                 if (paintWidth > thumbnailSize.Width + 50 && paintHeight > thumbnailSize.Height + 30)
                 {
@@ -1357,19 +1362,16 @@ namespace Fusion8.Cropper
         {
             base.OnDpiChanged(e);
             
-            ScaleUI(e.DeviceDpiOld);
+            ScaleUI();
             PaintLayeredWindow();
         }
 
 
-        private void ScaleUI(float baseDpi = 96.0f)
+        private void ScaleUI()
         {
             dpiScale = DeviceDpi / 96.0f;
 
             feedbackFont = new Font("Verdana", 8f * dpiScale);
-
-            float dpiScale2 = DeviceDpi / baseDpi;
-            maxThumbSize = (int)(maxThumbSize * dpiScale2);
             
             tabPoints = new[]
             {

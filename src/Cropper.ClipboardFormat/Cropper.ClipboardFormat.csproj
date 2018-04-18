@@ -149,10 +149,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Skybound.VisualStyles, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f2d73a45b3e75a83">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Skybound.VisualStyles.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

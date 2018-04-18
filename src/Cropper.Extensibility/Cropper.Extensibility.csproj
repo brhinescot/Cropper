@@ -149,10 +149,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Skybound.VisualStyles">
-      <Name>Skybound.VisualStyles</Name>
-      <HintPath>..\..\lib\Skybound.VisualStyles.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
