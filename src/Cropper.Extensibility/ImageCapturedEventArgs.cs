@@ -33,6 +33,11 @@ namespace Fusion8.Cropper.Extensibility
         public bool IsThumbnailed { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether a full size image need to save with the thumbnail.
+        /// </summary>
+        public bool SaveFullImage { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating if the plugin will continue capturing multiple screenshots.
         /// </summary>
         public bool ContinueCapturing { get; set; }
