@@ -3,7 +3,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -547,6 +546,9 @@ namespace Fusion8.Cropper
         }
     }
 
+    /// <summary>
+    /// WIP: Trying some things.
+    /// </summary>
     public class DpiAwareTextBox : TextBox
     {
         protected override void OnDpiChangedBeforeParent(EventArgs e)
@@ -556,7 +558,6 @@ namespace Fusion8.Cropper
 
         protected override void OnDpiChangedAfterParent(EventArgs e)
         {
-            
             base.OnDpiChangedAfterParent(e);
         }
     }

@@ -50,10 +50,10 @@ namespace Fusion8.Cropper
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.widthInput = new Fusion8.Cropper.DpiAwareTextBox();
             this.heightInput = new Fusion8.Cropper.DpiAwareTextBox();
-            this.folderChooser = new System.Windows.Forms.TextBox();
-            this.fullImageTemplate = new System.Windows.Forms.TextBox();
-            this.thumbImageTemplate = new System.Windows.Forms.TextBox();
-            this.thumbMaxInput = new System.Windows.Forms.TextBox();
+            this.folderChooser = new Fusion8.Cropper.DpiAwareTextBox();
+            this.fullImageTemplate = new Fusion8.Cropper.DpiAwareTextBox();
+            this.thumbImageTemplate = new Fusion8.Cropper.DpiAwareTextBox();
+            this.thumbMaxInput = new Fusion8.Cropper.DpiAwareTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.outputFolderGroup = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
