@@ -66,8 +66,6 @@ namespace Fusion8.Cropper.Core
         private void HandleShortcutAssignClick(object sender, EventArgs e)
         {
             AddShortcut();
-            shortcutKeyNames.Enabled = true;
-            shortcutKeyNames.Visible = true;
         }
 
         private void AddShortcut()
@@ -87,7 +85,6 @@ namespace Fusion8.Cropper.Core
             OnHotKeyRegister(new HotKeyRegistrationEventArgs(hotKeyData.Id, item.Text, shortcut.KeyData, hotKeyData.Action, hotKeyData.KeyData, hotKeyData.Global));
 
             hotKeyData.KeyData = shortcut.KeyData;
-            shortcutKeyNames.Text = shortcut.Text;
         }
 
         private void HandleShortcutListSelectedIndexChanged(object sender, EventArgs e)
@@ -99,11 +96,8 @@ namespace Fusion8.Cropper.Core
             HotKeyData hotKeyData = (HotKeyData) items[0].Tag;
 
             shortcut.Mode = hotKeyData.Global ? ShortcutMode.Global : ShortcutMode.Local;
-
-            shortcutKeyNames.Text = null;
-            shortcutKeyNames.Visible = true;
+            
             shortcut.KeyData = hotKeyData.KeyData;
-            shortcutKeyNames.Text = shortcut.Text;
         }
 
         private void HandleShortcutPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -117,15 +111,7 @@ namespace Fusion8.Cropper.Core
         private void HandleShortcutEnter(object sender, EventArgs e)
         {
             Debug.WriteLine("Shortcut Enter");
-
             shortcut.Clear();
-            shortcutKeyNames.Visible = false;
-        }
-
-        private void HandleShortcutKeyNamesEnter(object sender, EventArgs e)
-        {
-            Debug.WriteLine("ShortcutKeyNames Enter");
-            shortcut.Focus();
         }
 
         private void OnHotKeyRegister(HotKeyRegistrationEventArgs e)

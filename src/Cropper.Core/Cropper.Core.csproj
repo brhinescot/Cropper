@@ -28,7 +28,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -155,10 +155,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Skybound.VisualStyles">
-      <Name>skybound.visualstyles</Name>
-      <HintPath>..\..\lib\skybound.visualstyles.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -193,6 +189,7 @@
     <Compile Include="Configuration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="CropSize.cs" />
     <Compile Include="DropDownButton.cs">
       <SubType>Component</SubType>

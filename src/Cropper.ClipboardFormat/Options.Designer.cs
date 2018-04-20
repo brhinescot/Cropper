@@ -55,6 +55,8 @@ In return, we simply require that you agree:
 
 #endregion
 
+using System.Drawing;
+
 namespace Fusion8.Cropper
 {
     partial class Options
@@ -85,55 +87,40 @@ namespace Fusion8.Cropper
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioBitmap = new System.Windows.Forms.RadioButton();
             this.radioJpg = new System.Windows.Forms.RadioButton();
             this.radioPng = new System.Windows.Forms.RadioButton();
             this.qualitySlider = new System.Windows.Forms.TrackBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.bitmapDescription = new System.Windows.Forms.Label();
-            this.pngDescription = new System.Windows.Forms.Label();
             this.jpgDescription = new System.Windows.Forms.Label();
             this.imageQuality = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioBitmap = new System.Windows.Forms.RadioButton();
+            this.pngDescription = new System.Windows.Forms.Label();
             this.themedTabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualitySlider)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // themedTabControl1
             // 
-            this.themedTabControl1.Size = new System.Drawing.Size(324, 391);
+            this.themedTabControl1.Dock = System.Windows.Forms.DockStyle.None;
+            this.themedTabControl1.Location = new System.Drawing.Point(55, 403);
+            this.themedTabControl1.Size = new System.Drawing.Size(298, 502);
             // 
-            // FirstTabPage
+            // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.imageQuality);
-            this.tabPage1.Controls.Add(this.jpgDescription);
-            this.tabPage1.Controls.Add(this.pngDescription);
-            this.tabPage1.Controls.Add(this.bitmapDescription);
-            this.tabPage1.Controls.Add(this.qualitySlider);
-            this.tabPage1.Controls.Add(this.radioBitmap);
-            this.tabPage1.Controls.Add(this.radioJpg);
-            this.tabPage1.Controls.Add(this.radioPng);
-            this.tabPage1.Size = new System.Drawing.Size(316, 365);
+            this.tabPage1.Size = new System.Drawing.Size(290, 476);
             this.tabPage1.Text = "Format";
-            // 
-            // radioBitmap
-            // 
-            this.radioBitmap.AutoSize = true;
-            this.radioBitmap.Checked = true;
-            this.radioBitmap.Location = new System.Drawing.Point(21, 17);
-            this.radioBitmap.Name = "radioBitmap";
-            this.radioBitmap.Size = new System.Drawing.Size(57, 17);
-            this.radioBitmap.TabIndex = 0;
-            this.radioBitmap.TabStop = true;
-            this.radioBitmap.Text = "&Bitmap";
-            this.radioBitmap.UseVisualStyleBackColor = true;
             // 
             // radioJpg
             // 
             this.radioJpg.AutoSize = true;
-            this.radioJpg.Location = new System.Drawing.Point(21, 187);
+            this.tableLayoutPanel1.SetColumnSpan(this.radioJpg, 2);
+            this.radioJpg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.radioJpg.Location = new System.Drawing.Point(3, 123);
             this.radioJpg.Name = "radioJpg";
-            this.radioJpg.Size = new System.Drawing.Size(48, 17);
+            this.radioJpg.Size = new System.Drawing.Size(292, 17);
             this.radioJpg.TabIndex = 4;
             this.radioJpg.Text = "&Jpeg";
             this.radioJpg.UseVisualStyleBackColor = true;
@@ -141,21 +128,25 @@ namespace Fusion8.Cropper
             // radioPng
             // 
             this.radioPng.AutoSize = true;
-            this.radioPng.Location = new System.Drawing.Point(21, 101);
+            this.tableLayoutPanel1.SetColumnSpan(this.radioPng, 2);
+            this.radioPng.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.radioPng.Location = new System.Drawing.Point(3, 63);
             this.radioPng.Name = "radioPng";
-            this.radioPng.Size = new System.Drawing.Size(44, 17);
+            this.radioPng.Size = new System.Drawing.Size(292, 17);
             this.radioPng.TabIndex = 2;
             this.radioPng.Text = "&Png";
             this.radioPng.UseVisualStyleBackColor = true;
             // 
             // qualitySlider
             // 
+            this.qualitySlider.BackColor = System.Drawing.SystemColors.Control;
+            this.qualitySlider.Dock = System.Windows.Forms.DockStyle.Top;
             this.qualitySlider.LargeChange = 10;
-            this.qualitySlider.Location = new System.Drawing.Point(35, 286);
+            this.qualitySlider.Location = new System.Drawing.Point(21, 208);
             this.qualitySlider.Maximum = 100;
             this.qualitySlider.Minimum = 10;
             this.qualitySlider.Name = "qualitySlider";
-            this.qualitySlider.Size = new System.Drawing.Size(259, 45);
+            this.qualitySlider.Size = new System.Drawing.Size(274, 45);
             this.qualitySlider.TabIndex = 7;
             this.qualitySlider.TickFrequency = 10;
             this.qualitySlider.Value = 80;
@@ -173,63 +164,114 @@ namespace Fusion8.Cropper
             // 
             // bitmapDescription
             // 
-            this.bitmapDescription.Location = new System.Drawing.Point(32, 37);
+            this.bitmapDescription.AutoSize = true;
+            this.bitmapDescription.BackColor = System.Drawing.Color.Transparent;
+            this.bitmapDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bitmapDescription.Location = new System.Drawing.Point(21, 23);
+            this.bitmapDescription.Margin = new System.Windows.Forms.Padding(3, 0, 3, 24);
             this.bitmapDescription.Name = "bitmapDescription";
-            this.bitmapDescription.Size = new System.Drawing.Size(262, 63);
+            this.bitmapDescription.Size = new System.Drawing.Size(274, 13);
             this.bitmapDescription.TabIndex = 1;
             this.bitmapDescription.Text = "{Resourced}";
             // 
-            // pngDescription
-            // 
-            this.pngDescription.Location = new System.Drawing.Point(32, 121);
-            this.pngDescription.Name = "pngDescription";
-            this.pngDescription.Size = new System.Drawing.Size(262, 63);
-            this.pngDescription.TabIndex = 3;
-            this.pngDescription.Text = "{Resourced}";
-            // 
             // jpgDescription
             // 
-            this.jpgDescription.Location = new System.Drawing.Point(32, 207);
+            this.jpgDescription.AutoSize = true;
+            this.jpgDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.jpgDescription.Location = new System.Drawing.Point(21, 143);
+            this.jpgDescription.Margin = new System.Windows.Forms.Padding(3, 0, 3, 24);
             this.jpgDescription.Name = "jpgDescription";
-            this.jpgDescription.Size = new System.Drawing.Size(262, 63);
+            this.jpgDescription.Size = new System.Drawing.Size(274, 13);
             this.jpgDescription.TabIndex = 5;
             this.jpgDescription.Text = "{Resourced}";
             // 
             // imageQuality
             // 
-            this.imageQuality.AutoSize = true;
-            this.imageQuality.Location = new System.Drawing.Point(32, 270);
+            this.imageQuality.Location = new System.Drawing.Point(21, 180);
             this.imageQuality.Name = "imageQuality";
-            this.imageQuality.Size = new System.Drawing.Size(67, 13);
+            this.imageQuality.Size = new System.Drawing.Size(248, 25);
             this.imageQuality.TabIndex = 6;
             this.imageQuality.Text = "{Resourced}";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.273063F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 93.72694F));
+            this.tableLayoutPanel1.Controls.Add(this.radioBitmap, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.qualitySlider, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.imageQuality, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.bitmapDescription, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.jpgDescription, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.radioPng, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.pngDescription, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.radioJpg, 0, 4);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(298, 326);
+            this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // radioBitmap
+            // 
+            this.radioBitmap.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.radioBitmap, 2);
+            this.radioBitmap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.radioBitmap.Location = new System.Drawing.Point(3, 3);
+            this.radioBitmap.Name = "radioBitmap";
+            this.radioBitmap.Size = new System.Drawing.Size(292, 17);
+            this.radioBitmap.TabIndex = 0;
+            this.radioBitmap.Text = "&Bitmap";
+            this.radioBitmap.UseVisualStyleBackColor = true;
+            // 
+            // pngDescription
+            // 
+            this.pngDescription.AutoSize = true;
+            this.pngDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pngDescription.Location = new System.Drawing.Point(21, 83);
+            this.pngDescription.Margin = new System.Windows.Forms.Padding(3, 0, 3, 24);
+            this.pngDescription.Name = "pngDescription";
+            this.pngDescription.Size = new System.Drawing.Size(274, 13);
+            this.pngDescription.TabIndex = 3;
+            this.pngDescription.Text = "{Resourced}";
+            // 
             // Options
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 391);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(298, 326);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Options";
             this.Text = "Options";
+            this.Controls.SetChildIndex(this.themedTabControl1, 0);
+            this.Controls.SetChildIndex(this.tableLayoutPanel1, 0);
             this.themedTabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualitySlider)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.RadioButton radioBitmap;
+        
         private System.Windows.Forms.RadioButton radioJpg;
         private System.Windows.Forms.RadioButton radioPng;
         private System.Windows.Forms.TrackBar qualitySlider;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label bitmapDescription;
         private System.Windows.Forms.Label jpgDescription;
-        private System.Windows.Forms.Label pngDescription;
         private System.Windows.Forms.Label imageQuality;
-
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.RadioButton radioBitmap;
+        private System.Windows.Forms.Label pngDescription;
     }
 }

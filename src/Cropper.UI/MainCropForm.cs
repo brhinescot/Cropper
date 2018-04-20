@@ -1,7 +1,6 @@
 #region Using Directives
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -40,13 +39,107 @@ namespace Fusion8.Cropper
     /// </summary>
     public class MainCropForm : CropForm
     {
+        #region Constants
+
+        private const int ResizeBorderWidth = 18;
+        private const int TabHeight = 15;
+        private const int TabTopWidth = TabHeight + 30; // 45
+        private const int TabBottomWidth = TabHeight + TabTopWidth; // 60
+        private const int TransparentMargin = TabBottomWidth;
+
+        // Form measurements and sizes
+        private const int MinimumDialogWidth = 230;
+
+        private const int MinimumDialogHeight = 180;
+        private const int DefaultSizingInterval = 1;
+        private const int AlternateSizingInterval = 10;
+        private const int MinimumThumbnailSize = 20;
+        private const int MinimumSizeForCrosshairDraw = 30;
+        private const int CrosshairLengthFromCenter = 10;
+        private const int FormatDescriptionOffset = 5;
+        private const int MinimumPadForFormatDescriptionDraw = 5;
+        private const int DefaultMaxThumbnailSize = 80;
+        private const int DefaultVisibleHeightWidth = 180;
+        private const int DefaultPositionLeft = 100;
+        private const int DefaultPositionTop = 100;
+        private const double DefaultLayerOpacity = 0.4;
+
+        #endregion
+        
+        #region Fields
+
+        private bool showAbout;
+        private bool showHelp;
+        private bool isThumbnailed;
+        private bool isDisposed;
+        private bool takingScreeshot;
+        private int colorIndex;
+
+        /// <summary>
+        /// Toggle to save the 'Full Sized Image' or not
+        /// </summary>
+        private bool saveFullImage;
+
+        private double maxThumbSize = DefaultMaxThumbnailSize;
+
+        // String displayed on form describing the current output format. 
+        private string outputDescription;
+
+        private Point middle;
+        private Point offset;
+        private Point mouseDownPoint;
+        
+        private Rectangle mouseDownRect;
+        private Rectangle dialogCloseRectangle;
+        private Rectangle thumbnailRectangle;
+        private Rectangle visibleFormArea;
+        private Point mouseDownLocation;
+
+        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize, DefaultMaxThumbnailSize);
+
+        private Font feedbackFont;
+        private PointF[] tabPoints;
+        private float dpiScale;
+
+        // Brushes
+        // TODO: [Performance] Use one brush and set colors as needed.
+        // Brush for the tab background.
+        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
+
+        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
+
+        // Brush for the visible form background.
+        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
+
+        // Brush for the visible form background.
+        private readonly Pen outlinePen = new Pen(Color.Black);
+
+        // Brush for the drawn text and lines.
+        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
+
+        private readonly List<CropFormColorTable> colorTables = new List<CropFormColorTable>();
+        private CropFormColorTable currentColorTable;
+        private readonly ContextMenu menu = new ContextMenu();
+        private MenuItem outputMenuItem;
+        private MenuItem opacityMenuItem;
+        private MenuItem showHideMenu;
+        private MenuItem toggleThumbnailMenu;
+        private NotifyIcon notifyIcon;
+
+        private ResizeRegion resizeRegion = ResizeRegion.None;
+        private ResizeRegion thumbResizeRegion;
+        private readonly ImageCapture imageCapture;
+        private MenuItem toggleSaveFullImage;
+
+        #endregion
+        
         #region Property Accessors
 
         /// <summary>
         ///     Gets the visible client rectangle.
         /// </summary>
         /// <value></value>
-        public Rectangle VisibleClientRectangle
+        private Rectangle VisibleClientRectangle
         {
             get
             {
@@ -84,7 +177,7 @@ namespace Fusion8.Cropper
                         break;
                     case ScreenShotBounds.Rectangle:
                         if (isThumbnailed)
-                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize, SaveFullImage);
+                            imageCapture.Capture(VisibleClientRectangle, maxThumbSize, saveFullImage);
                         else
                             imageCapture.Capture(VisibleClientRectangle);
                         break;
@@ -109,159 +202,7 @@ namespace Fusion8.Cropper
         }
 
         #endregion
-
-        #region Other Event Handling
-
-        /// <summary>
-        ///     Handles the MouseUp event of the NotifyIcon control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
-        private void HandleNotifyIconMouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-                CycleFormVisibility(false);
-        }
-
-        #endregion
-
-        #region IDisposable Implementation
-
-        protected override void Dispose(bool disposing)
-        {
-            isDisposed = true;
-            if (disposing)
-            {
-                if (null != feedbackFont)
-                    feedbackFont.Dispose();
-                if (null != menu)
-                    menu.Dispose();
-                if (null != tabBrush)
-                    tabBrush.Dispose();
-                if (null != areaBrush)
-                    areaBrush.Dispose();
-                if (null != formTextBrush)
-                    formTextBrush.Dispose();
-                if (null != notifyIcon)
-                    notifyIcon.Dispose();
-                if (null != outlinePen)
-                    outlinePen.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
-
-        #region Constants
-
-        private const int ResizeBorderWidth = 18;
-        private const int TabHeight = 15;
-        private const int TabTopWidth = TabHeight + 30; // 45
-        private const int TabBottomWidth = TabHeight + TabTopWidth; // 60
-        private const int TransparentMargin = TabBottomWidth;
-
-        // Form measurements and sizes
-        private const int MinimumDialogWidth = 230;
-
-        private const int MinimumDialogHeight = 180;
-        private const int DefaultSizingInterval = 1;
-        private const int AlternateSizingInterval = 10;
-        private const int MinimumThumbnailSize = 20;
-        private const int MinimumSizeForCrosshairDraw = 30;
-        private const int CrosshairLengthFromCenter = 10;
-        private const int FormatDescriptionOffset = 5;
-        private const int MinimumPadForFormatDescriptionDraw = 5;
-        private const int DefaultMaxThumbnailSize = 80;
-        private const int DefaultVisibleHeightWidth = 180;
-        private const int DefaultPositionLeft = 100;
-        private const int DefaultPositionTop = 100;
-        private const double DefaultLayerOpacity = 0.4;
-
-        #endregion
-
-        #region Member Variables
-
-        private bool showAbout;
-        private bool showHelp;
-        private bool isThumbnailed;
-        private bool isDisposed;
-        private bool takingScreeshot;
-        private int colorIndex;
-        /// <summary>
-        /// Toggle to save the 'Full Sized Image' or not
-        /// </summary>
-        private bool SaveFullImage;
-
-        private double maxThumbSize = DefaultMaxThumbnailSize;
-
-        // String displayed on form describing the current output format. 
-        private string outputDescription;
-
-        private Point middle;
-        private Point offset;
-        private Point mouseDownPoint;
-        private Point mouseDownLocation;
-
-        // Point locations for drawing the tabs.
-        private readonly Point[] points =
-        {
-            new Point(TransparentMargin - TabHeight,
-                TransparentMargin - TabHeight),
-            new Point(TransparentMargin + TabTopWidth,
-                TransparentMargin - TabHeight),
-            new Point(TransparentMargin + TabBottomWidth,
-                TransparentMargin),
-            new Point(TransparentMargin,
-                TransparentMargin),
-            new Point(TransparentMargin,
-                TransparentMargin + TabBottomWidth),
-            new Point(TransparentMargin - TabHeight,
-                TransparentMargin + TabTopWidth)
-        };
-
-        private Rectangle mouseDownRect;
-        private Rectangle dialogCloseRectangle;
-        private Rectangle thumbnailRectangle;
-        private Rectangle visibleFormArea;
-        private Size userFormSize;
-
-        private Size thumbnailSize = new Size(DefaultMaxThumbnailSize,
-            DefaultMaxThumbnailSize);
-
-        private readonly Font feedbackFont = new Font("Verdana", 8f);
-
-        // Brushes
-        // TODO: [Performance] Use one brush and set colors as needed.
-        // Brush for the tab background.
-        private readonly SolidBrush tabBrush = new SolidBrush(Color.SteelBlue);
-
-        private readonly SolidBrush tabTextBrush = new SolidBrush(Color.Black);
-
-        // Brush for the visible form background.
-        private readonly SolidBrush areaBrush = new SolidBrush(Color.White);
-
-        // Brush for the visible form background.
-        private readonly Pen outlinePen = new Pen(Color.Black);
-
-        // Brush for the drawn text and lines.
-        private readonly SolidBrush formTextBrush = new SolidBrush(Color.Black);
-
-        private readonly ArrayList colorTables = new ArrayList();
-        private CropFormColorTable currentColorTable;
-        private readonly ContextMenu menu = new ContextMenu();
-        private MenuItem outputMenuItem;
-        private MenuItem opacityMenuItem;
-        private MenuItem showHideMenu;
-        private MenuItem toggleThumbnailMenu;
-        private MenuItem toggleSaveFullImage;
-        private NotifyIcon notifyIcon;
-
-        private ResizeRegion resizeRegion = ResizeRegion.None;
-        private ResizeRegion thumbResizeRegion;
-        private readonly ImageCapture imageCapture;
-
-        #endregion
-
+  
         #region Private Property Accessors
 
         private int VisibleWidth
@@ -291,8 +232,7 @@ namespace Fusion8.Cropper
         private Size VisibleClientSize
         {
             get => new Size(VisibleWidth, VisibleHeight);
-            set
-            {
+            set {
                 VisibleWidth = value.Width;
                 VisibleHeight = value.Height;
             }
@@ -306,47 +246,67 @@ namespace Fusion8.Cropper
         {
             Configuration.Current.ActiveCropWindow = this;
             imageCapture = new ImageCapture();
-            RegisterHotKeys();
-            ApplyConfiguration();
             colorTables.Add(new CropFormBlueColorTable());
             colorTables.Add(new CropFormDarkColorTable());
             colorTables.Add(new CropFormLightColorTable());
-            currentColorTable = (CropFormColorTable) colorTables[0];
-            SetColors();
+            
+            RegisterHotKeys();
+            
+            SuspendLayout();
+            
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            
+            ResumeLayout(true);
+
+            ApplyConfiguration();
             SetUpForm();
             SetUpMenu();
-            if (LimitMaxWorkingSet()) Process.GetCurrentProcess().MaxWorkingSet = (IntPtr) 5000000;
             SaveConfiguration();
-        }
-
-        /// <summary>
-        ///     Determines if the MaxWorkingSet should be limited.
-        /// </summary>
-        /// <returns>true if MaxWorkingSet should be limited; otherwise, false</returns>
-        /// <remarks>
-        ///     This is only used to prevent an exception in Windows 2000 when the user is not part of the
-        ///     BUILTIN\Administrators group. This can be removed when Windows 2000 is no longer supported (July 13, 2010)
-        /// </remarks>
-        private static bool LimitMaxWorkingSet()
-        {
-            bool windows2000 = Environment.OSVersion.Version.Major == 5 &&
-                               Environment.OSVersion.Version.Minor == 0 &&
-                               Environment.OSVersion.Version.Build == 2195;
-            if (windows2000)
-            {
-                string administratorsGroupSid = "S-1-5-32-544";
-                foreach (IdentityReference group in WindowsIdentity.GetCurrent().Groups)
-                    if (group.Value == administratorsGroupSid)
-                        return true;
-
-                return false;
-            }
-
-            return true;
+            
+            if (LimitMaxWorkingSet())
+                Process.GetCurrentProcess().MaxWorkingSet = (IntPtr)5000000;
         }
 
         #endregion
 
+        #region Lifecycle
+
+        protected override void OnLoad(EventArgs e)
+        {
+            ScaleUI();
+            SetColors();
+            PaintLayeredWindow();
+            
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_BIG, Icon.Handle);
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_SMALL, notifyIcon.Icon.Handle);
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETTEXT, 0, Text);
+            base.OnLoad(e);
+        }
+
+        /// <summary>
+        ///     Raises the <see cref="Form.Closing" /> event.
+        /// </summary>
+        /// <param name="e">A <see cref="CancelEventArgs" /> that contains the event data.</param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (isDisposed)
+                throw new ObjectDisposedException(ToString());
+
+            SaveConfiguration();
+            base.OnClosing(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_BIG, IntPtr.Zero);
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_SMALL, IntPtr.Zero);
+            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETTEXT, 0, null);
+            base.OnClosed(e);
+        }
+
+        #endregion
+        
         #region Hot Keys
 
         private void RegisterHotKeys()
@@ -424,9 +384,9 @@ namespace Fusion8.Cropper
             if (!e.Handled)
                 HotKeys.Process(e.KeyData);
         }
-
+        
         #endregion
-
+        
         #region Menu Handling
 
         /// <summary>
@@ -447,7 +407,7 @@ namespace Fusion8.Cropper
             toggleThumbnailMenu = AddTopLevelMenuItem(SR.MenuThumbnail, HandleMenuThumbnailClick);
             toggleThumbnailMenu.Checked = isThumbnailed;
             toggleSaveFullImage = AddTopLevelMenuItem(SR.MenuSaveFullImage, HandleMenuSaveFullImageClick);
-            toggleSaveFullImage.Checked = SaveFullImage;
+            toggleSaveFullImage.Checked = saveFullImage;
             AddTopLevelMenuItem(SR.MenuOptions, HandleMenuOptionsClick);
             AddTopLevelMenuItem(SR.MenuBrowse, HandleMenuBrowseClick);
             AddTopLevelMenuItem(SR.MenuSeperator, null);
@@ -502,9 +462,7 @@ namespace Fusion8.Cropper
         {
             for (int i = 10; i <= 90; i += 10)
             {
-                MenuItem subMenu;
-                subMenu = new MenuItem(i + "%");
-                subMenu.RadioCheck = true;
+                MenuItem subMenu = new MenuItem(i + "%") {RadioCheck = true};
                 subMenu.Click += HandleMenuOpacityClick;
                 opacityMenuItem.MenuItems.Add(subMenu);
                 if (i == Convert.ToInt32(Configuration.Current.UserOpacity * 100))
@@ -632,8 +590,7 @@ namespace Fusion8.Cropper
 
         private void HandleMenuSizeClick(object sender, EventArgs e)
         {
-            MenuItem item = sender as MenuItem;
-            if (item == null)
+            if (!(sender is MenuItem item))
                 return;
 
             if (!(item.Tag is CropSize))
@@ -646,10 +603,8 @@ namespace Fusion8.Cropper
         private void HandleMenuThumbSizeClick(object sender, EventArgs e)
         {
             MenuItem item = sender as MenuItem;
-            if (item == null)
-                return;
 
-            if (!(item.Tag is double))
+            if (!(item?.Tag is double))
                 return;
 
             double size = (double)item.Tag;
@@ -698,7 +653,7 @@ namespace Fusion8.Cropper
 
         private void ShowOptionsDialog()
         {
-            Options options = new Options {Visible = false};
+            Options options = new Options();
             if (options.ShowDialog(this) != DialogResult.OK)
                 return;
 
@@ -724,11 +679,13 @@ namespace Fusion8.Cropper
             {
                 // Browse to folder and select last image
                 // Thanks to Jon Galloway
-                ProcessStartInfo processStartInfo = new ProcessStartInfo();
-                processStartInfo.FileName = "explorer";
-                processStartInfo.UseShellExecute = true;
-                processStartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                processStartInfo.Arguments = "/e,/select,\"" + imageCapture.LastImageCaptured + "\"";
+                ProcessStartInfo processStartInfo = new ProcessStartInfo
+                {
+                    FileName = "explorer",
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Normal,
+                    Arguments = "/e,/select,\"" + imageCapture.LastImageCaptured + "\""
+                };
                 Process.Start(processStartInfo);
             }
         }
@@ -755,7 +712,6 @@ namespace Fusion8.Cropper
 
         private void EnsureMinimumDialogWidth()
         {
-            userFormSize = VisibleClientSize;
             if ((VisibleWidth < MinimumDialogWidth) | (VisibleHeight < MinimumDialogHeight))
                 VisibleClientSize = new Size(MinimumDialogWidth, MinimumDialogHeight);
         }
@@ -782,8 +738,6 @@ namespace Fusion8.Cropper
         }
 
         #endregion
-
-        #region Event Overrides
 
         #region Mouse Overrides
 
@@ -834,6 +788,8 @@ namespace Fusion8.Cropper
 
         #endregion
 
+        #region Event Overrides
+        
         /// <summary>
         ///     Raises the <see cref="Form.KeyDown" /> event.
         /// </summary>
@@ -850,47 +806,6 @@ namespace Fusion8.Cropper
             e.Handled = true;
             e.SuppressKeyPress = true;
             HotKeys.Process(e.KeyData);
-        }
-
-        /// <summary>
-        ///     Raises the <see cref="Form.Closing" /> event.
-        /// </summary>
-        /// <param name="e">A <see cref="CancelEventArgs" /> that contains the event data.</param>
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            if (isDisposed)
-                throw new ObjectDisposedException(ToString());
-
-            SaveConfiguration();
-            base.OnClosing(e);
-        }
-
-        private void SaveConfiguration()
-        {
-            string description = string.Empty;
-            if (imageCapture.ImageFormat != null)
-                description = imageCapture.ImageFormat.Description;
-
-            Configuration.Current.ImageFormat = description;
-            Configuration.Current.MaxThumbnailSize = maxThumbSize;
-            Configuration.Current.SaveFullImage = SaveFullImage;
-            Configuration.Current.IsThumbnailed = isThumbnailed;
-            Configuration.Current.Location = Location;
-            Configuration.Current.UserSize = VisibleClientSize;
-            Configuration.Current.ColorIndex = colorIndex;
-            Configuration.Current.AlwaysOnTop = TopMost;
-            Configuration.Current.Hidden = !Visible;
-
-            try
-            {
-                Configuration.Save();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(
-                    "There was a problem saving your current settings. This may be caused by a plug-in. No changes have been made to your configuration.",
-                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
         }
 
         protected override void OnResize(EventArgs e)
@@ -915,28 +830,6 @@ namespace Fusion8.Cropper
             }
 
             base.OnResize(e);
-        }
-
-        protected override void OnPaintLayer(PaintLayerEventArgs e)
-        {
-            PaintUI(e.Graphics);
-            base.OnPaintLayer(e);
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_BIG, Icon.Handle);
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_SMALL, notifyIcon.Icon.Handle);
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETTEXT, 0, Text);
-            base.OnLoad(e);
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_BIG, IntPtr.Zero);
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETICON, NativeMethods.ICON_SMALL, IntPtr.Zero);
-            NativeMethods.SendMessage(NativeMethods.GetTopLevelOwner(Handle), NativeMethods.WM_SETTEXT, 0, null);
-            base.OnClosed(e);
         }
 
         #endregion
@@ -1158,13 +1051,12 @@ namespace Fusion8.Cropper
             mouseDownPoint.Y = MousePosition.Y;
 
             ResizeThumbnail(diffX + diffY);
-            PaintLayeredWindow();
         }
 
         private void CenterSize(int interval)
         {
             if (interval < -AlternateSizingInterval || interval > AlternateSizingInterval)
-                throw new ArgumentOutOfRangeException("interval", interval, SR.ExceptionCenterSizeOutOfRange);
+                throw new ArgumentOutOfRangeException(nameof(interval), interval, SR.ExceptionCenterSizeOutOfRange);
 
             if ((VisibleWidth > interval) & (VisibleHeight > interval))
             {
@@ -1183,6 +1075,7 @@ namespace Fusion8.Cropper
             else
                 colorIndex++;
             SetColors();
+            PaintLayeredWindow();
         }
 
         private void CycleSizes()
@@ -1213,7 +1106,7 @@ namespace Fusion8.Cropper
 
         private void SetColors()
         {
-            currentColorTable = (CropFormColorTable) colorTables[colorIndex];
+            currentColorTable = colorTables[colorIndex];
             int areaAlpha = (int) (Configuration.Current.UserOpacity * 255);
 
             if (Configuration.Current.UsePerPixelAlpha)
@@ -1232,7 +1125,6 @@ namespace Fusion8.Cropper
             formTextBrush.Color = currentColorTable.FormTextColor;
             tabTextBrush.Color = currentColorTable.TabTextColor;
             outlinePen.Color = currentColorTable.LineColor;
-            PaintLayeredWindow();
         }
 
         private bool IsInResizeArea()
@@ -1268,7 +1160,7 @@ namespace Fusion8.Cropper
 
         private void ToggleSaveFullImage(MenuItem mi)
         {
-            SaveFullImage = mi.Checked = !mi.Checked;
+            saveFullImage = mi.Checked = !mi.Checked;
             PaintLayeredWindow();
         }
 
@@ -1277,12 +1169,12 @@ namespace Fusion8.Cropper
             if (!toggleThumbnailMenu.Checked)
             {
                 toggleSaveFullImage.Checked = true;
-                SaveFullImage = true;
+                saveFullImage = true;
                 toggleSaveFullImage.Enabled = false;
             }
             else
             {
-                toggleSaveFullImage.Checked = SaveFullImage;
+                toggleSaveFullImage.Checked = saveFullImage;
                 toggleSaveFullImage.Enabled = true;
             }
         }
@@ -1339,7 +1231,6 @@ namespace Fusion8.Cropper
 
         private void DialogClose()
         {
-            VisibleClientSize = userFormSize;
             dialogCloseRectangle.Inflate(-dialogCloseRectangle.Size.Width, -dialogCloseRectangle.Size.Height);
             showAbout = false;
             showHelp = false;
@@ -1360,51 +1251,16 @@ namespace Fusion8.Cropper
             PaintLayeredWindow();
             CycleFormVisibility(false);
         }
-
-        private void ApplyConfiguration()
-        {
-            Settings settings = Configuration.Current;
-            userFormSize = settings.UserSize;
-            VisibleClientSize = userFormSize;
-            colorIndex = settings.ColorIndex;
-            isThumbnailed = settings.IsThumbnailed;
-            maxThumbSize = settings.MaxThumbnailSize;
-            SaveFullImage = settings.SaveFullImage;
-            Location = settings.Location;
-            TopMost = settings.AlwaysOnTop;
-
-            if (settings.HotKeySettings != null)
-                foreach (HotKeySetting hk in settings.HotKeySettings)
-                {
-                    if (string.IsNullOrEmpty(hk.Id))
-                        continue;
-
-                    HotKeys.UpdateHotKey(hk.Id, (Keys) hk.KeyCode);
-                }
-
-            if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
-                settings.UserOpacity = 0.4;
-
-            LayerOpacity = !settings.UsePerPixelAlpha ? settings.UserOpacity : 1.0;
-
-            if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
-            {
-                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settings.ImageFormat];
-                outputDescription = imageCapture.ImageFormat.Description;
-            }
-            else
-            {
-                outputDescription = SR.MessageNoOutputLoaded;
-            }
-        }
-
+        
         private void SetUpForm()
         {
             ResourceManager resources = new ResourceManager(typeof(MainCropForm));
 
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = (Icon) resources.GetObject("NotifyIcon");
-            notifyIcon.Visible = true;
+            notifyIcon = new NotifyIcon
+            {
+                Icon = (Icon) resources.GetObject("NotifyIcon"),
+                Visible = true
+            };
             notifyIcon.MouseUp += HandleNotifyIconMouseUp;
             notifyIcon.Text = "Cropper\nOutput: " + outputDescription;
 
@@ -1413,8 +1269,6 @@ namespace Fusion8.Cropper
 
             ContextMenu = menu;
             notifyIcon.ContextMenu = menu;
-            if (!Configuration.Current.Hidden)
-                Show();
         }
 
         private static void ShowError(string text, string caption)
@@ -1427,9 +1281,43 @@ namespace Fusion8.Cropper
             MessageBox.Show(text, caption, MessageBoxButtons.OK, icon);
         }
 
+        /// <summary>
+        ///     Determines if the MaxWorkingSet should be limited.
+        /// </summary>
+        /// <returns>true if MaxWorkingSet should be limited; otherwise, false</returns>
+        /// <remarks>
+        ///     This is only used to prevent an exception in Windows 2000 when the user is not part of the
+        ///     BUILTIN\Administrators group. This can be removed when Windows 2000 is no longer supported (July 13, 2010)
+        /// </remarks>
+        private static bool LimitMaxWorkingSet()
+        {
+            bool windows2000 = Environment.OSVersion.Version.Major == 5 &&
+                               Environment.OSVersion.Version.Minor == 0 &&
+                               Environment.OSVersion.Version.Build == 2195;
+            if (windows2000)
+            {
+                string administratorsGroupSid = "S-1-5-32-544";
+                foreach (IdentityReference group in WindowsIdentity.GetCurrent().Groups)
+                    if (group.Value == administratorsGroupSid)
+                        return true;
+
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Painting
+
+        protected override void OnPaintLayer(PaintLayerEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+
+            PaintUI(graphics);
+            base.OnPaintLayer(e);
+        }
 
         private void PaintUI(Graphics graphics)
         {
@@ -1467,9 +1355,7 @@ namespace Fusion8.Cropper
                 PaintOutputFormat(graphics, VisibleWidth, VisibleHeight);
             }
 
-            PaintSizeTabs(graphics, points);
-            PaintWidthString(graphics, VisibleWidth);
-            PaintHeightString(graphics, VisibleHeight);
+            PaintSizeTabs(graphics);
         }
 
         private void PaintGrabber(Graphics graphics, Point grabberStart)
@@ -1481,9 +1367,33 @@ namespace Fusion8.Cropper
             graphics.DrawLine(outlinePen, grabberStart.X - 15, yOffset, xOffset, grabberStart.Y - 15);
         }
 
-        private void PaintSizeTabs(Graphics graphics, Point[] tabPoints)
+        private void PaintSizeTabs(Graphics graphics)
         {
             graphics.FillPolygon(tabBrush, tabPoints);
+            
+            PaintWidthString(graphics);
+            PaintHeightString(graphics);
+        }
+
+        private void PaintHeightString(Graphics graphics)
+        {
+            graphics.RotateTransform(90);
+            graphics.DrawString(
+                VisibleHeight + " px",
+                feedbackFont,
+                tabTextBrush,
+                TransparentMargin,
+                -TransparentMargin);
+        }
+
+        private void PaintWidthString(Graphics graphics)
+        {
+            graphics.DrawString(
+                VisibleWidth + " px",
+                feedbackFont,
+                tabTextBrush,
+                TransparentMargin,
+                TransparentMargin - 14 * dpiScale);
         }
 
         private void PaintMainFormArea(Graphics graphics, Rectangle cropArea)
@@ -1501,8 +1411,12 @@ namespace Fusion8.Cropper
                     thumbRatio = paintHeight / maxThumbSize;
                 else
                     thumbRatio = paintWidth / maxThumbSize;
+                
                 thumbnailSize.Width = Convert.ToInt32(paintWidth / thumbRatio);
                 thumbnailSize.Height = Convert.ToInt32(paintHeight / thumbRatio);
+
+//                thumbnailSize.Width = (int)Math.Round(Convert.ToInt32(paintWidth / thumbRatio) * dpiScale, MidpointRounding.ToEven);
+//                thumbnailSize.Height = (int)Math.Round(Convert.ToInt32(paintHeight / thumbRatio) * dpiScale, MidpointRounding.ToEven);
 
                 if (paintWidth > thumbnailSize.Width + 50 && paintHeight > thumbnailSize.Height + 30)
                 {
@@ -1541,27 +1455,6 @@ namespace Fusion8.Cropper
                     }
                 }
             }
-        }
-
-        private void PaintHeightString(Graphics graphics, int paintHeight)
-        {
-            graphics.RotateTransform(90);
-            graphics.DrawString(
-                paintHeight + " px",
-                feedbackFont,
-                tabTextBrush,
-                TransparentMargin,
-                -TransparentMargin);
-        }
-
-        private void PaintWidthString(Graphics graphics, int paintWidth)
-        {
-            graphics.DrawString(
-                paintWidth + " px",
-                feedbackFont,
-                tabTextBrush,
-                TransparentMargin,
-                TransparentMargin - 15);
         }
 
         private void PaintOutputFormat(Graphics graphics, int paintWidth, int paintHeight)
@@ -1609,9 +1502,11 @@ namespace Fusion8.Cropper
 
         private void DrawDialog(Graphics g, string title, string text)
         {
-            StringFormat format = new StringFormat(StringFormatFlags.NoClip);
-            format.Alignment = StringAlignment.Near;
-            format.LineAlignment = StringAlignment.Center;
+            StringFormat format = new StringFormat(StringFormatFlags.NoClip)
+            {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Center
+            };
 
             Rectangle aboutRectangle = new Rectangle(Width / 2 - 90, Height / 2 - 60, MinimumDialogHeight, 120);
 
@@ -1664,6 +1559,147 @@ namespace Fusion8.Cropper
             closeFormat.Dispose();
             textFont.Dispose();
             closeFont.Dispose();
+        }
+
+        #endregion
+
+        #region DPI
+
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+            
+            ScaleUI();
+            PaintLayeredWindow();
+        }
+
+
+        private void ScaleUI()
+        {
+            dpiScale = DeviceDpi / 96.0f;
+
+            feedbackFont = new Font("Verdana", 8f * dpiScale);
+            
+            tabPoints = new[]
+            {
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabTopWidth * dpiScale,
+                    TransparentMargin - TabHeight * dpiScale),
+                new PointF(TransparentMargin + TabBottomWidth * dpiScale,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin),
+                new PointF(TransparentMargin,
+                    TransparentMargin + TabBottomWidth * dpiScale),
+                new PointF(TransparentMargin - TabHeight * dpiScale,
+                    TransparentMargin + TabTopWidth * dpiScale)
+            };
+        }
+
+        #endregion
+
+        #region Configuration
+
+        private void ApplyConfiguration()
+        {
+            Settings settings = Configuration.Current;
+            Location = settings.Location;
+            TopMost = settings.AlwaysOnTop;
+            
+            VisibleClientSize = settings.UserSize;
+            colorIndex = settings.ColorIndex;
+            isThumbnailed = settings.IsThumbnailed;
+            maxThumbSize = settings.MaxThumbnailSize;
+
+            saveFullImage = settings.SaveFullImage;
+
+            if (settings.HotKeySettings != null)
+                foreach (HotKeySetting hk in settings.HotKeySettings)
+                {
+                    if (string.IsNullOrEmpty(hk.Id))
+                        continue;
+
+                    HotKeys.UpdateHotKey(hk.Id, (Keys)hk.KeyCode);
+                }
+
+            if (settings.UserOpacity < 0.1 || settings.UserOpacity > 0.9)
+                settings.UserOpacity = 0.4;
+
+            LayerOpacity = !settings.UsePerPixelAlpha ? settings.UserOpacity : 1.0;
+
+            if (ImageCapture.ImageOutputs[settings.ImageFormat] != null)
+            {
+                imageCapture.ImageFormat = ImageCapture.ImageOutputs[settings.ImageFormat];
+                outputDescription = imageCapture.ImageFormat.Description;
+            }
+            else
+            {
+                outputDescription = SR.MessageNoOutputLoaded;
+            }
+        }
+
+        private void SaveConfiguration()
+        {
+            string description = string.Empty;
+            if (imageCapture.ImageFormat != null)
+                description = imageCapture.ImageFormat.Description;
+
+            Configuration.Current.ImageFormat = description;
+            Configuration.Current.MaxThumbnailSize = maxThumbSize;
+            Configuration.Current.IsThumbnailed = isThumbnailed;
+            Configuration.Current.Location = Location;
+            Configuration.Current.UserSize = VisibleClientSize;
+            Configuration.Current.ColorIndex = colorIndex;
+            Configuration.Current.AlwaysOnTop = TopMost;
+            Configuration.Current.Hidden = !Visible;
+            Configuration.Current.SaveFullImage = saveFullImage;
+
+            try
+            {
+                Configuration.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(
+                    "There was a problem saving your current settings. This may be caused by a plug-in. No changes have been made to your configuration.",
+                    "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        #endregion
+        
+        #region Tray Icon
+
+        /// <summary>
+        ///     Handles the MouseUp event of the NotifyIcon control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs" /> instance containing the event data.</param>
+        private void HandleNotifyIconMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                CycleFormVisibility(false);
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        protected override void Dispose(bool disposing)
+        {
+            isDisposed = true;
+            if (disposing)
+            {
+                feedbackFont?.Dispose();
+                menu?.Dispose();
+                tabBrush?.Dispose();
+                areaBrush?.Dispose();
+                formTextBrush?.Dispose();
+                notifyIcon?.Dispose();
+                outlinePen?.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         #endregion
