@@ -63,6 +63,8 @@ namespace Fusion8.Cropper
 
             foreach (CropSize size in Configuration.Current.PredefinedSizes)
                 predefinedSizeList.Items.Add(size);
+            foreach (double size in Configuration.Current.PredefinedThumbSizes)
+                predefinedThumbSizeList.Items.Add(size);
         }
 
         private void BuildOptionsNavigation()
@@ -233,6 +235,7 @@ namespace Fusion8.Cropper
             Configuration.Current.AllowMultipleInstances = allowMultipleCropperInstances.Checked;
             Configuration.Current.IncludeMouseCursorInCapture = includeMouseCursorInCapture.Checked;
             Configuration.Current.PredefinedSizes = predefinedSizeList.Items.Cast<CropSize>().ToArray();
+            Configuration.Current.PredefinedThumbSizes = predefinedThumbSizeList.Items.Cast<double>().ToArray();
             Configuration.Current.HotKeySettings = HotKeys.GetRegisteredHotKeys(true).Select(hk => new HotKeySetting {Id = hk.Id, KeyCode = (int) hk.KeyData}).ToArray();
 
             List<object> pluginSettings = new List<object>();
@@ -472,6 +475,72 @@ namespace Fusion8.Cropper
         private void SizeInputTextChanged(object sender, EventArgs e)
         {
             if (!(sender is TextBox box))
+                return;
+
+            errorProvider.SetError(box, !IsNumeric.Match(box.Text).Success ? "Only numeric values are valid." : null);
+        }
+
+        private void HandleAddThumbSizeClick(object sender, EventArgs e)
+        {
+            AddThumbSize();
+        }
+
+        private void AddThumbSize()
+        {
+            if (!IsNumeric.Match(thumbMaxInput.Text).Success) return;
+            double size = Convert.ToDouble(thumbMaxInput.Text);
+
+            if (!predefinedThumbSizeList.Items.Contains(size))
+            {
+                predefinedThumbSizeList.Items.Add(size);
+
+                List<double> cropSize = new List<double>();
+                foreach (double item in predefinedThumbSizeList.Items)
+                    cropSize.Add(item);
+
+                predefinedThumbSizeList.Items.Clear();
+                double[] sizes = cropSize.ToArray();
+                Array.Sort(sizes);
+                foreach (double item in sizes)
+                    predefinedThumbSizeList.Items.Add(item);
+            }
+
+            thumbMaxInput.Focus();
+        }
+
+        private void HandleRemoveThumbSizeClick(object sender, EventArgs e)
+        {
+            int index = predefinedThumbSizeList.SelectedIndex;
+
+            predefinedThumbSizeList.Items.Remove(predefinedThumbSizeList.SelectedItem);
+            predefinedThumbSizeList.Focus();
+            if (predefinedThumbSizeList.Items.Count > 0)
+                predefinedThumbSizeList.SelectedIndex = index > predefinedThumbSizeList.Items.Count - 1 ? predefinedThumbSizeList.Items.Count - 1 : index;
+        }
+
+        private void HandleThumbSizeInputEnter(object sender, EventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box == null)
+                return;
+
+            box.SelectionStart = 0;
+            box.SelectionLength = box.Text.Length;
+        }
+
+        private void HandleThumbSizeInputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            addingSize = true;
+            AddThumbSize();
+        }
+
+        private void ThumbSizeInputTextChanged(object sender, EventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box == null)
                 return;
 
             errorProvider.SetError(box, !IsNumeric.Match(box.Text).Success ? "Only numeric values are valid." : null);
