@@ -27,6 +27,54 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_32F5A22AAA79C54702C77FA41896C24E"
+        "OwnerKey" = "8:_B8E26BE21C314F8CA075014FE92314E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_1E2D2F6C78CB4011B925D5DD987A6D64"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_B8E26BE21C314F8CA075014FE92314E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_32F5A22AAA79C54702C77FA41896C24E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_8CE39B80857F4CADB729A63EDD8A1D5E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_82CD03F851274009B095F603AC620068"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_5475BA8CF6A74298AD5BC3FBDB4A3913"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
+        "OwnerKey" = "8:_3DB4902D3B0E409B9BE15AA668E12BB0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3DB4902D3B0E409B9BE15AA668E12BB0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -35,12 +83,6 @@
         {
         "MsmKey" = "8:_5475BA8CF6A74298AD5BC3FBDB4A3913"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_652BF937F2465BC188214B9F60EB5E01"
-        "OwnerKey" = "8:_B8E26BE21C314F8CA075014FE92314E7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -63,56 +105,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_1E2D2F6C78CB4011B925D5DD987A6D64"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_B8E26BE21C314F8CA075014FE92314E7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_652BF937F2465BC188214B9F60EB5E01"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_8CE39B80857F4CADB729A63EDD8A1D5E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_82CD03F851274009B095F603AC620068"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_5475BA8CF6A74298AD5BC3FBDB4A3913"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "OwnerKey" = "8:_3DB4902D3B0E409B9BE15AA668E12BB0"
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3A11C4ED14F6583CF18C16A16D773885"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FF01FA842585B6C3A831DD1C48605002"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_652BF937F2465BC188214B9F60EB5E01"
+        "OwnerKey" = "8:_32F5A22AAA79C54702C77FA41896C24E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -267,14 +267,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_652BF937F2465BC188214B9F60EB5E01"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_32F5A22AAA79C54702C77FA41896C24E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Cropper.Core, Version=1.10.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Cropper.Core, Version=1.11.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_652BF937F2465BC188214B9F60EB5E01"
+                    "_32F5A22AAA79C54702C77FA41896C24E"
                     {
                     "Name" = "8:Cropper.Core.dll"
                     "Attributes" = "3:512"
@@ -298,14 +298,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF01FA842585B6C3A831DD1C48605002"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3A11C4ED14F6583CF18C16A16D773885"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Cropper.Extensibility, Version=1.10.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Cropper.Extensibility, Version=1.11.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_FF01FA842585B6C3A831DD1C48605002"
+                    "_3A11C4ED14F6583CF18C16A16D773885"
                     {
                     "Name" = "8:Cropper.Extensibility.dll"
                     "Attributes" = "3:512"
@@ -385,15 +385,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Cropper"
-        "ProductCode" = "8:{97D92F99-88F9-4F6A-BC2C-D5B6FAA6C75D}"
-        "PackageCode" = "8:{AB48C2A4-6696-4EB1-A82D-C02BEE77CB77}"
+        "ProductCode" = "8:{B2CCEBD7-2513-423B-9637-1B90CF5725CF}"
+        "PackageCode" = "8:{30E3B110-A3D1-462A-B7A3-5D135A7CB50A}"
         "UpgradeCode" = "8:{6054C8DF-34C2-483A-B856-FD8636A4FB86}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.10.0"
+        "ProductVersion" = "8:1.11.0"
         "Manufacturer" = "8:Brian Scott"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/brhinescot/Cropper/issues"
@@ -968,7 +968,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1E2D2F6C78CB4011B925D5DD987A6D64"
             {
-            "SourcePath" = "8:..\\Cropper.PrinterOutput\\obj\\x86\\Release\\Cropper.PrinterOutput.dll"
+            "SourcePath" = "8:..\\Cropper.PrinterOutput\\obj\\x86\\Debug\\Cropper.PrinterOutput.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_94846991799F4F6DA336FCB254296E80"
@@ -996,7 +996,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3DB4902D3B0E409B9BE15AA668E12BB0"
             {
-            "SourcePath" = "8:..\\Cropper.ClipboardFormat\\obj\\x86\\Release\\Cropper.ClipboardFormat.dll"
+            "SourcePath" = "8:..\\Cropper.ClipboardFormat\\obj\\x86\\Debug\\Cropper.ClipboardFormat.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_94846991799F4F6DA336FCB254296E80"
@@ -1024,7 +1024,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5475BA8CF6A74298AD5BC3FBDB4A3913"
             {
-            "SourcePath" = "8:..\\Cropper.JpgFormat\\obj\\x86\\Release\\Cropper.JpgFormat.dll"
+            "SourcePath" = "8:..\\Cropper.JpgFormat\\obj\\x86\\Debug\\Cropper.JpgFormat.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_94846991799F4F6DA336FCB254296E80"
@@ -1052,7 +1052,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_82CD03F851274009B095F603AC620068"
             {
-            "SourcePath" = "8:..\\Cropper.PngFormat\\obj\\x86\\Release\\Cropper.PngFormat.dll"
+            "SourcePath" = "8:..\\Cropper.PngFormat\\obj\\x86\\Debug\\Cropper.PngFormat.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_94846991799F4F6DA336FCB254296E80"
@@ -1080,7 +1080,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8CE39B80857F4CADB729A63EDD8A1D5E"
             {
-            "SourcePath" = "8:..\\Cropper.BmpFormat\\obj\\x86\\Release\\Cropper.BmpFormat.dll"
+            "SourcePath" = "8:..\\Cropper.BmpFormat\\obj\\x86\\Debug\\Cropper.BmpFormat.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_94846991799F4F6DA336FCB254296E80"
@@ -1108,7 +1108,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B8E26BE21C314F8CA075014FE92314E7"
             {
-            "SourcePath" = "8:..\\Cropper.UI\\obj\\x86\\Release\\Cropper.exe"
+            "SourcePath" = "8:..\\Cropper.UI\\obj\\x86\\Debug\\Cropper.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7DD14F8FD19C4B729265BF446CC63463"
